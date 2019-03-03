@@ -1,8 +1,9 @@
-import static javafx.application.Application.launch;
+import javafx.application.Application;
+import NMUserProfile.loginPage;
 
 public class NMMain {
 
     public static void main(String[] args) {
-        launch(args);
+        Application.launch(loginPage.class, args);
     }
 }
