@@ -1,17 +1,18 @@
 package chillingMonsters;
+
 import java.sql.*;
 
-// sample class that connects to your local database
-class sampleMySQLCon{
+// Class that connects to local database
+public class dbQuery {
 
-    // connection main
-    public static void main(String args[]){
+    // MySQL database instances
+    private ResultSet rs  = null; // result
+    private Statement stmt = null; // the MySQL statement
+    private Connection con_mysql = null; // connection
 
-        // MySQL database
-        ResultSet rs  = null; // result
-        Statement stmt = null; // the MySQL statement
-        Connection con_mysql = null; // connection
 
+    // Connection
+    private void connect(){
         // login
         String db_name, db_usr_name, db_password;
 
@@ -38,18 +39,39 @@ class sampleMySQLCon{
             while(rs.next())
                 System.out.println(rs.getString(1) + " \t" + rs.getString(2) + "\t" + rs.getString(3));
 
-            // close
-            //con_mysql.close();
 
-        } catch(Exception e){
-
-            System.out.println(e);
-
+        } catch(Exception e){ System.out.println(e);
         } finally{
-            try {
-                con_mysql.close();
-            } catch (SQLException e){}
+            close();
         }
+    }
+
+    // Close the connection
+    private void close() {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+
+            if (con_mysql != null) {
+                con_mysql.close();
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR: Cannot close database properly");
+        }
+    }
+
+    public void queryTest()
+    {
+        // not connect error handler
+        if(con_mysql != null){
+            System.out.println("ERROR: Database not connected");
+        }
+
 
     }
 }

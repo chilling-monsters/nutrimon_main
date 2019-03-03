@@ -11,43 +11,43 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffef;" styleClass="lebe;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="ancP_login_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffef;" styleClass="lebe;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userProfileGUI.loginController">
     <children>
         <HBox layoutX="35.0" layoutY="145.0" prefHeight="30.0" prefWidth="250.0" style="-fx-border-color: #00997a; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
             <children>
-                <TextField prefHeight="30.0" prefWidth="250.0" promptText="User Name" style="-fx-background-color: transparent;" HBox.hgrow="NEVER" />
+                <TextField fx:id="txtF_user_name" prefHeight="30.0" prefWidth="250.0" promptText="User Name" style="-fx-background-color: transparent;" HBox.hgrow="NEVER" />
             </children>
         </HBox>
         <HBox layoutX="35.0" layoutY="215.0" prefHeight="30.0" prefWidth="250.0" style="-fx-border-color: #00997a; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
             <children>
-                <PasswordField prefHeight="30.0" prefWidth="250.0" promptText="Password" style="-fx-background-color: transparent;" />
+                <PasswordField fx:id="pswdF_password" prefHeight="30.0" prefWidth="250.0" promptText="Password" style="-fx-background-color: transparent;" />
             </children>
         </HBox>
-        <Label layoutX="35.0" layoutY="195.0" text="Password:" />
-        <Label layoutX="35.0" layoutY="125.0" text="User Name:" />
-        <Label layoutX="35.0" layoutY="45.0" text="User Login" textFill="#008064">
+        <Label fx:id="lbl_password" layoutX="35.0" layoutY="195.0" text="Password:" />
+        <Label fx:id="lbl_user_name" layoutX="35.0" layoutY="125.0" text="User Name:" />
+        <Label fx:id="lbl_user_login" layoutX="35.0" layoutY="45.0" text="User Login" textFill="#008064">
             <font>
                 <Font name="SignPainter-HouseScript Semibold" size="56.0" />
             </font>
         </Label>
-        <Button layoutX="35.0" layoutY="265.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="74.0" style="-fx-background-color: #00997a; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Login" textFill="WHITE">
+        <Button fx:id="btn_login" layoutX="35.0" layoutY="265.0" mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="36.0" prefWidth="74.0" style="-fx-background-color: #00997a; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Login" textFill="WHITE">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
-        <CheckBox layoutX="179.0" layoutY="275.0" mnemonicParsing="false" text="REMEMBER ME" textFill="#000000b8">
+        <CheckBox fx:id="chkB_remem_me" layoutX="179.0" layoutY="275.0" mnemonicParsing="false" text="REMEMBER ME" textFill="#000000b8">
             <font>
                 <Font size="11.0" />
             </font>
         </CheckBox>
-        <AnchorPane layoutX="409.0" layoutY="82.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00997a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane fx:id="ancP_login_register" layoutX="409.0" layoutY="82.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00997a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Button layoutX="50.0" layoutY="265.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="74.0" style="-fx-background-color: #ffffef; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Register" textFill="#00997a">
+                <Button fx:id="btn_register" layoutX="50.0" layoutY="265.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="74.0" style="-fx-background-color: #ffffef; -fx-background-radius: 7px; -fx-border-radius: 7px;" text="Register" textFill="#00997a">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
-                <Label layoutX="50.0" layoutY="215.0" text="New User?" textFill="#ffffef">
+                <Label fx:id="lbl_new_user" layoutX="50.0" layoutY="215.0" text="New User?" textFill="#ffffef">
                     <font>
                         <Font name="SignPainter-HouseScript" size="29.0" />
                     </font>
