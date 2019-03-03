@@ -7,7 +7,7 @@ public class userProfileQuery extends dbInit {
     protected boolean checkCredentials(String userEmail, String password) {
         String usr_password = null;
 
-        System.out.println("INFO: `" + userEmail + "` Is Polling User Credential");
+        System.out.println("INFO: `" + userEmail + "` is polling user credentials");
 
         // connect to database
         if (super.connect == null)
@@ -29,7 +29,7 @@ public class userProfileQuery extends dbInit {
 
         } catch (Exception e) {
             // Error msg
-            System.out.println("ERROR: Cannot Check Credentials -- " + e);
+            System.out.println("ERROR: Cannot Get Credentials -- " + e);
         }
 
         // close connection

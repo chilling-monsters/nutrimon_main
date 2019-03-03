@@ -46,6 +46,10 @@ public class dbInit {
                 stmt.close();
             }
 
+            if (prestmt != null) {
+                prestmt.close();
+            }
+
             if (connect != null) {
                 connect.close();
             }
