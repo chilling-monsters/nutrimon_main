@@ -1,4 +1,4 @@
-package userProfileGUI;
+package NMUserProfile;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.event.ActionEvent;
 import javafx.stage.Window;
 import javafx.scene.control.Alert;
+
 
 public class loginController {
 
@@ -60,14 +61,20 @@ public class loginController {
     @FXML
     void loginButtonAction(ActionEvent event) {
         Window alert = btn_login.getScene().getWindow();
+        userProfileQuery uq = new userProfileQuery();
 
         if (txtF_user_name.getText().isEmpty()) {
-            AlertHandler.showAlert(Alert.AlertType.ERROR, alert, "Oops!", "Please enter your User name");
+            AlertHandler.showAlert(Alert.AlertType.WARNING, alert, "Oops!", "Please enter your User name");
             return;
         }
 
         if (pswdF_password.getText().isEmpty()) {
-            AlertHandler.showAlert(Alert.AlertType.ERROR, alert, "Oops!", "Please enter your Password");
+            AlertHandler.showAlert(Alert.AlertType.WARNING, alert, "Oops!", "Please enter your Password");
+            return;
+        }
+
+        if (!uq.checkCredentials(txtF_user_name.getText(), pswdF_password.getText())) {
+            AlertHandler.showAlert(Alert.AlertType.ERROR, alert, "Login Failed...", "Your User name or password combination doesn't exist");
             return;
         }
 

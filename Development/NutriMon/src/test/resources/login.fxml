@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancP_login_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffef;" styleClass="lebe;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userProfileGUI.loginController">
+<AnchorPane fx:id="ancP_login_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffef;" styleClass="lebe;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NMUserProfile.loginController">
     <children>
         <HBox layoutX="35.0" layoutY="145.0" prefHeight="30.0" prefWidth="250.0" style="-fx-border-color: #00997a; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
             <children>
