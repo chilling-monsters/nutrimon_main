@@ -32,7 +32,7 @@ public class loginController {
     private CheckBox chkB_remem_me; // Value injected by FXMLLoader
 
     @FXML // fx:id="lbl_user_name"
-    private Label lbl_user_name; // Value injected by FXMLLoader
+    private Label lbl_email; // Value injected by FXMLLoader
 
     @FXML // fx:id="lbl_user_login"
     private Label lbl_user_login; // Value injected by FXMLLoader
@@ -41,7 +41,7 @@ public class loginController {
     private AnchorPane ancP_login_main; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtF_user_name"
-    private TextField txtF_user_name; // Value injected by FXMLLoader
+    private TextField txtF_email; // Value injected by FXMLLoader
 
     @FXML // fx:id="lbl_new_user"
     private Label lbl_new_user; // Value injected by FXMLLoader
@@ -57,7 +57,7 @@ public class loginController {
         Window alert = btn_login.getScene().getWindow();
         userProfileQuery uq = new userProfileQuery();
 
-        if (txtF_user_name.getText().isEmpty()) {
+        if (txtF_email.getText().isEmpty()) {
             AlertHandler.showAlert(Alert.AlertType.WARNING, alert, "Oops!", "Please enter your User name");
             return;
         }
@@ -67,12 +67,21 @@ public class loginController {
             return;
         }
 
-        if (!uq.checkCredentials(txtF_user_name.getText(), pswdF_password.getText())) {
+        if (!uq.checkCredentials(txtF_email.getText(), pswdF_password.getText())) {
             AlertHandler.showAlert(Alert.AlertType.ERROR, alert, "Login Failed...", "Your User name or password combination doesn't exist");
             return;
         }
 
         Platform.exit(); // close the window -- for testing purposes
+    }
+
+    @FXML
+    void registerButtonAction(ActionEvent event) {
+        //Window alert = btn_register.getScene().getWindow();
+
+        registerPage regPage = new registerPage();
+
+        regPage.startPage(event);
     }
 
 
@@ -82,10 +91,10 @@ public class loginController {
         assert pswdF_password != null : "fx:id=\"pswdF_password\" was not injected: check your FXML file 'login.fxml'.";
         assert ancP_login_register != null : "fx:id=\"ancP_login_register\" was not injected: check your FXML file 'login.fxml'.";
         assert chkB_remem_me != null : "fx:id=\"chkB_remem_me\" was not injected: check your FXML file 'login.fxml'.";
-        assert lbl_user_name != null : "fx:id=\"lbl_user_name\" was not injected: check your FXML file 'login.fxml'.";
+        assert lbl_email != null : "fx:id=\"lbl_user_name\" was not injected: check your FXML file 'login.fxml'.";
         assert lbl_user_login != null : "fx:id=\"lbl_user_login\" was not injected: check your FXML file 'login.fxml'.";
         assert ancP_login_main != null : "fx:id=\"ancP_login_main\" was not injected: check your FXML file 'login.fxml'.";
-        assert txtF_user_name != null : "fx:id=\"txtF_user_name\" was not injected: check your FXML file 'login.fxml'.";
+        assert txtF_email != null : "fx:id=\"txtF_user_name\" was not injected: check your FXML file 'login.fxml'.";
         assert lbl_new_user != null : "fx:id=\"lbl_new_user\" was not injected: check your FXML file 'login.fxml'.";
         assert lbl_password != null : "fx:id=\"lbl_password\" was not injected: check your FXML file 'login.fxml'.";
         assert btn_login != null : "fx:id=\"btn_login\" was not injected: check your FXML file 'login.fxml'.";
