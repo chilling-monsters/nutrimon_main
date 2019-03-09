@@ -1,6 +1,8 @@
 package NMDatabase;
 
 import java.sql.*;
+import chillingMonsters.AlertHandler;
+import javafx.scene.control.Alert;
 
 // Class that connects to local database
 public class dbInit {
@@ -10,7 +12,6 @@ public class dbInit {
     protected Statement stmt = null; // the MySQL statement
     protected PreparedStatement prestmt = null; // prepared statement
     protected Connection connect = null; // connection
-
 
     // Connection
     protected void connect() {
@@ -31,6 +32,7 @@ public class dbInit {
         } catch (Exception e) {
             // Error msg
             System.out.println("ERROR: DB Connection Failed -- " + e);
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Connection Failed", "Unable to connect to the database. Please try again.");
         }
         //System.out.println("############...CONNECTED...###########");
     }

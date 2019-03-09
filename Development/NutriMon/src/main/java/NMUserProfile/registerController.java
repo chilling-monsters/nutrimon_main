@@ -3,11 +3,10 @@ package NMUserProfile;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Window;
+import chillingMonsters.AlertHandler;
 
 public class registerController {
 
@@ -41,66 +40,69 @@ public class registerController {
 
     @FXML
     void confirmButtonAction(ActionEvent event) {
-        Window alert = btn_confirm.getScene().getWindow();
+        // Window alert = btn_confirm.getScene().getWindow();
         userProfileQuery uq = new userProfileQuery();
 
-        // Check all boxes, not null
+        // Check the Email, not null missing '@', unique
         if (txtF_email.getText().isEmpty()) {
-            AlertHandler.showAlert(Alert.AlertType.WARNING, alert, "Oops!", "Please enter your Email Address");
+            AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please enter your Email Address");
             return;
         }
 
-        if (txtF_name.getText().isEmpty()) {
-            AlertHandler.showAlert(Alert.AlertType.WARNING, alert, "Oops!", "Please enter your Name");
-            return;
-        }
-
-        if (pswdF_new_password.getText().isEmpty()) {
-            AlertHandler.showAlert(Alert.AlertType.WARNING, alert, "Oops!", "Please enter your Password");
-            return;
-        }
-
-        if (pswdF_confirm_password.getText().isEmpty()) {
-            AlertHandler.showAlert(Alert.AlertType.WARNING, alert, "Oops!", "Please re-enter your Password");
-            return;
-        }
-
-        if (choiceB_gender.getSelectionModel().getSelectedItem() == null) {
-            AlertHandler.showAlert(Alert.AlertType.WARNING, alert, "Oops!", "Please choose your Gender");
-            return;
-        }
-
-        // Check the Email, missing '@', unique
         String email = txtF_email.getText();
         if (email.indexOf('@') == -1) {
-            AlertHandler.showAlert(Alert.AlertType.ERROR, alert, "Failed...", "Invalid Email address");
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "Invalid Email address");
             return;
         }
 
         if (uq.strExists("userProfile", "userEmail", email)) {
-            AlertHandler.showAlert(Alert.AlertType.ERROR, alert, "Failed...", "This Email address has been used");
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "This Email address has been used");
             return;
         }
 
-        // Check the password, passwords must match, more than 8 digits
+        // Check name, not null
+        if (txtF_name.getText().isEmpty()) {
+            AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please enter your Name");
+            return;
+        }
+
+
+        // Check the password, not null, passwords must match, more than 8 digits
         String new_password = pswdF_new_password.getText();
         String confirm_password = pswdF_confirm_password.getText();
+
+        if (pswdF_new_password.getText().isEmpty()) {
+            AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please enter your Password");
+            return;
+        }
+
+        if (pswdF_confirm_password.getText().isEmpty()) {
+            AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please re-enter your Password");
+            return;
+        }
+
         if (!new_password.equals(confirm_password)) {
-            AlertHandler.showAlert(Alert.AlertType.ERROR, alert, "Failed...", "Your Passwords does not match");
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "Your Passwords does not match");
             return;
         }
 
         if (new_password.length() < 8) {
-            AlertHandler.showAlert(Alert.AlertType.ERROR, alert, "Failed...", "Your Password must contain at least 8 digits");
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "Your Password must contain at least 8 digits");
             return;
         }
 
+        // Check gender, not null
+        if (choiceB_gender.getSelectionModel().getSelectedItem() == null) {
+            AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please choose your Gender");
+            return;
+        }
 
+        // Update database
         String name = txtF_name.getText();
         String gender = (String)choiceB_gender.getSelectionModel().getSelectedItem();
         uq.insertProfile(email, name, new_password, gender);
 
-        AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, alert, "Success!", "Your profile has been created. Welcome to Nutrimon!");
+        AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Success!", "Your profile has been created. Welcome to Nutrimon!");
 
         // Back to login Page
         registerPage regPage = new registerPage();

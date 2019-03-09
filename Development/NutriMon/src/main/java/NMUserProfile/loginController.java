@@ -5,10 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Window;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import chillingMonsters.AlertHandler;
 
 
 public class loginController {
@@ -54,21 +54,21 @@ public class loginController {
 
     @FXML
     void loginButtonAction(ActionEvent event) {
-        Window alert = btn_login.getScene().getWindow();
+        // Window alert = btn_login.getScene().getWindow();
         userProfileQuery uq = new userProfileQuery();
 
         if (txtF_email.getText().isEmpty()) {
-            AlertHandler.showAlert(Alert.AlertType.WARNING, alert, "Oops!", "Please enter your User name");
+            AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please enter your Email");
             return;
         }
 
         if (pswdF_password.getText().isEmpty()) {
-            AlertHandler.showAlert(Alert.AlertType.WARNING, alert, "Oops!", "Please enter your Password");
+            AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please enter your Password");
             return;
         }
 
         if (!uq.checkCredentials(txtF_email.getText(), pswdF_password.getText())) {
-            AlertHandler.showAlert(Alert.AlertType.ERROR, alert, "Login Failed...", "Your User name or password combination doesn't exist");
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Login Failed...", "Your User name or password combination doesn't exist");
             return;
         }
 
