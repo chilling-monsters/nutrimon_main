@@ -47,7 +47,7 @@ public abstract class MySQLCon {
 
   public static Connection getConnection() {
     try {
-      if (con.isClosed()) {
+      if (con == null || con.isClosed()) {
         createConnection();
       }
     } catch (SQLException e) {
