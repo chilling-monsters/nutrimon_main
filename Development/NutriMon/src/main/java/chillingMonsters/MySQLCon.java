@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MySQLCon {
+public abstract class MySQLCon {
 
   private static final String host = "jdbc:mysql://localhost:3306/";
   private static final String db_name = "chillingM";
@@ -16,12 +16,6 @@ public class MySQLCon {
   private static final String userName = "root";
   private static final String password = "root";
   private static Connection con;
-
-  private static MySQLCon singleton = null;
-
-  private MySQLCon() {
-    createConnection();
-  }
 
   private static void createConnection() {
     try {
@@ -31,23 +25,6 @@ public class MySQLCon {
     } catch (Exception e) {
       Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, null, e);
     }
-  }
-
-  /**
-   * Create a static method to get instance.
-   */
-  public static MySQLCon getInstance() {
-    if (singleton == null) {
-      singleton = new MySQLCon();
-    }
-    try {
-      if (con.isClosed()) {
-        createConnection();
-      }
-    } catch (Exception e) {
-      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, null, e);
-    }
-    return singleton;
   }
 
   public static List<Map<String, Object>> resultsList(ResultSet rs) {
@@ -69,6 +46,13 @@ public class MySQLCon {
   }
 
   public static Connection getConnection() {
+    try {
+      if (con.isClosed()) {
+        createConnection();
+      }
+    } catch (SQLException e) {
+      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, null, e);
+    }
     return con;
   }
 }
