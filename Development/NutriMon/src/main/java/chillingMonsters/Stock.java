@@ -22,10 +22,14 @@ public class Stock extends NutriMonController {
    */
   public static int includesIngredients(Map<Integer, Float> recipeIngredients) {
     Map<Integer, Float> stockIngredients = new HashMap<>();
+    String queryString = "Select foodID, sum(sQuantity) AS 'quantity' " +
+            "FROM stocks " +
+            "WHERE userID = ? " +
+            "GROUP BY foodID";
     try {
       ResultSet rs;
       try (PreparedStatement stmt = MySQLCon.getConnection()
-              .prepareStatement("SELECT foodID, sum(sQuantity) AS 'quantity' FROM stocks WHERE userID = ? GROUP BY foodID")) {
+              .prepareStatement(queryString)) {
         stmt.setInt(1, userId);
         rs = stmt.executeQuery();
       }
