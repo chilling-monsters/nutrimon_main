@@ -83,6 +83,11 @@ CREATE TABLE IF NOT EXISTS `chillingM`.`intakes` (
     REFERENCES `chillingM`.`ingredients` (`foodID`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
+  CONSTRAINT `recipeID_intakes`
+	FOREIGN KEY (`recipeID`)
+    REFERENCES `chillingM`.`recipes` (`recipeID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_intakes_userProfile1`
     FOREIGN KEY (`userID`)
     REFERENCES `chillingM`.`userProfile` (`userID`)
