@@ -1,5 +1,3 @@
--- MySQL Workbench Forward Engineering
-
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
@@ -21,7 +19,7 @@ USE `chillingM` ;
 DROP TABLE IF EXISTS `chillingM`.`ingredients` ;
 
 CREATE TABLE IF NOT EXISTS `chillingM`.`ingredients` (
-  `foodID` INT NOT NULL,
+  `foodID` BIGINT NOT NULL,
   `foodName` VARCHAR(128) NOT NULL,
   `fCalories` FLOAT(10,3) NULL DEFAULT NULL,
   `fProtein` FLOAT(10,3) NULL DEFAULT NULL,
@@ -37,12 +35,14 @@ CREATE TABLE IF NOT EXISTS `chillingM`.`ingredients` (
   `fVC` FLOAT(10,3) NULL DEFAULT NULL,
   `fVE` FLOAT(10,3) NULL DEFAULT NULL,
   `fVD` FLOAT(10,3) NULL DEFAULT NULL,
-  `fExp` INT(3) NULL DEFAULT NULL,
-  PRIMARY KEY (`foodID`),
-  UNIQUE INDEX `foodName_UNIQUE` (`foodName` ASC) VISIBLE,
-  UNIQUE INDEX `foodID_UNIQUE` (`foodID` ASC) VISIBLE)
+  `expTime` INT(3) NULL DEFAULT NULL,
+  PRIMARY KEY (`foodID`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+CREATE UNIQUE INDEX `foodName_UNIQUE` ON `chillingM`.`ingredients` (`foodName` ASC) VISIBLE;
+
+CREATE UNIQUE INDEX `foodID_UNIQUE` ON `chillingM`.`ingredients` (`foodID` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
@@ -51,50 +51,69 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `chillingM`.`userProfile` ;
 
 CREATE TABLE IF NOT EXISTS `chillingM`.`userProfile` (
-  `userID` INT NOT NULL,
+  `userID` BIGINT NOT NULL,
   `userName` VARCHAR(45) NOT NULL,
   `userEmail` VARCHAR(60) NOT NULL,
   `gender` ENUM('male', 'female', 'other') NULL DEFAULT NULL,
   `password` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`userID`),
-  UNIQUE INDEX `userEmail_UNIQUE` (`userEmail` ASC) VISIBLE,
-  UNIQUE INDEX `userID_UNIQUE` (`userID` ASC) VISIBLE)
+  PRIMARY KEY (`userID`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+CREATE UNIQUE INDEX `userEmail_UNIQUE` ON `chillingM`.`userProfile` (`userEmail` ASC) VISIBLE;
+
+CREATE UNIQUE INDEX `userID_UNIQUE` ON `chillingM`.`userProfile` (`userID` ASC) VISIBLE;
+
 
 -- -----------------------------------------------------
--- Table `chillingM`.`intakes`
+-- Table `chillingM`.`userIntake`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `chillingM`.`intakes` ;
+DROP TABLE IF EXISTS `chillingM`.`userIntake` ;
 
-CREATE TABLE IF NOT EXISTS `chillingM`.`intakes` (
-  `intakeID` INT NOT NULL,
-  `recipeID` INT NULL DEFAULT NULL,
-  `foodID` INT NULL DEFAULT NULL,
-  `iQuantity` FLOAT(10,3) NOT NULL,
-  `intakeDate` DATETIME NOT NULL,
-  `userID` INT NOT NULL,
-  INDEX `foodID_intakes_idx` (`foodID` ASC) VISIBLE,
-  INDEX `fk_intakes_userProfile1_idx` (`userID` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `chillingM`.`userIntake` (
+  `intakeID` BIGINT NOT NULL,
+  `userID` BIGINT NOT NULL,
+  `intakeNote` VARCHAR(256) NULL,
   PRIMARY KEY (`intakeID`),
-  CONSTRAINT `foodID_intakes`
-    FOREIGN KEY (`foodID`)
-    REFERENCES `chillingM`.`ingredients` (`foodID`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `recipeID_intakes`
-	FOREIGN KEY (`recipeID`)
-    REFERENCES `chillingM`.`recipes` (`recipeID`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_intakes_userProfile1`
+  CONSTRAINT `fk_userIntake_userProfile`
     FOREIGN KEY (`userID`)
     REFERENCES `chillingM`.`userProfile` (`userID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE UNIQUE INDEX `intakeID_UNIQUE` ON `chillingM`.`userIntake` (`intakeID` ASC) VISIBLE;
+
+CREATE INDEX `fk_userIntake_userProfile_idx` ON `chillingM`.`userIntake` (`userID` ASC) VISIBLE;
+
+
+-- -----------------------------------------------------
+-- Table `chillingM`.`foodIntake`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `chillingM`.`foodIntake` ;
+
+CREATE TABLE IF NOT EXISTS `chillingM`.`foodIntake` (
+  `intakeID` BIGINT NOT NULL,
+  `intakeQtty` FLOAT(10,3) NOT NULL,
+  `intakeDate` DATETIME NOT NULL,
+  `foodID` BIGINT NOT NULL,
+  PRIMARY KEY (`intakeID`),
+  CONSTRAINT `fk_foodIntake_userIntake`
+    FOREIGN KEY (`intakeID`)
+    REFERENCES `chillingM`.`userIntake` (`intakeID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_foodIntake_ingredients`
+    FOREIGN KEY (`foodID`)
+    REFERENCES `chillingM`.`ingredients` (`foodID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+CREATE INDEX `fk_foodIntake_userIntake_idx` ON `chillingM`.`foodIntake` (`intakeID` ASC) VISIBLE;
+
+CREATE INDEX `fk_foodIntake_ingredients_idx` ON `chillingM`.`foodIntake` (`foodID` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
@@ -103,49 +122,54 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `chillingM`.`recipes` ;
 
 CREATE TABLE IF NOT EXISTS `chillingM`.`recipes` (
-  `recipeID` INT NOT NULL,
-  `rQuantity` FLOAT(10,3) NOT NULL,
+  `recipeID` BIGINT NOT NULL,
   `recipeName` VARCHAR(45) NOT NULL,
   `dateCreated` DATETIME NOT NULL,
-  `userID` INT NOT NULL,
-  `recipeDescription` VARCHAR(255) NOT NULL,
-  INDEX `fk_recipes_userProfile1_idx` (`userID` ASC) VISIBLE,
+  `userID` BIGINT NULL,
+  `recipeDescription` VARCHAR(256) NOT NULL,
+  `accessibility` ENUM('public', 'private') NOT NULL,
   PRIMARY KEY (`recipeID`),
-  CONSTRAINT `fk_recipes_userProfile1`
+  CONSTRAINT `fk_recipes_userProfile`
     FOREIGN KEY (`userID`)
     REFERENCES `chillingM`.`userProfile` (`userID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE SET NULL
+    ON UPDATE SET NULL)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+CREATE INDEX `fk_recipes_userProfile_idx` ON `chillingM`.`recipes` (`userID` ASC) VISIBLE;
+
+CREATE UNIQUE INDEX `recipeID_UNIQUE` ON `chillingM`.`recipes` (`recipeID` ASC) VISIBLE;
+
 
 -- -----------------------------------------------------
--- Table `chillingM`.`stocks`
+-- Table `chillingM`.`stockItems`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `chillingM`.`stocks` ;
+DROP TABLE IF EXISTS `chillingM`.`stockItems` ;
 
-CREATE TABLE IF NOT EXISTS `chillingM`.`stocks` (
-  `stockID` INT NOT NULL,
-  `foodID` INT NOT NULL,
-  `sQuantity` FLOAT(10,3) NOT NULL,
-  `fExpirationDate` DATETIME NOT NULL,
-  `userID` INT NOT NULL,
-  INDEX `foodID_idx` (`foodID` ASC) VISIBLE,
-  INDEX `fk_stocks_userProfile1_idx` (`userID` ASC) VISIBLE,
-  PRIMARY KEY (`stockID`),
-  CONSTRAINT `foodID_stock`
+CREATE TABLE IF NOT EXISTS `chillingM`.`stockItems` (
+  `foodID` BIGINT NOT NULL,
+  `foodQtty` FLOAT(10,3) NOT NULL,
+  `foodExpDate` DATETIME NOT NULL,
+  `userID` BIGINT NOT NULL,
+  `stockItemId` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`stockItemId`),
+  CONSTRAINT `fk_stockItems_ingredients`
     FOREIGN KEY (`foodID`)
     REFERENCES `chillingM`.`ingredients` (`foodID`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_stocks_userProfile1`
+  CONSTRAINT `fk_stockItems_userProfile`
     FOREIGN KEY (`userID`)
     REFERENCES `chillingM`.`userProfile` (`userID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+CREATE INDEX `fk_stockItems_ingredients_idx` ON `chillingM`.`stockItems` (`foodID` ASC) VISIBLE;
+
+CREATE INDEX `fk_stockItems_userProfile_idx` ON `chillingM`.`stockItems` (`userID` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
@@ -154,46 +178,80 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `chillingM`.`recipeIngredients` ;
 
 CREATE TABLE IF NOT EXISTS `chillingM`.`recipeIngredients` (
-  `foodID` INT NOT NULL,
-  `recipeID` INT NOT NULL,
+  `foodID` BIGINT NOT NULL,
+  `recipeID` BIGINT NOT NULL,
+  `ingredientQtty` FLOAT(10,3) NULL,
   PRIMARY KEY (`foodID`, `recipeID`),
-  INDEX `fk_recipeIngredients_ingredients1_idx` (`foodID` ASC) VISIBLE,
-  INDEX `fk_recipeIngredients_recipes1_idx` (`recipeID` ASC) VISIBLE,
-  CONSTRAINT `fk_recipeIngredients_ingredients1`
+  CONSTRAINT `fk_recipeIngredients_ingredients`
     FOREIGN KEY (`foodID`)
     REFERENCES `chillingM`.`ingredients` (`foodID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_recipeIngredients_recipes1`
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_recipeIngredients_recipes`
     FOREIGN KEY (`recipeID`)
     REFERENCES `chillingM`.`recipes` (`recipeID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
+CREATE INDEX `fk_recipeIngredients_ingredients_idx` ON `chillingM`.`recipeIngredients` (`foodID` ASC) VISIBLE;
+
+CREATE INDEX `fk_recipeIngredients_recipes_idx` ON `chillingM`.`recipeIngredients` (`recipeID` ASC) VISIBLE;
+
 
 -- -----------------------------------------------------
--- Table `chillingM`.`favorites`
+-- Table `chillingM`.`promotedRecipe`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `chillingM`.`favorites` ;
+DROP TABLE IF EXISTS `chillingM`.`promotedRecipe` ;
 
-CREATE TABLE IF NOT EXISTS `chillingM`.`favorites` (
-  `userID` INT NOT NULL,
-  `recipeID` INT NOT NULL,
-  INDEX `fk_favorites_userProfile1_idx` (`userID` ASC) VISIBLE,
-  INDEX `fk_favorites_recipes1_idx` (`recipeID` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `chillingM`.`promotedRecipe` (
+  `userID` BIGINT NOT NULL,
+  `recipeID` BIGINT NOT NULL,
   PRIMARY KEY (`userID`, `recipeID`),
-  CONSTRAINT `fk_favorites_userProfile1`
+  CONSTRAINT `fk_promotedRecipe_userProfile`
     FOREIGN KEY (`userID`)
     REFERENCES `chillingM`.`userProfile` (`userID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_favorites_recipes1`
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_promotedRecipe_recipes`
     FOREIGN KEY (`recipeID`)
     REFERENCES `chillingM`.`recipes` (`recipeID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
+
+CREATE INDEX `fk_promotedRecipe_userProfile_idx` ON `chillingM`.`promotedRecipe` (`userID` ASC) VISIBLE;
+
+CREATE INDEX `fk_promotedRecipe_recipes_idx` ON `chillingM`.`promotedRecipe` (`recipeID` ASC) VISIBLE;
+
+
+-- -----------------------------------------------------
+-- Table `chillingM`.`recipeIntake`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `chillingM`.`recipeIntake` ;
+
+CREATE TABLE IF NOT EXISTS `chillingM`.`recipeIntake` (
+  `intakeID` BIGINT NOT NULL,
+  `serving` INT NOT NULL,
+  `intakeDate` DATETIME NOT NULL,
+  `recipeID` BIGINT NOT NULL,
+  PRIMARY KEY (`intakeID`),
+  CONSTRAINT `fk_recipeIntake_userIntake`
+    FOREIGN KEY (`intakeID`)
+    REFERENCES `chillingM`.`userIntake` (`intakeID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_recipeIntake_recipes`
+    FOREIGN KEY (`recipeID`)
+    REFERENCES `chillingM`.`recipes` (`recipeID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE INDEX `fk_recipeIntake_userIntake_idx` ON `chillingM`.`recipeIntake` (`intakeID` ASC) VISIBLE;
+
+CREATE INDEX `fk_recipeIntake_recipes_idx` ON `chillingM`.`recipeIntake` (`recipeID` ASC) VISIBLE;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
