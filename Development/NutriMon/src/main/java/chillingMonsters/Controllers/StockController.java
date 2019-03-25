@@ -1,16 +1,19 @@
-package chillingMonsters;
+package chillingMonsters.Controllers;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Stock extends NutriMonController {
-  Stock() {
+import chillingMonsters.MySQLCon;
+
+public class StockController extends NutriMonController {
+  StockController() {
     super("stockitems", "stockItemID");
   }
 
@@ -20,7 +23,7 @@ public class Stock extends NutriMonController {
    * @param recipeIngredients map of the food ids and quantities that make up a recipe.
    * @return number of servings that can be made
    */
-  public static int includesIngredients(Map<Integer, Float> recipeIngredients) {
+  public int includesIngredients(Map<Integer, Float> recipeIngredients) {
     Map<Integer, Float> stockIngredients = new HashMap<>();
     String queryString = "Select foodID, sum(sQuantity) AS 'quantity' " +
             "FROM stockitems " +
@@ -56,5 +59,28 @@ public class Stock extends NutriMonController {
       }
     }
     return servings;
+  }
+
+  @Override
+  public List<Map<String, Object>> show() {
+    List<Map<String, Object>> stocks = new ArrayList<>();
+    String query = "SELECT foodID, foodName, " +
+            "sum(foodQtty) as 'quantity', " +
+            "min(foodExpDate) as 'next_exp', " +
+            "FROM stockitems JOIN ingredients using(foodID) " +
+            "WHERE userID = ? " +
+            "GROUP BY foodID " +
+            "ORDER BY next_exp ASC";
+    try {
+      try (PreparedStatement stmt = MySQLCon.getConnection().prepareStatement(query)) {
+        stmt.setInt(1, userId);
+        ResultSet rs = stmt.executeQuery();
+        stocks = MySQLCon.resultsList(rs);
+        MySQLCon.close();
+      }
+    } catch (SQLException e) {
+      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, "Failed select", e);
+    }
+    return stocks;
   }
 }

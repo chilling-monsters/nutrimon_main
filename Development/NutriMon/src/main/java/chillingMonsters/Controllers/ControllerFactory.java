@@ -1,14 +1,14 @@
-package chillingMonsters;
+package chillingMonsters.Controllers;
 
-abstract class ControllerFactory {
-  private static Stock stockControl = null;
+public abstract class ControllerFactory {
+  private static StockController stockControl = null;
 //  private static RecipeController recipeControl = null;
 //  private static IngredientController ingredientControl = null;
 //  private static IntakeController intakeControl = null;
 
-  public static Stock makeStockController() {
+  public static StockController makeStockController() {
     if (stockControl == null) {
-      stockControl = new Stock();
+      stockControl = new StockController();
     }
     return stockControl;
   }

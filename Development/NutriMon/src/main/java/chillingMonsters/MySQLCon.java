@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-abstract class MySQLCon {
+public abstract class MySQLCon {
 
   private MySQLCon() {}
 
@@ -38,7 +38,7 @@ abstract class MySQLCon {
     }
   }
 
-  static List<Map<String, Object>> resultsList(ResultSet rs) {
+  public static List<Map<String, Object>> resultsList(ResultSet rs) {
     ArrayList<Map<String, Object>> list = new ArrayList<>();
     try {
       ResultSetMetaData md = rs.getMetaData();
@@ -56,7 +56,7 @@ abstract class MySQLCon {
     return list;
   }
 
-  static Connection getConnection() {
+  public static Connection getConnection() {
     try {
       if (con == null || con.isClosed()) {
         createConnection();
@@ -67,7 +67,7 @@ abstract class MySQLCon {
     return con;
   }
 
-  static void close() throws SQLException {
+  public static void close() throws SQLException {
     con.close();
   }
 }

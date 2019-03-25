@@ -1,4 +1,4 @@
-package chillingMonsters;
+package chillingMonsters.Controllers;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import chillingMonsters.MySQLCon;
 
 public abstract class NutriMonController implements Controller {
   static int userId;

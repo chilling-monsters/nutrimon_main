@@ -1,4 +1,4 @@
-package chillingMonsters;
+package chillingMonsters.Controllers;
 
 import java.util.List;
 import java.util.Map;

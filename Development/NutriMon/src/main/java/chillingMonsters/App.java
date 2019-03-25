@@ -7,6 +7,6 @@ package chillingMonsters;
 public class App
 {
   public static void main( String[] args ) {
-    ControllerFactory.makeStockController();
+    //ControllerFactory.makeStockController();
   }
 }
