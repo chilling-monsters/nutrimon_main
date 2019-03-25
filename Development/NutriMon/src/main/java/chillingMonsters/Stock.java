@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 public class Stock extends NutriMonController {
   Stock() {
-    super("stock", "stockID");
+    super("stockitems", "stockItemID");
   }
 
   /**
@@ -23,7 +23,7 @@ public class Stock extends NutriMonController {
   public static int includesIngredients(Map<Integer, Float> recipeIngredients) {
     Map<Integer, Float> stockIngredients = new HashMap<>();
     String queryString = "Select foodID, sum(sQuantity) AS 'quantity' " +
-            "FROM stocks " +
+            "FROM stockitems " +
             "WHERE userID = ? " +
             "GROUP BY foodID";
     try {
@@ -33,11 +33,12 @@ public class Stock extends NutriMonController {
         stmt.setInt(1, userId);
         rs = stmt.executeQuery();
       }
-      rs.close();
       List<Map<String, Object>> stock = MySQLCon.resultsList(rs);
       for (Map<String, Object> stockItem : stock) {
         stockIngredients.put((Integer)stockItem.get("foodID"), (Float)stockItem.get("quantity"));
       }
+      rs.close();
+      MySQLCon.close();
     } catch (SQLException e) {
       Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, "Failed select", e);
     }

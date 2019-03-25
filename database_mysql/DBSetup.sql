@@ -51,7 +51,7 @@ CREATE UNIQUE INDEX `foodID_UNIQUE` ON `chillingM`.`ingredients` (`foodID` ASC) 
 DROP TABLE IF EXISTS `chillingM`.`userProfile` ;
 
 CREATE TABLE IF NOT EXISTS `chillingM`.`userProfile` (
-  `userID` BIGINT NOT NULL,
+  `userID` BIGINT NOT NULL AUTO_INCREMENT,
   `userName` VARCHAR(45) NOT NULL,
   `userEmail` VARCHAR(60) NOT NULL,
   `gender` ENUM('male', 'female', 'other') NULL DEFAULT NULL,
@@ -71,7 +71,7 @@ CREATE UNIQUE INDEX `userID_UNIQUE` ON `chillingM`.`userProfile` (`userID` ASC) 
 DROP TABLE IF EXISTS `chillingM`.`userIntake` ;
 
 CREATE TABLE IF NOT EXISTS `chillingM`.`userIntake` (
-  `intakeID` BIGINT NOT NULL,
+  `intakeID` BIGINT NOT NULL AUTO_INCREMENT,
   `userID` BIGINT NOT NULL,
   `intakeNote` VARCHAR(256) NULL,
   PRIMARY KEY (`intakeID`),
@@ -97,7 +97,6 @@ CREATE TABLE IF NOT EXISTS `chillingM`.`foodIntake` (
   `intakeQtty` FLOAT(10,3) NOT NULL,
   `intakeDate` DATETIME NOT NULL,
   `foodID` BIGINT NOT NULL,
-  PRIMARY KEY (`intakeID`),
   CONSTRAINT `fk_foodIntake_userIntake`
     FOREIGN KEY (`intakeID`)
     REFERENCES `chillingM`.`userIntake` (`intakeID`)
@@ -122,7 +121,7 @@ CREATE INDEX `fk_foodIntake_ingredients_idx` ON `chillingM`.`foodIntake` (`foodI
 DROP TABLE IF EXISTS `chillingM`.`recipes` ;
 
 CREATE TABLE IF NOT EXISTS `chillingM`.`recipes` (
-  `recipeID` BIGINT NOT NULL,
+  `recipeID` BIGINT NOT NULL AUTO_INCREMENT,
   `recipeName` VARCHAR(45) NOT NULL,
   `dateCreated` DATETIME NOT NULL,
   `userID` BIGINT NULL,
@@ -150,9 +149,9 @@ DROP TABLE IF EXISTS `chillingM`.`stockItems` ;
 CREATE TABLE IF NOT EXISTS `chillingM`.`stockItems` (
   `foodID` BIGINT NOT NULL,
   `foodQtty` FLOAT(10,3) NOT NULL,
-  `foodExpDate` DATETIME NOT NULL,
+  `foodExpDate` DATE NOT NULL,
   `userID` BIGINT NOT NULL,
-  `stockItemId` VARCHAR(45) NOT NULL,
+  `stockItemID` BIGINT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`stockItemId`),
   CONSTRAINT `fk_stockItems_ingredients`
     FOREIGN KEY (`foodID`)
@@ -235,7 +234,6 @@ CREATE TABLE IF NOT EXISTS `chillingM`.`recipeIntake` (
   `serving` INT NOT NULL,
   `intakeDate` DATETIME NOT NULL,
   `recipeID` BIGINT NOT NULL,
-  PRIMARY KEY (`intakeID`),
   CONSTRAINT `fk_recipeIntake_userIntake`
     FOREIGN KEY (`intakeID`)
     REFERENCES `chillingM`.`userIntake` (`intakeID`)

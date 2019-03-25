@@ -8,26 +8,37 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class MySQLCon {
+abstract class MySQLCon {
 
-  private static final String host = "jdbc:mysql://localhost:3306/";
-  private static final String db_name = "chillingM";
-  private static final String driver = "com.mysql.cj.jdbc.Driver";
-  private static final String userName = "root";
-  private static final String password = "root";
-  private static Connection con;
+  private MySQLCon() {}
+
+  private static final String HOST;
+  private static final String DB_NAME;
+  private static final String DRIVER;
+  private static final String USERNAME;
+  private static final String PASSWORD;
+
+  static {
+    HOST = "jdbc:mysql://localhost:3306/";
+    DB_NAME = "chillingM";
+    DRIVER = "com.mysql.cj.jdbc.Driver";
+    USERNAME = "root";
+    PASSWORD = "root";
+  }
+
+  private static  Connection con;
 
   private static void createConnection() {
     try {
-      Class.forName(driver);
-      con = DriverManager.getConnection(String.format("%s%s?useSSL=false", host, db_name), userName, password);
+      Class.forName(DRIVER);
+      con = DriverManager.getConnection(String.format("%s%s?useSSL=false", HOST, DB_NAME), USERNAME, PASSWORD);
       System.out.println("Database Connection Success");
     } catch (Exception e) {
       Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, null, e);
     }
   }
 
-  public static List<Map<String, Object>> resultsList(ResultSet rs) {
+  static List<Map<String, Object>> resultsList(ResultSet rs) {
     ArrayList<Map<String, Object>> list = new ArrayList<>();
     try {
       ResultSetMetaData md = rs.getMetaData();
@@ -45,7 +56,7 @@ public abstract class MySQLCon {
     return list;
   }
 
-  public static Connection getConnection() {
+  static Connection getConnection() {
     try {
       if (con == null || con.isClosed()) {
         createConnection();
@@ -54,5 +65,9 @@ public abstract class MySQLCon {
       Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, null, e);
     }
     return con;
+  }
+
+  static void close() throws SQLException {
+    con.close();
   }
 }
