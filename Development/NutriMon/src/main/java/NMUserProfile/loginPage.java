@@ -14,15 +14,17 @@ public class loginPage extends Application {
             // load the FXML file
             AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
 
-            Scene scene = new Scene(root,600,420);
+            Scene scene = new Scene(root,382,828);
 
             scene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
 
             primaryStage.setScene(scene);
-            primaryStage.setMinWidth(600);
-            primaryStage.setMinHeight(420);
+            primaryStage.setMinWidth(382);
+            primaryStage.setMinHeight(828);
+            primaryStage.setMaxWidth(382);
+            primaryStage.setMaxHeight(828);
             //primaryStage.setFullScreen(true);
-            primaryStage.setTitle("Login");
+            primaryStage.setTitle("NutriMon - Don't waste, it's time to eat!");
             primaryStage.show();
 
             System.out.println("INFO: Login page invoked");
