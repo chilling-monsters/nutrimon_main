@@ -22,6 +22,7 @@ update ingredients set fCarbohydrate = NULL where fCarbohydrate = 999999;
 update ingredients set fTotalFat = NULL where fTotalFat = 999999;
 update ingredients set fProtein = NULL where fProtein = 999999;
 update ingredients set fCalories = NULL where fCalories = 999999;
+update ingredients set fExp = NULL where fExp = 999999;
 
 select * from ingredients order by foodName;
 select count(*) from ingredients; -- should return 7054
@@ -48,10 +49,10 @@ delete from stocks;
 -- ------------------------- 
 
 -- create userProfile
-set @testName = 'testUser';
-set @testEmail = 'testmail@chilling.com';
+set @testName = 'Admin001';
+set @testEmail = 'admin';
 set @testGender = 'male'; -- 'female' 'other'
-set @testPass = 'encryptedpassword';
+set @testPass = '1111';
 -- randString(9)
 set @testID = 'ADMINTEST'; 
 
