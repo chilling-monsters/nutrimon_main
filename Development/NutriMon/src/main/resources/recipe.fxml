@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="826.0" prefWidth="381.0" style="-fx-background-color: #FFFFFFFF;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a623" height="826.0" layoutX="8.0" layoutY="14.0" stroke="TRANSPARENT" strokeType="INSIDE" width="381.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <ImageView fitHeight="381.0" fitWidth="381.0" layoutX="104.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@img/PizzaRecipe.png" />
+         </image></ImageView>
+      <Rectangle arcHeight="5.0" height="500.0" layoutX="10.0" layoutY="10.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="382.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <fill>
+            <LinearGradient endX="0.4759615384615384" endY="0.42788461538461536" startX="0.49519230769230765">
+               <stops>
+                  <Stop color="#f5a623" />
+                  <Stop color="#ffffff00" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="50.0">
+         <image>
+            <Image url="@img/Menu%20Icon%20White2x.png" />
+         </image>
+      </ImageView>
+      <Label text="Your Recipes" textFill="WHITE" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="52.5">
+         <font>
+            <Font name="Helvetica" size="25.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="478.0" layoutX="37.0" layoutY="300.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" style="-fx-arc-height: 8px; -fx-arc-width: 8px;" width="349.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="312.0" />
+      <Label layoutX="114.0" layoutY="464.0" text="INGR. NAME" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="337.0">
+         <font>
+            <Font name="Helvetica" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="33.0" layoutY="369.0" text="LABEL" textFill="#9e9e9e" AnchorPane.rightAnchor="319.0" AnchorPane.topAnchor="370.0">
+         <font>
+            <Font name="Helvetica" size="9.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
