@@ -36,7 +36,7 @@
             <Font name="Helvetica" size="25.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="478.0" layoutX="37.0" layoutY="300.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" style="-fx-arc-height: 8px; -fx-arc-width: 8px;" width="349.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="312.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="490.0" layoutX="37.0" layoutY="300.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" style="-fx-arc-height: 8px; -fx-arc-width: 8px;" width="349.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
       <Label layoutX="114.0" layoutY="464.0" text="INGR. NAME" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="337.0">
          <font>
             <Font name="Helvetica" size="25.0" />
@@ -47,5 +47,15 @@
             <Font name="Helvetica" size="9.0" />
          </font>
       </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="200.0" stroke="TRANSPARENT" strokeType="INSIDE" width="349.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+         <fill>
+            <LinearGradient endX="0.4951923076923077" endY="0.8317307692307692" startX="0.4951923076923077">
+               <stops>
+                  <Stop color="TRANSPARENT" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
    </children>
 </AnchorPane>
