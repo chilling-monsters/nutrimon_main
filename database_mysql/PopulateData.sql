@@ -61,6 +61,7 @@ SELECT * FROM userprofile;
 INSERT INTO recipes (recipeName, dateCreated, userID, recipeDescription, accessibility) VALUES
 ('Teriyaki Chicken', CURTIME(), 98121941486927873, 'Mix the sauces.  Marinate chicken for an hour.  Throw chicken in a skillet for 5 minutes on each side. Eat.', 'public'),
 ('Deep-Fried Butter', CURTIME(), 98121941486927873, 'Deep fry the butter', 'public'),
-('Honeyed Turkey', CURTIME(), 98121941486927877,'Honeybaste that fat turkey.  B a k e.', 'public'),
+('Honeyed Turkey', 2017-06-15, 98121941486927877,'Honeybaste that fat turkey.  B a k e.', 'public'),
 ('Seans secret soup', CURTIME(), 98121941486927875, 'Heat it up', 'private');
+
 
