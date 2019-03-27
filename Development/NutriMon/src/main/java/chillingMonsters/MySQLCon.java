@@ -12,19 +12,21 @@ public abstract class MySQLCon {
 
   private MySQLCon() {}
 
-  private static final String HOST;
-  private static final String DB_NAME;
-  private static final String DRIVER;
-  private static final String USERNAME;
-  private static final String PASSWORD;
+  private static final String HOST = ConfigurationProperties.getInstance().getProperty("dbhost");
 
-  static {
-    HOST = "jdbc:mysql://localhost:3306/";
-    DB_NAME = "chillingM";
-    DRIVER = "com.mysql.cj.jdbc.Driver";
-    USERNAME = "root";
-    PASSWORD = "root";
-  }
+  private static final String DB_NAME = ConfigurationProperties.getInstance().getProperty("dbname");
+
+  private static final String USERNAME =
+          ConfigurationProperties.getInstance().getProperty("dbusername");
+
+  private static final String PASSWORD =
+          ConfigurationProperties.getInstance().getProperty("dbpasword");
+
+  private static final String DRIVER =
+          ConfigurationProperties.getInstance().getProperty("dbdriver");
+
+  private static boolean test;
+
 
   private static  Connection con;
 
@@ -37,6 +39,21 @@ public abstract class MySQLCon {
       Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, null, e);
     }
   }
+
+  private static void createTestConnection() {
+    try {
+      Class.forName("test" + DRIVER);
+      con = DriverManager.getConnection(String.format("%s%s?useSSL=false",
+              "test" + HOST,
+              "test" + DB_NAME),
+              "test" + USERNAME,
+              "test" + PASSWORD);
+      System.out.println("Test Database Connection Success");
+    } catch (Exception e) {
+      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, null, e);
+    }
+  }
+
 
   public static List<Map<String, Object>> resultsList(ResultSet rs) {
     ArrayList<Map<String, Object>> list = new ArrayList<>();
@@ -59,7 +76,11 @@ public abstract class MySQLCon {
   public static Connection getConnection() {
     try {
       if (con == null || con.isClosed()) {
-        createConnection();
+        if (test) {
+          createTestConnection();
+        } else {
+          createConnection();
+        }
       }
     } catch (SQLException e) {
       Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, null, e);
@@ -68,6 +89,13 @@ public abstract class MySQLCon {
   }
 
   public static void close() throws SQLException {
-    con.close();
+    if (con != null && !con.isClosed()) {
+      con.close();
+    }
+  }
+
+  public static void toggleTest() throws SQLException {
+    close();
+    test = !test;
   }
 }

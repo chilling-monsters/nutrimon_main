@@ -43,7 +43,7 @@ public class StockController extends NutriMonController {
       rs.close();
       MySQLCon.close();
     } catch (SQLException e) {
-      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, "Failed select", e);
+      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, e.getMessage(), e);
     }
     if (recipeIngredients.size() > stockIngredients.size()) {
       return 0;
@@ -61,8 +61,7 @@ public class StockController extends NutriMonController {
     return servings;
   }
 
-  @Override
-  public List<Map<String, Object>> show() {
+  public List<Map<String, Object>> showStock() {
     List<Map<String, Object>> stocks = new ArrayList<>();
     String query = "SELECT foodID, foodName, " +
             "sum(foodQtty) as 'quantity', " +
@@ -79,7 +78,29 @@ public class StockController extends NutriMonController {
         MySQLCon.close();
       }
     } catch (SQLException e) {
-      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, "Failed select", e);
+      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    }
+    return stocks;
+  }
+
+  public List<Map<String, Object>> showStockIngredient(int foodId) {
+    List<Map<String, Object>> stocks = new ArrayList<>();
+    String query = "SELECT stockItemID, foodID, foodName, " +
+            "foodQtty as 'quantity', " +
+            "foodExpDate, " +
+            "FROM stockitems JOIN ingredients using(foodID) " +
+            "WHERE userID = ? AND foodID = ? " +
+            "ORDER BY foodExpDate ASC";
+    try {
+      try (PreparedStatement stmt = MySQLCon.getConnection().prepareStatement(query)) {
+        stmt.setInt(1, userId);
+        stmt.setInt(2, foodId);
+        ResultSet rs = stmt.executeQuery();
+        stocks = MySQLCon.resultsList(rs);
+        MySQLCon.close();
+      }
+    } catch (SQLException e) {
+      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, e.getMessage(), e);
     }
     return stocks;
   }

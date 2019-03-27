@@ -124,5 +124,4 @@ public abstract class NutriMonController implements Controller {
       Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, "Failed insert", e);
     }
   }
-
 }
