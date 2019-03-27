@@ -1,56 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffef;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NMUserProfile.registerController">
-   <children>
-      <HBox layoutX="270.0" layoutY="70.0" prefHeight="30.0" prefWidth="250.0" style="-fx-background-color: #ffffff; -fx-background-radius: 6px; -fx-border-color: #00997a; -fx-border-radius: 6px;">
+<AnchorPane fx:id="ancP_login_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #000000;" styleClass="lebe;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NMUserProfile.loginController">
+    <children>
+      <ImageView fitHeight="828.0" fitWidth="382.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@img/BG%20Picture.png" />
+         </image>
+      </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="500.0" layoutX="32.0" layoutY="202.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="382.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <fill>
+                <LinearGradient endX="0.5096153846153846" endY="0.5625" startX="0.4807692307692308">
+                    <stops>
+                        <Stop color="BLACK" />
+                        <Stop color="#ffffff00" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </fill></Rectangle>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="500.0" layoutX="10.0" layoutY="10.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="382.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <fill>
+                <LinearGradient endX="0.5096153846153846" endY="1.0" startX="0.4807692307692308">
+                    <stops>
+                        <Stop color="#ffffff00" />
+                        <Stop color="BLACK" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </fill>
+        </Rectangle>
+      <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="158.0" AnchorPane.topAnchor="52.0">
+         <image>
+            <Image url="@img/NutriMon%20logo2x.png" />
+         </image>
+      </ImageView>
+        <Label fx:id="lbl_user_login" layoutX="35.0" layoutY="45.0" text="NutriMon" textFill="WHITE" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="128.0">
+            <font>
+                <Font name="Helvetica" size="45.0" />
+            </font>
+        </Label>
+      <Label fx:id="lbl_user_login1" layoutX="45.0" layoutY="138.0" text="Don't waste" textFill="WHITE" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="184.0">
+         <font>
+            <Font name="Helvetica" size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_user_login11" layoutX="45.0" layoutY="194.0" text="it's time to eat!" textFill="WHITE" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="223.0">
+         <font>
+            <Font name="Helvetica" size="30.0" />
+         </font>
+      </Label>
+      <HBox layoutX="45.0" layoutY="340.0" prefHeight="45.0" prefWidth="307.0" style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="340.0">
          <children>
-            <TextField fx:id="txtF_email" prefHeight="30.0" prefWidth="250.0" promptText="Email" style="-fx-background-color: transparent;" />
+            <TextField fx:id="txtF_email1" prefHeight="30.0" prefWidth="250.0" promptText="Your Name" style="-fx-background-color: transparent;" HBox.hgrow="NEVER">
+               <HBox.margin>
+                  <Insets top="7.0" />
+               </HBox.margin></TextField>
          </children>
       </HBox>
-      <Label layoutX="270.0" layoutY="50.0" text="Email:" />
-      <HBox layoutX="270.0" layoutY="130.0" prefHeight="30.0" prefWidth="250.0" style="-fx-background-color: #ffffff; -fx-background-radius: 6px; -fx-border-color: #00997a; -fx-border-radius: 6px;">
+        <HBox layoutX="35.0" layoutY="145.0" prefHeight="45.0" prefWidth="307.0" style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="392.5">
+            <children>
+                <TextField fx:id="txtF_email" prefHeight="30.0" prefWidth="250.0" promptText="Your Email" style="-fx-background-color: transparent;" HBox.hgrow="NEVER">
+               <HBox.margin>
+                  <Insets top="7.0" />
+               </HBox.margin></TextField>
+            </children>
+        </HBox>
+        <HBox layoutX="35.0" layoutY="215.0" prefHeight="45.0" prefWidth="307.0" style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="445.0">
+            <children>
+                <PasswordField fx:id="pswdF_password" prefHeight="30.0" prefWidth="250.0" promptText="Your Password" style="-fx-background-color: transparent;">
+               <HBox.margin>
+                  <Insets top="7.0" />
+               </HBox.margin></PasswordField>
+            </children>
+        </HBox>
+      <HBox layoutX="45.0" layoutY="455.0" prefHeight="45.0" prefWidth="307.0" style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="497.5">
          <children>
-            <TextField fx:id="txtF_name" prefHeight="30.0" prefWidth="250.0" promptText="Full Name" style="-fx-background-color: transparent;" />
+            <PasswordField fx:id="pswdF_password1" prefHeight="30.0" prefWidth="250.0" promptText="Confirm Password" style="-fx-background-color: transparent;">
+               <HBox.margin>
+                  <Insets top="7.0" />
+               </HBox.margin>
+            </PasswordField>
          </children>
       </HBox>
-      <Label layoutX="270.0" layoutY="180.0" text="Password:" />
-      <HBox layoutX="270.0" layoutY="200.0" prefHeight="30.0" prefWidth="250.0" style="-fx-background-color: #ffffff; -fx-background-radius: 6px; -fx-border-color: #00997a; -fx-border-radius: 6px;">
-         <children>
-            <PasswordField fx:id="pswdF_new_password" prefHeight="30.0" prefWidth="250.0" promptText="Create New" style="-fx-background-color: transparent;" />
-         </children></HBox>
-      <HBox layoutX="270.0" layoutY="245.0" prefHeight="30.0" prefWidth="250.0" style="-fx-background-color: #ffffff; -fx-background-radius: 6px; -fx-border-color: #00997a; -fx-border-radius: 6px;">
-         <children>
-            <PasswordField fx:id="pswdF_confirm_password" prefHeight="30.0" prefWidth="250.0" promptText="Confirm" style="-fx-background-color: transparent;" />
-         </children>
-      </HBox>
-      <Button fx:id="btn_confirm" layoutX="445.0" layoutY="305.0" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #00997a; -fx-border-radius: 7px; -fx-background-radius: 7px;" text="Confirm" textFill="#ffffef" AnchorPane.bottomAnchor="60.0">
+      <Line endX="192.32" layoutX="152.0" layoutY="555.0" stroke="WHITE" strokeWidth="2.0" AnchorPane.leftAnchor="94.5" AnchorPane.topAnchor="567.24" />
+      <Button fx:id="btn_login1" layoutX="89.0" layoutY="704.0" mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="55.0" prefWidth="214.0" style="-fx-background-color: #FBD249; -fx-background-radius: 27px;" text="HAVE AN ACCOUNT? LOGIN" textFill="WHITE" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <Label layoutX="270.0" layoutY="110.0" text="Name:" />
-      <ChoiceBox fx:id="choiceB_gender" layoutX="270.0" layoutY="310.0" prefWidth="100.0" style="-fx-background-color: #ffffff; -fx-border-color: #00997c; -fx-border-radius: 6px;" AnchorPane.bottomAnchor="61.0" />
-      <Label layoutX="270.0" layoutY="290.0" text="Gender:" AnchorPane.bottomAnchor="93.0" />
-      <AnchorPane prefHeight="400.0" prefWidth="225.0" style="-fx-background-color: #00997a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label layoutX="41.0" layoutY="49.0" text="Register" textFill="#ffffef" AnchorPane.topAnchor="45.0">
-               <font>
-                  <Font name="SignPainter-HouseScript" size="56.0" />
-               </font></Label>
-            <Button fx:id="btn_cancel" layoutX="109.0" layoutY="305.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #ffffef; -fx-border-radius: 7px; -fx-background-radius: 7px;" text="Cancel" textFill="#00997a" AnchorPane.bottomAnchor="60.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-         </children>
-      </AnchorPane>
-   </children>
+         </cursor>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+        <Button fx:id="btn_login" layoutX="35.0" layoutY="265.0" mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="55.0" prefWidth="0.0" style="-fx-background-color: #F5A623; -fx-background-radius: 27px;" text="CREATE ACCOUNT" textFill="WHITE" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="79.0" AnchorPane.rightAnchor="79.0">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+         <font>
+            <Font size="18.0" />
+         </font>
+        </Button>
+    </children>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
 </AnchorPane>
