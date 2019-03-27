@@ -57,6 +57,10 @@ INSERT INTO stockitems (foodID, foodQtty, userID) VALUES
 (5146, 1200, 98121941486927873), (6152, 800, 98121941486927873), (4529, 9000, 98121941486927873);
 
 SELECT * from ingredients;
+SELECT * FROM userprofile;
 INSERT INTO recipes (recipeName, dateCreated, userID, recipeDescription, accessibility) VALUES
-('Teriyaki Chicken', CURTIME(), 98121941486927873, 'Mix the sauces.  Marinate chicken for an hour.  Throw chicken in a skillet for 5 minutes on each side. Eat.', 'public');
+('Teriyaki Chicken', CURTIME(), 98121941486927873, 'Mix the sauces.  Marinate chicken for an hour.  Throw chicken in a skillet for 5 minutes on each side. Eat.', 'public'),
+('Deep-Fried Butter', CURTIME(), 98121941486927873, 'Deep fry the butter', 'public'),
+('Honeyed Turkey', CURTIME(), 98121941486927877,'Honeybaste that fat turkey.  B a k e.', 'public'),
+('Seans secret soup', CURTIME(), 98121941486927875, 'Heat it up', 'private');
 
