@@ -33,7 +33,7 @@ public class StockController extends NutriMonController {
       ResultSet rs;
       try (PreparedStatement stmt = MySQLCon.getConnection()
               .prepareStatement(queryString)) {
-        stmt.setInt(1, userId);
+        stmt.setLong(1, userId);
         rs = stmt.executeQuery();
       }
       List<Map<String, Object>> stock = MySQLCon.resultsList(rs);
@@ -72,7 +72,7 @@ public class StockController extends NutriMonController {
             "ORDER BY next_exp ASC";
     try {
       try (PreparedStatement stmt = MySQLCon.getConnection().prepareStatement(query)) {
-        stmt.setInt(1, userId);
+        stmt.setLong(1, userId);
         ResultSet rs = stmt.executeQuery();
         stocks = MySQLCon.resultsList(rs);
         MySQLCon.close();
@@ -93,7 +93,7 @@ public class StockController extends NutriMonController {
             "ORDER BY foodExpDate ASC";
     try {
       try (PreparedStatement stmt = MySQLCon.getConnection().prepareStatement(query)) {
-        stmt.setInt(1, userId);
+        stmt.setLong(1, userId);
         stmt.setInt(2, foodId);
         ResultSet rs = stmt.executeQuery();
         stocks = MySQLCon.resultsList(rs);

@@ -4,13 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 public interface Controller {
-  List<Map<String, Object>> show();
 
-  Map<String, Object> get(int id);
+  Map<String, Object> get(long id);
 
   void create(Map<String, Object> attributes);
 
-  void update(int id, Map<String, Object> attributes);
+  void update(long id, Map<String, Object> attributes);
 
-  void delete(int id);
+  void delete(long id);
 }
