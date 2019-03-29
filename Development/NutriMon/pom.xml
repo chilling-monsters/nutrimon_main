@@ -23,7 +23,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>chillingMonsters.NMMain</mainClass>
+							<mainClass>chillingMonsters.NutriMonMain</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -108,7 +108,7 @@
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>chillingMonsters.NMMain</mainClass>
+									<mainClass>chillingMonsters.NutriMonMain</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>
@@ -138,7 +138,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.15</version>
+			<version>5.1.47</version>
 		</dependency>
 		<!-- javafx and mysql -->
 		<dependency>
@@ -159,11 +159,5 @@
 			<version>1.6.4</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.11</version>
-		</dependency>
 	</dependencies>
-
 </project>
