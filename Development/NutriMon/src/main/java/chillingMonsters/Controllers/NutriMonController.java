@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import chillingMonsters.MySQLCon;
 
 public abstract class NutriMonController implements Controller {
-  static int userId;
+  static long userId;
   private final String table;
   private final String pk;
 
@@ -22,7 +22,7 @@ public abstract class NutriMonController implements Controller {
     this.pk = pk;
   }
 
-  public static void setUserId(int id) {
+  public static void setUserId(long id) {
     userId = id;
   }
 
@@ -32,7 +32,7 @@ public abstract class NutriMonController implements Controller {
       ResultSet rs;
       try (PreparedStatement stmt = MySQLCon.getConnection()
               .prepareStatement(String.format("SELECT * FROM %s WHERE userID = ?", table))) {
-        stmt.setInt(1, userId);
+        stmt.setLong(1, userId);
         rs = stmt.executeQuery();
       }
       output = MySQLCon.resultsList(rs);
@@ -44,14 +44,14 @@ public abstract class NutriMonController implements Controller {
     return output;
   }
 
-  public Map<String, Object> get(int id) {
+  public Map<String, Object> get(long id) {
     try {
       ResultSet rs;
       try (PreparedStatement stmt = MySQLCon.getConnection()
               .prepareStatement(String.format("SELECT * FROM %s WHERE userID = ? AND %s = ?",
                       table, pk))) {
-        stmt.setInt(1, userId);
-        stmt.setInt(2, id);
+        stmt.setLong(1, userId);
+        stmt.setLong(2, id);
         rs = stmt.executeQuery();
       }
       List<Map<String, Object>> output = MySQLCon.resultsList(rs);
@@ -66,12 +66,12 @@ public abstract class NutriMonController implements Controller {
     return null;
   }
 
-  public void delete(int id) {
+  public void delete(long id) {
     try (PreparedStatement stmt = MySQLCon.getConnection()
             .prepareStatement(String.format("DELETE FROM %s WHERE userID = ? AND %s = ?",
                     table, pk))) {
-      stmt.setInt(1, userId);
-      stmt.setInt(2, id);
+      stmt.setLong(1, userId);
+      stmt.setLong(2, id);
       stmt.executeUpdate();
       MySQLCon.close();
     } catch (SQLException e) {
@@ -79,7 +79,7 @@ public abstract class NutriMonController implements Controller {
     }
   }
 
-  public void update(int id, Map<String, Object> values) {
+  public void update(long id, Map<String, Object> values) {
     StringBuilder query = new StringBuilder(String.format("UPDATE %s ", table));
     int i = 0;
     int size = values.size();
