@@ -20,7 +20,7 @@ public abstract class MySQLCon {
           ConfigurationProperties.getInstance().getProperty("dbusername");
 
   private static final String PASSWORD =
-          ConfigurationProperties.getInstance().getProperty("dbpasword");
+          ConfigurationProperties.getInstance().getProperty("dbpassword");
 
   private static final String DRIVER =
           ConfigurationProperties.getInstance().getProperty("dbdriver");
@@ -38,7 +38,7 @@ public abstract class MySQLCon {
   private static boolean test = false;
 
 
-  private static  Connection con;
+  private static Connection con;
 
   private static void createConnection() {
     String driver = test ? TEST_DRIVER : DRIVER;
