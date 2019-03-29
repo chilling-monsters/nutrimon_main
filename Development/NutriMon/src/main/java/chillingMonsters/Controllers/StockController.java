@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import chillingMonsters.MySQLCon;
+import chillingMonsters.DBConnect;
 
 public class StockController extends NutriMonController {
     StockController() {
@@ -31,19 +31,19 @@ public class StockController extends NutriMonController {
                 "GROUP BY foodID";
         try {
             ResultSet rs;
-            try (PreparedStatement stmt = MySQLCon.getConnection()
+            try (PreparedStatement stmt = DBConnect.getConnection()
                     .prepareStatement(queryString)) {
                 stmt.setLong(1, userId);
                 rs = stmt.executeQuery();
             }
-            List<Map<String, Object>> stock = MySQLCon.resultsList(rs);
+            List<Map<String, Object>> stock = DBConnect.resultsList(rs);
             for (Map<String, Object> stockItem : stock) {
                 stockIngredients.put((Integer)stockItem.get("foodID"), (Float)stockItem.get("quantity"));
             }
             rs.close();
-            MySQLCon.close();
+            DBConnect.close();
         } catch (SQLException e) {
-            Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
         }
         if (recipeIngredients.size() > stockIngredients.size()) {
             return 0;
@@ -71,14 +71,14 @@ public class StockController extends NutriMonController {
                 "GROUP BY foodID " +
                 "ORDER BY next_exp ASC";
         try {
-            try (PreparedStatement stmt = MySQLCon.getConnection().prepareStatement(query)) {
+            try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
                 stmt.setLong(1, userId);
                 ResultSet rs = stmt.executeQuery();
-                stocks = MySQLCon.resultsList(rs);
-                MySQLCon.close();
+                stocks = DBConnect.resultsList(rs);
+                DBConnect.close();
             }
         } catch (SQLException e) {
-            Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
         }
         return stocks;
     }
@@ -92,15 +92,15 @@ public class StockController extends NutriMonController {
                 "WHERE userID = ? AND foodID = ? " +
                 "ORDER BY foodExpDate ASC";
         try {
-            try (PreparedStatement stmt = MySQLCon.getConnection().prepareStatement(query)) {
+            try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
                 stmt.setLong(1, userId);
                 stmt.setInt(2, foodId);
                 ResultSet rs = stmt.executeQuery();
-                stocks = MySQLCon.resultsList(rs);
-                MySQLCon.close();
+                stocks = DBConnect.resultsList(rs);
+                DBConnect.close();
             }
         } catch (SQLException e) {
-            Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
         }
         return stocks;
     }

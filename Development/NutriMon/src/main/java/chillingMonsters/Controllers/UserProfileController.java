@@ -1,19 +1,18 @@
 package chillingMonsters.Controllers;
 
-import chillingMonsters.MySQLCon;
+import chillingMonsters.DBConnect;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LoginController extends NutriMonController {
-    LoginController() {
+public class UserProfileController extends NutriMonController {
+    UserProfileController() {
         super("userProfile", "userID");
     }
 
@@ -33,14 +32,12 @@ public class LoginController extends NutriMonController {
         try {
             ResultSet rs;   // Result set
 
-            try (PreparedStatement stmt = MySQLCon.getConnection()
-                    .prepareStatement(queryString)) {
-                stmt.setString(1, userEmail);
-                stmt.setString(2, password);
-                rs = stmt.executeQuery();
-            }
+            PreparedStatement stmt = DBConnect.getConnection().prepareStatement(queryString);
+            stmt.setString(1, userEmail);
+            stmt.setString(2, password);
+            rs = stmt.executeQuery();
 
-            List<Map<String, Object>> credentials = MySQLCon.resultsList(rs);   // Get result set from DB
+            List<Map<String, Object>> credentials = DBConnect.resultsList(rs);   // Get result set from DB
 
             // Copy result set into map
             for (Map<String, Object> users : credentials) {
@@ -48,17 +45,22 @@ public class LoginController extends NutriMonController {
             }
 
             rs.close();         // Close rs
-            MySQLCon.close();   // Close DB
+            DBConnect.close();   // Close DB
 
         } catch (SQLException e) {
-            Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
         }
 
-        if (userProfile.size() == 0) {
-            return false;
-        }
+        return userProfile.size() == 1;
+    }
+
+    public boolean exists(String table, Object val) {
 
         return true;
+    }
+
+    public void createProfile(String userName, String userEmail, String password, String gender) {
+        
     }
 }
 

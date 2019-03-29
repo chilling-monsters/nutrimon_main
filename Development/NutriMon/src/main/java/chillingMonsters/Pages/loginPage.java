@@ -1,4 +1,4 @@
-package NMUserProfile;
+package chillingMonsters.Pages;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +27,7 @@ public class loginPage extends Application {
             primaryStage.setTitle("NutriMon - Don't waste, it's time to eat!");
             primaryStage.show();
 
-            System.out.println("INFO: Login page invoked");
+            System.out.println("Current page: Login page");
 
         } catch(IOException e) {
             e.printStackTrace();

@@ -2,7 +2,7 @@ package chillingMonsters.Controllers;
 
 public abstract class ControllerFactory {
   private static StockController stockControl = null;
-  private static LoginController loginControl = null;
+  private static UserProfileController loginControl = null;
 //  private static RecipeController recipeControl = null;
 //  private static IngredientController ingredientControl = null;
 //  private static IntakeController intakeControl = null;
@@ -14,9 +14,9 @@ public abstract class ControllerFactory {
     return stockControl;
   }
 
-  public static LoginController makeLoginController() {
+  public static UserProfileController makeUserProfileController() {
     if (loginControl == null) {
-      loginControl = new LoginController();
+      loginControl = new UserProfileController();
     }
     return loginControl;
   }
