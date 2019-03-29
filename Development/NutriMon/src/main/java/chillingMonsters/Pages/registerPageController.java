@@ -56,7 +56,7 @@ public class registerPageController {
             return;
         }
 
-        if (register.exists("userProfile", email)) {
+        if (register.exists("userProfile", "userEmail", email)) {
             AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "This Email address has been used");
             return;
         }
@@ -91,22 +91,22 @@ public class registerPageController {
             return;
         }
 
+        /*
         // Check gender
         if (choiceB_gender.getSelectionModel().getSelectedItem() == null) {
-            // AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please choose your Gender");
+            AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please choose your Gender");
             return;
         }
+        */
 
         // Update database
         String name = txtF_name.getText();
-        String gender = (String)choiceB_gender.getSelectionModel().getSelectedItem();
-        register.createProfile(name, email, new_password, gender);
+        // String gender = (String)choiceB_gender.getSelectionModel().getSelectedItem();
+        register.createProfile(name, email, new_password);
+
+        /* TODO: Go to landing page */
 
         AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Success!", "Your profile has been created. Welcome to Nutrimon!");
-
-        // Back to login Page
-        registerPage page = new registerPage();
-        page.backToLogin(event);
     }
 
     @FXML

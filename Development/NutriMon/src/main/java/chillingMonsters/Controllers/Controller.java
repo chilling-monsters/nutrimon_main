@@ -5,11 +5,11 @@ import java.util.Map;
 
 public interface Controller {
 
-  Map<String, Object> get(long id);
+    Map<String, Object> get(long id);
 
-  void create(Map<String, Object> attributes);
+    void create(Map<String, Object> attributes);
 
-  void update(long id, Map<String, Object> attributes);
+    void update(long id, Map<String, Object> attributes);
 
-  void delete(long id);
+    void delete(long id);
 }

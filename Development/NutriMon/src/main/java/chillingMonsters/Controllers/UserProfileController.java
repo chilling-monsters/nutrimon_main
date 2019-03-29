@@ -25,7 +25,7 @@ public class UserProfileController extends NutriMonController {
      */
     public boolean checkCredentials(String userEmail, String password) {
         Map<String, String> userProfile = new HashMap<>();
-        String queryString = "Select userEmail, `password` " +
+        String queryString = "SELECT userEmail, `password` " +
                 "FROM userProfile " +
                 "WHERE userEmail = ? " +
                 "AND `password` = ? ";
@@ -45,6 +45,7 @@ public class UserProfileController extends NutriMonController {
             }
 
             rs.close();         // Close rs
+            stmt.close();       // Close stmt
             DBConnect.close();   // Close DB
 
         } catch (SQLException e) {
@@ -54,13 +55,56 @@ public class UserProfileController extends NutriMonController {
         return userProfile.size() == 1;
     }
 
-    public boolean exists(String table, Object val) {
 
-        return true;
+    public boolean exists(String table, String attr, String record) {
+        boolean check = false;
+
+        String queryString = "SELECT " + attr + " FROM " + table +
+                " WHERE " + attr + " = ? ";
+        try {
+            ResultSet rs;   // Result set
+
+            PreparedStatement stmt = DBConnect.getConnection().prepareStatement(queryString);
+            stmt.setString(1, record);
+
+            rs = stmt.executeQuery();   // Statement execution
+
+            check = rs.next();
+
+            rs.close();         // Close rs
+            stmt.close();       // Close stmt
+            DBConnect.close();   // Close DB
+
+        } catch (SQLException e) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+
+        return check;
     }
 
-    public void createProfile(String userName, String userEmail, String password, String gender) {
-        
+
+    public void createProfile(String userName, String userEmail, String password) {
+        String updateString = "INSERT INTO userProfile (userName, userEmail, `password`) " +
+                    "VALUES (?, ?, ?)";
+        try {
+
+            PreparedStatement stmt = DBConnect.getConnection().prepareStatement(updateString);
+            stmt.setString(1, userName);
+            stmt.setString(2, userEmail);
+            stmt.setString(3, password);
+            stmt.execute();
+
+            stmt.close();         // Close stmt
+            DBConnect.close();   // Close DB
+
+        } catch (SQLException e) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+    }
+
+
+    public void updateProfile() {
+        /* TODO: Implement */
     }
 }
 
