@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class MySQLCon {
+public abstract class DBConnect {
 
-  private MySQLCon() {}
+  private DBConnect() {}
 
   private static final String HOST = ConfigurationProperties.getInstance().getProperty("dbhost");
 
@@ -49,9 +49,11 @@ public abstract class MySQLCon {
     try {
       Class.forName(driver);
       con = DriverManager.getConnection(String.format("%s%s?useSSL=false", host, dbname), username, password);
+
       System.out.println("Database Connection Success");
+
     } catch (Exception e) {
-      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, null, e);
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, e);
     }
   }
 
@@ -68,7 +70,7 @@ public abstract class MySQLCon {
         list.add(row);
       }
     } catch (SQLException e) {
-      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, null, e);
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, e);
     }
     return list;
   }
@@ -79,7 +81,7 @@ public abstract class MySQLCon {
         createConnection();
       }
     } catch (SQLException e) {
-      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, null, e);
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, e);
     }
     return con;
   }

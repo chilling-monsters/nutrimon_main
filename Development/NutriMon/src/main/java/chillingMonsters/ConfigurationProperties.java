@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  */
 public class ConfigurationProperties {
 
-  private static final Logger LOGGER = Logger.getLogger(MySQLCon.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(DBConnect.class.getName());
 
   private static ConfigurationProperties singleton;
 

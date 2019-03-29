@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import chillingMonsters.MySQLCon;
+import chillingMonsters.DBConnect;
 
 public abstract class NutriMonController implements Controller {
   static long userId;
@@ -30,16 +30,16 @@ public abstract class NutriMonController implements Controller {
     List<Map<String,Object>> output = new ArrayList<>();
     try {
       ResultSet rs;
-      try (PreparedStatement stmt = MySQLCon.getConnection()
+      try (PreparedStatement stmt = DBConnect.getConnection()
               .prepareStatement(String.format("SELECT * FROM %s WHERE userID = ?", table))) {
         stmt.setLong(1, userId);
         rs = stmt.executeQuery();
       }
-      output = MySQLCon.resultsList(rs);
+      output = DBConnect.resultsList(rs);
       rs.close();
-      MySQLCon.close();
+      DBConnect.close();
     } catch (SQLException e) {
-      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, "Failed select", e);
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, "Failed select", e);
     }
     return output;
   }
@@ -47,35 +47,35 @@ public abstract class NutriMonController implements Controller {
   public Map<String, Object> get(long id) {
     try {
       ResultSet rs;
-      try (PreparedStatement stmt = MySQLCon.getConnection()
+      try (PreparedStatement stmt = DBConnect.getConnection()
               .prepareStatement(String.format("SELECT * FROM %s WHERE userID = ? AND %s = ?",
                       table, pk))) {
         stmt.setLong(1, userId);
         stmt.setLong(2, id);
         rs = stmt.executeQuery();
       }
-      List<Map<String, Object>> output = MySQLCon.resultsList(rs);
+      List<Map<String, Object>> output = DBConnect.resultsList(rs);
       if (!output.isEmpty()) {
         return output.get(0);
       }
       rs.close();
-      MySQLCon.close();
+      DBConnect.close();
     } catch (SQLException e) {
-      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, "Failed select", e);
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, "Failed select", e);
     }
     return null;
   }
 
   public void delete(long id) {
-    try (PreparedStatement stmt = MySQLCon.getConnection()
+    try (PreparedStatement stmt = DBConnect.getConnection()
             .prepareStatement(String.format("DELETE FROM %s WHERE userID = ? AND %s = ?",
                     table, pk))) {
       stmt.setLong(1, userId);
       stmt.setLong(2, id);
       stmt.executeUpdate();
-      MySQLCon.close();
+      DBConnect.close();
     } catch (SQLException e) {
-      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, "Failed delete", e);
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, "Failed delete", e);
     }
   }
 
@@ -92,12 +92,12 @@ public abstract class NutriMonController implements Controller {
     }
     query.append(String.format(" WHERE %s = %d", pk, id));
     try {
-      try (Statement stmt = MySQLCon.getConnection().createStatement()) {
+      try (Statement stmt = DBConnect.getConnection().createStatement()) {
         stmt.executeUpdate(query.toString());
       }
-      MySQLCon.close();
+      DBConnect.close();
     } catch (SQLException e) {
-      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, "Failed update", e);
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, "Failed update", e);
     }
   }
 
@@ -116,12 +116,12 @@ public abstract class NutriMonController implements Controller {
             table, fields.toString(), vals.toString());
 
     try {
-      try (Statement stmt = MySQLCon.getConnection().createStatement()) {
+      try (Statement stmt = DBConnect.getConnection().createStatement()) {
         stmt.executeUpdate(query);
       }
-      MySQLCon.close();
+      DBConnect.close();
     } catch (SQLException e) {
-      Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, "Failed insert", e);
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, "Failed insert", e);
     }
   }
 }

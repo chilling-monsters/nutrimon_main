@@ -1,4 +1,4 @@
-package NMUserProfile;
+package chillingMonsters.Pages;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -7,8 +7,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import chillingMonsters.AlertHandler;
+import chillingMonsters.Controllers.*;
 
-public class registerController {
+public class registerPageController {
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -41,7 +42,7 @@ public class registerController {
     @FXML
     void confirmButtonAction(ActionEvent event) {
         // Window alert = btn_confirm.getScene().getWindow();
-        userProfileQuery uq = new userProfileQuery();
+        UserProfileController register = ControllerFactory.makeUserProfileController();
 
         // Check the Email, not null missing '@', unique
         if (txtF_email.getText().isEmpty()) {
@@ -55,7 +56,7 @@ public class registerController {
             return;
         }
 
-        if (uq.strExists("userProfile", "userEmail", email)) {
+        if (register.exists("userProfile", email)) {
             AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "This Email address has been used");
             return;
         }
@@ -65,7 +66,6 @@ public class registerController {
             AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please enter your Name");
             return;
         }
-
 
         // Check the password, not null, passwords must match, more than 8 digits
         String new_password = pswdF_new_password.getText();
@@ -91,30 +91,30 @@ public class registerController {
             return;
         }
 
-        // Check gender, not null
+        // Check gender
         if (choiceB_gender.getSelectionModel().getSelectedItem() == null) {
-            AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please choose your Gender");
+            // AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please choose your Gender");
             return;
         }
 
         // Update database
         String name = txtF_name.getText();
         String gender = (String)choiceB_gender.getSelectionModel().getSelectedItem();
-        uq.insertProfile(email, name, new_password, gender);
+        register.createProfile(name, email, new_password, gender);
 
         AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Success!", "Your profile has been created. Welcome to Nutrimon!");
 
         // Back to login Page
-        registerPage regPage = new registerPage();
-        regPage.backToLogin(event);
+        registerPage page = new registerPage();
+        page.backToLogin(event);
     }
 
     @FXML
     void cancelButtonAction(ActionEvent event) {
         // System.out.println("canceled");
-        registerPage regPage = new registerPage();
+        registerPage page = new registerPage();
 
-        regPage.backToLogin(event);
+        page.backToLogin(event);
     }
 
 
@@ -129,7 +129,7 @@ public class registerController {
         assert txtF_name != null : "fx:id=\"txtF_name\" was not injected: check your FXML file 'register.fxml'.";
         assert pswdF_new_password != null : "fx:id=\"txtF_new_password\" was not injected: check your FXML file 'register.fxml'.";
 
-        choiceB_gender.getItems().addAll("male", "female", "other");
+        // choiceB_gender.getItems().addAll("--", "male", "female", "other");
         // pswdF_new_password.setTooltip(new Tooltip("Password must have no less than 8 digits"));
     }
 }
