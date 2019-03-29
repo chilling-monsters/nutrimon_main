@@ -23,15 +23,9 @@ update ingredients set fProtein = NULL where fProtein = 999999;
 update ingredients set fCalories = NULL where fCalories = 999999;
 update ingredients set expTime = NULL where expTime = 999999;
 
-ALTER TABLE userintake
-	ADD COLUMN intakeDate DATETIME NOT NULL;
-ALTER TABLE foodintake
-	DROP COLUMN intakeDate;
-ALTER TABLE recipeintake
-	DROP COLUMN intakeDate;
-
 delimiter //
 
+DROP PROCEDURE IF EXISTS wipe_db;
 CREATE PROCEDURE wipe_db ()
 BEGIN
 	SET SQL_SAFE_UPDATES = 0;
@@ -46,6 +40,7 @@ BEGIN
     SET SQL_SAFE_UPDATES = 1;
 END //
 
+DROP TRIGGER IF EXISTS set_exp;
 CREATE TRIGGER set_exp BEFORE INSERT ON stockitems
 FOR EACH ROW
 BEGIN
@@ -143,9 +138,18 @@ BEGIN
 		(1003, 2, 200), (1001, 2, 750),
 		(16424, 1, 324), (5059, 1, 1200);
 		
-	CALL make_intake(1, 1, CURTIME());
-    CALL make_intake(2, 1, CURTIME());
-    CALL make_intake(3, 1, CURTIME());
+	CALL make_intake(1, 1, '2019-01-01 00:00:01');
+    CALL make_intake(2, 1, '2019-01-08 00:00:01');
+    CALL make_intake(3, 1, '2019-01-09 00:00:01');
+    
+    CALL make_intake(4, 2, CURTIME());
+    CALL make_intake(5, 8, CURTIME());
+    
+    INSERT INTO recipeintake VALUES
+		(1, 2, 1), (3, 3, 2);
+    
+    INSERT INTO foodintake VALUES
+		(2, 200, 1081);
     
     SET SQL_SAFE_UPDATES = 1;
 END //
@@ -153,6 +157,16 @@ END //
 delimiter ;
 
 CALL init_db();
+SELECT * FROM userintake JOIN foodintake USING (intakeID);
 
+SELECT *, CAST(intakeDATE AS DATE) as DAY
+FROM
+	(SELECT intakeID, userID, intakeDATE, intakeQtty, foodID, NULL as serving, NULL as recipeID, 'food' as type 
+	FROM userintake JOIN foodintake USING (intakeID)
+	UNION
+	SELECT intakeID, userID, intakeDATE, NULL as intakeQtty, NULL as foodID, serving, recipeID, 'recipe' as type
+	FROM userintake JOIN recipeintake USING (intakeID)) intakes
+GROUP BY DAY
+ORDER BY intakeDATE DESC;
 
 
