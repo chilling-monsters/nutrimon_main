@@ -26,9 +26,7 @@ public abstract class NutriMonController implements Controller {
         userId = id;
     }
 
-    public long getUserId() {
-        return userId;
-    }
+    public static long getUserId() { return userId; }
 
     public List<Map<String, Object>> show() {
         List<Map<String,Object>> output = new ArrayList<>();
@@ -129,6 +127,14 @@ public abstract class NutriMonController implements Controller {
         }
     }
 
+    /**
+     * A function performs single string type attribute query
+     *
+     * @param table table
+     * @param attr attribute
+     * @param record input string
+     * @return  true if found
+     */
     public boolean exists(String table, String attr, String record) {
         boolean check = false;
 

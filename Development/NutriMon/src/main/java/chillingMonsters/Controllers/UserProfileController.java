@@ -17,15 +17,17 @@ public class UserProfileController extends NutriMonController {
     }
 
     /**
-     * A function checks the email and password combination
+     * A function checks the email and password combination, if exists, retrieve the userID
      *
      * @param userEmail input user email
      * @param password  input password
      * @return true if email and password pair is found
      */
     public boolean verifyCredentials(String userEmail, String password) {
-        Map<String, Long> userProfile = new HashMap<>();
-        String queryString = "SELECT userID, userEmail " +
+        Map<Long, String> userProfile = new HashMap<>();
+        boolean check = false;
+
+        String queryString = "SELECT userID " +
                 "FROM userProfile " +
                 "WHERE userEmail = ? " +
                 "AND `password` = ? ";
@@ -37,11 +39,9 @@ public class UserProfileController extends NutriMonController {
             stmt.setString(2, password);
             rs = stmt.executeQuery();
 
-            List<Map<String, Object>> credentials = DBConnect.resultsList(rs);   // Get result set from DB
-
-            // Copy result set into map
-            for (Map<String, Object> users : credentials) {
-                userProfile.put((String) users.get("userEmail"), (Long) users.get("userID"));
+            if (rs.next()) {    // If exists
+                setUserId(rs.getLong(1));   // Retrieve userID
+                check = true;
             }
 
             rs.close();         // Close rs
@@ -52,14 +52,8 @@ public class UserProfileController extends NutriMonController {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
         }
 
-        if (userProfile.size() == 1) {
-            setUserId(userProfile.get(userEmail));
-            return true;
-        }
-
-        return false;
+        return check;
     }
-
 
     public void createProfile(String userName, String userEmail, String password) {
         String updateString = "INSERT INTO userProfile (userName, userEmail, `password`) " +
