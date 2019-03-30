@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancP_login_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #000000;" styleClass="lebe;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NMUserProfile.loginController">
+<AnchorPane fx:id="ancP_login_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="828.0" prefWidth="382.0" style="-fx-background-color: #000000;" styleClass="lebe;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.registerPageController">
     <children>
       <ImageView fitHeight="828.0" fitWidth="382.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -47,56 +47,43 @@
             <Image url="@img/NutriMon%20logo2x.png" />
          </image>
       </ImageView>
-        <Label fx:id="lbl_user_login" layoutX="35.0" layoutY="45.0" text="NutriMon" textFill="WHITE" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="128.0">
+        <Label layoutX="35.0" layoutY="45.0" text="NutriMon" textFill="WHITE" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="128.0">
             <font>
                 <Font name="Helvetica" size="45.0" />
             </font>
         </Label>
-      <Label fx:id="lbl_user_login1" layoutX="45.0" layoutY="138.0" text="Don't waste" textFill="WHITE" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="184.0">
+      <Label layoutX="45.0" layoutY="138.0" text="Don't waste" textFill="WHITE" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="184.0">
          <font>
             <Font name="Helvetica" size="30.0" />
          </font>
       </Label>
-      <Label fx:id="lbl_user_login11" layoutX="45.0" layoutY="194.0" text="it's time to eat!" textFill="WHITE" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="223.0">
+      <Label layoutX="45.0" layoutY="194.0" text="it's time to eat!" textFill="WHITE" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="223.0">
          <font>
             <Font name="Helvetica" size="30.0" />
          </font>
       </Label>
       <HBox layoutX="45.0" layoutY="340.0" prefHeight="45.0" prefWidth="307.0" style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="340.0">
          <children>
-            <TextField fx:id="txtF_email1" prefHeight="30.0" prefWidth="250.0" promptText="Your Name" style="-fx-background-color: transparent;" HBox.hgrow="NEVER">
-               <HBox.margin>
-                  <Insets top="7.0" />
-               </HBox.margin></TextField>
+            <TextField fx:id="txtF_name" prefHeight="60.0" prefWidth="331.0" promptText="Your Name" style="-fx-background-color: transparent;" />
          </children>
       </HBox>
         <HBox layoutX="35.0" layoutY="145.0" prefHeight="45.0" prefWidth="307.0" style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="392.5">
-            <children>
-                <TextField fx:id="txtF_email" prefHeight="30.0" prefWidth="250.0" promptText="Your Email" style="-fx-background-color: transparent;" HBox.hgrow="NEVER">
-               <HBox.margin>
-                  <Insets top="7.0" />
-               </HBox.margin></TextField>
-            </children>
+         <children>
+                <TextField fx:id="txtF_email" prefHeight="57.0" prefWidth="323.0" promptText="Your Email" style="-fx-background-color: transparent;" />
+         </children>
         </HBox>
         <HBox layoutX="35.0" layoutY="215.0" prefHeight="45.0" prefWidth="307.0" style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="445.0">
-            <children>
-                <PasswordField fx:id="pswdF_password" prefHeight="30.0" prefWidth="250.0" promptText="Your Password" style="-fx-background-color: transparent;">
-               <HBox.margin>
-                  <Insets top="7.0" />
-               </HBox.margin></PasswordField>
-            </children>
+         <children>
+                <PasswordField fx:id="pswdF_new_password" prefHeight="46.0" prefWidth="312.0" promptText="Your Password" style="-fx-background-color: transparent;" />
+         </children>
         </HBox>
       <HBox layoutX="45.0" layoutY="455.0" prefHeight="45.0" prefWidth="307.0" style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="497.5">
          <children>
-            <PasswordField fx:id="pswdF_password1" prefHeight="30.0" prefWidth="250.0" promptText="Confirm Password" style="-fx-background-color: transparent;">
-               <HBox.margin>
-                  <Insets top="7.0" />
-               </HBox.margin>
-            </PasswordField>
+            <PasswordField fx:id="pswdF_confirm_password" prefHeight="74.0" prefWidth="360.0" promptText="Confirm Password" style="-fx-background-color: transparent;" />
          </children>
       </HBox>
       <Line endX="192.32" layoutX="152.0" layoutY="555.0" stroke="WHITE" strokeWidth="2.0" AnchorPane.leftAnchor="94.5" AnchorPane.topAnchor="567.24" />
-      <Button fx:id="btn_login1" layoutX="89.0" layoutY="704.0" mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="55.0" prefWidth="214.0" style="-fx-background-color: #FBD249; -fx-background-radius: 27px;" text="HAVE AN ACCOUNT? LOGIN" textFill="WHITE" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+      <Button fx:id="btn_cancel" layoutX="89.0" layoutY="704.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="55.0" prefWidth="214.0" style="-fx-background-color: #FBD249; -fx-background-radius: 27px;" text="HAVE AN ACCOUNT? LOGIN" textFill="WHITE" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -104,7 +91,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-        <Button fx:id="btn_login" layoutX="35.0" layoutY="265.0" mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="55.0" prefWidth="0.0" style="-fx-background-color: #F5A623; -fx-background-radius: 27px;" text="CREATE ACCOUNT" textFill="WHITE" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="79.0" AnchorPane.rightAnchor="79.0">
+        <Button fx:id="btn_confirm" layoutX="35.0" layoutY="265.0" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="55.0" prefWidth="0.0" style="-fx-background-color: #F5A623; -fx-background-radius: 27px;" text="CREATE ACCOUNT" textFill="WHITE" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="79.0" AnchorPane.rightAnchor="79.0">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>

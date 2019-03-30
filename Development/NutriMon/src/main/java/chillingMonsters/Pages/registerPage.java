@@ -1,4 +1,4 @@
-package NMUserProfile;
+package chillingMonsters.Pages;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -22,7 +22,7 @@ public class registerPage {
 
             regStage.show();
 
-            System.out.println("INFO: Register page invoked");
+            System.out.println("Current page: Register Page");
 
         }
         catch (IOException e) {
@@ -42,7 +42,7 @@ public class registerPage {
 
             logStage.show();
 
-            System.out.println("INFO: Login page retrieved");
+            System.out.println("Current page: Login page (from register)");
 
         }
         catch (IOException e) {
