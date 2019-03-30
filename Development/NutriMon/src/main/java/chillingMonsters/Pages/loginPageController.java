@@ -36,31 +36,41 @@ public class loginPageController {
 
     @FXML
     void loginButtonAction(ActionEvent event) {
-        // Window alert = btn_login.getScene().getWindow();
         UserProfileController login = ControllerFactory.makeUserProfileController();
 
-        if (txtF_email.getText().isEmpty()) {
+        String email = txtF_email.getText();
+        if (email.isEmpty()) {
             AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please enter your Email");
             return;
         }
 
-        if (pswdF_password.getText().isEmpty()) {
+        if (email.indexOf('@') == -1) {
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "Invalid Email address");
+            return;
+        }
+
+        String password = pswdF_password.getText();
+        if (password.isEmpty()) {
             AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please enter your Password");
             return;
         }
 
-        if (!login.checkCredentials(txtF_email.getText(), pswdF_password.getText())) {
+        if (password.length() < 8) {
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "Your Password must contain at least 8 digits");
+            return;
+        }
+
+        if (!login.verifyCredentials(email, password)) {
             AlertHandler.showAlert(Alert.AlertType.ERROR, "Login Failed...", "Your User name or password combination doesn't exist");
             return;
         }
 
         AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Welcome back!", "Success!");
-        // Platform.exit(); // close the window -- for testing purposes
+        System.out.println(login.getUserId());
     }
 
     @FXML
     void registerButtonAction(ActionEvent event) {
-        //Window alert = btn_register.getScene().getWindow();
         registerPage regPage = new registerPage();
 
         regPage.startPage(event);
@@ -74,6 +84,5 @@ public class loginPageController {
         assert ancP_login_main != null : "fx:id=\"ancP_login_main\" was not injected: check your FXML file 'login.fxml'.";
         assert txtF_email != null : "fx:id=\"txtF_user_name\" was not injected: check your FXML file 'login.fxml'.";
         assert btn_login != null : "fx:id=\"btn_login\" was not injected: check your FXML file 'login.fxml'.";
-
     }
 }

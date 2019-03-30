@@ -26,6 +26,10 @@ public abstract class NutriMonController implements Controller {
         userId = id;
     }
 
+    public long getUserId() {
+        return userId;
+    }
+
     public List<Map<String, Object>> show() {
         List<Map<String,Object>> output = new ArrayList<>();
         try {

@@ -23,9 +23,9 @@ public class UserProfileController extends NutriMonController {
      * @param password  input password
      * @return true if email and password pair is found
      */
-    public boolean checkCredentials(String userEmail, String password) {
-        Map<String, String> userProfile = new HashMap<>();
-        String queryString = "SELECT userEmail, `password` " +
+    public boolean verifyCredentials(String userEmail, String password) {
+        Map<String, Long> userProfile = new HashMap<>();
+        String queryString = "SELECT userID, userEmail " +
                 "FROM userProfile " +
                 "WHERE userEmail = ? " +
                 "AND `password` = ? ";
@@ -41,7 +41,7 @@ public class UserProfileController extends NutriMonController {
 
             // Copy result set into map
             for (Map<String, Object> users : credentials) {
-                userProfile.put((String) users.get("userEmail"), (String) users.get("password"));
+                userProfile.put((String) users.get("userEmail"), (Long) users.get("userID"));
             }
 
             rs.close();         // Close rs
@@ -52,7 +52,12 @@ public class UserProfileController extends NutriMonController {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
         }
 
-        return userProfile.size() == 1;
+        if (userProfile.size() == 1) {
+            setUserId(userProfile.get(userEmail));
+            return true;
+        }
+
+        return false;
     }
 
 
