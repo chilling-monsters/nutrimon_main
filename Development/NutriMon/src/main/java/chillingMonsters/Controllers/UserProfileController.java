@@ -56,33 +56,6 @@ public class UserProfileController extends NutriMonController {
     }
 
 
-    public boolean exists(String table, String attr, String record) {
-        boolean check = false;
-
-        String queryString = "SELECT " + attr + " FROM " + table +
-                " WHERE " + attr + " = ? ";
-        try {
-            ResultSet rs;   // Result set
-
-            PreparedStatement stmt = DBConnect.getConnection().prepareStatement(queryString);
-            stmt.setString(1, record);
-
-            rs = stmt.executeQuery();   // Statement execution
-
-            check = rs.next();
-
-            rs.close();         // Close rs
-            stmt.close();       // Close stmt
-            DBConnect.close();   // Close DB
-
-        } catch (SQLException e) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
-        }
-
-        return check;
-    }
-
-
     public void createProfile(String userName, String userEmail, String password) {
         String updateString = "INSERT INTO userProfile (userName, userEmail, `password`) " +
                     "VALUES (?, ?, ?)";

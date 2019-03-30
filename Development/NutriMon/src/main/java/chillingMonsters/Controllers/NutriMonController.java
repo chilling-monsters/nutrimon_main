@@ -124,4 +124,30 @@ public abstract class NutriMonController implements Controller {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, "Failed insert", e);
         }
     }
+
+    public boolean exists(String table, String attr, String record) {
+        boolean check = false;
+
+        String queryString = "SELECT " + attr + " FROM " + table +
+                " WHERE " + attr + " = ? ";
+        try {
+            ResultSet rs;   // Result set
+
+            PreparedStatement stmt = DBConnect.getConnection().prepareStatement(queryString);
+            stmt.setString(1, record);
+
+            rs = stmt.executeQuery();   // Statement execution
+
+            check = rs.next();
+
+            rs.close();         // Close rs
+            stmt.close();       // Close stmt
+            DBConnect.close();   // Close DB
+
+        } catch (SQLException e) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+
+        return check;
+    }
 }
