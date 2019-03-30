@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancP_login_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #000000;" styleClass="lebe;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.loginPageController">
+<AnchorPane fx:id="ancP_login_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="828.0" prefWidth="382.0" style="-fx-background-color: #000000;" styleClass="lebe;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.loginPageController">
     <children>
-      <ImageView fitHeight="828.0" fitWidth="382.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fitHeight="828.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@img/loginBG.jpg" />
          </image>
@@ -55,17 +62,17 @@
             <Font name="Helvetica" size="30.0" />
          </font>
       </Label>
-        <HBox layoutX="35.0" layoutY="145.0" prefHeight="45.0" prefWidth="307.0" style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="285.0">
+        <HBox layoutX="35.0" layoutY="145.0" prefHeight="45.0" prefWidth="307.0" style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="340.0">
          <children>
                 <TextField fx:id="txtF_email" prefHeight="52.0" prefWidth="317.0" promptText="Your Email" style="-fx-background-color: transparent;" />
          </children>
         </HBox>
-        <HBox layoutX="35.0" layoutY="215.0" prefHeight="45.0" prefWidth="307.0" style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="337.5">
+        <HBox layoutX="35.0" layoutY="215.0" prefHeight="45.0" prefWidth="307.0" style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="392.5">
          <children>
                 <PasswordField fx:id="pswdF_password" prefHeight="49.0" prefWidth="323.0" promptText="Your Password" style="-fx-background-color: transparent;" />
          </children>
         </HBox>
-      <Line endX="192.32" layoutX="152.0" layoutY="555.0" stroke="WHITE" strokeWidth="2.0" AnchorPane.leftAnchor="94.5" AnchorPane.topAnchor="407.0" />
+      <Line endX="192.32" layoutX="152.0" layoutY="555.0" stroke="WHITE" strokeWidth="2.0" AnchorPane.leftAnchor="94.5" AnchorPane.topAnchor="567.24" />
       <Button fx:id="btn_register" layoutX="89.0" layoutY="704.0" mnemonicParsing="false" onAction="#registerButtonAction" prefHeight="55.0" prefWidth="214.0" style="-fx-background-color: #FBD249; -fx-background-radius: 27px;" text="FIRST TIME HERE? REGISTER" textFill="WHITE" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0">
          <cursor>
             <Cursor fx:constant="HAND" />
