@@ -12,7 +12,7 @@ public class registerPage {
 
     public void startPage(ActionEvent event) {
         try {
-            Parent regRoot = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml"));
+            Parent regRoot = FXMLLoader.load(getClass().getClassLoader().getResource("registerPage/register.fxml"));
 
             Scene regScene = new Scene(regRoot);
 
@@ -32,7 +32,7 @@ public class registerPage {
 
     public void backToLogin(ActionEvent event) {
         try {
-            Parent logRoot = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
+            Parent logRoot = FXMLLoader.load(getClass().getClassLoader().getResource("loginPage/login.fxml"));
 
             Scene logScene = new Scene(logRoot);
 
