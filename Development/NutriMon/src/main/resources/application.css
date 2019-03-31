@@ -1,1 +1,13 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.screenPane {
+    -fx-pref-width: 360px;
+    -fx-pref-height: 740px;
+}
+.detailCardPane {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 90px;
+}
+.entryCardPane {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 60px;
+}
