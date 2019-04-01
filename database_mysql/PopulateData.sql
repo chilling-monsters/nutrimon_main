@@ -25,7 +25,7 @@ update ingredients set expTime = NULL where expTime = 999999;
 
 delimiter //
 
-DROP PROCEDURE IF EXISTS wipe_db;
+DROP PROCEDURE IF EXISTS wipe_db //
 CREATE PROCEDURE wipe_db ()
 BEGIN
 	SET SQL_SAFE_UPDATES = 0;
@@ -40,7 +40,7 @@ BEGIN
     SET SQL_SAFE_UPDATES = 1;
 END //
 
-DROP TRIGGER IF EXISTS set_exp;
+DROP TRIGGER IF EXISTS set_exp //
 CREATE TRIGGER set_exp BEFORE INSERT ON stockitems
 FOR EACH ROW
 BEGIN
@@ -51,7 +51,7 @@ BEGIN
 	END IF;
 END //
 
-DROP PROCEDURE IF EXISTS make_user;
+DROP PROCEDURE IF EXISTS make_user //
 CREATE PROCEDURE make_user(
 	id BIGINT,
     name varchar(45),
@@ -64,7 +64,7 @@ BEGIN
 	UPDATE userprofile SET userID = id WHERE userName = name;
 END //
 
-DROP PROCEDURE IF EXISTS make_recipe;
+DROP PROCEDURE IF EXISTS make_recipe //
 CREATE PROCEDURE make_recipe(
 	id BIGINT,
     name VARCHAR(45),
@@ -79,7 +79,7 @@ BEGIN
 	UPDATE recipes SET recipeID = ID WHERE recipeName = NAME AND userID = creator;
 END //
 
-DROP PROCEDURE IF EXISTS make_stock;
+DROP PROCEDURE IF EXISTS make_stock //
 CREATE PROCEDURE make_stock(
 	id BIGINT,
 	food BIGINT,
@@ -92,7 +92,7 @@ BEGIN
 	UPDATE stockitems SET stockItemID = id WHERE foodID = food AND foodQtty = quantity AND userID = user;
 END //
 
-DROP PROCEDURE IF EXISTS make_intake;
+DROP PROCEDURE IF EXISTS make_intake //
 CREATE PROCEDURE make_intake(
 	id BIGINT,
     intaker BIGINT,
@@ -147,21 +147,10 @@ BEGIN
 	CALL make_stock(3, 5146, 1200, 1);
 	CALL make_stock(4, 6152, 800, 1);
 	CALL make_stock(5, 4529, 9000, 1);
-    CALL make_stock(6, 6754, 100, 1);
-    CALL make_stock(7, 8566, 459, 1);
-	CALL make_stock(8, 4529, 796, 1);
-    CALL make_stock(9, 2863, 3302, 1);
-    CALL make_stock(10, 1888, 2398, 1);
-    CALL make_stock(11, 1884, 2036, 1);
-    CALL make_stock(12, 5471, 1033, 1);
-    CALL make_stock(13, 6679, 524, 1);
-    CALL make_stock(14, 9231, 3892, 1);
-    CALL make_stock(15, 300, 810, 1);
-    CALL make_stock(16, 45, 135, 1);
-    CALL make_stock(17, 7012, 109, 1);
-    CALL make_stock(18, 1990, 6917, 1);
-    CALL make_stock(19, 4054, 2388, 1);
-    CALL make_stock(20, 1433, 223, 1);
+    CALL make_stock(6, 8566, 459, 1);
+	CALL make_stock(7, 4529, 796, 1);
+    CALL make_stock(8, 1003, 500, 1);
+    CALL make_stock(0, 1001, 2000, 1);
     
 
 	CALL make_recipe(1, 'Teriyaki Chicken', CURDATE(), 1, 'Mix the sauces.  Marinate chicken for an hour.  Throw chicken in a skillet for 5 minutes on each side. Eat.', 'public');
@@ -181,14 +170,14 @@ BEGIN
     CALL make_recipe(15, 'Hamburger Stroganoff', CURDATE(), 17, 'Mix brown gravy, cream cheese, and mushrooms with hamburger, stirring until cream cheese melts. Add milk, sour cream, and mushroom soup to cooked pasta. Blend hamburger mixture with pasta', 'public');
     CALL make_recipe(16, 'Baked Kale Chips', CURDATE(), 19, 'With a knife or kitchen shears carefully remove the leaves from the thick stems and tear into bite size pieces. Drizzle kale with olive oil and sprinkle with seasoning salt.', 'public');
     CALL make_recipe(17, 'Easy Tuna Casserole', CURDATE(), 20, 'Combine the macaroni, tuna, and soup. Mix well, and then top with cheese.', 'public');
-    CALL make_recipe(18, 'Roasted Butternut Squash', CURDATE(), 21, 'Toss butternut squash with olive oil and garlic in a large bowl. Season with salt and black pepper. Arrange coated squash on a baking sheet', 'public');
-    CALL make_recipe(19, 'Pesto Cheesy Chicken Rolls', CURDATE(), 22, 'Spread 2 to 3 tablespoons of the pesto sauce onto each flattened chicken breast. Place one slice of cheese over the pesto. Roll up tightly, and secure with toothpicks. ', 'public');
-    CALL make_recipe(20, 'Yummy Pork Chops', CURDATE(), 23, 'Place the pork chops in a skillet over medium heat, and cover with the dressing mixture. Cover skillet, and cook pork chops 25 minutes, turning occasionally. ', 'public');
-    CALL make_recipe(21, 'Vanilla Ice Cream', CURDATE(), 24, 'Combine half-and-half, cream, sugar, vanilla and salt in freezer container of ice cream maker. Freeze according to manufacturers instructions.', 'public');
-    CALL make_recipe(22, 'Corn on the Cob', CURDATE(), 25, 'Gently place ears of corn into boiling water, cover the pot, turn off the heat, and let the corn cook in the hot water until tender, about 10 minutes.', 'public');
-    CALL make_recipe(23, 'Ground Beef Curly Noodle', CURDATE(), 26, 'Stir in the flavor packet from the noodles, tomatoes, and corn (with their juices). Break up the noodles slightly, and add them to the skillet. Bring to a boil, then reduce heat to low, cover, and simmer for 10 minutes, or until noodles are tender. ', 'public');
-    CALL make_recipe(24, 'Baked Zucchini Fries', CURDATE(), 27, 'Working in batches, dip zucchini strips into egg mixture, shake to remove any excess, and roll strips in bread crumb mixture to coat. Transfer coated zucchini strips to the prepared baking sheet.', 'public');
-    CALL make_recipe(25, 'Glazed Carrots', CURDATE(), 27, 'Melt butter in the same saucepan; stir brown sugar, salt, and white pepper into butter until brown sugar and salt have dissolved. Transfer carrots into brown sugar sauce; cook and stir until carrots are glazed with sauce, about 5 more minutes.', 'public');
+    CALL make_recipe(18, 'Roasted Butternut Squash', CURDATE(), 11, 'Toss butternut squash with olive oil and garlic in a large bowl. Season with salt and black pepper. Arrange coated squash on a baking sheet', 'public');
+    CALL make_recipe(19, 'Pesto Cheesy Chicken Rolls', CURDATE(), 12, 'Spread 2 to 3 tablespoons of the pesto sauce onto each flattened chicken breast. Place one slice of cheese over the pesto. Roll up tightly, and secure with toothpicks. ', 'public');
+    CALL make_recipe(20, 'Yummy Pork Chops', CURDATE(), 13, 'Place the pork chops in a skillet over medium heat, and cover with the dressing mixture. Cover skillet, and cook pork chops 25 minutes, turning occasionally. ', 'public');
+    CALL make_recipe(21, 'Vanilla Ice Cream', CURDATE(), 14, 'Combine half-and-half, cream, sugar, vanilla and salt in freezer container of ice cream maker. Freeze according to manufacturers instructions.', 'public');
+    CALL make_recipe(22, 'Corn on the Cob', CURDATE(), 15, 'Gently place ears of corn into boiling water, cover the pot, turn off the heat, and let the corn cook in the hot water until tender, about 10 minutes.', 'public');
+    CALL make_recipe(23, 'Ground Beef Curly Noodle', CURDATE(), 16, 'Stir in the flavor packet from the noodles, tomatoes, and corn (with their juices). Break up the noodles slightly, and add them to the skillet. Bring to a boil, then reduce heat to low, cover, and simmer for 10 minutes, or until noodles are tender. ', 'public');
+    CALL make_recipe(24, 'Baked Zucchini Fries', CURDATE(), 17, 'Working in batches, dip zucchini strips into egg mixture, shake to remove any excess, and roll strips in bread crumb mixture to coat. Transfer coated zucchini strips to the prepared baking sheet.', 'public');
+    CALL make_recipe(25, 'Glazed Carrots', CURDATE(), 17, 'Melt butter in the same saucepan; stir brown sugar, salt, and white pepper into butter until brown sugar and salt have dissolved. Transfer carrots into brown sugar sauce; cook and stir until carrots are glazed with sauce, about 5 more minutes.', 'public');
     
 
 	INSERT INTO recipeingredients (foodID, recipeID, ingredientQtty) VALUES 
@@ -208,18 +197,37 @@ BEGIN
 		(1, 2, 1), (3, 3, 2);
     
     INSERT INTO foodintake VALUES
-		(2, 200, 1081),(4, 500, 1081),(5, 300, 4054);
+		(2, 200, 1081),(4, 500, 1081),(5, 300, 1041);
     
     SET SQL_SAFE_UPDATES = 1;
 END //
 
-delimiter ;
-DESCRIBE STOCKITEMS;
-INSERT INTO stockitems VALUES(1001, 1, NULL, 1, 1);
+DROP PROCEDURE IF EXISTS canBeMade //
+CREATE PROCEDURE canBeMade
+(
+	user BIGINT(20),
+    recipe BIGINT(20)
+)
+BEGIN
+	DECLARE servings INT;
 
-alter table stockitems
-	MODIFY COLUMN foodExpDate DATETIME;
-    
-SELECT * FROM stockitems;
+	SELECT MIN(IFNULL(stockQtty / recipeQtty, 0)) INTO servings
+	FROM
+		(SELECT foodID, ingredientQtty as 'recipeQtty'
+		FROM recipeingredients
+		WHERE recipeID = recipe) recipeIngredients
+		LEFT JOIN
+		(SELECT foodID, sum(foodQtty) as 'stockQtty'
+		FROM stockitems
+		WHERE userID = user
+		GROUP BY foodID) stockIngredients
+		USING(foodID);
+        
+	SELECT servings;
+END // 
+
+delimiter ;
 
 CALL init_db();
+
+CALL canBeMade(1, 2);

@@ -17,55 +17,11 @@ public class StockController extends NutriMonController {
         super("stockitems", "stockItemID");
     }
 
-    /**
-     * Return number of servings of a recipe that can be made from user's stock.
-     *
-     * @param recipeIngredients map of the food ids and quantities that make up a recipe.
-     * @return number of servings that can be made
-     */
-    public int includesIngredients(Map<Integer, Float> recipeIngredients) {
-        Map<Integer, Float> stockIngredients = new HashMap<>();
-        String queryString = "Select foodID, sum(sQuantity) AS 'quantity' " +
-                "FROM stockitems " +
-                "WHERE userID = ? " +
-                "GROUP BY foodID";
-        try {
-            ResultSet rs;
-            try (PreparedStatement stmt = DBConnect.getConnection()
-                    .prepareStatement(queryString)) {
-                stmt.setLong(1, userId);
-                rs = stmt.executeQuery();
-            }
-            List<Map<String, Object>> stock = DBConnect.resultsList(rs);
-            for (Map<String, Object> stockItem : stock) {
-                stockIngredients.put((Integer)stockItem.get("foodID"), (Float)stockItem.get("quantity"));
-            }
-            rs.close();
-            DBConnect.close();
-        } catch (SQLException e) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
-        }
-        if (recipeIngredients.size() > stockIngredients.size()) {
-            return 0;
-        }
-        int servings = 0;
-        for (Map.Entry<Integer, Float> ingredient : recipeIngredients.entrySet()) {
-            if (stockIngredients.containsKey(ingredient.getKey())) {
-                servings = Math.max(servings,
-                        Math.round(stockIngredients.get(ingredient.getKey()) / ingredient.getValue())
-                );
-            } else {
-                return 0;
-            }
-        }
-        return servings;
-    }
-
     public List<Map<String, Object>> showStock() {
         List<Map<String, Object>> stocks = new ArrayList<>();
         String query = "SELECT foodID, foodName, " +
                 "sum(foodQtty) as 'quantity', " +
-                "min(foodExpDate) as 'next_exp', " +
+                "min(foodExpDate) as 'next_exp' " +
                 "FROM stockitems JOIN ingredients using(foodID) " +
                 "WHERE userID = ? " +
                 "GROUP BY foodID " +
@@ -87,7 +43,7 @@ public class StockController extends NutriMonController {
         List<Map<String, Object>> stocks = new ArrayList<>();
         String query = "SELECT stockItemID, foodID, foodName, " +
                 "foodQtty as 'quantity', " +
-                "foodExpDate, " +
+                "foodExpDate " +
                 "FROM stockitems JOIN ingredients using(foodID) " +
                 "WHERE userID = ? AND foodID = ? " +
                 "ORDER BY foodExpDate ASC";
