@@ -48,7 +48,7 @@ public abstract class DBConnect {
         String dbname = test ? TEST_DB_NAME : DB_NAME;
         try {
             Class.forName(driver);
-            con = DriverManager.getConnection(String.format("%s%s?useSSL=false", host, dbname), username, password);
+            con = DriverManager.getConnection(String.format("%s%s?allowPublicKeyRetrieval=true&useSSL=false", host, dbname), username, password);
 
             System.out.println("Database Connection Established...");
 
