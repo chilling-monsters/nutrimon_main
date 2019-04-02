@@ -3,6 +3,7 @@ package chillingMonsters.Pages.registerPage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import chillingMonsters.Pages.stockPage.stockPage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,18 +11,8 @@ import chillingMonsters.AlertHandler;
 import chillingMonsters.Controllers.*;
 
 public class registerPageController {
-
-    @FXML // ResourceBundle that was given to the FXMLLoader
-    private ResourceBundle resources;
-
-    @FXML // URL location of the FXML file that was given to the FXMLLoader
-    private URL location;
-
-    @FXML // fx:id="txtF_confirm_password"
+    @FXML // fx:id="pswdF_confirm_password"
     private TextField pswdF_confirm_password; // Value injected by FXMLLoader
-
-    @FXML // fx:id="choiceB_gender"
-    private ChoiceBox choiceB_gender; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtF_email"
     private TextField txtF_email; // Value injected by FXMLLoader
@@ -35,7 +26,7 @@ public class registerPageController {
     @FXML // fx:id="txtF_name"
     private TextField txtF_name; // Value injected by FXMLLoader
 
-    @FXML // fx:id="txtF_new_password"
+    @FXML // fx:id="pswdF_new_password"
     private TextField pswdF_new_password; // Value injected by FXMLLoader
 
 
@@ -92,10 +83,11 @@ public class registerPageController {
 
         // Update database
         register.createProfile(name, email, new_password);
-
-        /* TODO: Go to landing page */
-
         AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Success!", "Your profile has been created. Welcome to Nutrimon!");
+
+        /* TODO: Go to stock page */
+        stockPage stockPage = new stockPage();
+        stockPage.startPage(event);
     }
 
     @FXML
@@ -110,7 +102,6 @@ public class registerPageController {
     void initialize() {
 
         assert pswdF_confirm_password != null : "fx:id=\"txtF_confirm_password\" was not injected: check your FXML file 'register.fxml'.";
-        assert choiceB_gender != null : "fx:id=\"choiceB_gender\" was not injected: check your FXML file 'register.fxml'.";
         assert txtF_email != null : "fx:id=\"txtF_email\" was not injected: check your FXML file 'register.fxml'.";
         assert btn_cancel != null : "fx:id=\"btn_cancel\" was not injected: check your FXML file 'register.fxml'.";
         assert btn_confirm != null : "fx:id=\"btn_confirm\" was not injected: check your FXML file 'register.fxml'.";

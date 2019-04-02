@@ -4,10 +4,10 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import chillingMonsters.Pages.stockPage.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF;" styleClass="screenPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF;" styleClass="screenPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.stockPage.stockPageController">
    <children>
       <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="76.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="45.0">
          <image>
@@ -23,6 +23,6 @@
             <Font name="Helvetica" size="20.0" />
          </font>
       </Label>
-      <StockCardComponent layoutX="30.0" layoutY="130.0" />
+      <VBox fx:id="cardList" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="130.0" />
    </children>
 </AnchorPane>
