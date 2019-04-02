@@ -226,8 +226,60 @@ BEGIN
 	SELECT servings;
 END // 
 
+DROP FUNCTION IF EXISTS calcRecipeIntakeCalories //
+CREATE FUNCTION calcRecipeIntakeCalories
+(
+	intake BIGINT(20)
+)
+RETURNS INT DETERMINISTIC
+BEGIN
+    DECLARE Calories INT;
+
+    SELECT sum(fCalories * ingredientQtty / 100) * serving INTO Calories 
+    FROM recipeintake JOIN recipeingredients USING(recipeID)
+		JOIN ingredients USING(foodID)
+    WHERE intakeID = intake;
+    
+    RETURN Calories;
+END // 
+
+DROP FUNCTION IF EXISTS calcFoodIntakeCalories //
+CREATE FUNCTION calcFoodIntakeCalories
+(
+	intake BIGINT(20)
+)
+RETURNS INT DETERMINISTIC
+BEGIN
+	DECLARE Calories INT;
+	
+	SELECT fCalories * (intakeQtty / 100) INTO Calories
+    FROM foodintake JOIN ingredients USING(foodID)
+    WHERE intakeID = intake;
+    
+    RETURN Calories;
+END //
+
+DROP PROCEDURE IF EXISTS getIntakes //
+CREATE PROCEDURE getIntakes
+(
+	user BIGINT(20)
+)
+BEGIN
+	SELECT * FROM
+		(SELECT intakeID, serving, recipeID, NULL as intakeQtty, NULL as foodID, 'recipe' as type,
+			CAST(intakeDate as DATE) as 'date', CAST(intakeDate as TIME) as 'time',
+            calcRecipeIntakeCalories(intakeID) as 'Calories'
+		FROM recipeintake JOIN userintake USING(intakeID)
+        WHERE userID = user
+		UNION
+		SELECT intakeID, NULL as serving, NULL as recipeID, intakeQtty, foodID, 'stock' as type,
+			CAST(intakeDate as DATE) as 'date', CAST(intakeDate as TIME) as 'time',
+            calcFoodIntakeCalories(intakeID) as 'Calories'
+		FROM foodintake JOIN userintake USING(intakeID)
+        WHERE userID = user) intakes
+	ORDER BY date DESC, time;
+END //
+
 delimiter ;
 
 CALL init_db();
-
-CALL canBeMade(1, 2);
