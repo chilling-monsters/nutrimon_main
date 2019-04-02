@@ -55,8 +55,6 @@ public class loginPageController {
             return;
         }
 
-        AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Welcome back!", "Success!");
-
         System.out.println("User logged in with ID: " + login.getUserId());
 
         /* TODO: Landing Page */

@@ -10,7 +10,7 @@ import java.io.IOException;
 public class StockCardComponent extends AnchorPane {
   private final int foodID = 0;
   private final String foodName = "Dumb dumb dumb";
-  private final int amount = 0;
+  private final float amount = 0;
   private final int minExpDate = 0;
 
   @FXML
@@ -22,7 +22,7 @@ public class StockCardComponent extends AnchorPane {
   @FXML
   private Label cardExpDate;
 
-  public StockCardComponent() {
+  public StockCardComponent(/*int foodID, String name, float amount, int minExpDate*/) {
     super();
 
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/stockPage/stockCard.fxml"));
@@ -37,7 +37,7 @@ public class StockCardComponent extends AnchorPane {
     }
 
     cardName.setText(foodName);
-    cardAmount.setText(Integer.toString(amount));
-    cardExpDate.setText(Integer.toString(minExpDate));
+    cardAmount.setText(String.format("%.1f servings", amount));
+    cardExpDate.setText(String.format("%d days", minExpDate));
   }
 }

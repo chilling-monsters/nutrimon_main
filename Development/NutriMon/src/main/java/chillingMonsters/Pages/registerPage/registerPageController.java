@@ -83,7 +83,6 @@ public class registerPageController {
 
         // Update database
         register.createProfile(name, email, new_password);
-        AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Success!", "Your profile has been created. Welcome to Nutrimon!");
 
         /* TODO: Go to stock page */
         stockPage stockPage = new stockPage();
