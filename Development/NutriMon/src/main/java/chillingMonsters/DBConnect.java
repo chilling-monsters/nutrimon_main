@@ -48,7 +48,7 @@ public abstract class DBConnect {
         String dbname = test ? TEST_DB_NAME : DB_NAME;
         try {
             Class.forName(driver);
-            con = DriverManager.getConnection(String.format("%s%s?useSSL=false", host, dbname), username, password);
+            con = DriverManager.getConnection(String.format("%s%s?allowPublicKeyRetrieval=true&useSSL=false", host, dbname), username, password);
 
             System.out.println("Database Connection Established...");
 
@@ -86,14 +86,18 @@ public abstract class DBConnect {
         return con;
     }
 
-    public static void close() throws SQLException {
-        if (con != null && !con.isClosed()) {
+    public static void close() {
+        try {
+          if (con != null && !con.isClosed()) {
             con.close();
+          }
+          System.out.println("Database Connection Closed");
+        } catch (SQLException e) {
+          Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, "Connection failed to close", e);
         }
-        System.out.println("Database Connection Closed");
     }
 
-    public static void toggleTest() throws SQLException {
+    public static void toggleTest() {
         close();
         test = !test;
     }

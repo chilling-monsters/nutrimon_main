@@ -5,6 +5,8 @@ import java.util.Map;
 
 public interface Controller {
 
+    List<Map<String, Object>> show();
+
     Map<String, Object> get(long id);
 
     void create(Map<String, Object> attributes);
