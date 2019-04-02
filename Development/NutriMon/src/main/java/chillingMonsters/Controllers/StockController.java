@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -17,7 +16,8 @@ public class StockController extends NutriMonController {
         super("stockitems", "stockItemID");
     }
 
-    public List<Map<String, Object>> showStock() {
+    @Override
+    public List<Map<String, Object>> show() {
         List<Map<String, Object>> stocks = new ArrayList<>();
         String query = "SELECT foodID, foodName, " +
                 "sum(foodQtty) as 'quantity', " +
@@ -39,7 +39,7 @@ public class StockController extends NutriMonController {
         return stocks;
     }
 
-    public List<Map<String, Object>> showStockIngredient(int foodId) {
+    public List<Map<String, Object>> showStockIngredient(long foodId) {
         List<Map<String, Object>> stocks = new ArrayList<>();
         String query = "SELECT stockItemID, foodID, foodName, " +
                 "foodQtty as 'quantity', " +
@@ -50,7 +50,7 @@ public class StockController extends NutriMonController {
         try {
             try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
                 stmt.setLong(1, userId);
-                stmt.setInt(2, foodId);
+                stmt.setLong(2, foodId);
                 ResultSet rs = stmt.executeQuery();
                 stocks = DBConnect.resultsList(rs);
                 DBConnect.close();

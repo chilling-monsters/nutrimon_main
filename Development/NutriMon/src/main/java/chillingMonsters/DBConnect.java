@@ -86,14 +86,18 @@ public abstract class DBConnect {
         return con;
     }
 
-    public static void close() throws SQLException {
-        if (con != null && !con.isClosed()) {
+    public static void close() {
+        try {
+          if (con != null && !con.isClosed()) {
             con.close();
+          }
+          System.out.println("Database Connection Closed");
+        } catch (SQLException e) {
+          Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, "Connection failed to close", e);
         }
-        System.out.println("Database Connection Closed");
     }
 
-    public static void toggleTest() throws SQLException {
+    public static void toggleTest() {
         close();
         test = !test;
     }
