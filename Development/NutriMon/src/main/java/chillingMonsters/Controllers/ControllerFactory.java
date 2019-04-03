@@ -5,7 +5,7 @@ public abstract class ControllerFactory {
   private static UserProfileController loginControl = null;
   //  private static RecipeController recipeControl = null;
   private static IngredientController ingredientControl = null;
-//  private static IntakeController intakeControl = null;
+  private static IntakeController intakeControl = null;
 
   public static StockController makeStockController() {
     if (stockControl == null) {
@@ -26,5 +26,12 @@ public abstract class ControllerFactory {
       ingredientControl = new IngredientController();
     }
     return ingredientControl;
+  }
+
+  public static IntakeController makeIntakeController() {
+    if (intakeControl == null) {
+      intakeControl = new IntakeController();
+    }
+    return intakeControl;
   }
 }

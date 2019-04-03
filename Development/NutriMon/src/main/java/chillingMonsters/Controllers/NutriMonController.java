@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import chillingMonsters.DBConnect;
 
 public abstract class NutriMonController {
-    static long userId;
+    static long userId = 1;
     private final String table;
     private final String pk;
 
@@ -26,7 +26,7 @@ public abstract class NutriMonController {
         userId = id;
     }
 
-    static long getUserId() { return userId; }
+    public static long getUserId() { return userId; }
 
     List<Map<String, Object>> show() {
         List<Map<String,Object>> output = new ArrayList<>();

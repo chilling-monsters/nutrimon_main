@@ -23,6 +23,12 @@ update ingredients set fProtein = NULL where fProtein = 999999;
 update ingredients set fCalories = NULL where fCalories = 999999;
 update ingredients set expTime = NULL where expTime = 999999;
 
+DROP TRIGGER IF EXISTS userIntake_BEFORE_INSERT;
+ALTER TABLE recipeintake DROP FOREIGN KEY fk_recipeIntake_userIntake;
+ALTER TABLE foodintake DROP FOREIGN KEY fk_foodIntake_userIntake;
+ALTER TABLE userintake MODIFY COLUMN intakeID BIGINT(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE recipeintake ADD CONSTRAINT fk_recipeIntake_userIntake FOREIGN KEY (intakeID) REFERENCES userintake (intakeID);
+ALTER TABLE foodintake ADD CONSTRAINT fk_foodIntake_userIntake FOREIGN KEY (intakeID) REFERENCES userintake (intakeID);
 delimiter //
 
 DROP PROCEDURE IF EXISTS wipe_db //
@@ -49,6 +55,13 @@ BEGIN
 		SELECT expTime INTO lifetime FROM ingredients WHERE foodID = NEW.foodID;
         SET NEW.foodExpDate = DATE_ADD(CURDATE(), INTERVAL lifetime DAY);
 	END IF;
+END //
+
+DROP TRIGGER IF EXISTS set_intake_date //
+CREATE TRIGGER set_intake_date BEFORE INSERT ON userintake
+FOR EACH ROW
+BEGIN
+	SET NEW.intakeDate = IFNULL(NEW.intakeDate, CURTIME());
 END //
 
 DROP PROCEDURE IF EXISTS make_user //
@@ -185,29 +198,17 @@ BEGIN
 		(4575, 3, 1000), (19296, 3, 20), 
 		(1003, 2, 200), (1001, 2, 750),
 		(16424, 1, 324), (5059, 1, 1200);
-		
-	CALL make_intake(1, 1, '2019-01-01 00:00:01');
-    CALL make_intake(2, 1, '2019-01-08 00:00:01');
-    CALL make_intake(3, 1, '2019-01-09 00:00:01');
-    
-    CALL make_intake(4, 2, CURTIME());
-    CALL make_intake(5, 8, CURTIME());
-    
-    INSERT INTO recipeintake VALUES
-		(1, 2, 1), (3, 3, 2);
-    
-    INSERT INTO foodintake VALUES
-		(2, 200, 1081),(4, 500, 1081),(5, 300, 1041);
     
     SET SQL_SAFE_UPDATES = 1;
 END //
 
-DROP PROCEDURE IF EXISTS canBeMade //
-CREATE PROCEDURE canBeMade
+DROP FUNCTION IF EXISTS canBeMade //
+CREATE FUNCTION canBeMade
 (
 	user BIGINT(20),
     recipe BIGINT(20)
 )
+RETURNS INT DETERMINISTIC
 BEGIN
 	DECLARE servings INT;
 
@@ -223,8 +224,24 @@ BEGIN
 		GROUP BY foodID) stockIngredients
 		USING(foodID);
         
-	SELECT servings;
+	RETURN servings;
 END // 
+
+DROP FUNCTION IF EXISTS haveStock//
+CREATE FUNCTION haveStock
+(
+	user BIGINT(20),
+    food BIGINT(20),
+    quantity float(10,3)
+)
+RETURNS TINYINT DETERMINISTIC
+BEGIN
+	DECLARE ans TINYINT;
+    SELECT sum(foodQtty) >= quantity INTO ans
+    FROM stockitems
+    WHERE foodID = food AND userID = user;
+    RETURN ans;
+END //
 
 DROP FUNCTION IF EXISTS calcRecipeIntakeCalories //
 CREATE FUNCTION calcRecipeIntakeCalories
@@ -238,7 +255,8 @@ BEGIN
     SELECT sum(fCalories * ingredientQtty / 100) * serving INTO Calories 
     FROM recipeintake JOIN recipeingredients USING(recipeID)
 		JOIN ingredients USING(foodID)
-    WHERE intakeID = intake;
+    WHERE intakeID = intake
+    GROUP BY recipeID;
     
     RETURN Calories;
 END // 
@@ -259,8 +277,8 @@ BEGIN
     RETURN Calories;
 END //
 
-DROP PROCEDURE IF EXISTS getIntakes //
-CREATE PROCEDURE getIntakes
+DROP PROCEDURE IF EXISTS get_intakes //
+CREATE PROCEDURE get_intakes
 (
 	user BIGINT(20)
 )
@@ -277,7 +295,103 @@ BEGIN
             calcFoodIntakeCalories(intakeID) as 'Calories'
 		FROM foodintake JOIN userintake USING(intakeID)
         WHERE userID = user) intakes
+	GROUP BY intakeID
 	ORDER BY date DESC, time;
+END //
+
+DROP PROCEDURE IF EXISTS intake_recipe//
+CREATE PROCEDURE intake_recipe
+(
+	user BIGINT(20),
+    recipe BIGINT(20),
+    serving INT
+)
+BEGIN
+	IF canBeMade(user, recipe) >= serving THEN
+		INSERT INTO userintake(userID) VALUES (user);
+		INSERT INTO recipeintake VALUES(LAST_INSERT_ID(), serving, recipe);
+	ELSE 
+		SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'you do not have the necessary stock';
+    END IF;
+END //
+
+DROP PROCEDURE IF EXISTS intake_food//
+CREATE PROCEDURE intake_food
+(
+	user BIGINT(20),
+    food BIGINT(20),
+    quantity float(10,3)
+)
+BEGIN
+	IF haveStock(user, food, quantity) THEN
+		INSERT INTO userintake(userID) VALUES (user);
+		INSERT INTO foodintake VALUES(LAST_INSERT_ID(), quantity, food);
+	ELSE
+		SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'you do not have the necessary stock';
+    END IF;
+END //
+
+DROP PROCEDURE IF EXISTS update_stock_after_intake //
+CREATE PROCEDURE update_stock_after_intake
+(
+	user BIGINT(20),
+	food BIGINT(20),
+    consumed FLOAT(10,3)
+)
+BEGIN
+	DECLARE stockQtty FLOAT(10,3);
+    DECLARE id BIGINT(20);
+    DECLARE toRemove FLOAT(10,3) DEFAULT consumed;
+	DECLARE stock_cursor CURSOR FOR SELECT stockItemID, foodQtty FROM stockitems WHERE foodID = food AND userID = user ORDER BY foodExpDate ASC;
+	OPEN stock_cursor;
+    update_stock: LOOP
+		IF toRemove <= 0 THEN
+			LEAVE update_stock;
+        END IF;
+		FETCH stock_cursor INTO id, stockQtty;
+        IF (stockQtty >= toRemove) THEN
+            UPDATE stockitems SET foodQtty = stockQtty - toRemove WHERE stockItemID = id;
+            SET toRemove = 0;
+        ELSE
+			DELETE FROM stockitems WHERE stockItemID = id;
+            SET toRemove = toRemove - stockQtty;
+        END IF;
+    END LOOP;
+    CLOSE stock_cursor;
+END //
+
+DROP TRIGGER IF EXISTS after_foodintake_insert //
+CREATE TRIGGER after_foodintake_insert AFTER INSERT ON foodintake
+FOR EACH ROW
+BEGIN
+	DECLARE user BIGINT(20);
+    SELECT userID into USER from userintake WHERE intakeID = NEW.intakeID;
+	CALL update_stock_after_intake(user, NEW.foodID, NEW.intakeQtty);
+END //
+
+DROP TRIGGER IF EXISTS after_recipeintake_insert //
+CREATE TRIGGER after_recipeintake_insert AFTER INSERT ON recipeintake
+FOR EACH ROW
+BEGIN
+	DECLARE user BIGINT(20);
+    DECLARE done TINYINT DEFAULT FALSE;
+	DECLARE food BIGINT(20);
+    DECLARE consumed FLOAT(10,3);
+    DECLARE ingredient_cursor CURSOR FOR SELECT foodID, ingredientQtty * NEW.serving FROM recipeingredients WHERE recipeID = NEW.recipeID;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    SELECT userID into user FROM userintake WHERE intakeID = NEW.intakeID;
+    
+    OPEN ingredient_cursor;
+    intake_ingredients_loop: LOOP
+		FETCH ingredient_cursor INTO food, consumed;
+        IF done THEN
+			LEAVE intake_ingredients_loop;
+		END IF;
+        CALL update_stock_after_intake(user, food, consumed);
+    END LOOP;
+    CLOSE ingredient_cursor;
 END //
 
 delimiter ;
