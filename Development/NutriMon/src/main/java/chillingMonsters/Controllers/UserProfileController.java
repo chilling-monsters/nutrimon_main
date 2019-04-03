@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UserProfileController extends NutriMonController {
+public class UserProfileController extends NutriMonController implements UserProfileDao {
     UserProfileController() {
         super("userProfile", "userID");
     }

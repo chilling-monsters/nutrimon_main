@@ -3,7 +3,9 @@ package chillingMonsters.Controllers;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -11,7 +13,7 @@ import java.util.logging.Logger;
 
 import chillingMonsters.DBConnect;
 
-public class StockController extends NutriMonController {
+public class StockController extends NutriMonController implements StockDao {
     StockController() {
         super("stockitems", "stockItemID");
     }
@@ -59,5 +61,23 @@ public class StockController extends NutriMonController {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
         }
         return stocks;
+    }
+
+    public void deleteStock(long stockID) {
+      this.delete(stockID);
+    }
+
+    public void createStock(long foodID, double quantity) {
+      Map<String, Object> payload = new HashMap<>();
+      payload.put("foodID", foodID);
+      payload.put("foodQtty", quantity);
+      this.create(payload);
+    }
+
+    public void updateStock(long stockID, double quantity, String expDate) {
+      Map<String, Object> payload = new HashMap<>();
+      payload.put("foodQtty", quantity);
+      payload.put("foodExpDate", Timestamp.valueOf(expDate));
+      this.update(stockID, payload);
     }
 }
