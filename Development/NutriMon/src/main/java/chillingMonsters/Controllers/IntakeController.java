@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,6 +71,20 @@ public class IntakeController extends NutriMonController implements IntakeDao {
       stmt.setInt(3, serving);
       stmt.executeQuery();
     } catch(SQLException e) {
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    } finally {
+      DBConnect.close();
+    }
+  }
+
+  public void updateIntakeDate(long intakeID, String datetime) {
+    String query = "UPDATE userintake SET intakeDate = ? WHERE intakeID = ? AND userID = ?";
+    try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
+      stmt.setTimestamp(1, Timestamp.valueOf(datetime));
+      stmt.setLong(2, intakeID);
+      stmt.setLong(3, userId);
+      stmt.executeQuery();
+    } catch (SQLException e) {
       Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
     } finally {
       DBConnect.close();

@@ -10,4 +10,6 @@ public interface IntakeDao {
   void intakeStock(long foodID, float quantity);
 
   Map<String, List<Map<String, Object>>> showIntakesByDate();
+
+  void updateIntakeDate(long intakeID, String date);
 }
