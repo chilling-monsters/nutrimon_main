@@ -3,6 +3,7 @@ package chillingMonsters.Pages.registerPage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.stockPage.stockPage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -84,16 +85,12 @@ public class registerPageController {
         // Update database
         register.createProfile(name, email, new_password);
 
-        /* TODO: Go to stock page */
-        stockPage stockPage = new stockPage();
-        stockPage.startPage(event);
+        PageFactory.getStockPage().startPage(event);
     }
 
     @FXML
     void cancelButtonAction(ActionEvent event) {
-        registerPage page = new registerPage();
-
-        page.backToLogin(event);
+        PageFactory.getLoginPage().startPage(event);
     }
 
 

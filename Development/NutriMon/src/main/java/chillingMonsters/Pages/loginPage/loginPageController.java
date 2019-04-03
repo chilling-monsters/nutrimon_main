@@ -1,5 +1,6 @@
 package chillingMonsters.Pages.loginPage;
 
+import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.registerPage.registerPage;
 import chillingMonsters.Pages.stockPage.stockPage;
 import javafx.event.ActionEvent;
@@ -57,16 +58,12 @@ public class loginPageController {
 
         System.out.println("User logged in with ID: " + login.getUserId());
 
-        /* TODO: Landing Page */
-        stockPage stockPage = new stockPage();
-        stockPage.startPage(event);
+        PageFactory.getStockPage().startPage(event);
     }
 
     @FXML
     void registerButtonAction(ActionEvent event) {
-        registerPage regPage = new registerPage();
-
-        regPage.startPage(event);
+        PageFactory.getRegisterPage().startPage(event);
     }
 
 

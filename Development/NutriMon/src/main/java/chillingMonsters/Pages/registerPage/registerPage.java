@@ -1,5 +1,6 @@
 package chillingMonsters.Pages.registerPage;
 
+import chillingMonsters.Pages.PageFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -25,26 +26,6 @@ public class registerPage {
             regStage.show();
 
             System.out.println("Current page: Register Page");
-
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void backToLogin(ActionEvent event) {
-        try {
-            Parent logRoot = FXMLLoader.load(getClass().getClassLoader().getResource("loginPage/login.fxml"));
-
-            Scene logScene = new Scene(logRoot);
-
-            Stage logStage = (Stage)((Node)(event.getSource())).getScene().getWindow();
-            logStage.setScene(logScene);
-            logStage.setTitle("Login");
-
-            logStage.show();
-
-            System.out.println("Current page: Login page (from register)");
 
         }
         catch (IOException e) {

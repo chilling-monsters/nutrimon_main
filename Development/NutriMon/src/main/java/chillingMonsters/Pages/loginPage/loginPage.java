@@ -1,7 +1,10 @@
 package chillingMonsters.Pages.loginPage;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -30,6 +33,28 @@ public class loginPage extends Application {
             System.out.println("Current page: Login page");
 
         } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void startPage(ActionEvent event) {
+        try {
+            Parent loginRoot = FXMLLoader.load(getClass().getClassLoader().getResource("loginPage/login.fxml"));
+
+            Scene loginScene = new Scene(loginRoot);
+
+            loginScene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
+
+            Stage loginStage = (Stage)((Node)(event.getSource())).getScene().getWindow();
+            loginStage.setScene(loginScene);
+            loginStage.setTitle("NutriMon - Don't waste, it's time to eat!");
+
+            loginStage.show();
+
+            System.out.println("Current page: Login Page");
+
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -2,7 +2,7 @@ package chillingMonsters.Pages.stockPage;
 
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.StockController;
-import chillingMonsters.Pages.searchPage.searchPage;
+import chillingMonsters.Pages.PageFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
@@ -32,7 +32,6 @@ public class stockPageController {
 
   @FXML
   void stockCreateButtonAction(ActionEvent event) {
-    searchPage search = new searchPage();
-    search.startPage(event);
+    PageFactory.getSearchPage().startPage(event);
   }
 }
