@@ -23,7 +23,7 @@ public class StockController extends NutriMonController implements StockDao {
         List<Map<String, Object>> stocks = new ArrayList<>();
         String query = "SELECT foodID, foodName, " +
                 "sum(foodQtty) as 'quantity', " +
-                "min(foodExpDate) as 'next_exp' " +
+                "datediff(min(foodExpDate), now()) as 'next_exp' " +
                 "FROM stockitems JOIN ingredients using(foodID) " +
                 "WHERE userID = ? " +
                 "GROUP BY foodID " +
@@ -79,5 +79,35 @@ public class StockController extends NutriMonController implements StockDao {
       payload.put("foodQtty", quantity);
       payload.put("foodExpDate", Timestamp.valueOf(expDate));
       this.update(stockID, payload);
+    }
+
+    public static String parseFoodName(String name) {
+        String[] food = name.toLowerCase().split(",");
+
+        for (int i = 0; i < food.length; i++) {
+            String s = food[i];
+            String[] subStr =  s.split(" ");
+            s = "";
+            for (int j = 0; j < subStr.length; j++) {
+                String sub = subStr[j];
+                sub = sub.substring(0, 1).toUpperCase() + sub.substring(1);
+
+                if (j > 0) s += " ";
+
+                s += sub;
+            }
+
+            food[i] = s;
+        }
+
+        if (food[1].equals("With Salt")) food[1] = "Salted";
+
+        String foodName = food[1] + " " + food[0];
+
+        for (int i = 2; i < food.length; i++) {
+            foodName += ", " + food[i];
+        }
+
+        return foodName;
     }
 }

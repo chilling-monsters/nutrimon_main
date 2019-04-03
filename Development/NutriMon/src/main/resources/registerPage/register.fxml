@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="screenPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.registerPage.registerPageController">
+    <children>
+      <ImageView fitWidth="360.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@img/registerBG.png" />
+         </image>
+      </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="500.0" layoutX="32.0" layoutY="202.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="360.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <fill>
+                <LinearGradient endX="0.5096153846153846" endY="0.5625" startX="0.4807692307692308">
+                    <stops>
+                        <Stop color="BLACK" />
+                        <Stop color="#ffffff00" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </fill></Rectangle>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="500.0" layoutX="10.0" layoutY="10.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="360.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <fill>
+                <LinearGradient endX="0.5096153846153846" endY="1.0" startX="0.4807692307692308">
+                    <stops>
+                        <Stop color="#ffffff00" />
+                        <Stop color="BLACK" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </fill>
+        </Rectangle>
+      <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="148.0" AnchorPane.topAnchor="50.0">
+         <image>
+            <Image url="@../img/NutriMon%20logo2x.png" />
+         </image>
+      </ImageView>
+      <VBox layoutX="10.0" layoutY="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="125.0">
+         <children>
+            <Label text="NutriMon" textFill="WHITE">
+               <font>
+                  <Font name="SF Pro Display Bold" size="50.0" />
+               </font>
+            </Label>
+            <Label text="Don't waste," textFill="WHITE">
+               <font>
+                  <Font name="Helvetica" size="30.0" />
+               </font>
+            </Label>
+            <Label text="it's time to eat!" textFill="WHITE">
+               <font>
+                  <Font name="Helvetica" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="290.0">
+         <children>
+            <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
+               <children>
+                  <TextField fx:id="txtF_name" prefHeight="45.0" prefWidth="307.0" promptText="Your Name" style="-fx-background-color: transparent;" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+              <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
+               <children>
+                      <TextField fx:id="txtF_email" prefHeight="45.0" prefWidth="307.0" promptText="Your Email" style="-fx-background-color: transparent;" />
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+              </HBox>
+              <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
+               <children>
+                      <PasswordField fx:id="pswdF_new_password" prefHeight="45.0" prefWidth="307.0" promptText="Your Password" style="-fx-background-color: transparent;" />
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+              </HBox>
+            <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
+               <children>
+                  <PasswordField fx:id="pswdF_confirm_password" prefHeight="45.0" prefWidth="307.0" promptText="Confirm Password" style="-fx-background-color: transparent;" />
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+      <Line endX="269.0" layoutY="515.0" startX="89.0" stroke="WHITE" strokeWidth="2.0" />
+      <Button fx:id="btn_cancel" layoutX="89.0" layoutY="704.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="55.0" style="-fx-background-color: #FBD249; -fx-background-radius: 27px;" text="HAVE AN ACCOUNT? LOGIN" textFill="WHITE" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+        <Button fx:id="btn_confirm" layoutX="35.0" layoutY="265.0" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="55.0" style="-fx-background-color: #F5A623; -fx-background-radius: 27px;" text="CREATE ACCOUNT" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+         <font>
+            <Font size="18.0" />
+         </font>
+        </Button>
+    </children>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
+</AnchorPane>

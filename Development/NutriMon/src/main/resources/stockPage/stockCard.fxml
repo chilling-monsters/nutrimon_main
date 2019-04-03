@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="300.0" styleClass="detailCardPane" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <children>
+                <Label text="LABEL" textFill="#9e9e9e">
+                    <font>
+                        <Font name="Helvetica" size="9.0" />
+                    </font>
+                </Label>
+                <Label fx:id="cardName" maxWidth="135.0" text="Label">
+                    <font>
+                        <Font name="Helvetica" size="15.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </Label>
+            </children>
+        </VBox>
+      <HBox AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="60.0">
+         <children>
+                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/ic_duration2x.png" />
+                    </image>
+                </ImageView>
+                <Label fx:id="cardExpDate" text="Label" textFill="#9e9e9e">
+                    <font>
+                        <Font name="Helvetica" size="12.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="5.0" />
+                    </HBox.margin>
+                </Label>
+         </children>
+      </HBox>
+        <HBox AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="60.0">
+            <children>
+                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/ic_quantity2x.png" />
+                    </image>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </ImageView>
+                <Label fx:id="cardAmount" text="Label" textFill="#9e9e9e">
+                    <font>
+                        <Font name="Helvetica" size="12.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="5.0" />
+                    </HBox.margin>
+                </Label>
+            </children>
+        </HBox>
+        <ImageView fitHeight="50.0" fitWidth="150.0" layoutX="130.0" layoutY="-45.0" pickOnBounds="true" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
+            <image>
+                <Image url="@img/KaleCardBG.png" />
+            </image>
+            <viewport>
+                <Rectangle2D />
+            </viewport>
+        </ImageView>
+    </children>
+   <effect>
+      <DropShadow color="#00000080" height="20.0" offsetX="4.0" offsetY="5.0" radius="9.5" width="20.0" />
+   </effect>
+</fx:root>
