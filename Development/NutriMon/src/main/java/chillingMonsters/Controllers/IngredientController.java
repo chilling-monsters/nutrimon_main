@@ -11,31 +11,11 @@ import java.util.logging.Logger;
 
 import chillingMonsters.DBConnect;
 
-public class IngredientController extends NutriMonController {
+public class IngredientController extends NutriMonController implements IngredientDao {
   private static final String READ_ONLY = "Ingredients are READ ONLY";
 
   IngredientController() {
     super("ingredients", "foodID");
-  }
-
-  @Override
-  public void create(Map<String, Object> attributes) {
-    throw new UnsupportedOperationException(READ_ONLY);
-  }
-
-  @Override
-  public void update(long id, Map<String, Object> attributes) {
-    throw new UnsupportedOperationException(READ_ONLY);
-  }
-
-  @Override
-  public void delete(long id) {
-    throw new UnsupportedOperationException(READ_ONLY);
-  }
-
-  @Override
-  public List<Map<String, Object>> show() {
-    throw new UnsupportedOperationException("Use Search API");
   }
 
   public List<Map<String, Object>> search(String foodName) {
