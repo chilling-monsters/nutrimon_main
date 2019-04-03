@@ -56,8 +56,6 @@ public class loginPageController {
             return;
         }
 
-        System.out.println("User logged in with ID: " + login.getUserId());
-
         PageFactory.getStockPage().startPage(event);
     }
 

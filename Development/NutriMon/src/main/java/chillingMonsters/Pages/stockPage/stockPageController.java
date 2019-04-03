@@ -17,7 +17,7 @@ public class stockPageController {
   @FXML
   void initialize() {
     StockController controller = ControllerFactory.makeStockController();
-    List<Map<String, Object>> stockList = controller.showStock();
+    List<Map<String, Object>> stockList = controller.show();
 
     for (Map<String, Object> stock : stockList) {
       long id = (Long) stock.get("foodID");
