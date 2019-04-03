@@ -17,11 +17,15 @@ public class stockPageController {
   @FXML
   void initialize() {
     StockController controller = ControllerFactory.makeStockController();
-//    List<Map<String, Object>> stockList = controller.showStock();
+    List<Map<String, Object>> stockList = controller.showStock();
 
-    //TODO: fetch stock list here
-    for (int i = 0; i < 3; i++) {
-      StockCardComponent sCard = new StockCardComponent();
+    for (Map<String, Object> stock : stockList) {
+      long id = (Long) stock.get("foodID");
+      String name  = controller.parseFoodName(stock.get("foodName").toString());
+      double amount = (Double) stock.get("quantity");
+      long exp = (Long) stock.get("next_exp");
+      StockCardComponent sCard = new StockCardComponent(id, name, amount, exp);
+
       cardList.getChildren().add(sCard);
     }
   }

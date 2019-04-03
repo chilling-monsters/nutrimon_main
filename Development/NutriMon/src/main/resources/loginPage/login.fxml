@@ -75,12 +75,12 @@
          <children>
               <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
                <children>
-                      <TextField fx:id="txtF_email" prefHeight="45.0" prefWidth="307.0" promptText="Your Email" style="-fx-background-color: transparent;" />
+                      <TextField fx:id="txtF_email" onAction="#loginButtonAction" prefHeight="45.0" prefWidth="307.0" promptText="Your Email" style="-fx-background-color: transparent;" />
                </children>
               </HBox>
               <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
                <children>
-                      <PasswordField fx:id="pswdF_password" prefHeight="45.0" prefWidth="307.0" promptText="Your Password" style="-fx-background-color: transparent;" />
+                      <PasswordField fx:id="pswdF_password" onAction="#loginButtonAction" prefHeight="45.0" prefWidth="307.0" promptText="Your Password" style="-fx-background-color: transparent;" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />

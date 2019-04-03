@@ -3,6 +3,7 @@ package chillingMonsters.Pages.loginPage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -22,6 +23,8 @@ public class loginPage extends Application {
             primaryStage.setScene(scene);
 
             primaryStage.setTitle("NutriMon - Don't waste, it's time to eat!");
+            primaryStage.getIcons().add(new Image("img/NutriMon logo.png"));
+            primaryStage.setResizable(false);
             primaryStage.show();
 
             System.out.println("Current page: Login page");

@@ -1,17 +1,17 @@
 package chillingMonsters.Pages.stockPage;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
 public class StockCardComponent extends AnchorPane {
-  private final int foodID = 0;
-  private final String foodName = "Dumb dumb dumb";
-  private final float amount = 0;
-  private final int minExpDate = 0;
+  private long foodID = 0;
 
   @FXML
   private Label cardName;
@@ -22,13 +22,20 @@ public class StockCardComponent extends AnchorPane {
   @FXML
   private Label cardExpDate;
 
-  public StockCardComponent(/*int foodID, String name, float amount, int minExpDate*/) {
+  public StockCardComponent(long foodID, String name, double amount, long minExpDate) {
     super();
+    this.foodID = foodID;
 
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/stockPage/stockCard.fxml"));
 
     fxmlLoader.setRoot(this);
     fxmlLoader.setController(this);
+    this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        
+      }
+    });
 
     try {
       fxmlLoader.load();
@@ -36,8 +43,8 @@ public class StockCardComponent extends AnchorPane {
       throw new RuntimeException(e);
     }
 
-    cardName.setText(foodName);
-    cardAmount.setText(String.format("%.1f servings", amount));
+    cardName.setText(name);
+    cardAmount.setText(String.format("%.0f g", amount));
     cardExpDate.setText(String.format("%d days", minExpDate));
   }
 }

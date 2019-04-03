@@ -17,6 +17,8 @@ public class stockPage {
 
       Scene stockScene = new Scene(stockRoot);
 
+      stockScene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
+
       Stage stockStage = (Stage)((Node)(event.getSource())).getScene().getWindow();
       stockStage.setScene(stockScene);
       stockStage.setTitle("Your Stock");

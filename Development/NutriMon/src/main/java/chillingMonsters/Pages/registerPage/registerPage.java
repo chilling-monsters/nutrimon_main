@@ -16,6 +16,8 @@ public class registerPage {
 
             Scene regScene = new Scene(regRoot);
 
+            regScene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
+
             Stage regStage = (Stage)((Node)(event.getSource())).getScene().getWindow();
             regStage.setScene(regScene);
             regStage.setTitle("Register");

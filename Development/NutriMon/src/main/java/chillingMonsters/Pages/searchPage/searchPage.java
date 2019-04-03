@@ -15,13 +15,14 @@ public class searchPage {
     try {
       Parent stockRoot = FXMLLoader.load(getClass().getClassLoader().getResource("searchPage/search.fxml"));
 
-      Scene stockScene = new Scene(stockRoot);
+      Scene searchScene = new Scene(stockRoot);
+      searchScene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
 
-      Stage stockStage = (Stage)((Node)(event.getSource())).getScene().getWindow();
-      stockStage.setScene(stockScene);
-      stockStage.setTitle("Your Stock");
+      Stage searchStage = (Stage)((Node)(event.getSource())).getScene().getWindow();
+      searchStage.setScene(searchScene);
+      searchStage.setTitle("Search");
 
-      stockStage.show();
+      searchStage.show();
 
       System.out.println("Current page: Search Page");
 

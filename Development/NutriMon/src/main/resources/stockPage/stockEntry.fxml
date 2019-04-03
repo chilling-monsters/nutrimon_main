@@ -9,12 +9,12 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #FFFFFFFF;" styleClass="screenPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" styleClass="screenPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a623" height="826.0" layoutX="8.0" layoutY="14.0" stroke="TRANSPARENT" strokeType="INSIDE" width="381.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <ImageView fitHeight="381.0" fitWidth="381.0" layoutX="104.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../img/KaleSquare.png" />
+            <Image url="@img/KaleSquareBG.png" />
          </image></ImageView>
       <Rectangle arcHeight="5.0" height="500.0" layoutX="10.0" layoutY="10.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="382.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <fill>
@@ -28,7 +28,7 @@
       </Rectangle>
       <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="50.0">
          <image>
-            <Image url="@img/Menu%20Icon%20White2x.png" />
+            <Image url="@../img/Menu%20Icon%20White2x.png" />
          </image>
       </ImageView>
       <Label text="Your Ingredients" textFill="WHITE" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="52.5">
