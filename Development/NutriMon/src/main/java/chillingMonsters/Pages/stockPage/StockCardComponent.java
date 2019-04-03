@@ -22,7 +22,10 @@ public class StockCardComponent extends AnchorPane {
   @FXML
   private Label cardExpDate;
 
-  public StockCardComponent(long foodID, String name, double amount, long minExpDate) {
+  @FXML
+  private Label cardCategory;
+
+  public StockCardComponent(long foodID, String name, double amount, long minExpDate, String category) {
     super();
     this.foodID = foodID;
 
@@ -46,5 +49,6 @@ public class StockCardComponent extends AnchorPane {
     cardName.setText(name);
     cardAmount.setText(String.format("%.0fg", amount));
     cardExpDate.setText(String.format("%d days", minExpDate));
+    cardCategory.setText(category);
   }
 }

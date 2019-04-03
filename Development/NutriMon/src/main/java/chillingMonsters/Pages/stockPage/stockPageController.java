@@ -24,7 +24,8 @@ public class stockPageController {
       String name  = controller.parseFoodName(stock.get("foodName").toString());
       double amount = (Double) stock.get("quantity");
       long exp = (Long) stock.get("next_exp");
-      StockCardComponent sCard = new StockCardComponent(id, name, amount, exp);
+      String category = stock.get("fCategory").toString();
+      StockCardComponent sCard = new StockCardComponent(id, name, amount, exp, category);
 
       cardList.getChildren().add(sCard);
     }

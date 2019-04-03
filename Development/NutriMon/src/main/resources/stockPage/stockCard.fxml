@@ -15,7 +15,7 @@
     <children>
         <VBox spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
             <children>
-                <Label text="LABEL" textFill="#9e9e9e">
+                <Label fx:id="cardCategory" text="LABEL" textFill="#9e9e9e">
                     <font>
                         <Font name="Helvetica" size="9.0" />
                     </font>

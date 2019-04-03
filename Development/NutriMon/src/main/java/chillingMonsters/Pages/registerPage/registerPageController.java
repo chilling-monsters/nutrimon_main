@@ -1,10 +1,6 @@
 package chillingMonsters.Pages.registerPage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import chillingMonsters.Pages.PageFactory;
-import chillingMonsters.Pages.stockPage.stockPage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

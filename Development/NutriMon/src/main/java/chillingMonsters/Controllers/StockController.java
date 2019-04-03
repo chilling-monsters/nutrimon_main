@@ -21,7 +21,7 @@ public class StockController extends NutriMonController implements StockDao {
     @Override
     public List<Map<String, Object>> show() {
         List<Map<String, Object>> stocks = new ArrayList<>();
-        String query = "SELECT foodID, foodName, " +
+        String query = "SELECT foodID, foodName, fCategory, " +
                 "sum(foodQtty) as 'quantity', " +
                 "datediff(min(foodExpDate), now()) as 'next_exp' " +
                 "FROM stockitems JOIN ingredients using(foodID) " +
@@ -100,12 +100,15 @@ public class StockController extends NutriMonController implements StockDao {
             food[i] = s;
         }
 
-        if (food[1].equals("With Salt")) food[1] = "Salted";
+        String foodName = "";
+        if (food.length > 1) {
+            if (food[1].equals("With Salt")) {
+                food[1] = "Salted";
+            }
 
-        String foodName = food[1] + " " + food[0];
-
-        for (int i = 2; i < food.length; i++) {
-            foodName += ", " + food[i];
+            foodName = food[1] + " " + food[0];
+        } else {
+            foodName = food[0];
         }
 
         return foodName;
