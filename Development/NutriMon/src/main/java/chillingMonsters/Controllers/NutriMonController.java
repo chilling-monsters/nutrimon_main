@@ -160,4 +160,41 @@ public abstract class NutriMonController {
 
         return check;
     }
+
+    public static String parseFoodName(String name) {
+        String[] food = name.toLowerCase().split(",");
+
+        for (int i = 0; i < food.length; i++) {
+            String s = food[i];
+            String[] subStr =  s.split(" ");
+            s = "";
+            for (int j = 0; j < subStr.length; j++) {
+                String sub = subStr[j];
+                sub = sub.substring(0, 1).toUpperCase() + sub.substring(1);
+
+                if (j > 0) s += " ";
+
+                s += sub;
+            }
+
+            food[i] = s;
+        }
+
+        String foodName = "";
+        if (food.length > 1) {
+            if (food[1].equals("With Salt")) {
+                food[1] = "Salted";
+            }
+
+            foodName = food[1] + " " + food[0];
+        } else {
+            foodName = food[0];
+        }
+
+        for (int i = 2; i < food.length; i++) {
+            foodName += " " + food[i];
+        }
+
+        return foodName;
+    }
 }

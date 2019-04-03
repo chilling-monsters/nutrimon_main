@@ -16,7 +16,12 @@
     -fx-border-width: 0px;
     -fx-background-color: white;
 }
+.cardScrollPane > .viewport {
+   -fx-background-color: transparent;
+}
 .cardScrollPane {
     -fx-pref-width: 360px;
-    -fx-background-color: white;
+    -fx-background-color: transparent;
+}
+.titleText {
 }

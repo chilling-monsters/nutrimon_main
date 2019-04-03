@@ -61,12 +61,12 @@
               </Label>
             <Label text="Don't waste," textFill="WHITE">
                <font>
-                  <Font name="Helvetica" size="30.0" />
+                  <Font name="SF Pro Text Regular" size="25.0" />
                </font>
             </Label>
             <Label text="it's time to eat!" textFill="WHITE">
                <font>
-                  <Font name="Helvetica" size="30.0" />
+                  <Font name="SF Pro Text Regular" size="25.0" />
                </font>
             </Label>
          </children>
