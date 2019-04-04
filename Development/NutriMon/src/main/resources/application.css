@@ -9,6 +9,7 @@
     -fx-pref-height: 90px;
     -fx-border-width: 0px;
     -fx-background-color: white;
+    -fx-background-radius: 0 0 8 8;
 }
 .detailCardPane:hover {
     -fx-background-color: #F2F2F2;
@@ -19,6 +20,7 @@
     -fx-pref-height: 50px;
     -fx-border-width: 0px;
     -fx-background-color: white;
+    -fx-background-radius: 0 0 8 8;
 }
 .searchCardPane:hover {
     -fx-background-color: #F2F2F2;
@@ -29,6 +31,7 @@
     -fx-pref-height: 60px;
     -fx-border-width: 0px;
     -fx-background-color: white;
+    -fx-background-radius: 0 0 8 8;
 }
 .entryCardPane:hover {
     -fx-background-color: #F2F2F2;

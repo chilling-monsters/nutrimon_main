@@ -3,6 +3,7 @@ package chillingMonsters.Pages.searchPage;
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.IngredientController;
 import chillingMonsters.Pages.PageController;
+import chillingMonsters.Pages.PageOption;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class searchPageController implements PageController {
-  private SearchPageType type;
+  private PageOption type;
 
   @FXML
   public TextField searchTxF;
@@ -20,7 +21,7 @@ public class searchPageController implements PageController {
   @FXML
   public VBox searchList;
 
-  public searchPageController(SearchPageType type) {
+  public searchPageController(PageOption type) {
     this.type = type;
   }
 

@@ -1,6 +1,7 @@
 package chillingMonsters.Pages.searchPage;
 
 import chillingMonsters.Pages.PageFactory;
+import chillingMonsters.Pages.PageOption;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,7 +19,7 @@ public class SearchCardComponent extends AnchorPane {
   @FXML
   private Label cardLabel;
 
-  public SearchCardComponent(long foodID, String name, String category, SearchPageType type) {
+  public SearchCardComponent(long foodID, String name, String category, PageOption type) {
     super();
 
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/searchPage/searchCard.fxml"));
@@ -30,9 +31,9 @@ public class SearchCardComponent extends AnchorPane {
       public void handle(MouseEvent event) {
         ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
-        if (type == SearchPageType.ADD_STOCK) {
-          PageFactory.getStockEntryPage(foodID).startPage(e);
-        } else if (type == SearchPageType.ADD_RECIPE) {
+        if (type == PageOption.ADD_STOCK) {
+          PageFactory.getAddStockEntryPage(foodID).startPage(e);
+        } else if (type == PageOption.ADD_RECIPE) {
           System.out.println("Add Recipe");
         } else {
           System.out.println("Search All");
