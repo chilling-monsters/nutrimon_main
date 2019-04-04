@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" styleClass="screenPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" styleClass="screenPane pane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="361.0" fitWidth="361.0" layoutX="104.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -31,10 +33,14 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <ImageView fx:id="backButton" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="backButton" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <ImageView fx:id="backButton" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
          <image>
             <Image url="@../img/Menu-Back-Icon-White2x.png" />
          </image>
+         <styleClass>
+            <String fx:value="backButton button" />
+            <String fx:value="button" />
+         </styleClass>
       </ImageView>
       <Label text="Your Ingredients" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
          <font>
@@ -68,48 +74,86 @@
                         <Font name="Helvetica" size="9.0" />
                      </font>
                   </Label>
-
-                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="cardScrollPane" vbarPolicy="NEVER">
-                     <content>
-                        <AnchorPane>
-                           <children>
-                              <VBox fx:id="entryList" spacing="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0">
-                                 <padding>
-                                    <Insets bottom="10.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox fx:id="createForm" styleClass="formInput" visible="false" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+                  <AnchorPane prefHeight="305.0" prefWidth="300.0">
+                     <children>
+      
+                              <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="285.0" prefWidth="300.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <AnchorPane>
                                  <children>
-                                    <Label styleClass="titleText" text="Amount">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </Label>
-                                    <HBox>
-                                       <children>
-                                          <TextField fx:id="amountTxF" prefWidth="280.0" />
-                                          <Label text="g">
-                                             <HBox.margin>
-                                                <Insets left="5.0" top="3.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                 </children></VBox>
+                                    <VBox fx:id="entryList" spacing="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="10.0">
+                                       <padding>
+                                          <Insets bottom="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </ScrollPane>
+                        <VBox fx:id="createForm" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="285.0" prefWidth="300.0" styleClass="formInput" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="10.0">
+                           <children>
+                              <Label fx:id="entryCurrentAmount" prefHeight="30.0" text="250 grams" textAlignment="CENTER" textFill="#f5a623">
+                                 <font>
+                                    <Font name="Helvetica" size="25.0" />
+                                 </font>
+                              </Label>
+                              <Label text="CURRENT AMOUNT" textAlignment="RIGHT" textFill="#9e9e9e">
+                                 <font>
+                                    <Font name="Helvetica" size="9.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="amountTxF" alignment="TOP_LEFT" prefHeight="30.0" prefWidth="300.0" promptText="                                                                         g">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label fx:id="entryTimeLeft" layoutX="10.0" layoutY="10.0" prefHeight="30.0" text="Expires in 2 days" textAlignment="CENTER" textFill="#f5a623">
+                                 <font>
+                                    <Font name="Helvetica" size="25.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label fx:id="entryAddedDate" layoutX="10.0" layoutY="40.0" text="ADDED ON MAR 8TH" textAlignment="RIGHT" textFill="#9e9e9e">
+                                 <font>
+                                    <Font name="Helvetica" size="9.0" />
+                                 </font>
+                              </Label>
+                              <DatePicker fx:id="dateTxF" prefWidth="300.0">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </DatePicker>
+                              <Button fx:id="deleteEntryButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: red;" styleClass="backButton button" text="Delete" textFill="WHITE">
+                                 <VBox.margin>
+                                    <Insets top="35.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button fx:id="cancelEntryButton" layoutX="10.0" layoutY="231.0" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: #FBD249;" styleClass="backButton button" text="Cancel" textFill="WHITE">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Button>
                            </children>
-                        </AnchorPane>
-                     </content>
+                        </VBox>
+                     </children>
                      <VBox.margin>
-                        <Insets left="-15.0" right="-15.0" />
+                        <Insets />
                      </VBox.margin>
-                  </ScrollPane>
+                  </AnchorPane>
                </children>
             </VBox>
-            <Button fx:id="addStockButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-color: #FBD249; -fx-background-radius: 0 0 8 8;" styleClass="createButton" text="+" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <ToggleButton fx:id="addStockButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="+" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font size="12.5" />
                </font>
-            </Button>
+               <styleClass>
+                  <String fx:value="createStockButton" />
+                  <String fx:value="secondaryButton" />
+                  <String fx:value="button" />
+               </styleClass>
+            </ToggleButton>
          </children>
       </AnchorPane>
    </children>

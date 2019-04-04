@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Label?>
@@ -13,7 +14,7 @@
 
 <fx:root type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-      <AnchorPane prefHeight="90.0" prefWidth="300.0" styleClass="detailCardPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane prefHeight="90.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
               <VBox spacing="10.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0">
                   <children>
@@ -78,6 +79,12 @@
                   </viewport>
               </ImageView>
          </children>
+         <styleClass>
+            <String fx:value="detailCardPane" />
+            <String fx:value="card" />
+            <String fx:value="cardPane" />
+            <String fx:value="pane" />
+         </styleClass>
       </AnchorPane>
     </children>
    <effect>

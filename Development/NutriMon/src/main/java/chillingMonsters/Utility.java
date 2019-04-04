@@ -63,4 +63,9 @@ public class Utility {
 
 		return month + " " + day + suffixes[day];
 	}
+
+	public static String today() {
+		Timestamp today = new Timestamp(System.currentTimeMillis());
+		return parseDate(today);
+	}
 }

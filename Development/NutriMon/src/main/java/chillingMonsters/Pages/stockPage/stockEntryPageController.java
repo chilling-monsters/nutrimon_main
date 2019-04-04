@@ -7,25 +7,28 @@ import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 public class stockEntryPageController implements PageController {
-	private boolean showForm = false;
 	private long foodID;
+	private long currentStockItemID;
+	private int avgSpoilageDays;
 	private PageOption option;
+	private double displayAmount = 0;
+	private boolean showForm = false;
 
 	@FXML
 	public Label entryName;
@@ -46,10 +49,28 @@ public class stockEntryPageController implements PageController {
 	public ImageView backButton;
 
 	@FXML
-	public Button addStockButton;
+	public ToggleButton addStockButton;
+
+	@FXML
+	public Button deleteEntryButton;
+
+	@FXML
+	public Button cancelEntryButton;
+
+	@FXML
+	public Label entryCurrentAmount;
+
+	@FXML
+	public Label entryTimeLeft;
+
+	@FXML
+	public Label entryAddedDate;
 
 	@FXML
 	public TextField amountTxF;
+
+	@FXML
+	public DatePicker dateTxF;
 
 	public stockEntryPageController(long foodID, PageOption option) {
 		this.foodID = foodID;
@@ -58,6 +79,7 @@ public class stockEntryPageController implements PageController {
 
 	@FXML
 	public void initialize() {
+		createForm.setVisible(false);
 		refreshStock();
 
 		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -80,45 +102,27 @@ public class stockEntryPageController implements PageController {
 				handleAddStock(event);
 			}
 		});
-	}
 
-	private void handleBackOnClick(MouseEvent event) {
-		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-
-		PageFactory.getStockPage().startPage(e);
-	}
-
-	private void handleAddStock(ActionEvent event) {
-		showForm = !showForm;
-
-		if (showForm) {
-			addStockButton.setText("Done");
-
-			entryList.setVisible(false);
-			createForm.setVisible(true);
-		} else {
-			String amountTxt = amountTxF.getText();
-			if (amountTxt.isEmpty() || amountTxt == null) {
-				AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please enter the desired amount");
-				return;
+		amountTxF.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				handleInputChange();
 			}
+		});
 
-			double amount = Double.parseDouble(amountTxt);
-
-			if (amount == 0) {
-				AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please enter the desired amount");
-				return;
+		deleteEntryButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				handleDeleteStock(event);
 			}
+		});
 
-			StockController controller = ControllerFactory.makeStockController();
-			controller.createStock(foodID, amount);
-
-			refreshStock();
-			addStockButton.setText("+");
-
-			entryList.setVisible(true);
-			createForm.setVisible(false);
-		}
+		cancelEntryButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				handleCancel(event);
+			}
+		});
 	}
 
 	private void refreshStock() {
@@ -127,9 +131,13 @@ public class stockEntryPageController implements PageController {
 		StockController controller = ControllerFactory.makeStockController();
 		List<Map<String, Object>> resultsList = controller.showStockIngredient(foodID);
 
-		entryName.setText(Utility.parseFoodName(resultsList.get(0).get("foodName").toString()));
-		entryCategory.setText(resultsList.get(0).get("fCategory").toString());
-		entryAvgSpoilage.setText(String.format("%d Days", resultsList.get(0).get("expTime")));
+		String name = resultsList.get(0).get("foodName").toString();
+		String category = resultsList.get(0).get("fCategory").toString();
+		avgSpoilageDays = (Integer) resultsList.get(0).get("expTime");
+
+		entryName.setText(Utility.parseFoodName(name));
+		entryCategory.setText(category);
+		entryAvgSpoilage.setText(String.format("%d Days", avgSpoilageDays));
 
 		for (Map<String, Object> result : resultsList) {
 			Long timeLeft = (Long) result.get("time_left");
@@ -139,5 +147,71 @@ public class stockEntryPageController implements PageController {
 
 			entryList.getChildren().add(sCard);
 		}
+	}
+
+	private void handleBackOnClick(MouseEvent event) {
+		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+
+		PageFactory.getStockPage().startPage(e);
+	}
+
+	private void handleAddStock(ActionEvent event) {
+		if (!showForm) {
+			option = PageOption.ADD_STOCK;
+			showForm = true;
+			toggleForm();
+		}
+		else {
+			if (displayAmount == 0) {
+				addStockButton.setSelected(true);
+				AlertHandler.showAlert(Alert.AlertType.ERROR, "Add Stock Failed...", "New Amount Must Be A Positive Number");
+				return;
+			}
+			showForm = false;
+			toggleForm();
+		}
+	}
+
+	private void handleCancel(ActionEvent event) {
+		showForm = false;
+		toggleForm();
+	}
+
+	private void handleDeleteStock(ActionEvent event) {
+		showForm = false;
+	}
+
+	private void toggleForm() {
+		if (showForm) {
+			addStockButton.setText("Save");
+			addStockButton.setSelected(true);
+			handleInputChange();
+
+			if (option == PageOption.ADD_STOCK) {
+				entryTimeLeft.setText(String.format("Expires in %d days", avgSpoilageDays));
+				entryAddedDate.setText("IF ADDED TODAY");
+				dateTxF.setValue(LocalDate.now());
+			}
+		} else {
+			option = PageOption.DEFAULT;
+			addStockButton.setText("+");
+			addStockButton.setSelected(false);
+			amountTxF.setText("");
+		}
+
+		entryList.setVisible(!showForm);
+		createForm.setVisible(showForm);
+	}
+
+	private void handleInputChange() {
+		String amountTxt = amountTxF.getText();
+
+		try {
+			displayAmount = Double.parseDouble(amountTxt);
+			if (displayAmount <= 0) throw new NumberFormatException();
+		} catch (NumberFormatException e) {
+			displayAmount = 0;
+		}
+		entryCurrentAmount.setText(String.format("%.0f grams", displayAmount));
 	}
 }

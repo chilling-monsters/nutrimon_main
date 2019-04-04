@@ -1,42 +1,33 @@
+.pane {
+    -fx-border-width: 0px;
+    -fx-background-color: white;
+}
 .screenPane {
     -fx-pref-width: 360px;
     -fx-pref-height: 740px;
-    -fx-border-width: 0px;
-    -fx-background-color: white;
+}
+
+.card:hover {
+    -fx-background-color: #F2F2F2;
+    -fx-cursor: hand;
+}
+
+.cardPane {
+    -fx-background-radius: 0 0 8 8;
 }
 .detailCardPane {
     -fx-pref-width: 300px;
     -fx-pref-height: 90px;
-    -fx-border-width: 0px;
-    -fx-background-color: white;
-    -fx-background-radius: 0 0 8 8;
-}
-.detailCardPane:hover {
-    -fx-background-color: #F2F2F2;
-    -fx-cursor: hand;
 }
 .searchCardPane {
     -fx-pref-width: 300px;
     -fx-pref-height: 50px;
-    -fx-border-width: 0px;
-    -fx-background-color: white;
-    -fx-background-radius: 0 0 8 8;
-}
-.searchCardPane:hover {
-    -fx-background-color: #F2F2F2;
-    -fx-cursor: hand;
 }
 .entryCardPane {
     -fx-pref-width: 300px;
     -fx-pref-height: 60px;
-    -fx-border-width: 0px;
-    -fx-background-color: white;
-    -fx-background-radius: 0 0 8 8;
 }
-.entryCardPane:hover {
-    -fx-background-color: #F2F2F2;
-    -fx-cursor: hand;
-}
+
 .cardScrollPane > .viewport {
    -fx-background-color: transparent;
 }
@@ -44,12 +35,24 @@
     -fx-pref-width: 360px;
     -fx-background-color: transparent;
 }
-.createButton:hover {
+
+.button:hover {
     -fx-cursor: hand;
 }
-.backButton:hover {
-    -fx-cursor: hand;
+.primaryButton {
+    -fx-background-color: #F5A623;
 }
+.secondaryButton {
+    -fx-background-color: #FBD249;
+}
+.tertiaryButton {
+    -fx-background-color: #FF6C00;
+}
+
+.createStockButton:selected {
+    -fx-background-color: #FF6C00;
+}
+
 .formInput {
     -fx-pref-height: 45px;
     -fx-background-color: white;
