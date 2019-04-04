@@ -3,11 +3,15 @@ package chillingMonsters.Pages.searchPage;
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.IngredientController;
 import chillingMonsters.Pages.PageController;
+import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -21,6 +25,9 @@ public class searchPageController implements PageController {
 
   @FXML
   public VBox searchList;
+
+  @FXML
+  public ImageView backButton;
 
   public searchPageController(PageOption type) {
     this.type = type;
@@ -46,6 +53,13 @@ public class searchPageController implements PageController {
 
   @FXML
   public void initialize() {
+    backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
+        PageFactory.getStockPage().startPage(e);
+      }
+    });
   }
 }

@@ -10,44 +10,64 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" styleClass="screenPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5a623" height="100.0" layoutY="6.0" stroke="TRANSPARENT" strokeType="INSIDE" width="360.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
-         <image>
-            <Image url="@../img/Menu%20Icon%20White2x.png" />
-         </image>
-      </ImageView>
-      <Label text="Search" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
-         <font>
-            <Font name="Helvetica" size="25.0" />
-         </font>
-      </Label>
-      <VBox layoutX="97.0" layoutY="100.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="50.0">
+      <AnchorPane prefHeight="150.0" style="-fx-background-color: #F5A623;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox>
+            <VBox AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
                <children>
-                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/ic_search2x.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <TextField fx:id="searchTxF" onAction="#onSearchEnter" prefHeight="30.0" prefWidth="280.0" style="-fx-background-color: transparent;">
-                     <font>
-                        <Font name="SF Pro Display Regular" size="13.0" />
-                     </font></TextField>
+                  <HBox>
+                     <children>
+                        <ImageView fx:id="backButton" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="backButton">
+                           <image>
+                              <Image url="@../img/Menu-Back-Icon-White2x.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label text="Search" textFill="WHITE">
+                           <font>
+                              <Font name="Helvetica" size="25.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <VBox>
+                     <children>
+                        <HBox>
+                           <children>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/ic_search2x.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets top="7.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <TextField fx:id="searchTxF" onAction="#onSearchEnter" prefHeight="30.0" prefWidth="280.0" style="-fx-background-color: transparent; -fx-text-inner-color: white;">
+                                 <font>
+                                    <Font name="SF Pro Display Regular" size="13.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <Line endX="160.0" startX="-160.0" stroke="WHITE" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="40.0" />
+                     </VBox.margin>
+                  </VBox>
                </children>
-            </HBox>
-            <Line endX="150.0" startX="-150.0" stroke="WHITE" />
+            </VBox>
          </children>
-      </VBox>
-      <ScrollPane hbarPolicy="NEVER" layoutY="182.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+      </AnchorPane>
+      <ScrollPane hbarPolicy="NEVER" layoutY="182.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
         <content>
           <AnchorPane styleClass="cardScrollPane">
                <children>

@@ -28,7 +28,7 @@ public class stockPageController implements PageController {
     Map<String, List<StockCardComponent>> componentMap = new HashMap<>();
 
     List<StockCardComponent> expiresSoon = new ArrayList<>();
-    componentMap.put(EXPIRE_KEY, expiresSoon);
+    componentMap.put(EXPIRE_KEY, new ArrayList<>());
 
     for (int i = 0; i < stockList.size(); i++) {
       Map<String, Object> stock = stockList.get(i);
@@ -54,23 +54,31 @@ public class stockPageController implements PageController {
       }
     }
 
+    if (!expiresSoon.isEmpty()) {
+      Label expireSoonLabel = new Label(Utility.toCapitalized(EXPIRE_KEY));
+      expireSoonLabel.getStyleClass().add("labelText");
+
+      cardList.getChildren().add(expireSoonLabel);
+
+      for (StockCardComponent s : expiresSoon) {
+        cardList.getChildren().add(s);
+      }
+    }
+
     for (String group : componentMap.keySet()) {
       Label groupLabel = new Label(Utility.toCapitalized(group));
       groupLabel.getStyleClass().add("labelText");
 
-      if (group == EXPIRE_KEY) {
-        int i = 1;
-        cardList.getChildren().add(0, groupLabel);
-        for (StockCardComponent s : componentMap.get(group)) {
-          cardList.getChildren().add(i, s);
-          i++;
-        }
-      } else {
-        cardList.getChildren().add(groupLabel);
+      List<StockCardComponent> groupcCard = componentMap.get(group);
 
-        for (StockCardComponent s : componentMap.get(group)) {
-          cardList.getChildren().add(s);
-        }
+      if (group == EXPIRE_KEY) {
+        continue;
+      }
+
+      cardList.getChildren().add(groupLabel);
+
+      for (StockCardComponent s : groupcCard) {
+        cardList.getChildren().add(s);
       }
     }
   }

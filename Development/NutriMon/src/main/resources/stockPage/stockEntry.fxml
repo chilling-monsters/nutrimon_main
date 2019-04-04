@@ -29,9 +29,9 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <ImageView fx:id="backButton" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="backButton" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
          <image>
-            <Image url="@../img/Menu%20Icon%20White2x.png" />
+            <Image url="@../img/Menu-Back-Icon-White2x.png" />
          </image>
       </ImageView>
       <Label text="Your Ingredients" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
@@ -66,7 +66,7 @@
                         <Font name="Helvetica" size="9.0" />
                      </font>
                   </Label>
-      
+
                         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="cardScrollPane" vbarPolicy="NEVER">
                      <content>
                         <AnchorPane>

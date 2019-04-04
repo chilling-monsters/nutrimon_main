@@ -47,6 +47,10 @@
 .createButton:hover {
     -fx-cursor: hand;
 }
+.backButton:hover {
+    -fx-cursor: hand;
+}
+
 .titleText {
 }
 .labelText {

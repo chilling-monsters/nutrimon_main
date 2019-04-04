@@ -3,13 +3,19 @@ package chillingMonsters.Pages.stockPage;
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.StockController;
 import chillingMonsters.Pages.PageController;
+import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.awt.event.ActionEvent;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +36,9 @@ public class stockEntryPageController implements PageController {
 	@FXML
 	public VBox entryList;
 
+	@FXML
+	public ImageView backButton;
+
 	public stockEntryPageController(long foodID, PageOption option) {
 		this.foodID = foodID;
 		this.option = option;
@@ -46,16 +55,20 @@ public class stockEntryPageController implements PageController {
 
 		for (Map<String, Object> result : resultsList) {
 			Long timeLeft = (Long) result.get("time_left");
-			String addedDate = Utility.parseDate((Timestamp) result.get("foodExpDate"));
+			String addedDate = Utility.parseDate((Timestamp) result.get("added_date"));
 			float amount = (Float) result.get("foodQtty");
 			StockEntryCardComponent sCard = new StockEntryCardComponent(timeLeft, addedDate, amount);
 
 			entryList.getChildren().add(sCard);
 		}
-	}
 
-	@FXML
-	void addStockButton(ActionEvent event) {
+		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
+				PageFactory.getStockPage().startPage(e);
+			}
+		});
 	}
 }
