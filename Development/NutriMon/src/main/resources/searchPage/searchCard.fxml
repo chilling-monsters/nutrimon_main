@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -10,30 +9,34 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: #FFFFFFFF;" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="50.0" fitWidth="150.0" layoutX="94.0" layoutY="-75.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@../stockPage/img/KaleCardBG.png" />
-         </image>
-      </ImageView>
-      <VBox spacing="3.0" AnchorPane.bottomAnchor="8.5" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="8.5">
+      <AnchorPane prefHeight="50.0" prefWidth="300.0" styleClass="searchCardPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="cardLabel" text="LABEL" textFill="#9e9e9e">
-               <font>
-                  <Font name="SF Pro Display Regular" size="9.0" />
-               </font>
-            </Label>
-            <Label fx:id="cardName" maxWidth="135.0" text="Label">
-               <font>
-                  <Font name="SF Pro Display Regular" size="15.0" />
-               </font>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Label>
+            <ImageView fitWidth="150.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@img/KaleCardBG.png" />
+               </image>
+            </ImageView>
+            <VBox spacing="3.0" AnchorPane.bottomAnchor="8.5" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="8.5">
+               <children>
+                  <Label fx:id="cardLabel" text="LABEL" textFill="#9e9e9e">
+                     <font>
+                        <Font name="SF Pro Display Regular" size="9.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="cardName" maxWidth="135.0" text="Label">
+                     <font>
+                        <Font name="SF Pro Display Regular" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
          </children>
-      </VBox>
+      </AnchorPane>
    </children>
    <effect>
       <DropShadow color="#00000080" height="20.0" offsetX="4.0" offsetY="5.0" radius="9.5" width="20.0" />

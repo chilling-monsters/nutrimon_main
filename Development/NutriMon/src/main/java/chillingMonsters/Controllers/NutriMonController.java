@@ -162,39 +162,42 @@ public abstract class NutriMonController {
     }
 
     public static String parseFoodName(String name) {
-        String[] food = name.toLowerCase().split(",");
+        String[] byComma = name.split(",");
+        String label = "";
 
-        for (int i = 0; i < food.length; i++) {
-            String s = food[i];
-            String[] subStr =  s.split(" ");
-            s = "";
-            for (int j = 0; j < subStr.length; j++) {
-                String sub = subStr[j];
-                sub = sub.substring(0, 1).toUpperCase() + sub.substring(1);
-
-                if (j > 0) s += " ";
-
-                s += sub;
-            }
-
-            food[i] = s;
+        for (int i = 0; i < byComma.length; i++) {
+            byComma[i] = toCapitalized(byComma[i]);
         }
 
-        String foodName = "";
-        if (food.length > 1) {
-            if (food[1].equals("With Salt")) {
-                food[1] = "Salted";
-            }
-
-            foodName = food[1] + " " + food[0];
+        if (byComma.length > 1) {
+            label += String.join(" ", byComma[1], byComma[0]);
         } else {
-            foodName = food[0];
+            label = byComma[0];
         }
 
-        for (int i = 2; i < food.length; i++) {
-            foodName += " " + food[i];
+        for (int i = 2; i < byComma.length; i++) {
+            label += ", " + byComma[i];
         }
 
-        return foodName;
+        return label;
+    }
+
+    private static String toCapitalized(String str) {
+        String[] bySpace = str.toLowerCase().split(" ");
+        String rtn = "";
+
+        for (String s : bySpace) {
+            rtn += toCapitalizedWord(s) + " ";
+        }
+
+        return rtn.trim();
+    }
+
+    private static String toCapitalizedWord(String str) {
+        if (str.length() > 0) {
+            return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+        } else {
+            return str.toUpperCase();
+        }
     }
 }

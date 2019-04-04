@@ -2,6 +2,7 @@ package chillingMonsters.Pages.stockPage;
 
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.StockController;
+import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,12 +11,12 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 import java.util.Map;
 
-public class stockPageController {
+public class stockPageController implements PageController {
   @FXML
   public VBox cardList;
 
   @FXML
-  void initialize() {
+  public void initialize() {
     StockController controller = ControllerFactory.makeStockController();
     List<Map<String, Object>> stockList = controller.show();
 
@@ -33,6 +34,6 @@ public class stockPageController {
 
   @FXML
   void stockCreateButtonAction(ActionEvent event) {
-    PageFactory.getSearchPage().startPage(event);
+    PageFactory.getAddStockSearchPage().startPage(event);
   }
 }
