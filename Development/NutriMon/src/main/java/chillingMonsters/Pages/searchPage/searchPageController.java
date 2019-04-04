@@ -4,6 +4,7 @@ import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.IngredientController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageOption;
+import chillingMonsters.Utility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -34,7 +35,7 @@ public class searchPageController implements PageController {
 
     for (Map<String, Object> result : searchResult) {
       Long foodId = (Long) result.get("foodID");
-      String name = controller.parseFoodName(result.get("foodName").toString());
+      String name = Utility.parseFoodName(result.get("foodName").toString());
       String category = result.get("fCategory").toString();
 
       SearchCardComponent sCard = new SearchCardComponent(foodId, name, category, type);

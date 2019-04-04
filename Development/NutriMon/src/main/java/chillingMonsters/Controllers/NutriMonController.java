@@ -1,9 +1,6 @@
 package chillingMonsters.Controllers;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -159,45 +156,5 @@ public abstract class NutriMonController {
         }
 
         return check;
-    }
-
-    public static String parseFoodName(String name) {
-        String[] byComma = name.split(",");
-        String label = "";
-
-        for (int i = 0; i < byComma.length; i++) {
-            byComma[i] = toCapitalized(byComma[i]);
-        }
-
-        if (byComma.length > 1) {
-            label += String.join(" ", byComma[1], byComma[0]);
-        } else {
-            label = byComma[0];
-        }
-
-        for (int i = 2; i < byComma.length; i++) {
-            label += ", " + byComma[i];
-        }
-
-        return label;
-    }
-
-    private static String toCapitalized(String str) {
-        String[] bySpace = str.toLowerCase().split(" ");
-        String rtn = "";
-
-        for (String s : bySpace) {
-            rtn += toCapitalizedWord(s) + " ";
-        }
-
-        return rtn.trim();
-    }
-
-    private static String toCapitalizedWord(String str) {
-        if (str.length() > 0) {
-            return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
-        } else {
-            return str.toUpperCase();
-        }
     }
 }

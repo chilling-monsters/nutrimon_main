@@ -17,11 +17,10 @@ public class StockEntryCardComponent extends AnchorPane {
 	@FXML
 	private Label entryAmount;
 
-	public StockEntryCardComponent(String timeLeft, String addedDate, float amount) {
+	public StockEntryCardComponent(long timeLeft, String addedDate, float amount) {
 		super();
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/stockPage/stockEntryCard.fxml"));
-
 		fxmlLoader.setRoot(this);
 		fxmlLoader.setController(this);
 
@@ -31,8 +30,8 @@ public class StockEntryCardComponent extends AnchorPane {
 			throw new RuntimeException(e);
 		}
 
-		entryTimeLeft.setText(timeLeft);
-		entryAddedDate.setText(addedDate);
-		entryAddedDate.setText(String.format("%.0fg", amount));
+		entryTimeLeft.setText(String.format("Expires in %d days", timeLeft));
+		entryAddedDate.setText(String.format("Added %s", addedDate));
+		entryAmount.setText(String.format("%.0fg", amount));
 	}
 }

@@ -43,9 +43,9 @@ public class StockController extends NutriMonController implements StockDao {
 
     public List<Map<String, Object>> showStockIngredient(long foodId) {
         List<Map<String, Object>> stocks = new ArrayList<>();
-        String query = "SELECT stockItemID, foodID, foodName, fCategory, expTime, " +
-                "foodQtty as 'quantity', " +
-                "foodExpDate " +
+        String query = "SELECT stockItemID, foodID, foodName, fCategory, expTime, foodExpDate," +
+                "foodQtty as 'quantity', "  +
+                "datediff(foodExpDate, now()) as 'time_left' " +
                 "FROM stockitems JOIN ingredients using(foodID) " +
                 "WHERE userID = ? AND foodID = ? " +
                 "ORDER BY foodExpDate ASC";

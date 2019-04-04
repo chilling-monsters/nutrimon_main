@@ -23,9 +23,9 @@ public class SearchCardComponent extends AnchorPane {
     super();
 
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/searchPage/searchCard.fxml"));
-
     fxmlLoader.setRoot(this);
     fxmlLoader.setController(this);
+
     this.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {

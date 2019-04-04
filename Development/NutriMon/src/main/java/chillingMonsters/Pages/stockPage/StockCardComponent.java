@@ -32,9 +32,9 @@ public class StockCardComponent extends AnchorPane {
     this.foodID = foodID;
 
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/stockPage/stockCard.fxml"));
-
     fxmlLoader.setRoot(this);
     fxmlLoader.setController(this);
+
     this.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {

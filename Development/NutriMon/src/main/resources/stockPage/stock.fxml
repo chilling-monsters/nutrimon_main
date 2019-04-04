@@ -12,12 +12,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" styleClass="screenPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.stockPage.stockPageController">
    <children>
-      <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="76.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="45.0">
+      <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="76.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
          <image>
             <Image url="@../img/Menu%20Icon2x.png" />
          </image>
       </ImageView>
-      <Label layoutX="121.0" layoutY="226.0" text="Your Stock" textFill="#f5a623" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="45.0">
+      <Label layoutX="121.0" layoutY="226.0" text="Your Stock" textFill="#f5a623" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="Helvetica" size="25.0" />
          </font>
@@ -27,7 +27,7 @@
             <Font name="SF Pro Display Bold" size="20.0" />
          </font>
       </Label>
-      <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="130.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="130.0">
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="14.0" layoutY="130.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="130.0">
         <content>
           <AnchorPane styleClass="cardScrollPane">
                <children>

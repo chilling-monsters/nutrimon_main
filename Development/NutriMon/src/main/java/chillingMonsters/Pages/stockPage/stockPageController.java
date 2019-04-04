@@ -4,6 +4,7 @@ import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.StockController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
+import chillingMonsters.Utility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
@@ -22,7 +23,7 @@ public class stockPageController implements PageController {
 
     for (Map<String, Object> stock : stockList) {
       long id = (Long) stock.get("foodID");
-      String name  = controller.parseFoodName(stock.get("foodName").toString());
+      String name  = Utility.parseFoodName(stock.get("foodName").toString());
       double amount = (Double) stock.get("quantity");
       long exp = (Long) stock.get("next_exp");
       String category = stock.get("fCategory").toString();
