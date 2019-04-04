@@ -13,6 +13,10 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
 public class SearchCardComponent extends AnchorPane {
+  private PageOption type = PageOption.DEFAULT;
+  private long foodID;
+
+
   @FXML
   private Label cardName;
 
@@ -22,6 +26,9 @@ public class SearchCardComponent extends AnchorPane {
   public SearchCardComponent(long foodID, String name, String category, PageOption type) {
     super();
 
+    this.foodID = foodID;
+    this.type = type;
+
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/searchPage/searchCard.fxml"));
     fxmlLoader.setRoot(this);
     fxmlLoader.setController(this);
@@ -29,15 +36,7 @@ public class SearchCardComponent extends AnchorPane {
     this.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
-        ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-
-        if (type == PageOption.ADD_STOCK) {
-          PageFactory.getAddStockEntryPage(foodID).startPage(e);
-        } else if (type == PageOption.ADD_RECIPE) {
-          System.out.println("Add Recipe");
-        } else {
-          System.out.println("Search All");
-        }
+        handleOnClick(event);
       }
     });
 
@@ -49,5 +48,17 @@ public class SearchCardComponent extends AnchorPane {
 
     cardName.setText(name);
     cardLabel.setText(category);
+  }
+
+  private void handleOnClick(MouseEvent event) {
+    ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+
+    if (type == PageOption.ADD_STOCK) {
+      PageFactory.getAddStockEntryPage(foodID).startPage(e);
+    } else if (type == PageOption.ADD_RECIPE) {
+      System.out.println("Add Recipe");
+    } else {
+      System.out.println("Search All");
+    }
   }
 }

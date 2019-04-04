@@ -56,10 +56,14 @@ public class searchPageController implements PageController {
     backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
-        ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-
-        PageFactory.getStockPage().startPage(e);
+        handleOnClick(event);
       }
     });
+  }
+
+  private void handleOnClick(MouseEvent event) {
+    ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+
+    PageFactory.getStockPage().startPage(e);
   }
 }

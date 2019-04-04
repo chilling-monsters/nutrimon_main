@@ -50,8 +50,12 @@
 .backButton:hover {
     -fx-cursor: hand;
 }
-
+.formInput {
+    -fx-pref-height: 45px;
+    -fx-background-color: white;
+}
 .titleText {
+    -fx-font-size: 15px;
 }
 .labelText {
     -fx-font-size: 20px;

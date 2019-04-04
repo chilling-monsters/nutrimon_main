@@ -4,9 +4,11 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -76,6 +78,24 @@
                                     <Insets bottom="10.0" />
                                  </padding>
                               </VBox>
+                              <VBox fx:id="createForm" styleClass="formInput" visible="false" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+                                 <children>
+                                    <Label styleClass="titleText" text="Amount">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox>
+                                       <children>
+                                          <TextField fx:id="amountTxF" prefWidth="280.0" />
+                                          <Label text="g">
+                                             <HBox.margin>
+                                                <Insets left="5.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children></VBox>
                            </children>
                         </AnchorPane>
                      </content>

@@ -13,8 +13,6 @@ public abstract class PageFactory {
   private static searchPage addStockSearch = null;
   private static searchPage addRecipeSearch = null;
   private static searchPage search = null;
-  private static stockEntryPage addStockEntry = null;
-  private static stockEntryPage stockEntry = null;
 
   public static loginPage getLoginPage() {
     if (login == null) login = new loginPage();
@@ -47,12 +45,10 @@ public abstract class PageFactory {
   }
 
   public static stockEntryPage getAddStockEntryPage(long foodID) {
-    if (addStockEntry == null) addStockEntry = new stockEntryPage(foodID, PageOption.ADD_STOCK);
-    return addStockEntry;
+    return new stockEntryPage(foodID, PageOption.ADD_STOCK);
   }
 
   public static stockEntryPage getStockEntryPage(long foodID) {
-    if (stockEntry == null) stockEntry = new stockEntryPage(foodID, PageOption.DEFAULT);
-    return stockEntry;
+    return new stockEntryPage(foodID, PageOption.DEFAULT);
   }
 }
