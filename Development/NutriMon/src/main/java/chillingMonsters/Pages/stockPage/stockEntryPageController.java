@@ -2,6 +2,7 @@ package chillingMonsters.Pages.stockPage;
 
 import chillingMonsters.AlertHandler;
 import chillingMonsters.Controllers.ControllerFactory;
+import chillingMonsters.Controllers.IngredientController;
 import chillingMonsters.Controllers.StockController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
@@ -23,12 +24,17 @@ import java.util.List;
 import java.util.Map;
 
 public class stockEntryPageController implements PageController {
-	private long foodID;
-	private long currentStockItemID;
-	private int avgSpoilageDays;
 	private PageOption option;
-	private double displayAmount = 0;
 	private boolean showForm = false;
+
+	private long foodID;
+	private int avgSpoilageDays;
+
+	private long currentStockItemID;
+	private long displaySpoilageDays;
+	private Timestamp displayAddedDate;
+	private double displayAmount = 0;
+
 
 	@FXML
 	public Label entryName;
@@ -79,8 +85,15 @@ public class stockEntryPageController implements PageController {
 
 	@FXML
 	public void initialize() {
-		createForm.setVisible(false);
 		refreshStock();
+
+		if (option == PageOption.ADD_STOCK) {
+			showForm = true;
+			toggleForm();
+		} else {
+			showForm = false;
+			toggleForm();
+		}
 
 		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
@@ -92,14 +105,14 @@ public class stockEntryPageController implements PageController {
 		addStockButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				handleAddStock(event);
+				handleAddStock();
 			}
 		});
 
 		amountTxF.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				handleAddStock(event);
+				handleAddStock();
 			}
 		});
 
@@ -120,7 +133,7 @@ public class stockEntryPageController implements PageController {
 		cancelEntryButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				handleCancel(event);
+				handleCancel();
 			}
 		});
 	}
@@ -128,22 +141,33 @@ public class stockEntryPageController implements PageController {
 	private void refreshStock() {
 		entryList.getChildren().clear();
 
-		StockController controller = ControllerFactory.makeStockController();
-		List<Map<String, Object>> resultsList = controller.showStockIngredient(foodID);
+		IngredientController ingrController = ControllerFactory.makeIngredientController();
+		Map<String, Object> ingredient = ingrController.getIngredient(foodID);
 
-		String name = resultsList.get(0).get("foodName").toString();
-		String category = resultsList.get(0).get("fCategory").toString();
-		avgSpoilageDays = (Integer) resultsList.get(0).get("expTime");
+		String name = ingredient.get("foodName").toString();
+		String category = ingredient.get("fCategory").toString();
+		avgSpoilageDays = (Integer) ingredient.get("expTime");
 
 		entryName.setText(Utility.parseFoodName(name));
 		entryCategory.setText(category);
 		entryAvgSpoilage.setText(String.format("%d Days", avgSpoilageDays));
 
+		StockController controller = ControllerFactory.makeStockController();
+		List<Map<String, Object>> resultsList = controller.showStockIngredient(foodID);
+
 		for (Map<String, Object> result : resultsList) {
+			Long stockItemID = (Long) result.get("stockItemID");
 			Long timeLeft = (Long) result.get("time_left");
-			String addedDate = Utility.parseDate((Timestamp) result.get("added_date"));
+			Timestamp addedDate = (Timestamp) result.get("added_date");
 			float amount = (Float) result.get("foodQtty");
-			StockEntryCardComponent sCard = new StockEntryCardComponent(timeLeft, addedDate, amount);
+			StockEntryCardComponent sCard = new StockEntryCardComponent(stockItemID, timeLeft, addedDate, amount);
+
+			sCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					handleCardClick(event);
+				}
+			});
 
 			entryList.getChildren().add(sCard);
 		}
@@ -155,24 +179,26 @@ public class stockEntryPageController implements PageController {
 		PageFactory.getStockPage().startPage(e);
 	}
 
-	private void handleAddStock(ActionEvent event) {
+	private void handleAddStock() {
 		if (!showForm) {
 			option = PageOption.ADD_STOCK;
 			showForm = true;
 			toggleForm();
-		}
-		else {
-			if (displayAmount == 0) {
+		} else {
+			if (displayAmount <= 0) {
 				addStockButton.setSelected(true);
 				AlertHandler.showAlert(Alert.AlertType.ERROR, "Add Stock Failed...", "New Amount Must Be A Positive Number");
 				return;
 			}
+			StockController controller = ControllerFactory.makeStockController();
+			controller.createStock(foodID, displayAmount);
+
 			showForm = false;
 			toggleForm();
 		}
 	}
 
-	private void handleCancel(ActionEvent event) {
+	private void handleCancel() {
 		showForm = false;
 		toggleForm();
 	}
@@ -185,18 +211,23 @@ public class stockEntryPageController implements PageController {
 		if (showForm) {
 			addStockButton.setText("Save");
 			addStockButton.setSelected(true);
-			handleInputChange();
 
 			if (option == PageOption.ADD_STOCK) {
-				entryTimeLeft.setText(String.format("Expires in %d days", avgSpoilageDays));
-				entryAddedDate.setText("IF ADDED TODAY");
-				dateTxF.setValue(LocalDate.now());
+				displaySpoilageDays = avgSpoilageDays;
+				displayAddedDate = Utility.today();
+				handleInputChange();
 			}
+
+			entryCurrentAmount.setText(String.format("%.0f grams", displayAmount));
+			entryTimeLeft.setText(String.format("Expires in %d days", displaySpoilageDays));
+			entryAddedDate.setText(String.format("FROM %S", Utility.parseDate(displayAddedDate)));
+			dateTxF.setValue(displayAddedDate.toLocalDateTime().toLocalDate());
 		} else {
 			option = PageOption.DEFAULT;
 			addStockButton.setText("+");
 			addStockButton.setSelected(false);
 			amountTxF.setText("");
+			refreshStock();
 		}
 
 		entryList.setVisible(!showForm);
@@ -213,5 +244,20 @@ public class stockEntryPageController implements PageController {
 			displayAmount = 0;
 		}
 		entryCurrentAmount.setText(String.format("%.0f grams", displayAmount));
+	}
+
+	private void handleCardClick(MouseEvent event) {
+		if (!showForm) {
+			option = PageOption.UPDATE;
+			showForm = true;
+
+			StockEntryCardComponent clickedCard = (StockEntryCardComponent) event.getSource();
+			currentStockItemID = clickedCard.getStockItemID();
+			displaySpoilageDays = clickedCard.getTimeLeft();
+			displayAddedDate = clickedCard.getAddedDate();
+			displayAmount = clickedCard.getAmount();
+
+			toggleForm();
+		}
 	}
 }

@@ -57,15 +57,16 @@ public class Utility {
 	}
 
 	public static String parseDate(Timestamp dateTime) {
+
 		Date dt = new Date((long) dateTime.getTime());
+
 		int day = Integer.parseInt(new SimpleDateFormat("d").format(dt));
 		String month = new SimpleDateFormat("MMM").format(dt);
 
 		return month + " " + day + suffixes[day];
 	}
 
-	public static String today() {
-		Timestamp today = new Timestamp(System.currentTimeMillis());
-		return parseDate(today);
+	public static Timestamp today() {
+		return new Timestamp(System.currentTimeMillis());
 	}
 }

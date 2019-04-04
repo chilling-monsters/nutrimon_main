@@ -1,13 +1,20 @@
 package chillingMonsters.Pages.stockPage;
 
+import chillingMonsters.Utility;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public class StockEntryCardComponent extends AnchorPane {
+	private long stockItemID;
+	private long timeLeft;
+	private Timestamp addedDate;
+	private float amount;
+
 	@FXML
 	private Label entryTimeLeft;
 
@@ -17,8 +24,12 @@ public class StockEntryCardComponent extends AnchorPane {
 	@FXML
 	private Label entryAmount;
 
-	public StockEntryCardComponent(long timeLeft, String addedDate, float amount) {
+	public StockEntryCardComponent(long stockItemID, long timeLeft, Timestamp addedDate, float amount) {
 		super();
+		this.stockItemID = stockItemID;
+		this.timeLeft = timeLeft;
+		this.addedDate = addedDate;
+		this.amount = amount;
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/stockPage/stockEntryCard.fxml"));
 		fxmlLoader.setRoot(this);
@@ -31,7 +42,12 @@ public class StockEntryCardComponent extends AnchorPane {
 		}
 
 		entryTimeLeft.setText(String.format("Expires in %d days", timeLeft));
-		entryAddedDate.setText(String.format("Added %s", addedDate));
+		entryAddedDate.setText(String.format("Added %s", Utility.parseDate(addedDate)));
 		entryAmount.setText(String.format("%.0fg", amount));
 	}
+
+	public long getStockItemID() { return stockItemID; }
+	public long getTimeLeft() { return timeLeft; }
+	public Timestamp getAddedDate() { return addedDate; }
+	public float getAmount() { return amount; }
 }
