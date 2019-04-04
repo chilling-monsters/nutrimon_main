@@ -49,3 +49,6 @@
 }
 .titleText {
 }
+.labelText {
+    -fx-font-size: 20px;
+}

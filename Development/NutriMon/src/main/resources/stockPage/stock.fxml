@@ -22,18 +22,13 @@
             <Font name="Helvetica" size="25.0" />
          </font>
       </Label>
-      <Label text="Expires Soon" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="100.0">
-         <font>
-            <Font name="SF Pro Display Bold" size="20.0" />
-         </font>
-      </Label>
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="14.0" layoutY="130.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="130.0">
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="14.0" layoutY="64.0" prefWidth="360.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
         <content>
           <AnchorPane styleClass="cardScrollPane">
                <children>
                   <VBox fx:id="cardList" spacing="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="0.0">
                      <padding>
-                        <Insets bottom="20.0" top="10.0" />
+                        <Insets bottom="20.0" />
                      </padding>
                   </VBox>
                </children>

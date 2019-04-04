@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Utility {
+	public static int SPOILAGE_WARNING_DAYS = 5;
 	static String[] suffixes = {
 		//0     1     2     3     4     5     6     7     8     9
 		"th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th",
@@ -36,7 +37,7 @@ public class Utility {
 		return label;
 	}
 
-	private static String toCapitalized(String str) {
+	public static String toCapitalized(String str) {
 		String[] bySpace = str.toLowerCase().split(" ");
 		String rtn = "";
 
@@ -47,7 +48,7 @@ public class Utility {
 		return rtn.trim();
 	}
 
-	private static String toCapitalizedWord(String str) {
+	public static String toCapitalizedWord(String str) {
 		if (str.length() > 0) {
 			return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
 		} else {
