@@ -48,11 +48,11 @@
             <Font name="Helvetica" size="25.0" />
          </font>
       </Label>
-      <AnchorPane prefHeight="430.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+      <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="430.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <children>
-            <VBox AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+            <VBox AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
                <children>
-                  <Label fx:id="entryName" maxHeight="60.0" text="INGR. NAME" wrapText="true">
+                  <Label fx:id="entryName" maxHeight="30.0" text="Ingredient Name With Long Extra Spaces And Super Long Name" wrapText="true">
                      <font>
                         <Font name="Helvetica" size="25.0" />
                      </font>
@@ -62,97 +62,122 @@
                         <Font name="Helvetica" size="9.0" />
                      </font>
                   </Label>
-                  <Label fx:id="entryAvgSpoilage" text="7 Days" textAlignment="RIGHT" textFill="#f5a623">
-                     <font>
-                        <Font name="Helvetica" size="25.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Label text="AVERAGE FRESH TIME" textAlignment="RIGHT" textFill="#9e9e9e">
-                     <font>
-                        <Font name="Helvetica" size="9.0" />
-                     </font>
-                  </Label>
-                  <AnchorPane prefHeight="305.0" prefWidth="300.0">
+                  <AnchorPane fx:id="infoPane">
                      <children>
-      
-                              <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="285.0" prefWidth="300.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <content>
-                              <AnchorPane>
-                                 <children>
-                                    <VBox fx:id="entryList" spacing="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="10.0">
-                                       <padding>
-                                          <Insets bottom="10.0" />
-                                       </padding>
-                                    </VBox>
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </ScrollPane>
-                        <VBox fx:id="createForm" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="285.0" prefWidth="300.0" styleClass="formInput" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="10.0">
+                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Line endX="150.0" startX="-150.0" stroke="#f5a623">
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </Line>
-                              <Label fx:id="entryCurrentAmount" prefHeight="30.0" text="250 grams" textAlignment="CENTER" textFill="#f5a623">
+                              <Label fx:id="entryAvgSpoilage" text="7 Days" textAlignment="RIGHT" textFill="#f5a623">
                                  <font>
                                     <Font name="Helvetica" size="25.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets top="10.0" />
+                                    <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Label text="CURRENT AMOUNT" textAlignment="RIGHT" textFill="#9e9e9e">
+                              <Label text="AVERAGE FRESH TIME" textAlignment="RIGHT" textFill="#9e9e9e">
                                  <font>
                                     <Font name="Helvetica" size="9.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="amountTxF" alignment="TOP_LEFT" prefHeight="30.0" prefWidth="300.0" promptText="                                                                         g">
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </TextField>
-                              <Label fx:id="entryTimeLeft" layoutX="10.0" layoutY="10.0" prefHeight="30.0" text="Expires in 2 days" textAlignment="CENTER" textFill="#f5a623">
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label fx:id="entryTotalAmount" text="7 Days" textAlignment="RIGHT" textFill="#f5a623">
                                  <font>
                                     <Font name="Helvetica" size="25.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets top="10.0" />
+                                    <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Label fx:id="entryAddedDate" layoutX="10.0" layoutY="40.0" text="ADDED ON MAR 8TH" textAlignment="RIGHT" textFill="#9e9e9e">
+                              <Label text="TOTAL AMOUNT" textAlignment="RIGHT" textFill="#9e9e9e">
                                  <font>
                                     <Font name="Helvetica" size="9.0" />
                                  </font>
                               </Label>
-                              <DatePicker fx:id="dateTxF" prefWidth="300.0">
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </DatePicker>
-                              <Button fx:id="deleteEntryButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: red;" styleClass="backButton button" text="Delete" textFill="WHITE">
-                                 <VBox.margin>
-                                    <Insets top="35.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Button fx:id="cancelEntryButton" layoutX="10.0" layoutY="231.0" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: #FBD249;" styleClass="backButton button" text="Cancel" textFill="WHITE">
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </Button>
                            </children>
                         </VBox>
                      </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
                   </AnchorPane>
                </children>
             </VBox>
+            <AnchorPane prefHeight="305.0" prefWidth="300.0" AnchorPane.topAnchor="110.0">
+               <children>
+
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="285.0" prefWidth="300.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <AnchorPane>
+                           <children>
+                              <VBox fx:id="entryList" spacing="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </ScrollPane>
+                  <VBox fx:id="createForm" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                     <children>
+                        <Line endX="150.0" startX="-150.0" stroke="#f5a623">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Line>
+                        <Label fx:id="entryCurrentAmount" prefHeight="30.0" prefWidth="300.0" text="250 grams" textAlignment="CENTER" textFill="#f5a623">
+                           <font>
+                              <Font name="Helvetica" size="25.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="CURRENT AMOUNT" textAlignment="RIGHT" textFill="#9e9e9e">
+                           <font>
+                              <Font name="Helvetica" size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="amountTxF" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="300.0" promptText="                                                                         g">
+                                 <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label fx:id="entryTimeLeft" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="300.0" text="Expires in 2 days" textAlignment="CENTER" textFill="#ff6c00">
+                           <font>
+                              <Font name="Helvetica" size="25.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="entryAddedDate" layoutX="10.0" layoutY="40.0" text="ADDED ON MAR 8TH" textAlignment="RIGHT" textFill="#9e9e9e">
+                           <font>
+                              <Font name="Helvetica" size="9.0" />
+                           </font>
+                        </Label>
+                        <DatePicker fx:id="dateTxF" prefWidth="300.0">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </DatePicker>
+                        <Button fx:id="deleteEntryButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: red;" styleClass="backButton button" text="Delete" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets top="40.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="cancelEntryButton" layoutX="10.0" layoutY="231.0" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: #FBD249;" styleClass="backButton button" text="Cancel" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
             <ToggleButton fx:id="addStockButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="+" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font size="12.5" />

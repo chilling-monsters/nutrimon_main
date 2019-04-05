@@ -23,6 +23,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class stockEntryPageController implements PageController {
 	private PageOption option;
 	private boolean showForm = false;
@@ -31,16 +33,18 @@ public class stockEntryPageController implements PageController {
 	private int avgSpoilageDays;
 
 	private long currentStockItemID;
-	private long displaySpoilageDays;
-	private Timestamp displayAddedDate;
+	private long displaySpoilageDays = 0;
+	private Timestamp displayAddedDate = new Timestamp(System.currentTimeMillis());
 	private double displayAmount = 0;
-
 
 	@FXML
 	public Label entryName;
 
 	@FXML
 	public Label entryAvgSpoilage;
+
+	@FXML
+	public Label entryTotalAmount;
 
 	@FXML
 	public Label entryCategory;
@@ -126,7 +130,7 @@ public class stockEntryPageController implements PageController {
 		deleteEntryButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				handleDeleteStock(event);
+				handleDeleteStock();
 			}
 		});
 
@@ -134,6 +138,13 @@ public class stockEntryPageController implements PageController {
 			@Override
 			public void handle(ActionEvent event) {
 				handleCancel();
+			}
+		});
+
+		dateTxF.valueProperty().addListener(new ChangeListener<LocalDate>() {
+			@Override
+			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
+				handleDateChange(newValue);
 			}
 		});
 	}
@@ -150,16 +161,19 @@ public class stockEntryPageController implements PageController {
 
 		entryName.setText(Utility.parseFoodName(name));
 		entryCategory.setText(category);
-		entryAvgSpoilage.setText(String.format("%d Days", avgSpoilageDays));
+		entryAvgSpoilage.setText(String.format("%d Day%s", avgSpoilageDays, avgSpoilageDays > 1 ? "s" : ""));
 
 		StockController controller = ControllerFactory.makeStockController();
 		List<Map<String, Object>> resultsList = controller.showStockIngredient(foodID);
 
+		float totalAmount = 0;
 		for (Map<String, Object> result : resultsList) {
 			Long stockItemID = (Long) result.get("stockItemID");
 			Long timeLeft = (Long) result.get("time_left");
 			Timestamp addedDate = (Timestamp) result.get("added_date");
 			float amount = (Float) result.get("foodQtty");
+			totalAmount += amount;
+
 			StockEntryCardComponent sCard = new StockEntryCardComponent(stockItemID, timeLeft, addedDate, amount);
 
 			sCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -171,17 +185,28 @@ public class stockEntryPageController implements PageController {
 
 			entryList.getChildren().add(sCard);
 		}
+
+		entryTotalAmount.setText(String.format("%.0f g", totalAmount));
 	}
 
 	private void handleBackOnClick(MouseEvent event) {
-		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+		if (showForm) {
+			handleCancel();
+		} else {
+			ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
-		PageFactory.getStockPage().startPage(e);
+			PageFactory.getStockPage().startPage(e);
+		}
 	}
 
 	private void handleAddStock() {
 		if (!showForm) {
 			option = PageOption.ADD_STOCK;
+
+			displaySpoilageDays = avgSpoilageDays;
+			displayAddedDate = Utility.today();
+			handleInputChange();
+
 			showForm = true;
 			toggleForm();
 		} else {
@@ -190,8 +215,19 @@ public class stockEntryPageController implements PageController {
 				AlertHandler.showAlert(Alert.AlertType.ERROR, "Add Stock Failed...", "New Amount Must Be A Positive Number");
 				return;
 			}
+
 			StockController controller = ControllerFactory.makeStockController();
-			controller.createStock(foodID, displayAmount);
+			switch (option) {
+				case ADD_STOCK:
+					controller.createStock(foodID, displayAmount);
+					break;
+				case UPDATE:
+					LocalDate expDate = displayAddedDate.toLocalDateTime().toLocalDate().plusDays(avgSpoilageDays);
+					controller.updateStock(currentStockItemID, displayAmount, expDate.toString());
+					break;
+				case DEFAULT:
+					break;
+			}
 
 			showForm = false;
 			toggleForm();
@@ -203,8 +239,16 @@ public class stockEntryPageController implements PageController {
 		toggleForm();
 	}
 
-	private void handleDeleteStock(ActionEvent event) {
+	private void handleDeleteStock() {
+		StockController controller = ControllerFactory.makeStockController();
+
+		if (option == PageOption.UPDATE) {
+			AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Delete Stock", "Are you sure you want to delete this stock?");
+			controller.deleteStock(currentStockItemID);
+		}
+
 		showForm = false;
+		toggleForm();
 	}
 
 	private void toggleForm() {
@@ -212,16 +256,9 @@ public class stockEntryPageController implements PageController {
 			addStockButton.setText("Save");
 			addStockButton.setSelected(true);
 
-			if (option == PageOption.ADD_STOCK) {
-				displaySpoilageDays = avgSpoilageDays;
-				displayAddedDate = Utility.today();
-				handleInputChange();
-			}
-
-			entryCurrentAmount.setText(String.format("%.0f grams", displayAmount));
-			entryTimeLeft.setText(String.format("Expires in %d days", displaySpoilageDays));
-			entryAddedDate.setText(String.format("FROM %S", Utility.parseDate(displayAddedDate)));
 			dateTxF.setValue(displayAddedDate.toLocalDateTime().toLocalDate());
+			amountTxF.setText(String.format("%.0f", displayAmount));
+			handleInputChange();
 		} else {
 			option = PageOption.DEFAULT;
 			addStockButton.setText("+");
@@ -258,6 +295,24 @@ public class stockEntryPageController implements PageController {
 			displayAmount = clickedCard.getAmount();
 
 			toggleForm();
+		}
+	}
+
+	private void handleDateChange(LocalDate newValue) {
+		displayAddedDate = Timestamp.valueOf(newValue.atStartOfDay());
+		entryAddedDate.setText(String.format("FROM %S", Utility.parseDate(displayAddedDate)));
+
+		displaySpoilageDays = avgSpoilageDays - DAYS.between(newValue, LocalDate.now());
+		setExpiryString();
+	}
+
+	private void setExpiryString() {
+		if (displaySpoilageDays > 0) {
+			entryTimeLeft.setText(String.format("Expires in %d day%s", displaySpoilageDays, displaySpoilageDays > 1 ? "s" : ""));
+		} else if (displaySpoilageDays < 0) {
+			entryTimeLeft.setText(String.format("Expired %d day%s ago", -displaySpoilageDays, -displaySpoilageDays < -1 ? "s" : ""));
+		} else {
+			entryTimeLeft.setText("Expires today");
 		}
 	}
 }

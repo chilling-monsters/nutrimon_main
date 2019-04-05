@@ -77,7 +77,12 @@ public class stockPageController implements PageController {
 
       cardList.getChildren().add(groupLabel);
 
-      for (StockCardComponent s : groupcCard) {
+      for (int i = 0; i < groupcCard.size(); i++) {
+        StockCardComponent s = groupcCard.get(i);
+
+        if (i > 0) {
+          s.getStyleClass().add("secondaryCard");
+        }
         cardList.getChildren().add(s);
       }
     }

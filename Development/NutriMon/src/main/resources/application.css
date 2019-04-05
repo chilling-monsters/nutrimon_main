@@ -60,6 +60,11 @@
 .titleText {
     -fx-font-size: 15px;
 }
+
 .labelText {
     -fx-font-size: 20px;
+    -fx-padding: 30 0 0 0;
+}
+.secondaryCard {
+    -fx-padding: 15 0 0 0;
 }

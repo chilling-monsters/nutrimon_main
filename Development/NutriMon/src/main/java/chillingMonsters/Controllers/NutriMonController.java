@@ -82,8 +82,9 @@ public abstract class NutriMonController {
         StringBuilder query = new StringBuilder(String.format("UPDATE %s ", table));
         int i = 0;
         int size = values.size();
+        query.append("SET ");
         for (Map.Entry<String, Object> entry : values.entrySet()) {
-            query.append(String.format("SET %s = %s", entry.getKey(), String.valueOf(entry.getValue())));
+            query.append(String.format("%s = %s", entry.getKey(), String.valueOf(entry.getValue())));
             if (i != size - 1) {
                 query.append(", ");
             }

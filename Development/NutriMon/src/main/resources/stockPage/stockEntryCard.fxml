@@ -69,6 +69,6 @@
 
    </children>
    <effect>
-      <DropShadow color="#00000080" height="20.0" offsetX="4.0" offsetY="5.0" radius="9.5" width="20.0" />
+      <DropShadow blurType="ONE_PASS_BOX" color="#00000080" height="50.0" offsetX="5.0" offsetY="5.0" radius="24.5" width="50.0" />
    </effect>
 </fx:root>

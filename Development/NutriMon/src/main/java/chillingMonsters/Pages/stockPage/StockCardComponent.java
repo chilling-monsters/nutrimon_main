@@ -50,7 +50,7 @@ public class StockCardComponent extends AnchorPane {
 
     cardName.setText(name);
     cardAmount.setText(String.format("%.0fg", amount));
-    cardExpDate.setText(String.format("%d days", minExpDate));
+    cardExpDate.setText(String.format("%d day%s", minExpDate, minExpDate > 1 ? "s" : ""));
     cardCategory.setText(category);
   }
 

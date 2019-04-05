@@ -11,6 +11,11 @@ public class AlertHandler {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.show();
+
+        if (alertType == Alert.AlertType.CONFIRMATION) {
+            alert.showAndWait();
+        } else {
+            alert.show();
+        }
     }
 }

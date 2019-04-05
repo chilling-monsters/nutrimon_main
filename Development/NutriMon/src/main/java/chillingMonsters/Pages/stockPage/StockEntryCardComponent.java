@@ -41,7 +41,14 @@ public class StockEntryCardComponent extends AnchorPane {
 			throw new RuntimeException(e);
 		}
 
-		entryTimeLeft.setText(String.format("Expires in %d days", timeLeft));
+		if (timeLeft > 0) {
+			entryTimeLeft.setText(String.format("Expires in %d day%s", timeLeft, timeLeft > 1 ? "s" : ""));
+		} else if (timeLeft < 0) {
+			entryTimeLeft.setText(String.format("Expired %d day%s ago", -timeLeft, -timeLeft < -1 ? "s" : ""));
+		} else {
+			entryTimeLeft.setText("Expires Today");
+		}
+
 		entryAddedDate.setText(String.format("Added %s", Utility.parseDate(addedDate)));
 		entryAmount.setText(String.format("%.0fg", amount));
 	}

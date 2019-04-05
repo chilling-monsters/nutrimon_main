@@ -13,6 +13,22 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.stockPage.stockPageController">
    <children>
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="14.0" layoutY="64.0" prefWidth="360.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+        <content>
+          <AnchorPane styleClass="cardScrollPane">
+               <children>
+                  <VBox fx:id="cardList" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="0.0">
+                     <padding>
+                        <Insets bottom="20.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets top="-30.0" />
+               </padding>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
       <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="76.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
          <image>
             <Image url="@../img/Menu%20Icon2x.png" />
@@ -23,19 +39,6 @@
             <Font name="Helvetica" size="25.0" />
          </font>
       </Label>
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="14.0" layoutY="64.0" prefWidth="360.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
-        <content>
-          <AnchorPane styleClass="cardScrollPane">
-               <children>
-                  <VBox fx:id="cardList" spacing="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="0.0">
-                     <padding>
-                        <Insets bottom="20.0" />
-                     </padding>
-                  </VBox>
-               </children>
-            </AnchorPane>
-        </content>
-      </ScrollPane>
 
       <Button fx:id="stockCreateButton" graphicTextGap="0.0" layoutX="35.0" layoutY="265.0" mnemonicParsing="false" onAction="#stockCreateButtonAction" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 27px;" text="+" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0">
          <font>

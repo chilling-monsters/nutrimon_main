@@ -3,7 +3,6 @@ package chillingMonsters.Controllers;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,7 @@ import chillingMonsters.DBConnect;
 
 public class StockController extends NutriMonController implements StockDao {
     StockController() {
-        super("stockitems", "stockItemID");
+        super("stockItems", "stockItemID");
     }
 
     @Override
@@ -78,7 +77,7 @@ public class StockController extends NutriMonController implements StockDao {
     public void updateStock(long stockID, double quantity, String expDate) {
       Map<String, Object> payload = new HashMap<>();
       payload.put("foodQtty", quantity);
-      payload.put("foodExpDate", Timestamp.valueOf(expDate));
+      payload.put("foodExpDate", String.format("\'%s\'", expDate));
       this.update(stockID, payload);
     }
 }
