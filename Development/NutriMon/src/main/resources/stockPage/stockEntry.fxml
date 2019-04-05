@@ -66,7 +66,7 @@
                      <children>
                         <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label fx:id="entryAvgSpoilage" text="7 Days" textAlignment="RIGHT" textFill="#f5a623">
+                              <Label fx:id="entryAvgSpoilage" prefHeight="30.0" prefWidth="150.0" text="Fresh Time" textAlignment="RIGHT" textFill="#f5a623">
                                  <font>
                                     <Font name="Helvetica" size="25.0" />
                                  </font>
@@ -83,7 +83,7 @@
                         </VBox>
                         <VBox alignment="TOP_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label fx:id="entryTotalAmount" text="7 Days" textAlignment="RIGHT" textFill="#f5a623">
+                              <Label fx:id="entryTotalAmount" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="150.0" text="Total Amount" textAlignment="RIGHT" textFill="#f5a623">
                                  <font>
                                     <Font name="Helvetica" size="25.0" />
                                  </font>
@@ -102,7 +102,7 @@
                   </AnchorPane>
                </children>
             </VBox>
-            <AnchorPane prefHeight="305.0" prefWidth="300.0" AnchorPane.topAnchor="110.0">
+            <AnchorPane prefHeight="300.0" prefWidth="300.0" AnchorPane.topAnchor="105.0">
                <children>
 
                         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="285.0" prefWidth="300.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -117,9 +117,6 @@
                            </children>
                         </AnchorPane>
                      </content>
-                     <padding>
-                        <Insets bottom="10.0" />
-                     </padding>
                   </ScrollPane>
                   <VBox fx:id="createForm" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                      <children>
@@ -128,7 +125,7 @@
                               <Insets />
                            </VBox.margin>
                         </Line>
-                        <Label fx:id="entryCurrentAmount" prefHeight="30.0" prefWidth="300.0" text="250 grams" textAlignment="CENTER" textFill="#f5a623">
+                        <Label fx:id="entryCurrentAmount" prefHeight="30.0" prefWidth="300.0" text="Amount Label" textAlignment="CENTER" textFill="#f5a623">
                            <font>
                               <Font name="Helvetica" size="25.0" />
                            </font>
@@ -146,7 +143,7 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <Label fx:id="entryTimeLeft" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="300.0" text="Expires in 2 days" textAlignment="CENTER" textFill="#ff6c00">
+                        <Label fx:id="entryTimeLeft" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="300.0" text="Expire Label" textAlignment="CENTER" textFill="#ff6c00">
                            <font>
                               <Font name="Helvetica" size="25.0" />
                            </font>
@@ -166,7 +163,7 @@
                         </DatePicker>
                         <Button fx:id="deleteEntryButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: red;" styleClass="backButton button" text="Delete" textFill="WHITE">
                            <VBox.margin>
-                              <Insets top="40.0" />
+                              <Insets top="45.0" />
                            </VBox.margin>
                         </Button>
                         <Button fx:id="cancelEntryButton" layoutX="10.0" layoutY="231.0" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: #FBD249;" styleClass="backButton button" text="Cancel" textFill="WHITE">

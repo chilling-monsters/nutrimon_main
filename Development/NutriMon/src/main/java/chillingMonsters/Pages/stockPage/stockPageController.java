@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public class stockPageController implements PageController {
     Map<String, List<StockCardComponent>> componentMap = new HashMap<>();
 
     List<StockCardComponent> expiresSoon = new ArrayList<>();
-    componentMap.put(EXPIRE_KEY, new ArrayList<>());
+    componentMap.put(EXPIRE_KEY, expiresSoon);
 
     for (int i = 0; i < stockList.size(); i++) {
       Map<String, Object> stock = stockList.get(i);
@@ -55,41 +56,38 @@ public class stockPageController implements PageController {
     }
 
     if (!expiresSoon.isEmpty()) {
-      Label expireSoonLabel = new Label(Utility.toCapitalized(EXPIRE_KEY));
-      expireSoonLabel.getStyleClass().add("labelText");
-
-      cardList.getChildren().add(expireSoonLabel);
-
-      for (StockCardComponent s : expiresSoon) {
-        cardList.getChildren().add(s);
-      }
+      addToList(EXPIRE_KEY, expiresSoon);
     }
 
+    componentMap.remove(EXPIRE_KEY);
+
     for (String group : componentMap.keySet()) {
-      Label groupLabel = new Label(Utility.toCapitalized(group));
-      groupLabel.getStyleClass().add("labelText");
-
-      List<StockCardComponent> groupcCard = componentMap.get(group);
-
-      if (group == EXPIRE_KEY) {
-        continue;
-      }
-
-      cardList.getChildren().add(groupLabel);
-
-      for (int i = 0; i < groupcCard.size(); i++) {
-        StockCardComponent s = groupcCard.get(i);
-
-        if (i > 0) {
-          s.getStyleClass().add("secondaryCard");
-        }
-        cardList.getChildren().add(s);
-      }
+      addToList(group, componentMap.get(group));
     }
   }
 
   @FXML
   void stockCreateButtonAction(ActionEvent event) {
     PageFactory.getAddStockSearchPage().startPage(event);
+  }
+
+  private void addToList(String label, List<StockCardComponent> group) {
+    Label groupLabel = new Label(Utility.toCapitalized(label));
+    groupLabel.getStyleClass().add("labelText");
+
+    Line underline = new Line();
+    underline.setStartX(0.0f);
+    underline.setStartY(100.0f);
+    underline.setEndX(300.0f);
+    underline.setEndY(100.0f);
+    underline.getStyleClass().add("line");
+
+    cardList.getChildren().add(groupLabel);
+    cardList.getChildren().add(underline);
+
+    for (StockCardComponent s : group) {
+      s.getStyleClass().add("stockCard");
+      cardList.getChildren().add(s);
+    }
   }
 }

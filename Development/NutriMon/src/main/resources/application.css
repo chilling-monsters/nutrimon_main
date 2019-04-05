@@ -65,6 +65,10 @@
     -fx-font-size: 20px;
     -fx-padding: 30 0 0 0;
 }
-.secondaryCard {
+.stockCard {
     -fx-padding: 15 0 0 0;
+}
+
+.line {
+    -fx-stroke: #F5A623;
 }

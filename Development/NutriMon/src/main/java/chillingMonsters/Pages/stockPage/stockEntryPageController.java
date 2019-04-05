@@ -30,6 +30,7 @@ public class stockEntryPageController implements PageController {
 	private boolean showForm = false;
 
 	private long foodID;
+	private double totalAmount = 0;
 	private int avgSpoilageDays;
 
 	private long currentStockItemID;
@@ -92,8 +93,7 @@ public class stockEntryPageController implements PageController {
 		refreshStock();
 
 		if (option == PageOption.ADD_STOCK) {
-			showForm = true;
-			toggleForm();
+			handleAddStock();
 		} else {
 			showForm = false;
 			toggleForm();
@@ -123,7 +123,9 @@ public class stockEntryPageController implements PageController {
 		amountTxF.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				handleInputChange();
+				if (newValue.length() > Utility.TEXTFIELD_MAX_LENGTH) return;
+
+				handleInputChange(oldValue, newValue);
 			}
 		});
 
@@ -166,7 +168,7 @@ public class stockEntryPageController implements PageController {
 		StockController controller = ControllerFactory.makeStockController();
 		List<Map<String, Object>> resultsList = controller.showStockIngredient(foodID);
 
-		float totalAmount = 0;
+		totalAmount = 0;
 		for (Map<String, Object> result : resultsList) {
 			Long stockItemID = (Long) result.get("stockItemID");
 			Long timeLeft = (Long) result.get("time_left");
@@ -205,7 +207,6 @@ public class stockEntryPageController implements PageController {
 
 			displaySpoilageDays = avgSpoilageDays;
 			displayAddedDate = Utility.today();
-			handleInputChange();
 
 			showForm = true;
 			toggleForm();
@@ -258,12 +259,12 @@ public class stockEntryPageController implements PageController {
 
 			dateTxF.setValue(displayAddedDate.toLocalDateTime().toLocalDate());
 			amountTxF.setText(String.format("%.0f", displayAmount));
-			handleInputChange();
+
+			setExpiryString();
 		} else {
-			option = PageOption.DEFAULT;
 			addStockButton.setText("+");
 			addStockButton.setSelected(false);
-			amountTxF.setText("");
+			amountTxF.setText("0");
 			refreshStock();
 		}
 
@@ -271,16 +272,20 @@ public class stockEntryPageController implements PageController {
 		createForm.setVisible(showForm);
 	}
 
-	private void handleInputChange() {
-		String amountTxt = amountTxF.getText();
+	private void handleInputChange(String oldValue, String newValue) {
+		displayAmount = Utility.parseQuantity(newValue, 0);
 
-		try {
-			displayAmount = Double.parseDouble(amountTxt);
-			if (displayAmount <= 0) throw new NumberFormatException();
-		} catch (NumberFormatException e) {
-			displayAmount = 0;
+		if (oldValue.isEmpty()) {
+			totalAmount += displayAmount;
+		} else {
+			double oldAmount = Utility.parseQuantity(oldValue, displayAmount);
+			totalAmount += (displayAmount - oldAmount);
+			System.out.println(totalAmount);
 		}
+
+
 		entryCurrentAmount.setText(String.format("%.0f grams", displayAmount));
+		entryTotalAmount.setText(String.format("%.0f g", totalAmount));
 	}
 
 	private void handleCardClick(MouseEvent event) {
@@ -293,6 +298,7 @@ public class stockEntryPageController implements PageController {
 			displaySpoilageDays = clickedCard.getTimeLeft();
 			displayAddedDate = clickedCard.getAddedDate();
 			displayAmount = clickedCard.getAmount();
+			totalAmount -= displayAmount;
 
 			toggleForm();
 		}

@@ -6,6 +6,8 @@ import java.util.Date;
 
 public class Utility {
 	public static int SPOILAGE_WARNING_DAYS = 5;
+	public static int TEXTFIELD_MAX_LENGTH = 9;
+
 	static String[] suffixes = {
 		//0     1     2     3     4     5     6     7     8     9
 		"th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th",
@@ -68,5 +70,17 @@ public class Utility {
 
 	public static Timestamp today() {
 		return new Timestamp(System.currentTimeMillis());
+	}
+
+	public static double parseQuantity(String s, double defaultValue) {
+		double result;
+		try {
+			result = Double.parseDouble(s);
+			if (result < 0) throw new NumberFormatException();
+		} catch (NumberFormatException e) {
+			result = defaultValue;
+		}
+
+		return result;
 	}
 }
