@@ -3,6 +3,8 @@ package chillingMonsters;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utility {
 	public static int SPOILAGE_WARNING_DAYS = 5;
@@ -17,6 +19,38 @@ public class Utility {
 		"th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th",
 		//30    31
 		"th", "st" };
+
+	static Map<String, String> knownAcronyms = new HashMap<String, String>() {{
+		put("WITH SALT", "SALTED");
+		put("LRG", "LARGE");
+		put("SML", "SMALL");
+		put("LO", "LOW");
+		put("HI", "HIGH");
+		put("W/", "WITH");
+		put("WO/", "WITHOUT");
+		put("LT", "LIGHT");
+		put("HVY", "HEAVY");
+		put("DRSNG", "DRESSING");
+		put("FRZ", "FROZEN");
+		put("PDR", "POWDERED");
+		put("CRM", "CREAM");
+		put("CKD", "COOKED");
+		put("BLD", "BOILED");
+		put("DRND", "DRAINED");
+		put("BTLD", "BOTTLED");
+		put("PLN", "PLAIN");
+		put("FRSH", "FRESH");
+		put("SCRMBLD", "SCRAMBLED");
+		put("VIT", "VITAMIN");
+		put("CND", "CANNED");
+		put("CRM", "CREAM");
+		put("RSTD", "ROASTED");
+		put("SKN", "SKIN");
+		put("CHOC", "CHOCOLATE");
+		put("HLTHY", "HEALTHY");
+		put("XCPT", "EXCEPT");
+		put("JUC", "JUICE");
+	}};
 
 	public static String parseFoodName(String name) {
 		String[] byComma = name.split(",");
@@ -50,7 +84,10 @@ public class Utility {
 		return rtn.trim();
 	}
 
-	public static String toCapitalizedWord(String str) {
+	public static String toCapitalizedWord(String s) {
+		String str = knownAcronyms.get(s.toUpperCase());
+		str = str == null ? s : str;
+
 		if (str.length() > 0) {
 			return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
 		} else {
