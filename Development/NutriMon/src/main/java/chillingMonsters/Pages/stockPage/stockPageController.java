@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.Map;
 
 public class stockPageController implements PageController {
+  private static String EXPIRE_KEY = "Expires Soon";
   @FXML
   public VBox cardList;
 
   @FXML
   public void initialize() {
-    String EXPIRE_KEY = "Expires Soon";
     StockController controller = ControllerFactory.makeStockController();
     List<Map<String, Object>> stockList = controller.show();
 
@@ -75,6 +75,8 @@ public class stockPageController implements PageController {
     Label groupLabel = new Label(Utility.toCapitalized(label));
     groupLabel.getStyleClass().add("labelText");
 
+    if (label == EXPIRE_KEY) groupLabel.getStyleClass().add("expireWarningText");
+
     Line underline = new Line();
     underline.setStartX(0.0f);
     underline.setStartY(100.0f);
@@ -87,6 +89,7 @@ public class stockPageController implements PageController {
 
     for (StockCardComponent s : group) {
       s.getStyleClass().add("stockCard");
+      if (label == EXPIRE_KEY) s.getStyleClass().add("expireWarningCard");
       cardList.getChildren().add(s);
     }
   }

@@ -65,6 +65,15 @@
     -fx-font-size: 20px;
     -fx-padding: 30 0 0 0;
 }
+
+.expireWarningText {
+    -fx-text-fill: #F5A623;
+}
+.expireWarningCard {
+    -fx-effect: dropshadow( one-pass-box , #F5A623 , 24.5, 0, 5, 5);
+}
+
+
 .stockCard {
     -fx-padding: 15 0 0 0;
 }
