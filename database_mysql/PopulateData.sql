@@ -394,6 +394,12 @@ BEGIN
     CLOSE ingredient_cursor;
 END //
 
+DROP TRIGGER IF EXISTS before_insert_recipe;
+CREATE TRIGGER before_insert_recipe
+BEGIN
+	SET NEW.dateCreated = IFNULL(NEW.dateCreated, CURDATE());
+END //
+
 delimiter ;
 
 CALL init_db();

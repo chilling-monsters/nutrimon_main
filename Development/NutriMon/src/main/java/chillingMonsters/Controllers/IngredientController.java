@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -15,7 +14,6 @@ import chillingMonsters.DBConnect;
 import static chillingMonsters.DBConnect.resultsList;
 
 public class IngredientController extends NutriMonController implements IngredientDao {
-  private static final String READ_ONLY = "Ingredients are READ ONLY";
 
   IngredientController() {
     super("ingredients", "foodID");
