@@ -98,7 +98,7 @@ public class ingredientPageController implements PageController {
 		ingrSugar.setText(result.get("fSugar").toString() + "g");
 
 		ingrSodium.setText(result.get("fSodium").toString() + "g");
-		ingrCalcium.setText(result.get("fCal").toString() + "g");
+		ingrCalcium.setText(result.get("fCalcium").toString() + "g");
 		ingrIron.setText(result.get("fIron").toString() + "g");
 		ingrPotassium.setText(result.get("fPotassium").toString() + "g");
 		ingreC.setText(result.get("fVC").toString() + "g");
