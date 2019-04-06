@@ -394,8 +394,9 @@ BEGIN
     CLOSE ingredient_cursor;
 END //
 
-DROP TRIGGER IF EXISTS before_insert_recipe;
-CREATE TRIGGER before_insert_recipe
+DROP TRIGGER IF EXISTS before_insert_recipe //
+CREATE TRIGGER before_insert_recipe BEFORE INSERT ON recipes
+FOR EACH ROW
 BEGIN
 	SET NEW.dateCreated = IFNULL(NEW.dateCreated, CURDATE());
 END //

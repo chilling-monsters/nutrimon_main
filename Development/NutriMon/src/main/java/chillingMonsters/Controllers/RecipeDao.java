@@ -5,17 +5,17 @@ import java.util.Map;
 
 public interface RecipeDao {
 
-  List<Map<String, Object>> getRecipes();
+  List<Map<String, Object>> searchRecipes(String name);
 
   List<Map<String, Object>> getAvailableRecipes();
 
   List<Map<String, Object>> getMyRecipes();
 
-  void createRecipe(Map<String, Object> recipe, Map<Integer, Float> ingredients);
+  void createRecipe(String name, String description, Map<Integer, Float> ingredients);
 
-  void deleteRecipe(int recipeID);
+  void deleteRecipe(long recipeID);
 
-  void updateRecipe(Map<String, Object> recipe, Map<Integer, Float> ingredients);
+  void updateRecipe(long recipeID, String name, String description, Map<Integer, Float> ingredients);
 
-  Map<String, Object> getRecipe(int recipeID);
+  Map<String, Object> getRecipe(long recipeID);
 }
