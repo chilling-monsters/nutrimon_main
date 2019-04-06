@@ -244,12 +244,12 @@ public class stockEntryPageController implements PageController {
 			}
 
 			StockController controller = ControllerFactory.makeStockController();
+			LocalDate expDate = displayAddedDate.toLocalDateTime().toLocalDate().plusDays(avgSpoilageDays);
 			switch (option) {
 				case ADD_STOCK:
-					controller.createStock(foodID, displayAmount);
+					controller.createStock(foodID, displayAmount, expDate.toString());
 					break;
 				case UPDATE:
-					LocalDate expDate = displayAddedDate.toLocalDateTime().toLocalDate().plusDays(avgSpoilageDays);
 					controller.updateStock(currentStockItemID, displayAmount, expDate.toString());
 					break;
 				case DEFAULT:
@@ -342,10 +342,11 @@ public class stockEntryPageController implements PageController {
 	}
 
 	private void setExpiryString() {
+		String plural = Math.abs(displaySpoilageDays) > 1 ? "s" : "";
 		if (displaySpoilageDays > 0) {
-			entryTimeLeft.setText(String.format("Expires in %d day%s", displaySpoilageDays, displaySpoilageDays > 1 ? "s" : ""));
+			entryTimeLeft.setText(String.format("Expires in %d day%s", displaySpoilageDays, plural));
 		} else if (displaySpoilageDays < 0) {
-			entryTimeLeft.setText(String.format("Expired %d day%s ago", -displaySpoilageDays, -displaySpoilageDays < -1 ? "s" : ""));
+			entryTimeLeft.setText(String.format("Expired %d day%s ago", -displaySpoilageDays, plural));
 		} else {
 			entryTimeLeft.setText("Expires today");
 		}
