@@ -116,7 +116,7 @@ public class ingredientPageController implements PageController {
 			@Override
 			public void handle(MouseEvent event) {
 				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-				PageFactory.getStockPage().startPage(e);
+				PageFactory.getLastPage().startPage(e);
 			}
 		});
 	}

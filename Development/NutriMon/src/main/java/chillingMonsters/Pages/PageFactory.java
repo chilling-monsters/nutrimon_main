@@ -7,7 +7,12 @@ import chillingMonsters.Pages.searchPage.searchPage;
 import chillingMonsters.Pages.stockPage.stockEntryPage;
 import chillingMonsters.Pages.stockPage.stockPage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class PageFactory {
+  private static List<Page> pageHistory = new ArrayList<>();
+
   private static loginPage login = null;
   private static registerPage register = null;
   private static stockPage stock = null;
@@ -15,18 +20,33 @@ public abstract class PageFactory {
   private static searchPage search = null;
   private static ingredientPage ingredient = null;
 
+  public static Page getLastPage() {
+    if (pageHistory.isEmpty()) {
+      return stock;
+    } else {
+      pageHistory.remove(0);
+      return pageHistory.get(0);
+    }
+  }
+
   public static loginPage getLoginPage() {
     if (login == null) login = new loginPage();
+
+    pageHistory.add(0, login);
     return login;
   }
 
   public static registerPage getRegisterPage() {
     if (register == null) register = new registerPage();
+
+    pageHistory.add(0, register);
     return register;
   }
 
   public static stockPage getStockPage() {
     if (stock == null) stock = new stockPage();
+
+    pageHistory.add(0, stock);
     return stock;
   }
 
@@ -35,6 +55,7 @@ public abstract class PageFactory {
       search = new searchPage(option);
     }
 
+    pageHistory.add(0, search);
     return search;
   }
 
@@ -47,6 +68,7 @@ public abstract class PageFactory {
       stockEntry = new stockEntryPage(foodID, option);
     }
 
+    pageHistory.add(0, stockEntry);
     return stockEntry;
   }
 
@@ -59,6 +81,7 @@ public abstract class PageFactory {
       ingredient = new ingredientPage(foodID);
     }
 
+    pageHistory.add(0, ingredient);
     return ingredient;
   }
 }

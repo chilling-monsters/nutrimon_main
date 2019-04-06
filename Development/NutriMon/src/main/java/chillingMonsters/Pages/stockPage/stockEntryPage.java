@@ -1,9 +1,10 @@
 package chillingMonsters.Pages.stockPage;
 
 import chillingMonsters.Pages.Page;
+import chillingMonsters.Pages.PageImpl;
 import chillingMonsters.Pages.PageOption;
 
-public class stockEntryPage extends Page {
+public class stockEntryPage extends PageImpl implements Page {
 	public long foodID;
 	public PageOption option;
 

@@ -18,7 +18,7 @@
     <children>
         <ImageView fitHeight="361.0" fitWidth="361.0" layoutX="104.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <image>
-                <Image url="@img/KaleSquareBG.png" />
+                <Image url="@../stockPage/img/KaleSquareBG.png" />
             </image></ImageView>
         <Rectangle arcHeight="5.0" height="500.0" layoutX="10.0" layoutY="10.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="360.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <fill>

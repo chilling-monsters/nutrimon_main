@@ -201,7 +201,7 @@ public class stockEntryPageController implements PageController {
 
 			StockEntryCardComponent sCard = new StockEntryCardComponent(stockItemID, timeLeft, addedDate, amount);
 
-			if (timeLeft < Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("expireWarningCard");
+			if (timeLeft <= Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("expireWarningCard");
 
 			sCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
@@ -222,7 +222,7 @@ public class stockEntryPageController implements PageController {
 		} else {
 			ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
-			PageFactory.getStockPage().startPage(e);
+			PageFactory.getLastPage().startPage(e);
 		}
 	}
 
@@ -309,7 +309,6 @@ public class stockEntryPageController implements PageController {
 		} else {
 			double oldAmount = Utility.parseQuantity(oldValue, displayAmount);
 			totalAmount += (displayAmount - oldAmount);
-			System.out.println(totalAmount);
 		}
 
 
