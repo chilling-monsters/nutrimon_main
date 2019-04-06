@@ -39,11 +39,11 @@
             <Image url="@../img/Menu-Back-Icon-White2x.png" />
          </image>
          <styleClass>
-            <String fx:value="backButton button" />
+            <String fx:value="backButton" />
             <String fx:value="button" />
          </styleClass>
       </ImageView>
-      <Label text="Your Ingredients" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
+      <Label text="Your Stock" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="Helvetica" size="25.0" />
          </font>

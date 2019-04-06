@@ -1,5 +1,6 @@
 package chillingMonsters.Pages;
 
+import chillingMonsters.Pages.ingredientPage.ingredientPage;
 import chillingMonsters.Pages.loginPage.loginPage;
 import chillingMonsters.Pages.registerPage.registerPage;
 import chillingMonsters.Pages.searchPage.searchPage;
@@ -10,9 +11,9 @@ public abstract class PageFactory {
   private static loginPage login = null;
   private static registerPage register = null;
   private static stockPage stock = null;
-  private static searchPage addStockSearch = null;
-  private static searchPage addRecipeSearch = null;
+  private static stockEntryPage stockEntry = null;
   private static searchPage search = null;
+  private static ingredientPage ingredient = null;
 
   public static loginPage getLoginPage() {
     if (login == null) login = new loginPage();
@@ -29,26 +30,35 @@ public abstract class PageFactory {
     return stock;
   }
 
-  public static searchPage getAddStockSearchPage() {
-    if (addStockSearch == null) addStockSearch = new searchPage(PageOption.ADD_STOCK);
-    return addStockSearch;
-  }
+  public static searchPage getSearchPage(PageOption option) {
+    if (search == null || search.option != option) {
+      search = new searchPage(option);
+    }
 
-  public static searchPage getAddRecipeSearchPage() {
-    if (addRecipeSearch == null) addRecipeSearch = new searchPage(PageOption.ADD_RECIPE);
-    return addRecipeSearch;
-  }
-
-  public static searchPage getAllSearchPage() {
-    if (search == null) search = new searchPage(PageOption.DEFAULT);
     return search;
   }
 
-  public static stockEntryPage getAddStockEntryPage(long foodID) {
-    return new stockEntryPage(foodID, PageOption.ADD_STOCK);
+  public static searchPage getSearchPage() {
+    return getSearchPage(PageOption.DEFAULT);
+  }
+
+  public static stockEntryPage getStockEntryPage(long foodID, PageOption option) {
+    if (stockEntry == null || stockEntry.foodID != foodID || stockEntry.option != option) {
+      stockEntry = new stockEntryPage(foodID, option);
+    }
+
+    return stockEntry;
   }
 
   public static stockEntryPage getStockEntryPage(long foodID) {
-    return new stockEntryPage(foodID, PageOption.DEFAULT);
+    return getStockEntryPage(foodID, PageOption.DEFAULT);
+  }
+
+  public static ingredientPage getIngredientPage(long foodID) {
+    if (ingredient == null || ingredient.foodID != foodID) {
+      ingredient = new ingredientPage(foodID);
+    }
+
+    return ingredient;
   }
 }

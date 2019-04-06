@@ -4,10 +4,13 @@ import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.StockController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
+import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 
@@ -20,6 +23,9 @@ public class stockPageController implements PageController {
   private static String EXPIRE_KEY = "Expires Soon";
   @FXML
   public VBox cardList;
+
+  @FXML
+  public ImageView menuButton;
 
   @FXML
   public void initialize() {
@@ -68,7 +74,14 @@ public class stockPageController implements PageController {
 
   @FXML
   void stockCreateButtonAction(ActionEvent event) {
-    PageFactory.getAddStockSearchPage().startPage(event);
+    PageFactory.getSearchPage(PageOption.ADD_STOCK).startPage(event);
+  }
+
+  @FXML
+  void onMenuClicked(MouseEvent event) {
+    ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+
+    PageFactory.getSearchPage(PageOption.DEFAULT).startPage(e);
   }
 
   private void addToList(String label, List<StockCardComponent> group) {
