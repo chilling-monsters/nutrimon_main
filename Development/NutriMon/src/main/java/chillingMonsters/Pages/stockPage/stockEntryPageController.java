@@ -11,11 +11,14 @@ import chillingMonsters.Utility;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.sql.Timestamp;
@@ -83,6 +86,12 @@ public class stockEntryPageController implements PageController {
 	@FXML
 	public DatePicker dateTxF;
 
+	@FXML
+	public AnchorPane adjustSizePane;
+
+	@FXML
+	public ScrollPane scrollList;
+
 	public stockEntryPageController(long foodID, PageOption option) {
 		this.foodID = foodID;
 		this.option = option;
@@ -149,6 +158,20 @@ public class stockEntryPageController implements PageController {
 				handleDateChange(newValue);
 			}
 		});
+
+		scrollList.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent event) {
+				handleListScroll(event);
+			}
+		});
+
+		adjustSizePane.setOnScroll(new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent event) {
+				handleCardScroll(event);
+			}
+		});
 	}
 
 	private void refreshStock() {
@@ -177,6 +200,8 @@ public class stockEntryPageController implements PageController {
 			totalAmount += amount;
 
 			StockEntryCardComponent sCard = new StockEntryCardComponent(stockItemID, timeLeft, addedDate, amount);
+
+			if (timeLeft < Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("expireWarningCard");
 
 			sCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
@@ -207,6 +232,7 @@ public class stockEntryPageController implements PageController {
 
 			displaySpoilageDays = avgSpoilageDays;
 			displayAddedDate = Utility.today();
+			displayAmount = 0;
 
 			showForm = true;
 			toggleForm();
@@ -254,17 +280,20 @@ public class stockEntryPageController implements PageController {
 
 	private void toggleForm() {
 		if (showForm) {
+			adjustSizePane.setPrefHeight(0);
 			addStockButton.setText("Save");
 			addStockButton.setSelected(true);
 
 			dateTxF.setValue(displayAddedDate.toLocalDateTime().toLocalDate());
 			amountTxF.setText(String.format("%.0f", displayAmount));
+			entryCurrentAmount.setText(String.format("%.0f grams", displayAmount));
 
 			setExpiryString();
 		} else {
 			addStockButton.setText("+");
 			addStockButton.setSelected(false);
 			amountTxF.setText("0");
+			entryCurrentAmount.setText("0 grams");
 			refreshStock();
 		}
 
@@ -320,5 +349,33 @@ public class stockEntryPageController implements PageController {
 		} else {
 			entryTimeLeft.setText("Expires today");
 		}
+	}
+
+	private void handleCardScroll(ScrollEvent event) {
+		if (showForm) return;
+
+		double diffHeight = 0;
+		if (event.getDeltaY() > 0) diffHeight = -10;
+		else if (event.getDeltaY() < 0) diffHeight = 10;
+
+		adjustSizePane.setPrefHeight(adjustSizePane.getHeight() + diffHeight);
+		scrollList.setPrefHeight(scrollList.getHeight() + diffHeight);
+	}
+
+	private void handleListScroll(ScrollEvent event) {
+		if (scrollList.getHeight() == scrollList.getMaxHeight()) {
+			return;
+		}
+
+		event.consume();
+		ScrollEvent retargettedScrollEvent = new ScrollEvent(adjustSizePane, adjustSizePane, event.getEventType(),
+			event.getX(), event.getY(), event.getScreenX(), event.getScreenY(), event.isShiftDown(),
+			event.isControlDown(), event.isAltDown(), event.isMetaDown(), event.isDirect(),
+			event.isInertia(), event.getDeltaX(), event.getDeltaY(), event.getTotalDeltaX(),
+			event.getTotalDeltaY(), event.getTextDeltaXUnits(), event.getTextDeltaX(),
+			event.getTextDeltaYUnits(), event.getTextDeltaY(), event.getTouchCount(),
+			event.getPickResult());
+
+		Event.fireEvent(adjustSizePane, retargettedScrollEvent);
 	}
 }

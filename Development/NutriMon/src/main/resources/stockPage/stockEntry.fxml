@@ -48,7 +48,7 @@
             <Font name="Helvetica" size="25.0" />
          </font>
       </Label>
-      <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="430.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+      <AnchorPane maxHeight="660.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <children>
             <VBox AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
                <children>
@@ -102,23 +102,18 @@
                   </AnchorPane>
                </children>
             </VBox>
-            <AnchorPane prefHeight="300.0" prefWidth="300.0" AnchorPane.topAnchor="105.0">
+            <AnchorPane fx:id="adjustSizePane" maxHeight="530.0" minHeight="-Infinity" prefHeight="300.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="105.0">
                <children>
-
-                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="285.0" prefWidth="300.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <content>
-                        <AnchorPane>
+                  <ScrollPane fx:id="scrollList" hbarPolicy="NEVER" maxHeight="530.0" minHeight="300.0" prefHeight="300.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
-                              <VBox fx:id="entryList" spacing="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
-                                 <padding>
-                                    <Insets bottom="10.0" />
-                                 </padding>
-                              </VBox>
+                              <VBox fx:id="entryList" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0" />
                            </children>
                         </AnchorPane>
-                     </content>
+                    </content>
                   </ScrollPane>
-                  <VBox fx:id="createForm" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                  <VBox fx:id="createForm" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                      <children>
                         <Line endX="150.0" startX="-150.0" stroke="#f5a623">
                            <VBox.margin>
