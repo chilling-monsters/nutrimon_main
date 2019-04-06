@@ -81,6 +81,13 @@
 .tagText {
     -fx-font-size: 9px;
 }
+
+.recipeIngredientText {
+    -fx-font-family: "SF Pro Text Regular";
+    -fx-text-fill: #9E9E9E;
+    -fx-padding: 5 0 0 0;
+}
+
 .expireWarningText {
     -fx-text-fill: #F5A623;
 }

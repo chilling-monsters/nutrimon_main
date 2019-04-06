@@ -55,6 +55,7 @@ public class Utility {
 		put("COCNT", "COCONUT");
 		put("BF", "BEEF");
 		put("PRK", "PORK");
+		put("DRK", "DRINK");
 	}};
 
 	public static String parseFoodName(String name) {
