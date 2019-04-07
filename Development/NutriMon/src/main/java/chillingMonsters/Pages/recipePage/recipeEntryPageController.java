@@ -68,25 +68,25 @@ public class recipeEntryPageController implements PageController {
 		//RecipeController controller = ControllerFactory.makeRecipeController();
 		//Map<String, Object> result = controller.getRecipe(recipeID);
 		Map<String, Object> result = new HashMap<String, Object>() {{
-			put("recipeName","Roasted Honey Glazed Turkey");
+			put("recipeName", "Roasted Honey Glazed Turkey");
 			put("dateCreated", Timestamp.valueOf("2019-04-03 00:00:00"));
 			put("recipeCookTime", 15);
 			put("recipeDescription",
 				"1. Preheat the oven to 350 degrees F.\n" +
-				"2. Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.\n" +
-				"3. Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.\n" +
-				"4. Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.\n" +
-				"5. Slice the turkey and serve.\n" +
-				"6. Preheat the oven to 350 degrees F.\n" +
-				"7. Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.\n" +
-				"8. Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.\n" +
-				"9. Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.\n" +
-				"10. Slice the turkey and serve.\n" +
-				"11. Preheat the oven to 350 degrees F.\n" +
-				"12. Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.\n" +
-				"13. Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.\n" +
-				"14. Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.\n" +
-				"15. Slice the turkey and serve.\n");
+					"2. Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.\n" +
+					"3. Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.\n" +
+					"4. Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.\n" +
+					"5. Slice the turkey and serve.\n" +
+					"6. Preheat the oven to 350 degrees F.\n" +
+					"7. Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.\n" +
+					"8. Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.\n" +
+					"9. Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.\n" +
+					"10. Slice the turkey and serve.\n" +
+					"11. Preheat the oven to 350 degrees F.\n" +
+					"12. Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.\n" +
+					"13. Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.\n" +
+					"14. Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.\n" +
+					"15. Slice the turkey and serve.\n");
 			put("ingredients", new HashMap<Long, Float>() {{
 				put(1001L, 20.0F);
 				put(1002L, 300.0F);
@@ -131,7 +131,7 @@ public class recipeEntryPageController implements PageController {
 			}
 		});
 
-			scrollRecipeDetailPane.setMinHeight(scrollRecipeDetailPane.getMinHeight() - recipeName.getHeight() + recipeName.getMinHeight());
+		scrollRecipeDetailPane.setMinHeight(scrollRecipeDetailPane.getMinHeight() - recipeName.getHeight() + recipeName.getMinHeight());
 		scrollRecipeDetailPane.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(ScrollEvent event) {
@@ -150,6 +150,13 @@ public class recipeEntryPageController implements PageController {
 			@Override
 			public void handle(ActionEvent event) {
 				handleAddRecipe(event);
+			}
+		});
+
+		recipeName.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				handleNameClick();
 			}
 		});
 	}
@@ -193,6 +200,14 @@ public class recipeEntryPageController implements PageController {
 		} else {
 			addRecipeButton.setText("+");
 			//controller.remove(recipeID);
+		}
+	}
+
+	private void handleNameClick() {
+		if (recipeName.getMaxHeight() == 30) {
+			recipeName.setMaxHeight(Double.POSITIVE_INFINITY);
+		} else {
+			recipeName.setMaxHeight(30);
 		}
 	}
 }
