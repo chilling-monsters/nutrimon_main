@@ -77,11 +77,6 @@ public class searchPageController implements PageController {
         break;
     }
 
-    if (option == PageOption.ADD_RECIPE) {
-      NewRecipeSearchCard nCard = new NewRecipeSearchCard();
-      searchList.getChildren().add(nCard);
-    }
-
     if (ingrSearchResult.isEmpty() && recpSearchResult.isEmpty() && option != PageOption.ADD_RECIPE) {
       Label emptyLabel = new Label("We ain't got squash.");
       emptyLabel.getStyleClass().add("emptyWarningText");
@@ -121,6 +116,11 @@ public class searchPageController implements PageController {
         handleOnClick(event);
       }
     });
+
+    if (option == PageOption.ADD_RECIPE) {
+      NewRecipeSearchCard nCard = new NewRecipeSearchCard();
+      searchList.getChildren().add(nCard);
+    }
   }
 
   private void handleOnClick(MouseEvent event) {

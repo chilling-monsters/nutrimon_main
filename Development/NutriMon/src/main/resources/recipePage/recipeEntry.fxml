@@ -53,7 +53,7 @@
                      <children>
                         <VBox prefWidth="300.0">
                            <children>
-                              <Label fx:id="recipeName" maxHeight="30.0" minHeight="30.0" styleClass="titleText" text="Recipe With A Super Long Name and Extra Spaces At The End Of It Too, It's Really Long" wrapText="true">
+                              <Label fx:id="recipeName" maxHeight="30.0" minHeight="30.0" style="-fx-cursor: hand;" styleClass="titleText" text="Recipe With A Super Long Name and Extra Spaces At The End Of It Too, It's Really Long" wrapText="true">
                                  <font>
                                     <Font name="SF Pro Display Regular" size="25.0" />
                                  </font>
@@ -76,7 +76,7 @@
                                  <children>
                                     <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label fx:id="recipeCookTime" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Fresh Time" textAlignment="RIGHT" textFill="#f5a623">
+                                          <Label fx:id="recipeCookTime" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Cook Time" textAlignment="RIGHT" textFill="#f5a623">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="25.0" />
                                              </font>

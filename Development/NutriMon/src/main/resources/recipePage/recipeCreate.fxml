@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" styleClass="screenPane pane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" styleClass="screenPane pane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.recipePage.recipeCreatePageController">
     <children>
         <ImageView fitHeight="361.0" fitWidth="361.0" layoutX="104.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <image>
@@ -44,7 +49,27 @@
         </Label>
         <AnchorPane fx:id="recipeCard" maxHeight="660.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
             <children>
-                <VBox AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0" />
+            <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" vbarPolicy="NEVER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <content>
+                <AnchorPane prefWidth="330.0">
+                     <children>
+                            <VBox AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
+                           <children>
+                              <TextField text="NAME" />
+                              <ChoiceBox />
+                              <VBox>
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Add ingredient" />
+                                 </children>
+                              </VBox>
+                              <TextArea layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" text="CONTENT&#10;" />
+                              <Button mnemonicParsing="false" text="Cancel" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
                 <ToggleButton fx:id="addRecipeButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="Save" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <font>
                         <Font size="12.5" />
