@@ -48,7 +48,7 @@
             <Font name="SF Pro Display Regular" size="25.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="adjustSizePane" maxHeight="660.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+      <AnchorPane fx:id="adjustSizePane" maxHeight="660.0" minHeight="432.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <children>
             <VBox AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
                <children>
@@ -113,7 +113,7 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <AnchorPane minHeight="297.0">
+                  <AnchorPane minHeight="300.0">
                      <children>
                         <ScrollPane fx:id="scrollList" hbarPolicy="NEVER" maxHeight="530.0" minHeight="300.0" prefHeight="300.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="0.0">
                           <content>

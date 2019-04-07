@@ -107,8 +107,7 @@ public class stockEntryPageController implements PageController {
 		if (option == PageOption.ADD_STOCK) {
 			handleAddStock();
 		} else {
-			showForm = false;
-			toggleForm();
+			toggleForm(false);
 		}
 
 		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -260,8 +259,7 @@ public class stockEntryPageController implements PageController {
 			displayAddedDate = Utility.today();
 			displayAmount = 0;
 
-			showForm = true;
-			toggleForm();
+			toggleForm(true);
 		} else {
 			if (displayAmount <= 0) {
 				addStockButton.setSelected(true);
@@ -282,15 +280,13 @@ public class stockEntryPageController implements PageController {
 					break;
 			}
 
-			showForm = false;
-			toggleForm();
+			toggleForm(false);
 		}
 	}
 
 	private void handleCancel() {
-		showForm = false;
-		option = PageOption.DEFAULT;
-		toggleForm();
+		AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Are you sure?", "Unsaved changes will be lost");
+		toggleForm(false);
 	}
 
 	private void handleDeleteStock() {
@@ -299,13 +295,14 @@ public class stockEntryPageController implements PageController {
 		if (option == PageOption.UPDATE) {
 			AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Delete Stock", "Are you sure you want to delete this stock?");
 			controller.deleteStock(currentStockItemID);
-		}
 
-		showForm = false;
-		toggleForm();
+			toggleForm(false);
+		} else {
+			handleCancel();
+		}
 	}
 
-	private void toggleForm() {
+	private void toggleForm(boolean showForm) {
 		if (showForm) {
 			addStockButton.setText("Save");
 			addStockButton.setSelected(true);
@@ -317,6 +314,7 @@ public class stockEntryPageController implements PageController {
 
 			setExpiryString();
 		} else {
+			option = PageOption.DEFAULT;
 			addStockButton.setText("+");
 			addStockButton.setSelected(false);
 			amountTxF.setText("0");
@@ -346,7 +344,6 @@ public class stockEntryPageController implements PageController {
 	private void handleCardClick(MouseEvent event) {
 		if (!showForm) {
 			option = PageOption.UPDATE;
-			showForm = true;
 
 			StockEntryCardComponent clickedCard = (StockEntryCardComponent) event.getSource();
 			currentStockItemID = clickedCard.getStockItemID();
@@ -355,7 +352,7 @@ public class stockEntryPageController implements PageController {
 			displayAmount = clickedCard.getAmount();
 			totalAmount -= displayAmount;
 
-			toggleForm();
+			toggleForm(true);
 		}
 	}
 

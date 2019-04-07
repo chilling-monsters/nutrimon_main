@@ -2,6 +2,7 @@ package chillingMonsters.Pages;
 
 import chillingMonsters.Pages.ingredientPage.ingredientPage;
 import chillingMonsters.Pages.loginPage.loginPage;
+import chillingMonsters.Pages.recipePage.recipeCreatePage;
 import chillingMonsters.Pages.recipePage.recipeEntryPage;
 import chillingMonsters.Pages.recipePage.recipePage;
 import chillingMonsters.Pages.registerPage.registerPage;
@@ -27,6 +28,7 @@ public abstract class PageFactory {
 
   private static recipePage recipe = null;
   private static recipeEntryPage recipeEntry = null;
+  private static recipeCreatePage recipeCreate = null;
 
   public static Page getLastPage() {
     if (pageHistory.isEmpty()) {
@@ -119,5 +121,12 @@ public abstract class PageFactory {
 
     pageHistory.add(0, recipeEntry);
     return recipeEntry;
+  }
+
+  public static recipeCreatePage getRecipeCreatePage() {
+    if (recipeCreate == null) recipeCreate = new recipeCreatePage();
+
+    addToHistory(recipeCreate);
+    return recipeCreate;
   }
 }
