@@ -121,17 +121,19 @@ public class RecipeController extends NutriMonController implements RecipeDao {
   }
 
   public Map<String, Object> getRecipe(long recipeID) {
-    String getIngredients = "SELECT foodID, ingredientQtt, foodName " +
+    String getIngredients = "SELECT foodID, ingredientQtty " +
             "FROM recipeingredients JOIN ingredients USING (foodID) " +
             "WHERE recipeID = ?";
     Map<String, Object> recipe = this.get(recipeID);
-    List<Map<String, Object>> ingredients;
+    Map<Integer, Float> ingredients = new HashMap<>();
     Connection connection = DBConnect.getConnection();
     if (recipe != null) {
       try (PreparedStatement stmt = connection.prepareStatement(getIngredients)) {
         stmt.setLong(1, recipeID);
         ResultSet rs = stmt.executeQuery();
-        ingredients = resultsList(rs);
+        while (rs.next()) {
+          ingredients.put(rs.getInt("foodID"), rs.getFloat("ingredientQtty"));
+        }
         recipe.put("ingredients", ingredients);
       } catch (SQLException e) {
         Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
