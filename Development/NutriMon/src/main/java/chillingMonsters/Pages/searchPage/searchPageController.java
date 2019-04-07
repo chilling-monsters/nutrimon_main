@@ -15,12 +15,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class searchPageController implements PageController {
   public String searchQuery = "";
-  private PageOption type;
+  private PageOption option;
 
   @FXML
   public TextField searchTxF;
@@ -31,8 +33,8 @@ public class searchPageController implements PageController {
   @FXML
   public ImageView backButton;
 
-  public searchPageController(PageOption type) {
-    this.type = type;
+  public searchPageController(PageOption option) {
+    this.option = option;
   }
 
   @FXML
@@ -40,11 +42,47 @@ public class searchPageController implements PageController {
     searchQuery = searchTxF.getText();
     searchList.getChildren().clear();
 
-    IngredientController controller = ControllerFactory.makeIngredientController();
-    List<Map<String, Object>> searchResult = controller.searchIngredient(searchTxF.getText());
+    List<Map<String, Object>> ingrSearchResult = new ArrayList<>();
+    List<Map<String, Object>> recpSearchResult = new ArrayList<>();
 
-    if (searchResult.isEmpty()) {
+    IngredientController ingr = ControllerFactory.makeIngredientController();
+    //TODO: use recipe controller here
+//        RecipeController recp = ControllerFactory.makeIngredientController();
+    switch (option) {
+      case ADD_STOCK:
+        ingrSearchResult = ingr.search(searchQuery);
+        break;
+      case ADD_RECIPE:
+//        recpSearchResult = recp.search(searchQuery);
+        Map<String, Object> card1 = new HashMap<String, Object>() {{
+          put("recipeID", 1L);
+          put("recipeName", "Honey Roasted Turkey");
+          put("recipeCategory", "Dinner");
+          put("recipeCookTime", 125L);
+          put("recipeCalories", 1345F);
+        }};
+        Map<String, Object> card2 = new HashMap<String, Object>() {{
+          put("recipeID", 2L);
+          put("recipeName", "Shrimp Fried Rice");
+          put("recipeCategory", "Lunch");
+          put("recipeCookTime", 35L);
+          put("recipeCalories", 450.0F);
+        }};
+        recpSearchResult.add(card1);
+        recpSearchResult.add(card2);
+        break;
+      case DEFAULT:
+        ingrSearchResult = ingr.search(searchQuery);
+//        recpSearchResult = recp.search(searchQuery);
+        break;
+    }
 
+    if (option == PageOption.ADD_RECIPE) {
+      NewRecipeSearchCard nCard = new NewRecipeSearchCard();
+      searchList.getChildren().add(nCard);
+    }
+
+    if (ingrSearchResult.isEmpty() && recpSearchResult.isEmpty() && option != PageOption.ADD_RECIPE) {
       Label emptyLabel = new Label("We ain't got squash.");
       emptyLabel.getStyleClass().add("emptyWarningText");
 
@@ -52,12 +90,22 @@ public class searchPageController implements PageController {
       return;
     }
 
-    for (Map<String, Object> result : searchResult) {
+    for (Map<String, Object> result : ingrSearchResult) {
       Long foodId = (Long) result.get("foodID");
       String name = Utility.parseFoodName(result.get("foodName").toString());
-      String category = result.get("fCategory").toString();
+      String category = result.get("fCategory").toString().toUpperCase();
 
-      SearchCardComponent sCard = new SearchCardComponent(foodId, name, category, type);
+      SearchCardComponent sCard = new SearchCardComponent(foodId, name, category, option);
+
+      searchList.getChildren().add(sCard);
+    }
+
+    for (Map<String, Object> result : recpSearchResult) {
+      Long recipeID = (Long) result.get("recipeID");
+      String name = Utility.parseFoodName(result.get("recipeName").toString());
+      String category = result.get("recipeCategory").toString().toUpperCase();
+
+      SearchCardComponent sCard = new SearchCardComponent(recipeID, name, category, option);
 
       searchList.getChildren().add(sCard);
     }

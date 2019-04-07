@@ -90,7 +90,7 @@ public class stockPageController implements PageController {
     ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
     //TODO: replace with legit menu action
-    PageFactory.getRecipeEntryPage(1001).startPage(e);
+    PageFactory.getRecipePage().startPage(e);
   }
 
   private void addToList(String label, List<StockCardComponent> group) {

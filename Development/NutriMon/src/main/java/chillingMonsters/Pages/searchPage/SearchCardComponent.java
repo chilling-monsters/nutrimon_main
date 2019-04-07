@@ -7,15 +7,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 
 public class SearchCardComponent extends AnchorPane {
   private PageOption option = PageOption.DEFAULT;
-  private long foodID;
-
+  private long ID;
 
   @FXML
   private Label cardName;
@@ -23,10 +24,13 @@ public class SearchCardComponent extends AnchorPane {
   @FXML
   private Label cardLabel;
 
-  public SearchCardComponent(long foodID, String name, String category, PageOption option) {
+  @FXML
+  private ImageView searchImage;
+
+  public SearchCardComponent(long ID, String name, String category, PageOption option) {
     super();
 
-    this.foodID = foodID;
+    this.ID = ID;
     this.option = option;
 
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/searchPage/searchCard.fxml"));
@@ -55,13 +59,14 @@ public class SearchCardComponent extends AnchorPane {
 
     switch (option) {
       case ADD_STOCK:
-        PageFactory.getStockEntryPage(foodID, option).startPage(e);
+        PageFactory.getStockEntryPage(ID, option).startPage(e);
         break;
       case ADD_RECIPE:
-        System.out.println("Add Recipe");
+        PageFactory.getRecipeEntryPage(ID).startPage(e);
         break;
       case DEFAULT:
-        PageFactory.getIngredientPage(foodID).startPage(e);
+        //TODO: add recipe navigation here
+        PageFactory.getIngredientPage(ID).startPage(e);
         break;
     }
   }

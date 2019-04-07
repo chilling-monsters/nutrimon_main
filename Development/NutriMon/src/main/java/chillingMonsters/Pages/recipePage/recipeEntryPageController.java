@@ -2,10 +2,8 @@ package chillingMonsters.Pages.recipePage;
 
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.IngredientController;
-import chillingMonsters.Pages.Page;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
-import chillingMonsters.Pages.PageImpl;
 import chillingMonsters.Utility;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -35,6 +33,9 @@ public class recipeEntryPageController implements PageController {
 
 	@FXML
 	private Label recipeName;
+
+	@FXML
+	private Label recipeCategory;
 
 	@FXML
 	private Label recipeAddedDate;
@@ -67,7 +68,7 @@ public class recipeEntryPageController implements PageController {
 		//RecipeController controller = ControllerFactory.makeRecipeController();
 		//Map<String, Object> result = controller.getRecipe(recipeID);
 		Map<String, Object> result = new HashMap<String, Object>() {{
-			put("recipeName","Roasted Turkey");
+			put("recipeName","Roasted Honey Glazed Turkey");
 			put("dateCreated", Timestamp.valueOf("2019-04-03 00:00:00"));
 			put("recipeCookTime", 15);
 			put("recipeDescription",
@@ -92,14 +93,17 @@ public class recipeEntryPageController implements PageController {
 				put(1003L, 50.0F);
 				put(1004L, 80.0F);
 			}});
+			put("recipeCategory", "Dinner");
 		}};
 
 		String name = result.get("recipeName").toString();
+		String category = result.get("recipeCategory").toString().toUpperCase();
 		String date = String.format("CREATED %s", Utility.parseDate((Timestamp) result.get("dateCreated")).toUpperCase());
 		String time = String.format("%s mins", result.get("recipeCookTime").toString());
 		String detail = result.get("recipeDescription").toString();
 
 		recipeName.setText(name);
+		recipeCategory.setText(category);
 		recipeAddedDate.setText(date);
 		recipeCookTime.setText(time);
 		recipeDetail.setText(detail);
@@ -127,7 +131,7 @@ public class recipeEntryPageController implements PageController {
 			}
 		});
 
-		scrollRecipeDetailPane.setMinHeight(scrollRecipeDetailPane.getMinHeight() - recipeName.getHeight() + recipeName.getMinHeight());
+			scrollRecipeDetailPane.setMinHeight(scrollRecipeDetailPane.getMinHeight() - recipeName.getHeight() + recipeName.getMinHeight());
 		scrollRecipeDetailPane.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(ScrollEvent event) {
@@ -139,6 +143,13 @@ public class recipeEntryPageController implements PageController {
 			@Override
 			public void handle(ScrollEvent event) {
 				handleCardScroll(event);
+			}
+		});
+
+		addRecipeButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				handleAddRecipe(event);
 			}
 		});
 	}
@@ -169,6 +180,19 @@ public class recipeEntryPageController implements PageController {
 
 		if (recipeCard.getHeight() > recipeCard.getMinHeight()) {
 			scrollRecipeDetailPane.setMaxHeight(scrollRecipeDetailPane.getMaxHeight() + diffHeight);
+		}
+	}
+
+	private void handleAddRecipe(ActionEvent event) {
+		//TODO: use recipe controller here
+		//RecipeController controller = ControllerFactory.makeRecipeController();
+
+		if (addRecipeButton.isSelected()) {
+			addRecipeButton.setText("Saved");
+			//controller.add(recipeID);
+		} else {
+			addRecipeButton.setText("+");
+			//controller.remove(recipeID);
 		}
 	}
 }
