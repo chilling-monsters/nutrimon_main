@@ -1,5 +1,7 @@
 package chillingMonsters.Pages.stockPage;
 
+import chillingMonsters.Pages.PageFactory;
+import chillingMonsters.Pages.PageOption;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,7 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
 public class StockCardComponent extends AnchorPane {
-  private long foodID = 0;
+  private long foodID;
 
   @FXML
   private Label cardName;
@@ -22,18 +24,21 @@ public class StockCardComponent extends AnchorPane {
   @FXML
   private Label cardExpDate;
 
-  public StockCardComponent(long foodID, String name, double amount, long minExpDate) {
+  @FXML
+  private Label cardCategory;
+
+  public StockCardComponent(long foodID, String name, double amount, long minExpDate, String category) {
     super();
     this.foodID = foodID;
 
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/stockPage/stockCard.fxml"));
-
     fxmlLoader.setRoot(this);
     fxmlLoader.setController(this);
+
     this.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
-        
+        handleOnClick(event);
       }
     });
 
@@ -45,6 +50,17 @@ public class StockCardComponent extends AnchorPane {
 
     cardName.setText(name);
     cardAmount.setText(String.format("%.0fg", amount));
-    cardExpDate.setText(String.format("%d days", minExpDate));
+    cardCategory.setText(category);
+
+    String expDate = minExpDate != 0
+        ? String.format("%d day%s", minExpDate, Math.abs(minExpDate) > 1 ? "s" : "")
+        : "Today";
+    cardExpDate.setText(expDate);
+  }
+
+  private void handleOnClick(MouseEvent event) {
+    ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+
+    PageFactory.getStockEntryPage(foodID).startPage(e);
   }
 }

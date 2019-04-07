@@ -1,5 +1,6 @@
 package chillingMonsters.Pages.loginPage;
 
+import chillingMonsters.Pages.Page;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class loginPage extends Application {
+public class loginPage extends Application implements Page {
     @Override
     public void start(Stage primaryStage) {
         try {

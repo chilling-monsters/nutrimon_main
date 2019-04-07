@@ -3,7 +3,6 @@ package chillingMonsters.Controllers;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,13 +14,13 @@ import chillingMonsters.DBConnect;
 
 public class StockController extends NutriMonController implements StockDao {
     StockController() {
-        super("stockitems", "stockItemID");
+        super("stockItems", "stockItemID");
     }
 
     @Override
     public List<Map<String, Object>> show() {
         List<Map<String, Object>> stocks = new ArrayList<>();
-        String query = "SELECT foodID, foodName, " +
+        String query = "SELECT foodID, foodName, fCategory, " +
                 "sum(foodQtty) as 'quantity', " +
                 "datediff(min(foodExpDate), now()) as 'next_exp' " +
                 "FROM stockitems JOIN ingredients using(foodID) " +
@@ -43,9 +42,10 @@ public class StockController extends NutriMonController implements StockDao {
 
     public List<Map<String, Object>> showStockIngredient(long foodId) {
         List<Map<String, Object>> stocks = new ArrayList<>();
-        String query = "SELECT stockItemID, foodID, foodName, " +
-                "foodQtty as 'quantity', " +
-                "foodExpDate " +
+        String query = "SELECT stockItemID, foodID, foodName, fCategory, expTime, foodExpDate," +
+                "foodQtty as 'quantity', "  +
+                "date_add(now(), INTERVAL - expTime + datediff(foodExpDate, now()) DAY) as 'added_date', " +
+                "datediff(foodExpDate, now()) as 'time_left' " +
                 "FROM stockitems JOIN ingredients using(foodID) " +
                 "WHERE userID = ? AND foodID = ? " +
                 "ORDER BY foodExpDate ASC";
@@ -67,47 +67,18 @@ public class StockController extends NutriMonController implements StockDao {
       this.delete(stockID);
     }
 
-    public void createStock(long foodID, double quantity) {
+    public void createStock(long foodID, double quantity, String expDate) {
       Map<String, Object> payload = new HashMap<>();
       payload.put("foodID", foodID);
       payload.put("foodQtty", quantity);
+      payload.put("foodExpDate", String.format("\'%s\'", expDate));
       this.create(payload);
     }
 
     public void updateStock(long stockID, double quantity, String expDate) {
       Map<String, Object> payload = new HashMap<>();
       payload.put("foodQtty", quantity);
-      payload.put("foodExpDate", Timestamp.valueOf(expDate));
+      payload.put("foodExpDate", String.format("\'%s\'", expDate));
       this.update(stockID, payload);
-    }
-
-    public static String parseFoodName(String name) {
-        String[] food = name.toLowerCase().split(",");
-
-        for (int i = 0; i < food.length; i++) {
-            String s = food[i];
-            String[] subStr =  s.split(" ");
-            s = "";
-            for (int j = 0; j < subStr.length; j++) {
-                String sub = subStr[j];
-                sub = sub.substring(0, 1).toUpperCase() + sub.substring(1);
-
-                if (j > 0) s += " ";
-
-                s += sub;
-            }
-
-            food[i] = s;
-        }
-
-        if (food[1].equals("With Salt")) food[1] = "Salted";
-
-        String foodName = food[1] + " " + food[0];
-
-        for (int i = 2; i < food.length; i++) {
-            foodName += ", " + food[i];
-        }
-
-        return foodName;
     }
 }

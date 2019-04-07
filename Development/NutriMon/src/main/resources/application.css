@@ -1,22 +1,104 @@
+.root{
+    -fx-font-family: "SF Pro";
+}
+.pane {
+    -fx-border-width: 0px;
+    -fx-background-color: white;
+}
 .screenPane {
     -fx-pref-width: 360px;
     -fx-pref-height: 740px;
-    -fx-border-width: 0px;
-    -fx-background-color: white;
+}
+
+.card:hover {
+    -fx-background-color: #F2F2F2;
+    -fx-cursor: hand;
+}
+
+.cardPane {
+    -fx-background-radius: 8 0 8 8;
 }
 .detailCardPane {
     -fx-pref-width: 300px;
     -fx-pref-height: 90px;
-    -fx-border-width: 0px;
-    -fx-background-color: white;
+}
+.searchCardPane {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 50px;
 }
 .entryCardPane {
     -fx-pref-width: 300px;
     -fx-pref-height: 60px;
-    -fx-border-width: 0px;
-    -fx-background-color: white;
+}
+
+.cardScrollPane > .viewport {
+   -fx-background-color: transparent;
 }
 .cardScrollPane {
     -fx-pref-width: 360px;
+    -fx-background-color: transparent;
+}
+
+.button:hover {
+    -fx-cursor: hand;
+}
+.primaryButton {
+    -fx-background-color: #F5A623;
+}
+.secondaryButton {
+    -fx-background-color: #FBD249;
+}
+.tertiaryButton {
+    -fx-background-color: #FF6C00;
+}
+
+.createStockButton:selected {
+    -fx-background-color: #FF6C00;
+}
+
+.formInput {
+    -fx-pref-height: 45px;
     -fx-background-color: white;
+}
+
+.frontText{
+    -fx-font-size: 50px;
+    -fx-font-weight: bold;
+}
+.titleText {
+    -fx-font-size: 25px;
+}
+.labelText {
+    -fx-font-size: 20px;
+    -fx-padding: 30 0 0 0;
+}
+.headerText {
+    -fx-font-size: 15px;
+}
+.detailText {
+    -fx-font-size: 12px;
+}
+.tagText {
+    -fx-font-size: 9px;
+}
+.expireWarningText {
+    -fx-text-fill: #F5A623;
+}
+.emptyWarningText {
+    -fx-font-size: 15px;
+    -fx-padding: 100 0 0 0;
+    -fx-text-fill: #9E9E9E;
+    -fx-alignment: center;
+    -fx-pref-width: 300px;
+}
+
+.expireWarningCard {
+    -fx-effect: dropshadow( one-pass-box , #F5A623 , 24.5, 0, 5, 5);
+}
+.stockCard {
+    -fx-padding: 15 0 0 0;
+}
+
+.line {
+    -fx-stroke: #F5A623;
 }
