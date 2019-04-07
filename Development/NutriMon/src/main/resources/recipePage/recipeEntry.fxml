@@ -47,92 +47,86 @@
       </Label>
       <AnchorPane fx:id="recipeCard" maxHeight="660.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <children>
-            <VBox AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
-               <children>
-                  <Label fx:id="recipeName" maxHeight="90.0" minHeight="30.0" styleClass="titleText" text="Recipe With A Super Long Name and Extra Spaces At The End Of It Too, It's Really Long" wrapText="true">
-                     <font>
-                        <Font name="SF Pro Display Regular" size="25.0" />
-                     </font>
-                  </Label>
-                  <AnchorPane>
+            <ScrollPane fx:id="scrollRecipeDetailPane" hbarPolicy="NEVER" maxHeight="300.0" minHeight="225.0" prefWidth="300.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
+              <content>
+                <AnchorPane>
                      <children>
-                        <Label fx:id="recipeCategory" layoutX="10.0" layoutY="10.0" styleClass="tagText" text="CATEGORY" textFill="#9e9e9e" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <font>
-                              <Font name="SF Pro Text Regular" size="9.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="recipeAddedDate" styleClass="tagText" text="ADDED" textAlignment="RIGHT" textFill="#9e9e9e" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <font>
-                              <Font name="SF Pro Text Regular" size="9.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane>
-                     <children>
-                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox prefWidth="300.0">
                            <children>
-                              <Label fx:id="recipeCookTime" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Fresh Time" textAlignment="RIGHT" textFill="#f5a623">
+                              <Label fx:id="recipeName" maxHeight="30.0" minHeight="30.0" styleClass="titleText" text="Recipe With A Super Long Name and Extra Spaces At The End Of It Too, It's Really Long" wrapText="true">
                                  <font>
                                     <Font name="SF Pro Display Regular" size="25.0" />
                                  </font>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
                               </Label>
-                              <Label styleClass="tagText" text="TIME TO MAKE" textAlignment="RIGHT" textFill="#9e9e9e">
-                                 <font>
-                                    <Font name="SF Pro Text Regular" size="9.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                        <VBox alignment="TOP_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <Label fx:id="recipeReady" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Ready" textAlignment="RIGHT" textFill="#f5a623">
-                                 <font>
-                                    <Font name="SF Pro Display Regular" size="25.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Label styleClass="tagText" text="STOCK READY" textAlignment="RIGHT" textFill="#9e9e9e">
-                                 <font>
-                                    <Font name="SF Pro Text Regular" size="9.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
-                  <Line endX="150.0" startX="-150.0" stroke="#f5a623">
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin></Line>
-                  <ScrollPane fx:id="scrollRecipeDetailPane" hbarPolicy="NEVER" maxHeight="300.0" minHeight="225.0" prefWidth="300.0" styleClass="cardScrollPane" vbarPolicy="NEVER">
-                    <content>
-                      <AnchorPane>
-                           <children>
-                              <VBox prefWidth="300.0">
+                              <AnchorPane>
                                  <children>
-                                    <VBox fx:id="recipeIngredientsList" />
-                                    <Label fx:id="recipeDetail" prefWidth="300.0" text="Preheat the oven to 350 degrees F.Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.Slice the turkey and serve.Preheat the oven to 350 degrees F.Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.Slice the turkey and serve. Preheat the oven to 350 degrees F.Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.Slice the turkey and serve.Preheat the oven to 350 degrees F.Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.Slice the turkey and serve. Preheat the oven to 350 degrees F. Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside. Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey. Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes. Slice the turkey and serve." wrapText="true">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" top="10.0" />
-                                       </VBox.margin>
+                                    <Label fx:id="recipeCategory" layoutX="10.0" layoutY="10.0" styleClass="tagText" text="CATEGORY" textFill="#9e9e9e" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font name="SF Pro Text Regular" size="9.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="recipeAddedDate" styleClass="tagText" text="ADDED" textAlignment="RIGHT" textFill="#9e9e9e" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font name="SF Pro Text Regular" size="9.0" />
+                                       </font>
                                     </Label>
                                  </children>
-                              </VBox>
+                              </AnchorPane>
+                              <AnchorPane>
+                                 <children>
+                                    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label fx:id="recipeCookTime" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Fresh Time" textAlignment="RIGHT" textFill="#f5a623">
+                                             <font>
+                                                <Font name="SF Pro Display Regular" size="25.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label styleClass="tagText" text="TIME TO MAKE" textAlignment="RIGHT" textFill="#9e9e9e">
+                                             <font>
+                                                <Font name="SF Pro Text Regular" size="9.0" />
+                                             </font>
+                                              </Label>
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="TOP_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label fx:id="recipeReady" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Ready" textAlignment="RIGHT" textFill="#f5a623">
+                                             <font>
+                                                <Font name="SF Pro Display Regular" size="25.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label styleClass="tagText" text="STOCK READY" textAlignment="RIGHT" textFill="#9e9e9e">
+                                             <font>
+                                                <Font name="SF Pro Text Regular" size="9.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                              <Line endX="150.0" startX="-150.0" stroke="#f5a623">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Line>
+                              <VBox fx:id="recipeIngredientsList" />
+                              <Label fx:id="recipeDetail" prefWidth="300.0" text="Preheat the oven to 350 degrees F.Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.Slice the turkey and serve.Preheat the oven to 350 degrees F.Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.Slice the turkey and serve. Preheat the oven to 350 degrees F.Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.Slice the turkey and serve.Preheat the oven to 350 degrees F.Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.Slice the turkey and serve. Preheat the oven to 350 degrees F. Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside. Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey. Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes. Slice the turkey and serve." wrapText="true">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </Label>
                            </children>
-                        </AnchorPane>
-                    </content>
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                  </ScrollPane>
-               </children>
-            </VBox>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
             <ToggleButton fx:id="addRecipeButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="+" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font size="12.5" />

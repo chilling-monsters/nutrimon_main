@@ -57,7 +57,7 @@ public class stockEntryPageController implements PageController {
 	public VBox entryList;
 
 	@FXML
-	public VBox createForm;
+	public AnchorPane createForm;
 
 	@FXML
 	public ImageView backButton;
@@ -186,6 +186,8 @@ public class stockEntryPageController implements PageController {
 
 	private void refreshStock() {
 		entryList.getChildren().clear();
+		scrollList.setPrefHeight(scrollList.getMinHeight());
+		scrollList.setVvalue(0);
 
 		IngredientController ingrController = ControllerFactory.makeIngredientController();
 		Map<String, Object> ingredient = ingrController.getIngredient(foodID);
@@ -234,10 +236,13 @@ public class stockEntryPageController implements PageController {
 	}
 
 	private void handleBackOnClick(MouseEvent event) {
-		handleCancel();
+		if (showForm) {
+			handleCancel();
+		} else {
+			ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+			PageFactory.getLastPage().startPage(e);
+		}
 
-		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-		PageFactory.getLastPage().startPage(e);
 	}
 
 	private void handleMoreOnClick(MouseEvent event) {
@@ -284,6 +289,7 @@ public class stockEntryPageController implements PageController {
 
 	private void handleCancel() {
 		showForm = false;
+		option = PageOption.DEFAULT;
 		toggleForm();
 	}
 
@@ -301,9 +307,9 @@ public class stockEntryPageController implements PageController {
 
 	private void toggleForm() {
 		if (showForm) {
-			adjustSizePane.setPrefHeight(0);
 			addStockButton.setText("Save");
 			addStockButton.setSelected(true);
+			adjustSizePane.setPrefHeight(adjustSizePane.getMinHeight());
 
 			dateTxF.setValue(displayAddedDate.toLocalDateTime().toLocalDate());
 			amountTxF.setText(String.format("%.0f", displayAmount));
