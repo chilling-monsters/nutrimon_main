@@ -48,6 +48,11 @@ public class IngredientController extends NutriMonController implements Ingredie
     } finally {
       DBConnect.close();
     }
+
+    for (String k : ingredient.keySet()) {
+      if (ingredient.get(k) == null) ingredient.put(k, 0);
+    }
+
     return ingredient;
   }
 }

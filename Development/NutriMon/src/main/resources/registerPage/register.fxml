@@ -55,37 +55,43 @@
                   <Font name="SF Pro Display Bold" size="50.0" />
                </font>
             </Label>
-            <Label text="Don't waste," textFill="WHITE">
+            <Label styleClass="titleText" text="Don't waste," textFill="WHITE">
                <font>
-                  <Font name="Helvetica" size="30.0" />
+                  <Font name="SF Pro Text Regular" size="25.0" />
                </font>
             </Label>
-            <Label text="it's time to eat!" textFill="WHITE">
+            <Label styleClass="titleText" text="it's time to eat!" textFill="WHITE">
                <font>
-                  <Font name="Helvetica" size="30.0" />
+                  <Font name="SF Pro Text Regular" size="25.0" />
                </font>
             </Label>
          </children>
       </VBox>
       <VBox AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="290.0">
          <children>
-            <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
+            <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" styleClass="formInput">
                <children>
-                  <TextField fx:id="txtF_name" prefHeight="45.0" prefWidth="307.0" promptText="Your Name" style="-fx-background-color: transparent;" />
+                  <TextField fx:id="txtF_name" prefHeight="45.0" prefWidth="307.0" promptText="Your Name" style="-fx-background-color: transparent;">
+                     <font>
+                        <Font name="SF Pro Text Regular" size="13.0" />
+                     </font></TextField>
                </children>
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </HBox>
-              <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
+              <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" styleClass="formInput">
                <children>
-                      <TextField fx:id="txtF_email" prefHeight="45.0" prefWidth="307.0" promptText="Your Email" style="-fx-background-color: transparent;" />
+                      <TextField fx:id="txtF_email" prefHeight="45.0" prefWidth="307.0" promptText="Your Email" style="-fx-background-color: transparent;">
+                     <font>
+                        <Font name="SF Pro Text Regular" size="13.0" />
+                     </font></TextField>
                </children>
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
               </HBox>
-              <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
+              <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" styleClass="formInput">
                <children>
                       <PasswordField fx:id="pswdF_new_password" prefHeight="45.0" prefWidth="307.0" promptText="Your Password" style="-fx-background-color: transparent;" />
                </children>
@@ -93,7 +99,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
               </HBox>
-            <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;">
+            <HBox style="-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-background-color: #ffffff;" styleClass="formInput">
                <children>
                   <PasswordField fx:id="pswdF_confirm_password" prefHeight="45.0" prefWidth="307.0" promptText="Confirm Password" style="-fx-background-color: transparent;" />
                </children>
@@ -106,7 +112,7 @@
       <Line endX="269.0" layoutY="515.0" startX="89.0" stroke="WHITE" strokeWidth="2.0" />
       <Button fx:id="btn_cancel" layoutX="89.0" layoutY="704.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="55.0" style="-fx-background-radius: 27px;" text="HAVE AN ACCOUNT? LOGIN" textFill="WHITE" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
          <font>
-            <Font size="18.0" />
+            <Font name="SF Pro Display Regular" size="18.0" />
          </font>
          <styleClass>
             <String fx:value="secondaryButton" />

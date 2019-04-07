@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class searchPageController implements PageController {
+  public String searchQuery = "";
   private PageOption type;
 
   @FXML
@@ -35,6 +36,7 @@ public class searchPageController implements PageController {
 
   @FXML
   void onSearchEnter(ActionEvent event) {
+    searchQuery = searchTxF.getText();
     searchList.getChildren().clear();
 
     IngredientController controller = ControllerFactory.makeIngredientController();
@@ -53,6 +55,8 @@ public class searchPageController implements PageController {
 
   @FXML
   public void initialize() {
+    searchTxF.setText(searchQuery);
+
     backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
@@ -64,6 +68,6 @@ public class searchPageController implements PageController {
   private void handleOnClick(MouseEvent event) {
     ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
-    PageFactory.getStockPage().startPage(e);
+    PageFactory.getLastPage().startPage(e);
   }
 }

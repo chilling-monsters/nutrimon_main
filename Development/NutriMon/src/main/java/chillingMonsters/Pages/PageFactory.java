@@ -1,54 +1,87 @@
 package chillingMonsters.Pages;
 
+import chillingMonsters.Pages.ingredientPage.ingredientPage;
 import chillingMonsters.Pages.loginPage.loginPage;
 import chillingMonsters.Pages.registerPage.registerPage;
 import chillingMonsters.Pages.searchPage.searchPage;
 import chillingMonsters.Pages.stockPage.stockEntryPage;
 import chillingMonsters.Pages.stockPage.stockPage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class PageFactory {
+  private static List<Page> pageHistory = new ArrayList<>();
+
   private static loginPage login = null;
   private static registerPage register = null;
   private static stockPage stock = null;
-  private static searchPage addStockSearch = null;
-  private static searchPage addRecipeSearch = null;
+  private static stockEntryPage stockEntry = null;
   private static searchPage search = null;
+  private static ingredientPage ingredient = null;
+
+  public static Page getLastPage() {
+    if (pageHistory.isEmpty()) {
+      return stock;
+    } else {
+      pageHistory.remove(0);
+      return pageHistory.get(0);
+    }
+  }
 
   public static loginPage getLoginPage() {
     if (login == null) login = new loginPage();
+
+    pageHistory.add(0, login);
     return login;
   }
 
   public static registerPage getRegisterPage() {
     if (register == null) register = new registerPage();
+
+    pageHistory.add(0, register);
     return register;
   }
 
   public static stockPage getStockPage() {
     if (stock == null) stock = new stockPage();
+
+    pageHistory.add(0, stock);
     return stock;
   }
 
-  public static searchPage getAddStockSearchPage() {
-    if (addStockSearch == null) addStockSearch = new searchPage(PageOption.ADD_STOCK);
-    return addStockSearch;
-  }
+  public static searchPage getSearchPage(PageOption option) {
+    if (search == null || search.option != option) {
+      search = new searchPage(option);
+    }
 
-  public static searchPage getAddRecipeSearchPage() {
-    if (addRecipeSearch == null) addRecipeSearch = new searchPage(PageOption.ADD_RECIPE);
-    return addRecipeSearch;
-  }
-
-  public static searchPage getAllSearchPage() {
-    if (search == null) search = new searchPage(PageOption.DEFAULT);
+    pageHistory.add(0, search);
     return search;
   }
 
-  public static stockEntryPage getAddStockEntryPage(long foodID) {
-    return new stockEntryPage(foodID, PageOption.ADD_STOCK);
+  public static searchPage getSearchPage() {
+    return getSearchPage(PageOption.DEFAULT);
+  }
+
+  public static stockEntryPage getStockEntryPage(long foodID, PageOption option) {
+    if (stockEntry == null || stockEntry.foodID != foodID || stockEntry.option != option) {
+      stockEntry = new stockEntryPage(foodID, option);
+    }
+
+    pageHistory.add(0, stockEntry);
+    return stockEntry;
   }
 
   public static stockEntryPage getStockEntryPage(long foodID) {
-    return new stockEntryPage(foodID, PageOption.DEFAULT);
+    return getStockEntryPage(foodID, PageOption.DEFAULT);
+  }
+
+  public static ingredientPage getIngredientPage(long foodID) {
+    if (ingredient == null || ingredient.foodID != foodID) {
+      ingredient = new ingredientPage(foodID);
+    }
+
+    pageHistory.add(0, ingredient);
+    return ingredient;
   }
 }

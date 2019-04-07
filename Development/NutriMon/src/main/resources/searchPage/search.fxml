@@ -33,9 +33,9 @@
                               <String fx:value="button" />
                            </styleClass>
                         </ImageView>
-                        <Label text="Search" textFill="WHITE">
+                        <Label styleClass="titleText" text="Search" textFill="WHITE">
                            <font>
-                              <Font name="Helvetica" size="25.0" />
+                              <Font name="SF Pro Display Regular" size="25.0" />
                            </font>
                            <HBox.margin>
                               <Insets left="15.0" />
@@ -55,9 +55,9 @@
                                     <Insets top="7.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <TextField fx:id="searchTxF" onAction="#onSearchEnter" prefHeight="30.0" prefWidth="280.0" style="-fx-background-color: transparent; -fx-text-inner-color: white;">
+                              <TextField fx:id="searchTxF" onAction="#onSearchEnter" prefHeight="30.0" prefWidth="280.0" style="-fx-background-color: transparent; -fx-text-inner-color: white;" styleClass="headerText">
                                  <font>
-                                    <Font name="SF Pro Display Regular" size="13.0" />
+                                    <Font name="SF Pro Display Regular" size="15.0" />
                                  </font>
                               </TextField>
                            </children>

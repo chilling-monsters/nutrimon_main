@@ -50,6 +50,8 @@ public class Utility {
 		put("HLTHY", "HEALTHY");
 		put("XCPT", "EXCEPT");
 		put("JUC", "JUICE");
+		put("FLAV", "FLAVOR");
+		put("RTD", "READY TO DRINK");
 	}};
 
 	public static String parseFoodName(String name) {

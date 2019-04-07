@@ -29,14 +29,14 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="76.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <ImageView fx:id="menuButton" fitHeight="30.0" fitWidth="30.0" layoutX="76.0" layoutY="113.0" onMouseClicked="#onMenuClicked" pickOnBounds="true" preserveRatio="true" styleClass="button" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
          <image>
             <Image url="@../img/Menu%20Icon2x.png" />
          </image>
       </ImageView>
-      <Label layoutX="121.0" layoutY="226.0" text="Your Stock" textFill="#f5a623" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
+      <Label layoutX="121.0" layoutY="226.0" styleClass="titleText" text="Your Stock" textFill="#f5a623" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
          <font>
-            <Font name="Helvetica" size="25.0" />
+            <Font name="SF Pro Display Regular" size="25.0" />
          </font>
       </Label>
 
