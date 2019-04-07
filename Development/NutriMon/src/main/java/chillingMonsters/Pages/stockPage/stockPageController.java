@@ -37,6 +37,14 @@ public class stockPageController implements PageController {
     List<StockCardComponent> expiresSoon = new ArrayList<>();
     componentMap.put(EXPIRE_KEY, expiresSoon);
 
+    if (stockList.isEmpty()) {
+      Label emptyLabel = new Label("We ain't got squash.");
+      emptyLabel.getStyleClass().add("emptyWarningText");
+
+      cardList.getChildren().add(emptyLabel);
+      return;
+    }
+
     for (int i = 0; i < stockList.size(); i++) {
       Map<String, Object> stock = stockList.get(i);
 

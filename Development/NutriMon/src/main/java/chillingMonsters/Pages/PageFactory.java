@@ -29,24 +29,36 @@ public abstract class PageFactory {
     }
   }
 
+  private static void addToHistory(Page newPage) {
+    for (Page p : pageHistory) {
+      if (p == newPage) {
+        pageHistory.remove(p);
+        pageHistory.add(0, newPage);
+        return;
+      }
+    }
+
+    pageHistory.add(0, newPage);
+  }
+
   public static loginPage getLoginPage() {
     if (login == null) login = new loginPage();
 
-    pageHistory.add(0, login);
+    addToHistory(login);
     return login;
   }
 
   public static registerPage getRegisterPage() {
     if (register == null) register = new registerPage();
 
-    pageHistory.add(0, register);
+    addToHistory(register);
     return register;
   }
 
   public static stockPage getStockPage() {
     if (stock == null) stock = new stockPage();
 
-    pageHistory.add(0, stock);
+    addToHistory(stock);
     return stock;
   }
 
@@ -55,7 +67,7 @@ public abstract class PageFactory {
       search = new searchPage(option);
     }
 
-    pageHistory.add(0, search);
+    addToHistory(search);
     return search;
   }
 
@@ -68,7 +80,7 @@ public abstract class PageFactory {
       stockEntry = new stockEntryPage(foodID, option);
     }
 
-    pageHistory.add(0, stockEntry);
+    addToHistory(stockEntry);
     return stockEntry;
   }
 
@@ -81,7 +93,7 @@ public abstract class PageFactory {
       ingredient = new ingredientPage(foodID);
     }
 
-    pageHistory.add(0, ingredient);
+    addToHistory(ingredient);
     return ingredient;
   }
 }
