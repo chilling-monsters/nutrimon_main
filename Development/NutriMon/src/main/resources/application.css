@@ -81,9 +81,15 @@
 .tagText {
     -fx-font-size: 9px;
 }
-
 .expireWarningText {
     -fx-text-fill: #F5A623;
+}
+.emptyWarningText {
+    -fx-font-size: 15px;
+    -fx-padding: 100 0 0 0;
+    -fx-text-fill: #9E9E9E;
+    -fx-alignment: center;
+    -fx-pref-width: 300px;
 }
 
 .expireWarningCard {

@@ -202,43 +202,48 @@ public class stockEntryPageController implements PageController {
 		List<Map<String, Object>> resultsList = controller.showStockIngredient(foodID);
 
 		totalAmount = 0;
-		for (Map<String, Object> result : resultsList) {
-			Long stockItemID = (Long) result.get("stockItemID");
-			Long timeLeft = (Long) result.get("time_left");
-			Timestamp addedDate = (Timestamp) result.get("added_date");
-			float amount = (Float) result.get("foodQtty");
-			totalAmount += amount;
+		if (resultsList.isEmpty()) {
+			Label emptyLabel = new Label("We ain't got squash.");
+			emptyLabel.getStyleClass().add("emptyWarningText");
 
-			StockEntryCardComponent sCard = new StockEntryCardComponent(stockItemID, timeLeft, addedDate, amount);
+			entryList.getChildren().add(emptyLabel);
+		} else {
+			for (Map<String, Object> result : resultsList) {
+				Long stockItemID = (Long) result.get("stockItemID");
+				Long timeLeft = (Long) result.get("time_left");
+				Timestamp addedDate = (Timestamp) result.get("added_date");
+				float amount = (Float) result.get("foodQtty");
+				totalAmount += amount;
 
-			if (timeLeft <= Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("expireWarningCard");
+				StockEntryCardComponent sCard = new StockEntryCardComponent(stockItemID, timeLeft, addedDate, amount);
 
-			sCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent event) {
-					handleCardClick(event);
-				}
-			});
+				if (timeLeft <= Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("expireWarningCard");
 
-			entryList.getChildren().add(sCard);
+				sCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						handleCardClick(event);
+					}
+				});
+
+				entryList.getChildren().add(sCard);
+			}
 		}
 
 		entryTotalAmount.setText(String.format("%.0f g", totalAmount));
 	}
 
 	private void handleBackOnClick(MouseEvent event) {
-		if (showForm) {
-			handleCancel();
-		} else {
-			ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+		handleCancel();
 
-			PageFactory.getLastPage().startPage(e);
-		}
+		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+		PageFactory.getLastPage().startPage(e);
 	}
 
 	private void handleMoreOnClick(MouseEvent event) {
-		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+		handleCancel();
 
+		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 		PageFactory.getIngredientPage(foodID).startPage(e);
 	}
 
