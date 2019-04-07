@@ -31,4 +31,23 @@ public class IngredientController extends NutriMonController implements Ingredie
     DBConnect.close();
     return ingredients;
   }
+
+  public Map<String, Object> getIngredient(long foodID) {
+    String query = "SELECT * FROM ingredients WHERE foodID = ?";
+    Map<String, Object> ingredient = null;
+    try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
+      stmt.setLong(1,foodID);
+      try (ResultSet rs = stmt.executeQuery()) {
+        List<Map<String, Object>> ingredients = DBConnect.resultsList(rs);
+        if (!ingredients.isEmpty()) {
+          ingredient = ingredients.get(0);
+        }
+      }
+    } catch (SQLException e) {
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    } finally {
+      DBConnect.close();
+    }
+    return ingredient;
+  }
 }

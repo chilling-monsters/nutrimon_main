@@ -1,8 +1,7 @@
 package chillingMonsters.Pages.loginPage;
 
+import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
-import chillingMonsters.Pages.registerPage.registerPage;
-import chillingMonsters.Pages.stockPage.stockPage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,8 +10,7 @@ import chillingMonsters.AlertHandler;
 import chillingMonsters.Controllers.*;
 
 
-public class loginPageController {
-
+public class loginPageController implements PageController {
     @FXML // fx:id="btn_register"
     private Button btn_register; // Value injected by FXMLLoader
 
@@ -64,9 +62,10 @@ public class loginPageController {
         PageFactory.getRegisterPage().startPage(event);
     }
 
-
     @FXML // This method is called by the FXMLLoader when initialization is complete
-    void initialize() {
+    public void initialize() {
+        txtF_email.setText("test@email.com");
+        pswdF_password.setText("password");
         assert btn_register != null : "fx:id=\"btn_register\" was not injected: check your FXML file 'login.fxml'.";
         assert pswdF_password != null : "fx:id=\"pswdF_password\" was not injected: check your FXML file 'login.fxml'.";
         assert txtF_email != null : "fx:id=\"txtF_user_name\" was not injected: check your FXML file 'login.fxml'.";

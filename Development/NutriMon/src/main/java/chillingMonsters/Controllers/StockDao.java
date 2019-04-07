@@ -9,7 +9,7 @@ public interface StockDao {
 
   List<Map<String, Object>> showStockIngredient(long foodID);
 
-  void createStock(long foodID, double quantity);
+  void createStock(long foodID, double quantity, String expDate);
 
   void deleteStock(long stockID);
 

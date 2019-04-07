@@ -1,17 +1,14 @@
 package chillingMonsters.Pages.registerPage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
+import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
-import chillingMonsters.Pages.stockPage.stockPage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import chillingMonsters.AlertHandler;
 import chillingMonsters.Controllers.*;
 
-public class registerPageController {
+public class registerPageController implements PageController {
     @FXML // fx:id="pswdF_confirm_password"
     private TextField pswdF_confirm_password; // Value injected by FXMLLoader
 
@@ -29,7 +26,6 @@ public class registerPageController {
 
     @FXML // fx:id="pswdF_new_password"
     private TextField pswdF_new_password; // Value injected by FXMLLoader
-
 
     @FXML
     void confirmButtonAction(ActionEvent event) {
@@ -93,10 +89,8 @@ public class registerPageController {
         PageFactory.getLoginPage().startPage(event);
     }
 
-
     @FXML // This method is called by the FXMLLoader when initialization is complete
-    void initialize() {
-
+    public void initialize() {
         assert pswdF_confirm_password != null : "fx:id=\"txtF_confirm_password\" was not injected: check your FXML file 'register.fxml'.";
         assert txtF_email != null : "fx:id=\"txtF_email\" was not injected: check your FXML file 'register.fxml'.";
         assert btn_cancel != null : "fx:id=\"btn_cancel\" was not injected: check your FXML file 'register.fxml'.";

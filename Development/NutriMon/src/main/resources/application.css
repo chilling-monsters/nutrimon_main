@@ -1,22 +1,83 @@
+.pane {
+    -fx-border-width: 0px;
+    -fx-background-color: white;
+}
 .screenPane {
     -fx-pref-width: 360px;
     -fx-pref-height: 740px;
-    -fx-border-width: 0px;
-    -fx-background-color: white;
+}
+
+.card:hover {
+    -fx-background-color: #F2F2F2;
+    -fx-cursor: hand;
+}
+
+.cardPane {
+    -fx-background-radius: 8 0 8 8;
 }
 .detailCardPane {
     -fx-pref-width: 300px;
     -fx-pref-height: 90px;
-    -fx-border-width: 0px;
-    -fx-background-color: white;
+}
+.searchCardPane {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 50px;
 }
 .entryCardPane {
     -fx-pref-width: 300px;
     -fx-pref-height: 60px;
-    -fx-border-width: 0px;
-    -fx-background-color: white;
+}
+
+.cardScrollPane > .viewport {
+   -fx-background-color: transparent;
 }
 .cardScrollPane {
     -fx-pref-width: 360px;
+    -fx-background-color: transparent;
+}
+
+.button:hover {
+    -fx-cursor: hand;
+}
+.primaryButton {
+    -fx-background-color: #F5A623;
+}
+.secondaryButton {
+    -fx-background-color: #FBD249;
+}
+.tertiaryButton {
+    -fx-background-color: #FF6C00;
+}
+
+.createStockButton:selected {
+    -fx-background-color: #FF6C00;
+}
+
+.formInput {
+    -fx-pref-height: 45px;
     -fx-background-color: white;
+}
+.titleText {
+    -fx-font-size: 15px;
+}
+
+.labelText {
+    -fx-font-size: 20px;
+    -fx-padding: 30 0 0 0;
+}
+
+.expireWarningText {
+    -fx-text-fill: #F5A623;
+}
+.expireWarningCard {
+    -fx-effect: dropshadow( one-pass-box , #F5A623 , 24.5, 0, 5, 5);
+}
+
+
+.stockCard {
+    -fx-padding: 15 0 0 0;
+}
+
+.line {
+    -fx-stroke: #F5A623;
 }
