@@ -52,7 +52,7 @@
          <children>
             <VBox AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
                <children>
-                  <Label fx:id="entryName" maxHeight="30.0" styleClass="titleText" text="Ingredient Name With Long Extra Spaces And Super Long Name" wrapText="true">
+                  <Label fx:id="entryName" maxHeight="30.0" maxWidth="-Infinity" prefWidth="285.0" styleClass="titleText" text="Ingredient Name With Long Extra Spaces And Super Long Name" wrapText="true">
                      <font>
                         <Font name="SF Pro Display Regular" size="25.0" />
                      </font>
@@ -194,6 +194,11 @@
                   <String fx:value="button" />
                </styleClass>
             </ToggleButton>
+            <ImageView fx:id="moreButton" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" styleClass="button" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="18.0">
+               <image>
+                  <Image url="@../img/ic_more2x.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

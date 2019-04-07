@@ -63,6 +63,9 @@ public class stockEntryPageController implements PageController {
 	public ImageView backButton;
 
 	@FXML
+	public ImageView moreButton;
+
+	@FXML
 	public ToggleButton addStockButton;
 
 	@FXML
@@ -112,6 +115,13 @@ public class stockEntryPageController implements PageController {
 			@Override
 			public void handle(MouseEvent event) {
 				handleBackOnClick(event);
+			}
+		});
+
+		moreButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				handleMoreOnClick(event);
 			}
 		});
 
@@ -224,6 +234,12 @@ public class stockEntryPageController implements PageController {
 
 			PageFactory.getLastPage().startPage(e);
 		}
+	}
+
+	private void handleMoreOnClick(MouseEvent event) {
+		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+
+		PageFactory.getIngredientPage(foodID).startPage(e);
 	}
 
 	private void handleAddStock() {
