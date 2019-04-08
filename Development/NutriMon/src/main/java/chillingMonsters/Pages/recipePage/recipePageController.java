@@ -13,9 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,10 +45,11 @@ public class recipePageController implements PageController {
 			long id = (Long) recipe.get("recipeID");
 			String name  = recipe.get("recipeName").toString();
 			String category = recipe.get("recipeCategory").toString();
-			long cookTime = (Long) recipe.get("recipeCookTime");
-			float calories = (Float) recipe.get("recipeCalories");
+			float cookTime = (Float) recipe.get("recipeCookTime");
+			//TODO: get calories here
+//			float calories = (Float) recipe.get("recipeCalories");
 
-			RecipeCardComponent sCard = new RecipeCardComponent(id, name, category, cookTime, calories);
+			RecipeCardComponent sCard = new RecipeCardComponent(id, name, category, cookTime, 0);
 
 			cardList.getChildren().add(sCard);
 		}
@@ -61,11 +59,11 @@ public class recipePageController implements PageController {
 	void onMenuClicked(MouseEvent event) {
 		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
-		PageFactory.getStockPage().startPage(e);
+		PageFactory.getSearchPage().startPage(e);
 	}
 
 	@FXML
 	void recipeCreateButtonAction(ActionEvent event) {
-		PageFactory.getSearchPage(PageOption.ADD_RECIPE).startPage(event);
+		PageFactory.getSearchPage(PageOption.RECIPE).startPage(event);
 	}
 }

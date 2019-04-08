@@ -108,7 +108,7 @@ public class ingredientPageController implements PageController {
 		addToStockButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				PageFactory.getStockEntryPage(ingredientID, PageOption.ADD_STOCK).startPage(event);
+				PageFactory.getStockEntryPage(ingredientID, PageOption.STOCK).startPage(event);
 			}
 		});
 

@@ -99,7 +99,7 @@
     -fx-pref-width: 300px;
 }
 
-.expireWarningCard {
+.hightlightCard {
     -fx-effect: dropshadow( one-pass-box , #F5A623 , 24.5, 0, 5, 5);
 }
 .stockCard {

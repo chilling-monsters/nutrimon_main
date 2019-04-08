@@ -104,7 +104,7 @@ public class stockEntryPageController implements PageController {
 	public void initialize() {
 		refreshStock();
 
-		if (option == PageOption.ADD_STOCK) {
+		if (option == PageOption.STOCK) {
 			handleAddStock();
 		} else {
 			toggleForm(false);
@@ -218,7 +218,7 @@ public class stockEntryPageController implements PageController {
 
 				StockEntryCardComponent sCard = new StockEntryCardComponent(stockItemID, timeLeft, addedDate, amount);
 
-				if (timeLeft <= Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("expireWarningCard");
+				if (timeLeft <= Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("hightlightCard");
 
 				sCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
 					@Override
@@ -253,7 +253,7 @@ public class stockEntryPageController implements PageController {
 
 	private void handleAddStock() {
 		if (!showForm) {
-			option = PageOption.ADD_STOCK;
+			option = PageOption.STOCK;
 
 			displaySpoilageDays = avgSpoilageDays;
 			displayAddedDate = Utility.today();
@@ -270,7 +270,7 @@ public class stockEntryPageController implements PageController {
 			StockController controller = ControllerFactory.makeStockController();
 			LocalDate expDate = displayAddedDate.toLocalDateTime().toLocalDate().plusDays(avgSpoilageDays);
 			switch (option) {
-				case ADD_STOCK:
+				case STOCK:
 					controller.createStock(foodID, displayAmount, expDate.toString());
 					break;
 				case UPDATE:

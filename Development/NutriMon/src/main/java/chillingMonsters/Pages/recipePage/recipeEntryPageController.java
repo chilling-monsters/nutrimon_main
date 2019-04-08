@@ -21,6 +21,7 @@ import javafx.scene.layout.VBox;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class recipeEntryPageController implements PageController {
@@ -69,27 +70,28 @@ public class recipeEntryPageController implements PageController {
 		Map<String, Object> result = controller.getRecipe(recipeID);
 
 		String name = result.get("recipeName").toString();
-//		String category = result.get("recipeCategory").toString().toUpperCase();
+		String category = result.get("recipeCategory").toString().toUpperCase();
 		String date = String.format("CREATED %s", Utility.parseDate((Timestamp) result.get("dateCreated")).toUpperCase());
-//		String time = String.format("%s mins", result.get("recipeCookTime").toString());
+		String time = String.format("%s mins", result.get("recipeCookTime").toString());
 		String detail = result.get("recipeDescription").toString();
 
 		recipeName.setText(name);
-		recipeCategory.setText("");
+		recipeCategory.setText(category);
 		recipeAddedDate.setText(date);
-		recipeCookTime.setText("");
+		recipeCookTime.setText(time);
 		recipeDetail.setText(detail);
 
 		IngredientController ingrController = ControllerFactory.makeIngredientController();
-		Map<Long, Float> ingredientList = (Map<Long, Float>) result.get("ingredients");
+		List<Map<String, Object>> ingredientList = (List<Map<String, Object>>) result.get("ingredients");
 
-		for (Long k : ingredientList.keySet()) {
-			Map<String, Object> ingrDetails = ingrController.getIngredient(k);
-			Float amount = ingredientList.get(k);
-			String ingrName = Utility.parseFoodName(ingrDetails.get("foodName").toString()).toUpperCase();
+		for (Map<String, Object> ingr : ingredientList) {
+			Map<String, Object> ingrDetails = ingrController.getIngredient((Long) ingr.get("foodID"));
+			Float amount = (Float) ingr.get("ingredientQtty");
+			String ingrName = Utility.parseFoodName(ingrDetails.get("foodName").toString());
 
 			String labelTxt = String.format("%.0fg of %s", amount, ingrName);
 			Label ingrLabel = new Label(labelTxt);
+			ingrLabel.setWrapText(true);
 			ingrLabel.getStyleClass().add("recipeIngredientText");
 			ingrLabel.getStyleClass().add("detailText");
 
@@ -170,7 +172,8 @@ public class recipeEntryPageController implements PageController {
 			controller.saveRecipe(recipeID);
 		} else {
 			addRecipeButton.setText("+");
-			//controller.remove(recipeID);
+			//TODO: use recipe controller here
+//			controller.remove(recipeID);
 		}
 	}
 
