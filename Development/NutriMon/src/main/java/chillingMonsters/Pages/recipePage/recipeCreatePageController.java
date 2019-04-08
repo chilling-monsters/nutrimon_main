@@ -120,7 +120,7 @@ public class recipeCreatePageController implements PageController {
 		saveRecipeButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				handleCreateButton();
+				handleCreateButton(event);
 			}
 		});
 
@@ -178,10 +178,10 @@ public class recipeCreatePageController implements PageController {
 		ingrMap.put(foodID, new SimpleStringProperty());
 	}
 
-	private void handleCreateButton() {
-		String name = cachedName.getValue();
-		String category = cachedCategory.getValue();
-		String details = cachedFormDetails.getValue();
+	private void handleCreateButton(ActionEvent event) {
+		String name = cachedName.getValue().trim();
+		String category = cachedCategory.getValue().trim();
+		String details = cachedFormDetails.getValue().trim();
 		double cookTime = Utility.parseQuantity(cachedCookTime.getValue(), 0);
 
 		if (name.isEmpty()) {
@@ -217,6 +217,7 @@ public class recipeCreatePageController implements PageController {
 
 		RecipeController controller = ControllerFactory.makeRecipeController();
 		controller.createRecipe(name, category, details, cookTime, ingredients);
+		PageFactory.getRecipePage().startPage(event);
 	}
 
 	private void handleCancelButton(ActionEvent event) {
