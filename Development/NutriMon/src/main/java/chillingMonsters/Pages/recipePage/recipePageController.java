@@ -52,7 +52,11 @@ public class recipePageController implements PageController {
 			String name  = recipe.get("recipeName").toString();
 			String category = recipe.get("recipeCategory").toString();
 			int cookTime = (Integer) recipe.get("recipeCookTime");
-			int calories = (Integer) recipe.get("caloriesPerServing");
+			int calories = 0;
+			if (recipe.get("caloriesPerServing") != null) {
+				calories = (Integer) recipe.get("caloriesPerServing");
+			}
+
 
 			RecipeCardComponent sCard = new RecipeCardComponent(id, name, category, cookTime, calories);
 

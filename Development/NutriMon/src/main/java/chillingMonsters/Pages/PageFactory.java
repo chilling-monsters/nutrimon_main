@@ -115,7 +115,7 @@ public abstract class PageFactory {
   public static recipePage getRecipePage() {
     if (recipe == null) recipe = new recipePage();
 
-    pageHistory.add(0, recipe);
+    addToHistory(recipe);
     return recipe;
   }
 
@@ -124,7 +124,7 @@ public abstract class PageFactory {
       recipeEntry = new recipeEntryPage(recipeID);
     }
 
-    pageHistory.add(0, recipeEntry);
+    addToHistory(recipeEntry);
     return recipeEntry;
   }
 
