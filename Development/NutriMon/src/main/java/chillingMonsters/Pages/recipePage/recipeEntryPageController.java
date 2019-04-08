@@ -72,7 +72,7 @@ public class recipeEntryPageController implements PageController {
 		String name = result.get("recipeName").toString();
 		String category = result.get("recipeCategory").toString().toUpperCase();
 		String date = String.format("CREATED %s", Utility.parseDate((Timestamp) result.get("dateCreated")).toUpperCase());
-		String time = String.format("%s mins", result.get("recipeCookTime").toString());
+		String time = String.format("%.0f mins", result.get("recipeCookTime"));
 		String detail = result.get("recipeDescription").toString();
 
 		recipeName.setText(name);
