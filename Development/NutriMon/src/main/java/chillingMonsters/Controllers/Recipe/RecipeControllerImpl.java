@@ -54,6 +54,12 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     return result;
   }
 
+  public boolean canbeMade(long recipeID) {
+    //TODO: implement can be made here;
+
+    return false;
+  }
+
   public List<Map<String, Object>> showCreatedRecipes() {
     return this.show();
   }

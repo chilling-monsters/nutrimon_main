@@ -73,12 +73,21 @@ public class recipeEntryPageController implements PageController {
 		String date = String.format("CREATED %s", Utility.parseDate((Timestamp) result.get("dateCreated")).toUpperCase());
 		String time = String.format("%d mins", result.get("recipeCookTime"));
 		String detail = result.get("recipeDescription").toString();
+		String ready = "";
+
+		if (controller.canbeMade(recipeID)) {
+			ready = "Ready";
+		} else {
+			ready = "Not Ready";
+			recipeReady.getStyleClass().add("secondaryHighlightTextt");
+		}
 
 		recipeName.setText(name);
 		recipeCategory.setText(category);
 		recipeAddedDate.setText(date);
 		recipeCookTime.setText(time);
 		recipeDetail.setText(detail);
+		recipeReady.setText(ready);
 
 		IngredientController ingrController = ControllerFactory.makeIngredientController();
 		List<Map<String, Object>> ingredientList = (List<Map<String, Object>>) result.get("ingredients");
