@@ -113,7 +113,7 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     return this.exists("promotedrecipe", this.pk, Long.toString(recipeID));
   }
 
-  public void updateRecipe(long recipeID, String name, String description, Map<Integer, Float> ingredients) {
+  public void updateRecipe(long recipeID, String name, String description, Map<Long, Float> ingredients) {
     String clearIngredients = "DELETE FROM recipeingredients WHERE recipeID = ? AND ? IN (" +
             "SELECT DISTINCT recipeID FROM recipes WHERE userID = ?)";
     String insertIngredients = "INSERT INTO recipeingredients VALUES (?,?,?)";
@@ -128,7 +128,7 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
       clearStmt.setLong(3, userId);
       clearStmt.executeUpdate();
       try (PreparedStatement updateIngredients = connection.prepareStatement(insertIngredients)) {
-        for (Map.Entry<Integer, Float> entry : ingredients.entrySet()) {
+        for (Map.Entry<Long, Float> entry : ingredients.entrySet()) {
           updateIngredients.setLong(1, entry.getKey());
           updateIngredients.setLong(2, recipeID);
           updateIngredients.setFloat(3, entry.getValue());
@@ -142,12 +142,11 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     }
   }
 
-  //TODO: implement updated here
   public void createRecipe(String name, String category, String description, double cookTime, Map<Long, Float> ingredients) {
     Map<String, Object> payload = new HashMap<>();
     payload.put("recipeName", name);
     payload.put("recipeDescription", description);
-    int recipeId;
+    long recipeId;
     this.create(payload);
     String selectId = "SELECT recipeID FROM recipes WHERE recipeName like ? AND userID = ?";
     String insertIngredients = "INSERT INTO recipeingredients VALUES (?,?,?)";
@@ -157,7 +156,7 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
       getId.setLong(2, userId);
       ResultSet rs = getId.executeQuery();
       if (rs.first()) {
-        recipeId = rs.getInt("recipeID");
+        recipeId = rs.getLong("recipeID");
         try (PreparedStatement postIngredients = connection.prepareStatement(insertIngredients)) {
           for (Map.Entry<Long, Float> entry : ingredients.entrySet()) {
             postIngredients.setLong(1, entry.getKey());

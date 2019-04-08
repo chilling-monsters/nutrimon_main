@@ -12,7 +12,7 @@ public interface RecipeController {
 
   void deleteRecipe(long recipeID);
 
-  void updateRecipe(long recipeID, String name, String description, Map<Integer, Float> ingredients);
+  void updateRecipe(long recipeID, String name, String description, Map<Long, Float> ingredients);
 
   List<Map<String, Object>> showAvailableRecipes();
 
