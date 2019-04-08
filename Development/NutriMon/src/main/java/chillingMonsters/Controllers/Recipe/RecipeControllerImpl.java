@@ -81,6 +81,8 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
   }
 
   public void saveRecipe(long recipeID) {
+    if (isSaved(recipeID)) return;
+
     String query = "INSERT INTO promotedrecipe VALUES (?,?)";
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
       stmt.setLong(1, userId);
@@ -91,6 +93,24 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     } finally {
       DBConnect.close();;
     }
+  }
+
+  public void unsaveRecipe(long recipeID) {
+    if (!isSaved(recipeID)) return;
+
+    String query = String.format("DELETE FROM promotedrecipe WHERE %s = ?", this.pk);
+    try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
+      stmt.setLong(1, recipeID);
+      stmt.executeUpdate();
+    } catch (SQLException e) {
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    } finally {
+      DBConnect.close();;
+    }
+  }
+
+  public boolean isSaved(long recipeID) {
+    return this.exists("promotedrecipe", this.pk, Long.toString(recipeID));
   }
 
   public void updateRecipe(long recipeID, String name, String description, Map<Integer, Float> ingredients) {

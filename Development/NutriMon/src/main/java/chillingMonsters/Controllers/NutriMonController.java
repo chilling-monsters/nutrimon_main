@@ -10,9 +10,9 @@ import java.util.logging.Logger;
 import chillingMonsters.DBConnect;
 
 public abstract class NutriMonController {
-    public static long userId;
-    private final String table;
-    private final String pk;
+    protected static long userId;
+    protected final String table;
+    protected final String pk;
 
     public NutriMonController(String table, String pk) {
         this.table = table;

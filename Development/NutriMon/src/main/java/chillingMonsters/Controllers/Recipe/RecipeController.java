@@ -21,4 +21,8 @@ public interface RecipeController {
   List<Map<String, Object>> showSavedRecipes();
 
   void saveRecipe(long recipeID);
+
+  void unsaveRecipe(long recipeID);
+
+  boolean isSaved(long recipeID);
 }
