@@ -14,5 +14,5 @@ public interface StockController {
 
   void updateStock(long stockID, double quantity, String expDate);
 
-  float getStockQuantity(long stockID);
+  float getStockQuantity(long foodID);
 }

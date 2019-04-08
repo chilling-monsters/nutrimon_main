@@ -20,15 +20,15 @@ public class StockControllerImpl extends NutriMonController implements StockCont
   }
 
 
-  public float getStockQuantity(long stockID) {
+  public float getStockQuantity(long foodID) {
     float quantity = 0;
     String query = "SELECT sum(foodQtty) as 'quantity' " +
             "FROM stockitems JOIN ingredients USING (foodID) " +
-            "WHERE userID = ? AND stockItemID = ? " +
+            "WHERE userID = ? AND foodID = ? " +
             "GROUP BY foodID";
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
       stmt.setLong(1, userId);
-      stmt.setLong(2, stockID);
+      stmt.setLong(2, foodID);
       ResultSet rs = stmt.executeQuery();
       if (rs.first()) {
         quantity = rs.getFloat(1);
