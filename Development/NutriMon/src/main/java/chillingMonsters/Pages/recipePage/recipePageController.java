@@ -87,8 +87,6 @@ public class recipePageController implements PageController {
 		Label groupLabel = new Label(Utility.toCapitalized(label));
 		groupLabel.getStyleClass().add("labelText");
 
-//		if (label == EXPIRE_KEY) groupLabel.getStyleClass().add("hightlightText");
-
 		Line underline = new Line();
 		underline.setStartX(0.0f);
 		underline.setStartY(100.0f);
@@ -101,7 +99,6 @@ public class recipePageController implements PageController {
 
 		for (RecipeCardComponent s : group) {
 			s.getStyleClass().add("listCard");
-//			if (label == EXPIRE_KEY) s.getStyleClass().add("hightlightCard");
 			cardList.getChildren().add(s);
 		}
 	}

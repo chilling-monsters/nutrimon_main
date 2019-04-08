@@ -91,6 +91,10 @@
 .hightlightText {
     -fx-text-fill: #F5A623;
 }
+.secondaryHighlightTextt {
+    -fx-text-fill: #FF6C00;
+}
+
 .emptyWarningText {
     -fx-font-size: 15px;
     -fx-padding: 100 0 0 0;
