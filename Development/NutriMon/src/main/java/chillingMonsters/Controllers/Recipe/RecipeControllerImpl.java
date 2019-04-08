@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,25 +154,34 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
   }
 
   public Map<String, Object> getRecipe(long recipeID) {
+    String getRecipe = "SELECT * FROM recipes WHERE recipeID = ?";
     String getIngredients = "SELECT foodID, ingredientQtty " +
             "FROM recipeingredients JOIN ingredients USING (foodID) " +
             "WHERE recipeID = ?";
-    Map<String, Object> recipe = this.get(recipeID);
-    Map<Integer, Float> ingredients = new HashMap<>();
+
+    Map<String, Object> recipe = new HashMap<>();
+    List<Map<String, Object>> ingredients = new ArrayList<>();
+
     Connection connection = DBConnect.getConnection();
-    if (recipe != null) {
-      try (PreparedStatement stmt = connection.prepareStatement(getIngredients)) {
-        stmt.setLong(1, recipeID);
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-          ingredients.put(rs.getInt("foodID"), rs.getFloat("ingredientQtty"));
-        }
-        recipe.put("ingredients", ingredients);
-      } catch (SQLException e) {
-        Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
-      } finally {
-        DBConnect.close();
-      }
+    try {
+      PreparedStatement stmtRcp = connection.prepareStatement(getRecipe);
+      stmtRcp.setLong(1, recipeID);
+
+      PreparedStatement stmtIngr = connection.prepareStatement(getIngredients);
+      stmtIngr.setLong(1, recipeID);
+
+      ResultSet rs = stmtRcp.executeQuery();
+      List<Map<String, Object>> recipes = resultsList(rs);
+      if (!recipes.isEmpty()) recipe = recipes.get(0);
+
+      rs = stmtIngr.executeQuery();
+      ingredients = resultsList(rs);
+
+      recipe.put("ingredients", ingredients);
+    } catch (SQLException e) {
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    } finally {
+      DBConnect.close();
     }
     return recipe;
   }
