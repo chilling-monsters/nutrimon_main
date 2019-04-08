@@ -18,4 +18,8 @@ public interface RecipeDao {
   void updateRecipe(long recipeID, String name, String description, Map<Integer, Float> ingredients);
 
   Map<String, Object> getRecipe(long recipeID);
+
+  List<Map<String, Object>> getSavedRecipes();
+
+  void saveRecipe(long recipeID);
 }

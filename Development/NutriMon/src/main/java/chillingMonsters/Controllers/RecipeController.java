@@ -60,6 +60,36 @@ public class RecipeController extends NutriMonController implements RecipeDao {
     this.delete(recipeID);
   }
 
+  public List<Map<String, Object>> getSavedRecipes() {
+    List<Map<String, Object>> result = null;
+    String query = "SELECT r.* FROM recipes r JOIN promotedrecipe pr USING (recipeID) " +
+            "WHERE pr.userID = ?";
+    try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
+      stmt.setLong(1, userId);
+      try (ResultSet rs = stmt.executeQuery()) {
+        result = resultsList(rs);
+      }
+    } catch (SQLException e) {
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    } finally {
+      DBConnect.close();
+    }
+    return result;
+  }
+
+  public void saveRecipe(long recipeID) {
+    String query = "INSERT INTO promotedrecipe VALUES (?,?)";
+    try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
+      stmt.setLong(1, userId);
+      stmt.setLong(2, recipeID);
+      stmt.executeUpdate();
+    } catch (SQLException e) {
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    } finally {
+      DBConnect.close();;
+    }
+  }
+
   public void updateRecipe(long recipeID, String name, String description, Map<Integer, Float> ingredients) {
     String clearIngredients = "DELETE FROM recipeingredients WHERE recipeID = ? AND ? IN (" +
             "SELECT DISTINCT recipeID FROM recipes WHERE userID = ?)";
