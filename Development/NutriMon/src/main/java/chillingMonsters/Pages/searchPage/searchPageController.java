@@ -48,11 +48,14 @@ public class searchPageController implements PageController {
   @FXML
   void onSearchEnter() {
     String currentSearch = searchTxF.getText();
-    if (currentSearch.isEmpty() || currentSearch.equals(searchQuery)) return;
+    if (currentSearch.isEmpty()) return;
 
     List<SearchCardComponent> cache = cachedResults.get(currentSearch);
     if (cache != null) {
-      searchList.getChildren().addAll(cache);
+      if (!searchList.getChildren().contains(cache)) {
+        searchList.getChildren().clear();
+        searchList.getChildren().addAll(cache);
+      }
     } else {
       searchQuery = currentSearch;
       searchList.getChildren().clear();

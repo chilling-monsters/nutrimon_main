@@ -3,6 +3,7 @@ package chillingMonsters.Pages.recipePage;
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.Ingredient.IngredientController;
 import chillingMonsters.Controllers.Recipe.RecipeController;
+import chillingMonsters.Controllers.Stock.StockController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Utility;
@@ -19,6 +20,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
+import javax.rmi.CORBA.Util;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +70,7 @@ public class recipeEntryPageController implements PageController {
 		RecipeController controller = ControllerFactory.makeRecipeController();
 		Map<String, Object> result = controller.getRecipe(recipeID);
 
-		String name = result.get("recipeName").toString();
+		String name = Utility.toCapitalized(result.get("recipeName").toString());
 		String category = result.get("recipeCategory").toString().toUpperCase();
 		String date = String.format("CREATED %s", Utility.parseDate((Timestamp) result.get("dateCreated")).toUpperCase());
 		String time = String.format("%d mins", result.get("recipeCookTime"));
@@ -90,11 +92,15 @@ public class recipeEntryPageController implements PageController {
 		recipeReady.setText(ready);
 
 		IngredientController ingrController = ControllerFactory.makeIngredientController();
+		StockController stockController = ControllerFactory.makeStockController();
 		List<Map<String, Object>> ingredientList = (List<Map<String, Object>>) result.get("ingredients");
 
 		for (Map<String, Object> ingr : ingredientList) {
-			Map<String, Object> ingrDetails = ingrController.getIngredient((Long) ingr.get("foodID"));
+			Long foodID = (Long) ingr.get("foodID");
 			Float amount = (Float) ingr.get("ingredientQtty");
+			Float stockAmount = 0F/*stockController.showStockAmount(foodID)*/;
+
+			Map<String, Object> ingrDetails = ingrController.getIngredient(foodID);
 			String ingrName = Utility.parseFoodName(ingrDetails.get("foodName").toString());
 
 			String labelTxt = String.format("%.0fg of %s", amount, ingrName);
@@ -102,6 +108,10 @@ public class recipeEntryPageController implements PageController {
 			ingrLabel.setWrapText(true);
 			ingrLabel.getStyleClass().add("recipeIngredientText");
 			ingrLabel.getStyleClass().add("detailText");
+
+			if (amount > stockAmount) {
+				ingrLabel.getStyleClass().add("secondaryHighlightTextt");
+			}
 
 			recipeIngredientsList.getChildren().add(ingrLabel);
 		}
