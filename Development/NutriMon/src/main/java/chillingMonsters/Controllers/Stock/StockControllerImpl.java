@@ -1,4 +1,4 @@
-package chillingMonsters.Controllers;
+package chillingMonsters.Controllers.Stock;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,10 +10,12 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import chillingMonsters.Controllers.NutriMonController;
+import chillingMonsters.Controllers.Stock.StockController;
 import chillingMonsters.DBConnect;
 
-public class StockController extends NutriMonController implements StockDao {
-    StockController() {
+public class StockControllerImpl extends NutriMonController implements StockController {
+    public StockControllerImpl() {
         super("stockItems", "stockItemID");
     }
 

@@ -1,7 +1,7 @@
 package chillingMonsters.Pages.stockPage;
 
 import chillingMonsters.Controllers.ControllerFactory;
-import chillingMonsters.Controllers.StockController;
+import chillingMonsters.Controllers.Stock.StockController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;

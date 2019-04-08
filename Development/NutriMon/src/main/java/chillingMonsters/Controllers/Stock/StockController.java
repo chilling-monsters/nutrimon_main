@@ -1,10 +1,9 @@
-package chillingMonsters.Controllers;
+package chillingMonsters.Controllers.Stock;
 
 import java.util.List;
 import java.util.Map;
 
-public interface StockDao {
-
+public interface StockController {
   List<Map<String, Object>> show();
 
   List<Map<String, Object>> showStockIngredient(long foodID);

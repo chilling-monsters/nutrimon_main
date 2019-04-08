@@ -1,10 +1,9 @@
-package chillingMonsters.Controllers;
+package chillingMonsters.Controllers.Recipe;
 
 import java.util.List;
 import java.util.Map;
 
-public interface RecipeDao {
-
+public interface RecipeController {
   List<Map<String, Object>> searchRecipes(String name);
 
   List<Map<String, Object>> getAvailableRecipes();

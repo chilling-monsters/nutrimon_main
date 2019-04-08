@@ -1,7 +1,7 @@
 package chillingMonsters.Pages.ingredientPage;
 
 import chillingMonsters.Controllers.ControllerFactory;
-import chillingMonsters.Controllers.IngredientController;
+import chillingMonsters.Controllers.Ingredient.IngredientController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;

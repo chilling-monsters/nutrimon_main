@@ -1,4 +1,4 @@
-package chillingMonsters.Controllers;
+package chillingMonsters.Controllers.Recipe;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,13 +10,15 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import chillingMonsters.Controllers.NutriMonController;
+import chillingMonsters.Controllers.Recipe.RecipeController;
 import chillingMonsters.DBConnect;
 
 import static chillingMonsters.DBConnect.resultsList;
 
-public class RecipeController extends NutriMonController implements RecipeDao {
+public class RecipeControllerImpl extends NutriMonController implements RecipeController {
 
-  RecipeController() {
+  public RecipeControllerImpl() {
     super("recipes", "recipeID");
   }
 

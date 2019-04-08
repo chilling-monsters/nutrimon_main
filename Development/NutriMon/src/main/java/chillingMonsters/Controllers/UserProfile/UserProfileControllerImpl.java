@@ -1,18 +1,18 @@
-package chillingMonsters.Controllers;
+package chillingMonsters.Controllers.UserProfile;
 
+import chillingMonsters.Controllers.NutriMonController;
 import chillingMonsters.DBConnect;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UserProfileController extends NutriMonController implements UserProfileDao {
-    UserProfileController() {
+public class UserProfileControllerImpl extends NutriMonController implements UserProfileController {
+    public UserProfileControllerImpl() {
         super("userProfile", "userID");
     }
 

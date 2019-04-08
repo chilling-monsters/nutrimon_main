@@ -10,22 +10,22 @@ import java.util.logging.Logger;
 import chillingMonsters.DBConnect;
 
 public abstract class NutriMonController {
-    static long userId;
+    public static long userId;
     private final String table;
     private final String pk;
 
-    NutriMonController(String table, String pk) {
+    public NutriMonController(String table, String pk) {
         this.table = table;
         this.pk = pk;
     }
 
-    static void setUserId(long id) {
+    public static void setUserId(long id) {
         userId = id;
     }
 
     public static long getUserId() { return userId; }
 
-    List<Map<String, Object>> show() {
+    public List<Map<String, Object>> show() {
         List<Map<String,Object>> output = new ArrayList<>();
         try {
             ResultSet rs;
@@ -43,7 +43,7 @@ public abstract class NutriMonController {
         return output;
     }
 
-    Map<String, Object> get(long id) {
+    public Map<String, Object> get(long id) {
         try {
             ResultSet rs;
             try (PreparedStatement stmt = DBConnect.getConnection()
@@ -65,7 +65,7 @@ public abstract class NutriMonController {
         return null;
     }
 
-    void delete(long id) {
+    public void delete(long id) {
         try (PreparedStatement stmt = DBConnect.getConnection()
                 .prepareStatement(String.format("DELETE FROM %s WHERE userID = ? AND %s = ?",
                         table, pk))) {
@@ -78,7 +78,7 @@ public abstract class NutriMonController {
         }
     }
 
-    void update(long id, Map<String, Object> values) {
+    public void update(long id, Map<String, Object> values) {
         StringBuilder query = new StringBuilder(String.format("UPDATE %s ", table));
         int i = 0;
         int size = values.size();
@@ -101,7 +101,7 @@ public abstract class NutriMonController {
         }
     }
 
-    void create(Map<String, Object> values) {
+    public void create(Map<String, Object> values) {
         StringBuilder fields = new StringBuilder("(");
         StringBuilder vals = new StringBuilder("(");
         for (Map.Entry<String, Object> entry : values.entrySet()) {
