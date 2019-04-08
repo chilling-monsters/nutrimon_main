@@ -39,7 +39,7 @@
     -fx-background-color: transparent;
 }
 
-.button:hover {
+.myButton:hover {
     -fx-cursor: hand;
 }
 .primaryButton {

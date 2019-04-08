@@ -27,7 +27,7 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <ImageView fx:id="menuButton" fitHeight="30.0" fitWidth="30.0" layoutX="76.0" layoutY="113.0" onMouseClicked="#onMenuClicked" pickOnBounds="true" preserveRatio="true" styleClass="button" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <ImageView fx:id="menuButton" fitHeight="30.0" fitWidth="30.0" layoutX="76.0" layoutY="113.0" onMouseClicked="#onMenuClicked" pickOnBounds="true" preserveRatio="true" styleClass="myButton" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
          <image>
             <Image url="@../img/Menu%20Icon2x.png" />
          </image>

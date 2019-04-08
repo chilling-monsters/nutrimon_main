@@ -37,7 +37,7 @@
          </image>
          <styleClass>
             <String fx:value="backButton" />
-            <String fx:value="button" />
+            <String fx:value="myButton" />
          </styleClass>
       </ImageView>
       <Label styleClass="titleText" text="Your Recipes" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
@@ -147,7 +147,7 @@
                <styleClass>
                   <String fx:value="createStockButton" />
                   <String fx:value="secondaryButton" />
-                  <String fx:value="button" />
+                  <String fx:value="myButton" />
                </styleClass>
             </ToggleButton>
          </children>

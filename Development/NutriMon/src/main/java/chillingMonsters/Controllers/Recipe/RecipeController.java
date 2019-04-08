@@ -25,6 +25,4 @@ public interface RecipeController {
   void unsaveRecipe(long recipeID);
 
   boolean isSaved(long recipeID);
-
-  boolean canbeMade(long recipeID);
 }

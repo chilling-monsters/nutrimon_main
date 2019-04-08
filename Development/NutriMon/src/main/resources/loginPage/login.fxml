@@ -93,7 +93,7 @@
          </font>
          <styleClass>
             <String fx:value="secondaryButton" />
-            <String fx:value="button" />
+            <String fx:value="myButton" />
          </styleClass>
       </Button>
         <Button fx:id="btn_login" layoutX="35.0" layoutY="265.0" mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="55.0" style="-fx-background-radius: 27px;" text="LOGIN" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0">
@@ -102,7 +102,7 @@
          </font>
          <styleClass>
             <String fx:value="primaryButton" />
-            <String fx:value="button" />
+            <String fx:value="myButton" />
          </styleClass>
         </Button>
     </children>
