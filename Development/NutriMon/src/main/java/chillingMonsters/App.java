@@ -1,9 +1,9 @@
 package chillingMonsters;
 
+import chillingMonsters.Controllers.ControllerFactory;
+
 import java.util.List;
 import java.util.Map;
-
-import chillingMonsters.Controllers.ControllerFactory;
 
 public class App {
 

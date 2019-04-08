@@ -1,7 +1,8 @@
 package chillingMonsters;
 
 import chillingMonsters.Pages.loginPage.loginPage;
-import static javafx.application.Application.*;
+
+import static javafx.application.Application.launch;
 
 public class NutriMonMain {
 

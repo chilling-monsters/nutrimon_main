@@ -7,8 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Utility {
-	public static int SPOILAGE_WARNING_DAYS = 5;
-	public static int TEXTFIELD_MAX_LENGTH = 9;
+	public static final int SPOILAGE_WARNING_DAYS = 5;
+	public static final int TEXTFIELD_MAX_LENGTH = 9;
+	public static final int CACHE_MAX_SIZE = 10;
 
 	static String[] suffixes = {
 		//0     1     2     3     4     5     6     7     8     9
@@ -52,10 +53,16 @@ public class Utility {
 		put("JUC", "JUICE");
 		put("FLAV", "FLAVOR");
 		put("RTD", "READY TO DRINK");
+		put("RTe", "READY TO EAT");
 		put("COCNT", "COCONUT");
 		put("BF", "BEEF");
 		put("PRK", "PORK");
 		put("DRK", "DRINK");
+		put("FRSTD", "FROSTED");
+		put("MARSHMLLW", "MARSHMALLOW");
+		put("UNCKD", "UNCOOKED");
+		put("SPRD", "SPREAD");
+		put("WHL", "WHOLE");
 	}};
 
 	public static String parseFoodName(String name) {
@@ -80,7 +87,7 @@ public class Utility {
 	}
 
 	public static String toCapitalized(String str) {
-		String[] bySpace = str.toLowerCase().split(" ");
+		String[] bySpace = str.toLowerCase().split("-|\\ ");
 		String rtn = "";
 
 		for (String s : bySpace) {

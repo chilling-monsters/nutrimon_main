@@ -1,14 +1,16 @@
 package chillingMonsters.Pages.loginPage;
 
+import chillingMonsters.AlertHandler;
+import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.UserProfile.UserProfileController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-
-import chillingMonsters.AlertHandler;
-import chillingMonsters.Controllers.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 
 
 public class loginPageController implements PageController {
