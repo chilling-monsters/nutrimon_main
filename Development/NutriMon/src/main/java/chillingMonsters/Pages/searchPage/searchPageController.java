@@ -49,7 +49,7 @@ public class searchPageController implements PageController {
   void onSearchEnter() {
     addCreateYourOwnCard();
 
-    String currentSearch = searchTxF.getText();
+    String currentSearch = searchTxF.getText().trim();
     if (currentSearch.isEmpty()) return;
 
     List<SearchCardComponent> cache = cachedResults.get(currentSearch);

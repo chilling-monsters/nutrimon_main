@@ -146,7 +146,9 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     Map<String, Object> payload = new HashMap<>();
     payload.put("recipeName", name);
     payload.put("recipeDescription", description);
-    long recipeId;
+    payload.put("recipeCategory", category);
+    payload.put("recipeCookTIme", cookTime);
+    long recipeId = 0;
     this.create(payload);
     String selectId = "SELECT recipeID FROM recipes WHERE recipeName like ? AND userID = ?";
     String insertIngredients = "INSERT INTO recipeingredients VALUES (?,?,?)";
@@ -166,6 +168,8 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
           }
         }
       }
+
+      saveRecipe(recipeId);
     } catch (SQLException e) {
       Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
     } finally {
