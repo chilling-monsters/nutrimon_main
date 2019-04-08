@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 
@@ -58,16 +57,18 @@ public class SearchCardComponent extends AnchorPane {
     ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
     switch (option) {
-      case ADD_STOCK:
+      case STOCK:
         PageFactory.getStockEntryPage(ID, option).startPage(e);
         break;
-      case ADD_RECIPE:
+      case RECIPE:
         PageFactory.getRecipeEntryPage(ID).startPage(e);
         break;
       case DEFAULT:
-        //TODO: add recipe navigation here
-        //PageFactory.getRecipePage(ID).startPage(e);
-        PageFactory.getIngredientPage(ID).startPage(e);
+        if (option == PageOption.RECIPE) {
+          PageFactory.getRecipeEntryPage(ID).startPage(e);
+        } else {
+          PageFactory.getIngredientPage(ID).startPage(e);
+        }
         break;
     }
   }

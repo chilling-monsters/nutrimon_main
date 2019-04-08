@@ -82,7 +82,7 @@ public class stockPageController implements PageController {
 
   @FXML
   void stockCreateButtonAction(ActionEvent event) {
-    PageFactory.getSearchPage(PageOption.ADD_STOCK).startPage(event);
+    PageFactory.getSearchPage(PageOption.STOCK).startPage(event);
   }
 
   @FXML
@@ -110,7 +110,7 @@ public class stockPageController implements PageController {
 
     for (StockCardComponent s : group) {
       s.getStyleClass().add("stockCard");
-      if (label == EXPIRE_KEY) s.getStyleClass().add("expireWarningCard");
+      if (label == EXPIRE_KEY) s.getStyleClass().add("hightlightCard");
       cardList.getChildren().add(s);
     }
   }
