@@ -13,10 +13,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" styleClass="screenPane pane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.recipePage.recipeCreatePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" styleClass="screenPane pane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <ImageView fitHeight="361.0" fitWidth="361.0" layoutX="104.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <image>
@@ -54,9 +55,9 @@
                      <children>
                             <VBox AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
                            <children>
-                              <TextArea fx:id="formName" maxHeight="30.0" styleClass="titleText" wrapText="true">
+                              <TextArea fx:id="formName" maxHeight="30.0" promptText="Honey Roasted ..." styleClass="headerText" wrapText="true">
                                  <font>
-                                    <Font name="SF Pro Display Regular" size="25.0" />
+                                    <Font name="SF Pro Display Regular" size="15.0" />
                                  </font></TextArea>
                               <Label styleClass="tagText" text="RECIPE NAME" textFill="#9e9e9e">
                                  <font>
@@ -67,7 +68,10 @@
                                  <children>
                                     <VBox prefWidth="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <TextField />
+                                          <TextField fx:id="formCategory">
+                                             <font>
+                                                <Font name="SF Pro Display Regular" size="15.0" />
+                                             </font></TextField>
                                           <Label styleClass="tagText" text="CATEGORY" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="9.0" />
@@ -86,6 +90,9 @@
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="9.0" />
                                              </font>
+                                             <VBox.margin>
+                                                <Insets top="-2.0" />
+                                             </VBox.margin>
                                           </Label>
                                        </children>
                                     </VBox>
@@ -94,28 +101,36 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </AnchorPane>
-                              <VBox>
-                                 <children>
-                                    <Button fx:id="addIngredientButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: #FF6C00;" text="Add Ingredient" textFill="WHITE">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                       <styleClass>
-                                          <String fx:value="tertiaryButton" />
-                                          <String fx:value="myButton" />
-                                       </styleClass>
-                                    </Button>
-                                 </children>
+                              <Line endX="150.0" startX="-150.0" stroke="#f5a623">
                                  <VBox.margin>
-                                    <Insets top="10.0" />
+                                    <Insets top="5.0" />
+                                 </VBox.margin></Line>
+                              <VBox fx:id="ingredientList" spacing="10.0">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                               </VBox>
+                              <Button fx:id="addIngredientButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: #FF6C00;" text="Add Ingredient" textFill="WHITE">
+                                 <font>
+                                    <Font name="SF Pro Display Regular" size="13.0" />
+                                 </font>
+                                 <styleClass>
+                                    <String fx:value="tertiaryButton" />
+                                    <String fx:value="myButton" />
+                                 </styleClass>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Button>
                               <Label styleClass="tagText" text="INGREDIENT LIST" textFill="#9e9e9e">
                                  <font>
                                     <Font name="SF Pro Display Regular" size="9.0" />
                                  </font>
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
                               </Label>
-                              <TextArea fx:id="formDetails" layoutX="10.0" layoutY="10.0" promptText="Recipe Details">
+                              <TextArea fx:id="formDetails" layoutX="10.0" layoutY="10.0" prefHeight="365.0" promptText="Preheat the oven to ..." wrapText="true">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin></TextArea>
@@ -133,7 +148,7 @@
                                     <String fx:value="myButton" />
                                  </styleClass>
                                  <VBox.margin>
-                                    <Insets bottom="10.0" />
+                                    <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                               </Button>
                               <Button fx:id="cancelRecipeButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: #FBD249;" text="Cancel" textFill="WHITE">

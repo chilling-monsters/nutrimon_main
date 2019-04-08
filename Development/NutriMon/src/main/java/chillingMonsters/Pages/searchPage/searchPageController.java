@@ -47,9 +47,7 @@ public class searchPageController implements PageController {
 
   @FXML
   void onSearchEnter() {
-    if (option == PageOption.RECIPE) {
-      addCreateYourOwnCard();
-    }
+    addCreateYourOwnCard();
 
     String currentSearch = searchTxF.getText();
     if (currentSearch.isEmpty()) return;
@@ -58,11 +56,13 @@ public class searchPageController implements PageController {
     if (cache != null) {
       if (!searchList.getChildren().contains(cache)) {
         searchList.getChildren().clear();
+        addCreateYourOwnCard();
         searchList.getChildren().addAll(cache);
       }
     } else {
       searchQuery = currentSearch;
       searchList.getChildren().clear();
+      addCreateYourOwnCard();
 
       IngredientController ingr = ControllerFactory.makeIngredientController();
       RecipeController recp = ControllerFactory.makeRecipeController();
@@ -76,6 +76,9 @@ public class searchPageController implements PageController {
           break;
         case RECIPE:
           recpSearchResult = recp.searchRecipe(searchQuery);
+          break;
+        case UPDATE:
+          ingrSearchResult = ingr.searchIngredient(searchQuery);
           break;
         case DEFAULT:
           ingrSearchResult = ingr.searchIngredient(searchQuery);
@@ -131,8 +134,12 @@ public class searchPageController implements PageController {
   }
 
   private void addCreateYourOwnCard() {
-    NewRecipeSearchCard nCard = new NewRecipeSearchCard();
-    searchList.getChildren().add(nCard);
+    if (option != PageOption.RECIPE) return;
+    if (searchList.getChildren().isEmpty()
+        || !(searchList.getChildren().get(0) instanceof NewRecipeSearchCard)) {
+      NewRecipeSearchCard nCard = new NewRecipeSearchCard();
+      searchList.getChildren().add(0, nCard);
+    }
   }
 
   private void addEmptyWarningLabel() {

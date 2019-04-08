@@ -9,10 +9,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public abstract class PageImpl implements Page {
-	private String fxmlLocation;
-	private String title;
-	private String debugString;
-	private PageController controller;
+	protected String fxmlLocation;
+	protected String title;
+	protected String debugString;
+	protected PageController controller;
 
 	public PageImpl(String fxmlLocation, String title, String debugString) {
 		this.fxmlLocation = fxmlLocation;
