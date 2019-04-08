@@ -11,8 +11,9 @@ import java.util.logging.Logger;
 
 import chillingMonsters.DBConnect;
 
+import static chillingMonsters.DBConnect.resultsList;
+
 public class IngredientController extends NutriMonController implements IngredientDao {
-  private static final String READ_ONLY = "Ingredients are READ ONLY";
 
   IngredientController() {
     super("ingredients", "foodID");
@@ -24,11 +25,12 @@ public class IngredientController extends NutriMonController implements Ingredie
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
       stmt.setString(1, String.format("%%%s%%", foodName));
       ResultSet rs = stmt.executeQuery();
-      ingredients = DBConnect.resultsList(rs);
+      ingredients = resultsList(rs);
     } catch (SQLException e) {
       Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    } finally {
+      DBConnect.close();
     }
-    DBConnect.close();
     return ingredients;
   }
 
@@ -38,7 +40,7 @@ public class IngredientController extends NutriMonController implements Ingredie
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
       stmt.setLong(1,foodID);
       try (ResultSet rs = stmt.executeQuery()) {
-        List<Map<String, Object>> ingredients = DBConnect.resultsList(rs);
+        List<Map<String, Object>> ingredients = resultsList(rs);
         if (!ingredients.isEmpty()) {
           ingredient = ingredients.get(0);
         }

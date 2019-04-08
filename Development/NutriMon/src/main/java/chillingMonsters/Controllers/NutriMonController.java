@@ -23,7 +23,7 @@ public abstract class NutriMonController {
         userId = id;
     }
 
-    static long getUserId() { return userId; }
+    public static long getUserId() { return userId; }
 
     List<Map<String, Object>> show() {
         List<Map<String,Object>> output = new ArrayList<>();
