@@ -27,7 +27,7 @@
                            </HBox.margin>
                            <styleClass>
                               <String fx:value="backButton" />
-                              <String fx:value="button" />
+                              <String fx:value="myButton" />
                            </styleClass>
                         </ImageView>
                         <Label styleClass="titleText" text="Search" textFill="WHITE">

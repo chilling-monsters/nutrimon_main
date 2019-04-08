@@ -23,6 +23,9 @@ public class ingredientPageController implements PageController {
 	private ImageView backButton;
 
 	@FXML
+	private ImageView moreButton;
+
+	@FXML
 	private Label ingrName;
 
 	@FXML
@@ -117,6 +120,14 @@ public class ingredientPageController implements PageController {
 			public void handle(MouseEvent event) {
 				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 				PageFactory.getLastPage().startPage(e);
+			}
+		});
+
+		moreButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+				PageFactory.getStockEntryPage(ingredientID).startPage(e);
 			}
 		});
 	}

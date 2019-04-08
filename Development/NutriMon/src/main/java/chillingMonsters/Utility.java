@@ -64,6 +64,7 @@ public class Utility {
 		put("UNCKD", "UNCOOKED");
 		put("SPRD", "SPREAD");
 		put("WHL", "WHOLE");
+		put("SAU", "SAUCE");
 	}};
 
 	public static String parseFoodName(String name) {

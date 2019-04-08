@@ -75,21 +75,7 @@ public class recipeEntryPageController implements PageController {
 		String date = String.format("CREATED %s", Utility.parseDate((Timestamp) result.get("dateCreated")).toUpperCase());
 		String time = String.format("%d mins", result.get("recipeCookTime"));
 		String detail = result.get("recipeDescription").toString();
-		String ready = "";
-
-		if (controller.canbeMade(recipeID)) {
-			ready = "Ready";
-		} else {
-			ready = "Not Ready";
-			recipeReady.getStyleClass().add("secondaryHighlightTextt");
-		}
-
-		recipeName.setText(name);
-		recipeCategory.setText(category);
-		recipeAddedDate.setText(date);
-		recipeCookTime.setText(time);
-		recipeDetail.setText(detail);
-		recipeReady.setText(ready);
+		boolean ready = true;
 
 		IngredientController ingrController = ControllerFactory.makeIngredientController();
 		StockController stockController = ControllerFactory.makeStockController();
@@ -98,7 +84,7 @@ public class recipeEntryPageController implements PageController {
 		for (Map<String, Object> ingr : ingredientList) {
 			Long foodID = (Long) ingr.get("foodID");
 			Float amount = (Float) ingr.get("ingredientQtty");
-			Float stockAmount = 0F/*stockController.showStockAmount(foodID)*/;
+			Float stockAmount = stockController.getStockQuantity(foodID);
 
 			Map<String, Object> ingrDetails = ingrController.getIngredient(foodID);
 			String ingrName = Utility.parseFoodName(ingrDetails.get("foodName").toString());
@@ -108,13 +94,38 @@ public class recipeEntryPageController implements PageController {
 			ingrLabel.setWrapText(true);
 			ingrLabel.getStyleClass().add("recipeIngredientText");
 			ingrLabel.getStyleClass().add("detailText");
+			ingrLabel.getStyleClass().add("myButton");
 
 			if (amount > stockAmount) {
+				ready = false;
 				ingrLabel.getStyleClass().add("secondaryHighlightTextt");
 			}
 
+			ingrLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+					PageFactory.getIngredientPage(foodID).startPage(e);
+				}
+			});
+
 			recipeIngredientsList.getChildren().add(ingrLabel);
 		}
+
+		String readyTxt = "";
+		if (ready) {
+			readyTxt = "Ready";
+		} else {
+			readyTxt = "Not Ready";
+			recipeReady.getStyleClass().add("secondaryHighlightTextt");
+		}
+
+		recipeName.setText(name);
+		recipeCategory.setText(category);
+		recipeAddedDate.setText(date);
+		recipeCookTime.setText(time);
+		recipeDetail.setText(detail);
+		recipeReady.setText(readyTxt);
 
 		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
