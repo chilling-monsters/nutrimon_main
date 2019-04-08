@@ -251,8 +251,9 @@ CREATE FUNCTION calcRecipeIntakeCalories
 RETURNS INT DETERMINISTIC
 BEGIN
     DECLARE Calories INT;
+    DECLARE id BIGINT(20);
 
-    SELECT sum(fCalories * ingredientQtty / 100) * serving INTO Calories 
+    SELECT recipeID, sum(fCalories * ingredientQtty / 100) * serving INTO id, Calories 
     FROM recipeintake JOIN recipeingredients USING(recipeID)
 		JOIN ingredients USING(foodID)
     WHERE intakeID = intake
@@ -272,7 +273,8 @@ BEGIN
 	
 	SELECT fCalories * (intakeQtty / 100) INTO Calories
     FROM foodintake JOIN ingredients USING(foodID)
-    WHERE intakeID = intake;
+    WHERE intakeID = intake
+    LIMIT 1;
     
     RETURN Calories;
 END //
@@ -295,7 +297,6 @@ BEGIN
             calcFoodIntakeCalories(intakeID) as 'Calories'
 		FROM foodintake JOIN userintake USING(intakeID)
         WHERE userID = user) intakes
-	GROUP BY intakeID
 	ORDER BY date DESC, time;
 END //
 
