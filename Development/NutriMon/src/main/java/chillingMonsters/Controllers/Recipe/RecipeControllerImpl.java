@@ -142,8 +142,8 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     }
   }
 
-  //TODO: implement here
-  public void createRecipe(String name, String category, String description, Map<Long, Float> ingredients) {
+  //TODO: implement updated here
+  public void createRecipe(String name, String category, String description, double cookTime, Map<Long, Float> ingredients) {
     Map<String, Object> payload = new HashMap<>();
     payload.put("recipeName", name);
     payload.put("recipeDescription", description);
