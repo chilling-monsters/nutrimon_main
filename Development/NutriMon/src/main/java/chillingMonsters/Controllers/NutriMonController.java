@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import chillingMonsters.DBConnect;
 
 public abstract class NutriMonController {
-    static long userId = 1;
+    static long userId;
     private final String table;
     private final String pk;
 
