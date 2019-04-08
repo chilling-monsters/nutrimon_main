@@ -51,7 +51,7 @@ public class recipePageController implements PageController {
 			long id = (Long) recipe.get("recipeID");
 			String name  = recipe.get("recipeName").toString();
 			String category = recipe.get("recipeCategory").toString();
-			float cookTime = (Float) recipe.get("recipeCookTime");
+			int cookTime = (Integer) recipe.get("recipeCookTime");
 			//TODO: get calories here
 //			float calories = (Float) recipe.get("recipeCalories");
 
