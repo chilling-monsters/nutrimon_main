@@ -174,13 +174,14 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
   }
 
   public Map<String, Object> getRecipe(long recipeID) {
-    String getRecipe = "SELECT * FROM recipes WHERE recipeID = ?";
+    String getRecipe = "SELECT r.*, calcRecipeCalories(recipeID) as 'caloriesPerServing' " +
+            "FROM recipes r WHERE r.recipeID = ?";
     String getIngredients = "SELECT foodID, ingredientQtty " +
             "FROM recipeingredients JOIN ingredients USING (foodID) " +
             "WHERE recipeID = ?";
 
     Map<String, Object> recipe = new HashMap<>();
-    List<Map<String, Object>> ingredients = new ArrayList<>();
+    List<Map<String, Object>> ingredients;
 
     Connection connection = DBConnect.getConnection();
     try {

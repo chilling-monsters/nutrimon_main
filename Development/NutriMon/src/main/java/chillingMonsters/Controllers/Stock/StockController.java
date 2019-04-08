@@ -13,4 +13,6 @@ public interface StockController {
   void deleteStock(long stockID);
 
   void updateStock(long stockID, double quantity, String expDate);
+
+  float getStockQuantity(long stockID);
 }
