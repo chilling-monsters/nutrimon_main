@@ -1,7 +1,8 @@
 package chillingMonsters.Pages.recipePage;
 
 import chillingMonsters.Controllers.ControllerFactory;
-import chillingMonsters.Controllers.IngredientController;
+import chillingMonsters.Controllers.Ingredient.IngredientController;
+import chillingMonsters.Controllers.Recipe.RecipeController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Utility;
@@ -64,48 +65,19 @@ public class recipeEntryPageController implements PageController {
 
 	@FXML
 	public void initialize() {
-		//TODO: use recipe controller here
-		//RecipeController controller = ControllerFactory.makeRecipeController();
-		//Map<String, Object> result = controller.getRecipe(recipeID);
-		Map<String, Object> result = new HashMap<String, Object>() {{
-			put("recipeName", "Roasted Honey Glazed Turkey");
-			put("dateCreated", Timestamp.valueOf("2019-04-03 00:00:00"));
-			put("recipeCookTime", 15);
-			put("recipeDescription",
-				"1. Preheat the oven to 350 degrees F.\n" +
-					"2. Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.\n" +
-					"3. Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.\n" +
-					"4. Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.\n" +
-					"5. Slice the turkey and serve.\n" +
-					"6. Preheat the oven to 350 degrees F.\n" +
-					"7. Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.\n" +
-					"8. Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.\n" +
-					"9. Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.\n" +
-					"10. Slice the turkey and serve.\n" +
-					"11. Preheat the oven to 350 degrees F.\n" +
-					"12. Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.\n" +
-					"13. Take the giblets out of the turkey and wash the turkey inside and out. Remove any excess fat and leftover pinfeathers and pat the outside dry. Place the turkey in a large roasting pan. Liberally salt and pepper the inside of the turkey cavity. Stuff the cavity with the bunch of thyme, halved lemon, quartered onion, and the garlic. Brush the outside of the turkey with the butter mixture and sprinkle with salt and pepper. Tie the legs together with string and tuck the wing tips under the body of the turkey.\n" +
-					"14. Roast the turkey about 2 1/2 hours, or until the juices run clear when you cut between the leg and the thigh. Remove the turkey to a cutting board and cover with aluminum foil; let rest for 20 minutes.\n" +
-					"15. Slice the turkey and serve.\n");
-			put("ingredients", new HashMap<Long, Float>() {{
-				put(1001L, 20.0F);
-				put(1002L, 300.0F);
-				put(1003L, 50.0F);
-				put(1004L, 80.0F);
-			}});
-			put("recipeCategory", "Dinner");
-		}};
+		RecipeController controller = ControllerFactory.makeRecipeController();
+		Map<String, Object> result = controller.getRecipe(recipeID);
 
 		String name = result.get("recipeName").toString();
-		String category = result.get("recipeCategory").toString().toUpperCase();
+//		String category = result.get("recipeCategory").toString().toUpperCase();
 		String date = String.format("CREATED %s", Utility.parseDate((Timestamp) result.get("dateCreated")).toUpperCase());
-		String time = String.format("%s mins", result.get("recipeCookTime").toString());
+//		String time = String.format("%s mins", result.get("recipeCookTime").toString());
 		String detail = result.get("recipeDescription").toString();
 
 		recipeName.setText(name);
-		recipeCategory.setText(category);
+		recipeCategory.setText("");
 		recipeAddedDate.setText(date);
-		recipeCookTime.setText(time);
+		recipeCookTime.setText("");
 		recipeDetail.setText(detail);
 
 		IngredientController ingrController = ControllerFactory.makeIngredientController();
@@ -191,12 +163,11 @@ public class recipeEntryPageController implements PageController {
 	}
 
 	private void handleAddRecipe(ActionEvent event) {
-		//TODO: use recipe controller here
-		//RecipeController controller = ControllerFactory.makeRecipeController();
+		RecipeController controller = ControllerFactory.makeRecipeController();
 
 		if (addRecipeButton.isSelected()) {
 			addRecipeButton.setText("Saved");
-			//controller.add(recipeID);
+			controller.saveRecipe(recipeID);
 		} else {
 			addRecipeButton.setText("+");
 			//controller.remove(recipeID);

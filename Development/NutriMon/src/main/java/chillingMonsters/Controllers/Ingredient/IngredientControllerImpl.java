@@ -1,5 +1,8 @@
 package chillingMonsters.Controllers.Ingredient;
 
+import chillingMonsters.Controllers.NutriMonController;
+import chillingMonsters.DBConnect;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,9 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import chillingMonsters.Controllers.NutriMonController;
-import chillingMonsters.DBConnect;
 
 import static chillingMonsters.DBConnect.resultsList;
 

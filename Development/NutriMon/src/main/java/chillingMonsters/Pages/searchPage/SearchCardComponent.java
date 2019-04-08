@@ -66,6 +66,7 @@ public class SearchCardComponent extends AnchorPane {
         break;
       case DEFAULT:
         //TODO: add recipe navigation here
+        //PageFactory.getRecipePage(ID).startPage(e);
         PageFactory.getIngredientPage(ID).startPage(e);
         break;
     }

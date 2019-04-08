@@ -1,6 +1,7 @@
 package chillingMonsters.Pages.recipePage;
 
 import chillingMonsters.Controllers.ControllerFactory;
+import chillingMonsters.Controllers.Recipe.RecipeController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
@@ -30,38 +31,8 @@ public class recipePageController implements PageController {
 
 	@FXML
 	public void initialize() {
-		//TODO: use recipe controller here
-		//RecipeController controller = ControllerFactory.makeRecipeController();
-		//List<Map<String, Object>> recipeList = controller.show();
-		Map<String, Object> card1 = new HashMap<String, Object>() {{
-			put("recipeID", 1L);
-			put("recipeName", "Honey Roasted Turkey");
-			put("recipeCategory", "Dinner");
-			put("recipeCookTime", 125L);
-			put("recipeCalories", 1345F);
-		}};
-		Map<String, Object> card2 = new HashMap<String, Object>() {{
-			put("recipeID", 2L);
-			put("recipeName", "Shrimp Fried Rice");
-			put("recipeCategory", "Lunch");
-			put("recipeCookTime", 35L);
-			put("recipeCalories", 450.0F);
-		}};
-
-		List<Map<String, Object>> recipeList = new ArrayList<Map<String, Object>>() {{
-			add(card1);
-			add(card2);
-			add(card1);
-			add(card2);
-			add(card1);
-			add(card2);
-			add(card1);
-			add(card2);
-			add(card1);
-			add(card2);
-			add(card1);
-			add(card2);
-		}};
+		RecipeController controller = ControllerFactory.makeRecipeController();
+		List<Map<String, Object>> recipeList = controller.showSavedRecipes();
 
 		if (recipeList.isEmpty()) {
 			Label emptyLabel = new Label("We ain't got squash.");
@@ -90,7 +61,6 @@ public class recipePageController implements PageController {
 	void onMenuClicked(MouseEvent event) {
 		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
-		//TODO: replace with legit menu action
 		PageFactory.getStockPage().startPage(e);
 	}
 

@@ -55,7 +55,7 @@ public class loginPageController implements PageController {
             return;
         }
 
-        PageFactory.getStockPage().startPage(event);
+        PageFactory.getLandingPage().startPage(event);
     }
 
     @FXML

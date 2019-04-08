@@ -285,25 +285,31 @@ public class stockEntryPageController implements PageController {
 	}
 
 	private void handleCancel() {
-		AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Are you sure?", "Unsaved changes will be lost");
-		toggleForm(false);
+		if (showForm) {
+			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
+			if (confirmed) {
+				toggleForm(false);
+			}
+		}
 	}
 
 	private void handleDeleteStock() {
 		StockController controller = ControllerFactory.makeStockController();
 
 		if (option == PageOption.UPDATE) {
-			AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Delete Stock", "Are you sure you want to delete this stock?");
-			controller.deleteStock(currentStockItemID);
-
-			toggleForm(false);
+			boolean confirmed = AlertHandler.showConfirmationAlert("Delete Stock", "Are you sure you want to delete this stock?");
+			if (confirmed) {
+				controller.deleteStock(currentStockItemID);
+				toggleForm(false);
+			}
 		} else {
 			handleCancel();
 		}
 	}
 
-	private void toggleForm(boolean showForm) {
-		if (showForm) {
+	private void toggleForm(boolean show) {
+		showForm = show;
+		if (show) {
 			addStockButton.setText("Save");
 			addStockButton.setSelected(true);
 			adjustSizePane.setPrefHeight(adjustSizePane.getMinHeight());
@@ -313,6 +319,8 @@ public class stockEntryPageController implements PageController {
 			entryCurrentAmount.setText(String.format("%.0f grams", displayAmount));
 
 			setExpiryString();
+
+			deleteEntryButton.setVisible(option == PageOption.UPDATE);
 		} else {
 			option = PageOption.DEFAULT;
 			addStockButton.setText("+");
@@ -322,8 +330,8 @@ public class stockEntryPageController implements PageController {
 			refreshStock();
 		}
 
-		entryList.setVisible(!showForm);
-		createForm.setVisible(showForm);
+		entryList.setVisible(!show);
+		createForm.setVisible(show);
 	}
 
 	private void handleInputChange(String oldValue, String newValue) {
