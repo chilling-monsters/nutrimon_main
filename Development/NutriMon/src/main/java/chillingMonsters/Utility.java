@@ -53,7 +53,8 @@ public class Utility {
 		put("JUC", "JUICE");
 		put("FLAV", "FLAVOR");
 		put("RTD", "READY TO DRINK");
-		put("RTe", "READY TO EAT");
+		put("RTE", "READY TO EAT");
+		put("RTS", "READY TO SERVE");
 		put("COCNT", "COCONUT");
 		put("BF", "BEEF");
 		put("PRK", "PORK");
@@ -101,10 +102,20 @@ public class Utility {
 		String str = knownAcronyms.get(s.toUpperCase());
 		str = str == null ? s : str;
 
-		if (str.length() > 0) {
-			return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+		StringBuilder strB = new StringBuilder(str);
+		int i;
+		for (i = 0; i < strB.length(); i++) {
+			Character c = strB.charAt(i);
+			if (Character.isLetter(c)) {
+				strB.setCharAt(i, Character.toUpperCase(c));
+				break;
+			}
+		}
+
+		if (i < strB.length() - 1) {
+			return strB.substring(0, i + 1) + strB.substring(i + 1).toLowerCase();
 		} else {
-			return str.toUpperCase();
+			return strB.toString();
 		}
 	}
 
