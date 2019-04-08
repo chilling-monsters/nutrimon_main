@@ -22,7 +22,7 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     super("recipes", "recipeID");
   }
 
-  public List<Map<String, Object>> searchRecipes(String name) {
+  public List<Map<String, Object>> searchRecipe(String name) {
     List<Map<String, Object>> result = null;
     String query = "SELECT * FROM recipes WHERE recipeName like ?";
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
@@ -38,7 +38,7 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     return result;
   }
 
-  public List<Map<String, Object>> getAvailableRecipes() {
+  public List<Map<String, Object>> showAvailableRecipes() {
     List<Map<String, Object>> result = null;
     String query = "SELECT * FROM recipes WHERE canBeMade(?,recipeID) > 0";
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
@@ -54,7 +54,7 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     return result;
   }
 
-  public List<Map<String, Object>> getMyRecipes() {
+  public List<Map<String, Object>> showCreatedRecipes() {
     return this.show();
   }
 
@@ -62,7 +62,7 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     this.delete(recipeID);
   }
 
-  public List<Map<String, Object>> getSavedRecipes() {
+  public List<Map<String, Object>> showSavedRecipes() {
     List<Map<String, Object>> result = null;
     String query = "SELECT r.* FROM recipes r JOIN promotedrecipe pr USING (recipeID) " +
             "WHERE pr.userID = ?";

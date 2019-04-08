@@ -20,7 +20,7 @@ public class StockControllerImpl extends NutriMonController implements StockCont
     }
 
     @Override
-    public List<Map<String, Object>> show() {
+    public List<Map<String, Object>> showStocks() {
         List<Map<String, Object>> stocks = new ArrayList<>();
         String query = "SELECT foodID, foodName, fCategory, " +
                 "sum(foodQtty) as 'quantity', " +
@@ -42,7 +42,7 @@ public class StockControllerImpl extends NutriMonController implements StockCont
         return stocks;
     }
 
-    public List<Map<String, Object>> showStockIngredient(long foodId) {
+    public List<Map<String, Object>> showStockEntry(long foodId) {
         List<Map<String, Object>> stocks = new ArrayList<>();
         String query = "SELECT stockItemID, foodID, foodName, fCategory, expTime, foodExpDate," +
                 "foodQtty as 'quantity', "  +

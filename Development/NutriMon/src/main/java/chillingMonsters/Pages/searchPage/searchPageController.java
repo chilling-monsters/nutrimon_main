@@ -41,7 +41,7 @@ public class searchPageController implements PageController {
     searchList.getChildren().clear();
 
     IngredientController controller = ControllerFactory.makeIngredientController();
-    List<Map<String, Object>> searchResult = controller.search(searchTxF.getText());
+    List<Map<String, Object>> searchResult = controller.searchIngredient(searchTxF.getText());
 
     if (searchResult.isEmpty()) {
 

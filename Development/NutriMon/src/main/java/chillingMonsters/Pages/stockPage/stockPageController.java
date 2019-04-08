@@ -30,7 +30,7 @@ public class stockPageController implements PageController {
   @FXML
   public void initialize() {
     StockController controller = ControllerFactory.makeStockController();
-    List<Map<String, Object>> stockList = controller.show();
+    List<Map<String, Object>> stockList = controller.showStocks();
 
     Map<String, List<StockCardComponent>> componentMap = new HashMap<>();
 

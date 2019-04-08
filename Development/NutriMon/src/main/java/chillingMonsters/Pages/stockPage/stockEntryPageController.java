@@ -199,7 +199,7 @@ public class stockEntryPageController implements PageController {
 		entryAvgSpoilage.setText(String.format("%d Day%s", avgSpoilageDays, avgSpoilageDays > 1 ? "s" : ""));
 
 		StockController controller = ControllerFactory.makeStockController();
-		List<Map<String, Object>> resultsList = controller.showStockIngredient(foodID);
+		List<Map<String, Object>> resultsList = controller.showStockEntry(foodID);
 
 		totalAmount = 0;
 		if (resultsList.isEmpty()) {

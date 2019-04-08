@@ -19,7 +19,7 @@ public class IngredientControllerImpl extends NutriMonController implements Ingr
     super("ingredients", "foodID");
   }
 
-  public List<Map<String, Object>> search(String foodName) {
+  public List<Map<String, Object>> searchIngredient(String foodName) {
     String query = "SELECT * FROM ingredients WHERE foodName like ? ORDER BY foodName ASC";
     List<Map<String, Object>> ingredients = new ArrayList<>();
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {

@@ -25,6 +25,10 @@ public abstract class NutriMonController {
 
     public static long getUserId() { return userId; }
 
+    /**
+     * Retrieve ALL the information of a table.
+     * @return
+     */
     public List<Map<String, Object>> show() {
         List<Map<String,Object>> output = new ArrayList<>();
         try {
@@ -43,6 +47,11 @@ public abstract class NutriMonController {
         return output;
     }
 
+    /**
+     * Get a single row of a table by ID.
+     * @param id
+     * @return
+     */
     public Map<String, Object> get(long id) {
         try {
             ResultSet rs;
