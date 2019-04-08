@@ -1,10 +1,9 @@
-package chillingMonsters.Controllers;
+package chillingMonsters.Controllers.Intake;
 
 import java.util.List;
 import java.util.Map;
 
-public interface IntakeDao {
-
+public interface IntakeController {
   void intakeRecipe(long recipeID, int servings);
 
   void intakeStock(long foodID, float quantity);

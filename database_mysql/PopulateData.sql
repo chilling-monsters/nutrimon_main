@@ -243,6 +243,17 @@ BEGIN
     RETURN ans;
 END //
 
+DROP FUNCTION IF EXISTS calcRecipeCalories //
+CREATE FUNCTION calcRecipeCalories(recipe BIGINT(20))
+RETURNS INT DETERMINISTIC
+BEGIN
+	DECLARE calories INT;
+    SELECT sum(fCalories * ingredientQtty / 100) INTO Calories
+    FROM recipes JOIN recipeingredients USING (recipeID) JOIN ingredients USING (foodID)
+    WHERE recipeID = recipe;
+    RETURN calories;
+END //
+
 DROP FUNCTION IF EXISTS calcRecipeIntakeCalories //
 CREATE FUNCTION calcRecipeIntakeCalories
 (
@@ -253,9 +264,8 @@ BEGIN
     DECLARE Calories INT;
     DECLARE id BIGINT(20);
 
-    SELECT recipeID, sum(fCalories * ingredientQtty / 100) * serving INTO id, Calories 
-    FROM recipeintake JOIN recipeingredients USING(recipeID)
-		JOIN ingredients USING(foodID)
+    SELECT recipeID, calcRecipeCalories(recipeID) * serving INTO id, Calories 
+    FROM recipeintake
     WHERE intakeID = intake
     GROUP BY recipeID;
     

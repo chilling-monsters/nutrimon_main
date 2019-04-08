@@ -1,7 +1,7 @@
 package chillingMonsters.Pages.searchPage;
 
 import chillingMonsters.Controllers.ControllerFactory;
-import chillingMonsters.Controllers.IngredientController;
+import chillingMonsters.Controllers.Ingredient.IngredientController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
@@ -41,7 +41,7 @@ public class searchPageController implements PageController {
     searchList.getChildren().clear();
 
     IngredientController controller = ControllerFactory.makeIngredientController();
-    List<Map<String, Object>> searchResult = controller.search(searchTxF.getText());
+    List<Map<String, Object>> searchResult = controller.searchIngredient(searchTxF.getText());
 
     if (searchResult.isEmpty()) {
 

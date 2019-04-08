@@ -1,4 +1,4 @@
-package chillingMonsters.Controllers;
+package chillingMonsters.Controllers.Ingredient;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,17 +9,17 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import chillingMonsters.Controllers.NutriMonController;
 import chillingMonsters.DBConnect;
 
 import static chillingMonsters.DBConnect.resultsList;
 
-public class IngredientController extends NutriMonController implements IngredientDao {
-
-  IngredientController() {
+public class IngredientControllerImpl extends NutriMonController implements IngredientController {
+  public IngredientControllerImpl() {
     super("ingredients", "foodID");
   }
 
-  public List<Map<String, Object>> search(String foodName) {
+  public List<Map<String, Object>> searchIngredient(String foodName) {
     String query = "SELECT * FROM ingredients WHERE foodName like ? ORDER BY foodName ASC";
     List<Map<String, Object>> ingredients = new ArrayList<>();
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {

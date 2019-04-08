@@ -1,26 +1,29 @@
-package chillingMonsters.Controllers;
+package chillingMonsters.Controllers.Recipe;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import chillingMonsters.Controllers.NutriMonController;
+import chillingMonsters.Controllers.Recipe.RecipeController;
 import chillingMonsters.DBConnect;
 
 import static chillingMonsters.DBConnect.resultsList;
 
-public class RecipeController extends NutriMonController implements RecipeDao {
+public class RecipeControllerImpl extends NutriMonController implements RecipeController {
 
-  RecipeController() {
+  public RecipeControllerImpl() {
     super("recipes", "recipeID");
   }
 
-  public List<Map<String, Object>> searchRecipes(String name) {
+  public List<Map<String, Object>> searchRecipe(String name) {
     List<Map<String, Object>> result = null;
     String query = "SELECT * FROM recipes WHERE recipeName like ?";
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
@@ -36,7 +39,7 @@ public class RecipeController extends NutriMonController implements RecipeDao {
     return result;
   }
 
-  public List<Map<String, Object>> getAvailableRecipes() {
+  public List<Map<String, Object>> showAvailableRecipes() {
     List<Map<String, Object>> result = null;
     String query = "SELECT * FROM recipes WHERE canBeMade(?,recipeID) > 0";
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
@@ -52,12 +55,62 @@ public class RecipeController extends NutriMonController implements RecipeDao {
     return result;
   }
 
-  public List<Map<String, Object>> getMyRecipes() {
+  public List<Map<String, Object>> showCreatedRecipes() {
     return this.show();
   }
 
   public void deleteRecipe(long recipeID) {
     this.delete(recipeID);
+  }
+
+  public List<Map<String, Object>> showSavedRecipes() {
+    List<Map<String, Object>> result = null;
+    String query = "SELECT r.* FROM recipes r JOIN promotedrecipe pr USING (recipeID) " +
+            "WHERE pr.userID = ?";
+    try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
+      stmt.setLong(1, userId);
+      try (ResultSet rs = stmt.executeQuery()) {
+        result = resultsList(rs);
+      }
+    } catch (SQLException e) {
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    } finally {
+      DBConnect.close();
+    }
+    return result;
+  }
+
+  public void saveRecipe(long recipeID) {
+    if (isSaved(recipeID)) return;
+
+    String query = "INSERT INTO promotedrecipe VALUES (?,?)";
+    try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
+      stmt.setLong(1, userId);
+      stmt.setLong(2, recipeID);
+      stmt.executeUpdate();
+    } catch (SQLException e) {
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    } finally {
+      DBConnect.close();;
+    }
+  }
+
+  public void unsaveRecipe(long recipeID) {
+    if (!isSaved(recipeID)) return;
+
+    String query = String.format("DELETE FROM promotedrecipe WHERE %s = ?", this.pk);
+    try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
+      stmt.setLong(1, recipeID);
+      stmt.executeUpdate();
+    } catch (SQLException e) {
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    } finally {
+      DBConnect.close();;
+    }
+  }
+
+  public boolean isSaved(long recipeID) {
+    return this.exists("promotedrecipe", this.pk, Long.toString(recipeID));
   }
 
   public void updateRecipe(long recipeID, String name, String description, Map<Integer, Float> ingredients) {
@@ -121,25 +174,35 @@ public class RecipeController extends NutriMonController implements RecipeDao {
   }
 
   public Map<String, Object> getRecipe(long recipeID) {
+    String getRecipe = "SELECT r.*, calcRecipeCalories(recipeID) as 'caloriesPerServing' " +
+            "FROM recipes r WHERE r.recipeID = ?";
     String getIngredients = "SELECT foodID, ingredientQtty " +
             "FROM recipeingredients JOIN ingredients USING (foodID) " +
             "WHERE recipeID = ?";
-    Map<String, Object> recipe = this.get(recipeID);
-    Map<Integer, Float> ingredients = new HashMap<>();
+
+    Map<String, Object> recipe = new HashMap<>();
+    List<Map<String, Object>> ingredients;
+
     Connection connection = DBConnect.getConnection();
-    if (recipe != null) {
-      try (PreparedStatement stmt = connection.prepareStatement(getIngredients)) {
-        stmt.setLong(1, recipeID);
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-          ingredients.put(rs.getInt("foodID"), rs.getFloat("ingredientQtty"));
-        }
-        recipe.put("ingredients", ingredients);
-      } catch (SQLException e) {
-        Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
-      } finally {
-        DBConnect.close();
-      }
+    try {
+      PreparedStatement stmtRcp = connection.prepareStatement(getRecipe);
+      stmtRcp.setLong(1, recipeID);
+
+      PreparedStatement stmtIngr = connection.prepareStatement(getIngredients);
+      stmtIngr.setLong(1, recipeID);
+
+      ResultSet rs = stmtRcp.executeQuery();
+      List<Map<String, Object>> recipes = resultsList(rs);
+      if (!recipes.isEmpty()) recipe = recipes.get(0);
+
+      rs = stmtIngr.executeQuery();
+      ingredients = resultsList(rs);
+
+      recipe.put("ingredients", ingredients);
+    } catch (SQLException e) {
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    } finally {
+      DBConnect.close();
     }
     return recipe;
   }

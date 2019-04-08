@@ -1,7 +1,7 @@
 package chillingMonsters.Pages.stockPage;
 
 import chillingMonsters.Controllers.ControllerFactory;
-import chillingMonsters.Controllers.StockController;
+import chillingMonsters.Controllers.Stock.StockController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
@@ -30,7 +30,7 @@ public class stockPageController implements PageController {
   @FXML
   public void initialize() {
     StockController controller = ControllerFactory.makeStockController();
-    List<Map<String, Object>> stockList = controller.show();
+    List<Map<String, Object>> stockList = controller.showStocks();
 
     Map<String, List<StockCardComponent>> componentMap = new HashMap<>();
 

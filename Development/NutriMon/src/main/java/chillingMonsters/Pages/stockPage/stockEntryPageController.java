@@ -2,8 +2,8 @@ package chillingMonsters.Pages.stockPage;
 
 import chillingMonsters.AlertHandler;
 import chillingMonsters.Controllers.ControllerFactory;
-import chillingMonsters.Controllers.IngredientController;
-import chillingMonsters.Controllers.StockController;
+import chillingMonsters.Controllers.Ingredient.IngredientController;
+import chillingMonsters.Controllers.Stock.StockController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
@@ -199,7 +199,7 @@ public class stockEntryPageController implements PageController {
 		entryAvgSpoilage.setText(String.format("%d Day%s", avgSpoilageDays, avgSpoilageDays > 1 ? "s" : ""));
 
 		StockController controller = ControllerFactory.makeStockController();
-		List<Map<String, Object>> resultsList = controller.showStockIngredient(foodID);
+		List<Map<String, Object>> resultsList = controller.showStockEntry(foodID);
 
 		totalAmount = 0;
 		if (resultsList.isEmpty()) {

@@ -1,5 +1,6 @@
 package chillingMonsters.Pages.loginPage;
 
+import chillingMonsters.Controllers.UserProfile.UserProfileController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import javafx.event.ActionEvent;
