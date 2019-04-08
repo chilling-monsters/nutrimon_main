@@ -83,12 +83,14 @@ CREATE PROCEDURE make_recipe(
     name VARCHAR(45),
     dateMade DATETIME,
     creator BIGINT,
+    cookTime BIGINT,
+    category VARCHAR(15),
     description VARCHAR(256),
     access enum('public','private')
 )
 BEGIN
-	INSERT INTO recipes (recipeName, dateCreated, userID, recipeDescription, accessibility) VALUES
-		(NAME, dateMade, creator, description, access);
+	INSERT INTO recipes (recipeName, dateCreated, userID, recipeCookTime, recipeCategory, recipeDescription, accessibility) VALUES
+		(NAME, dateMade, creator, cookTime, category, description, access);
 	UPDATE recipes SET recipeID = ID WHERE recipeName = NAME AND userID = creator;
 END //
 
@@ -166,31 +168,31 @@ BEGIN
     CALL make_stock(0, 1001, 2000, 1);
     
 
-	CALL make_recipe(1, 'Teriyaki Chicken', CURDATE(), 1, 'Mix the sauces.  Marinate chicken for an hour.  Throw chicken in a skillet for 5 minutes on each side. Eat.', 'public');
-	CALL make_recipe(2, 'Deep-Fried Butter', CURDATE(), 2, 'Deep fry the butter', 'public');
-	CALL make_recipe(3, 'Honeyed Turkey', CURDATE(), 2,'Honeybaste that fat turkey.  B a k e.', 'public');
-	CALL make_recipe(4, 'Seans secret soup', CURDATE(), 3, 'Heat it up', 'private');
-    CALL make_recipe(5, 'Chocolate Chip Cookies', CURDATE(), 4, 'Cream together the butter, brown sugar, and white sugar in a bowl. Stir in the chocolate chips and nuts. Bake for 10 to 12 minutes in 350 degrees F oven', 'public');
-    CALL make_recipe(6, 'Glazed Ham', CURDATE(), 5, 'Skim fat from the top of the drippings, and discard. Bake for 30 to 40 minutes in the preheated 250 degress F oven. ', 'public');
-    CALL make_recipe(7, 'Beef with Broccoli', CURDATE(), 7, 'Slicing the beef into small pieces, In a bowl, mix together the soy sauce, cornstarch, sherry, brown sugar, ginger and garlic. Add the beef and broccoli and the sauce into the skillet', 'public');
-    CALL make_recipe(8, 'Black Bean–Stuffed Sweet Potatoes', CURDATE(), 8, 'The sweet potato is packed with protein and fiber. Add toppings — like avocado or sour cream', 'public');
-    CALL make_recipe(9, 'Sheet Pan Sausage & Veggies', CURDATE(), 9, 'Line the sheet pan with parchment or foil for the quickest cleanup — then serve over rice, stuffed into a pita, or on its own.', 'public');
-    CALL make_recipe(10, 'Upgraded Instant Ramen', CURDATE(), 10, 'Fry some bacon and an egg, and add all of them and some green onions into the ramen.', 'public');
-    CALL make_recipe(11, 'Zesty Italian Lunch Wrap', CURDATE(), 14, 'Layer meats, cheese, lettuce leaves, and banana peppers on top of a flour tortilla. Roll the wrap up tightly.', 'public');
-    CALL make_recipe(12, 'Herbed Skillet Chicken', CURDATE(), 15, 'Toss white mushrooms and halved red onion. Add olive oil and fresh thyme leaves in 12-in. cast-iron or heavy skillet and top with 4 chicken-leg quarters; Sprinkle with salt and pepper and roast at 450°F 35 to 40 min.', 'public');
-    CALL make_recipe(13, 'Grilling Thick Steaks', CURDATE(), 16, 'Season steak generously with salt and black pepper on both sides. Cook steak until crust forms ', 'public');
-    CALL make_recipe(14, 'Baked Salmon Fillets Dijon', CURDATE(), 17, 'Place salmon skin-side down on foil. Spread a thin layer of mustard on the top of each fillet, and season with salt and pepper.', 'public');
-    CALL make_recipe(15, 'Hamburger Stroganoff', CURDATE(), 17, 'Mix brown gravy, cream cheese, and mushrooms with hamburger, stirring until cream cheese melts. Add milk, sour cream, and mushroom soup to cooked pasta. Blend hamburger mixture with pasta', 'public');
-    CALL make_recipe(16, 'Baked Kale Chips', CURDATE(), 19, 'With a knife or kitchen shears carefully remove the leaves from the thick stems and tear into bite size pieces. Drizzle kale with olive oil and sprinkle with seasoning salt.', 'public');
-    CALL make_recipe(17, 'Easy Tuna Casserole', CURDATE(), 20, 'Combine the macaroni, tuna, and soup. Mix well, and then top with cheese.', 'public');
-    CALL make_recipe(18, 'Roasted Butternut Squash', CURDATE(), 11, 'Toss butternut squash with olive oil and garlic in a large bowl. Season with salt and black pepper. Arrange coated squash on a baking sheet', 'public');
-    CALL make_recipe(19, 'Pesto Cheesy Chicken Rolls', CURDATE(), 12, 'Spread 2 to 3 tablespoons of the pesto sauce onto each flattened chicken breast. Place one slice of cheese over the pesto. Roll up tightly, and secure with toothpicks. ', 'public');
-    CALL make_recipe(20, 'Yummy Pork Chops', CURDATE(), 13, 'Place the pork chops in a skillet over medium heat, and cover with the dressing mixture. Cover skillet, and cook pork chops 25 minutes, turning occasionally. ', 'public');
-    CALL make_recipe(21, 'Vanilla Ice Cream', CURDATE(), 14, 'Combine half-and-half, cream, sugar, vanilla and salt in freezer container of ice cream maker. Freeze according to manufacturers instructions.', 'public');
-    CALL make_recipe(22, 'Corn on the Cob', CURDATE(), 15, 'Gently place ears of corn into boiling water, cover the pot, turn off the heat, and let the corn cook in the hot water until tender, about 10 minutes.', 'public');
-    CALL make_recipe(23, 'Ground Beef Curly Noodle', CURDATE(), 16, 'Stir in the flavor packet from the noodles, tomatoes, and corn (with their juices). Break up the noodles slightly, and add them to the skillet. Bring to a boil, then reduce heat to low, cover, and simmer for 10 minutes, or until noodles are tender. ', 'public');
-    CALL make_recipe(24, 'Baked Zucchini Fries', CURDATE(), 17, 'Working in batches, dip zucchini strips into egg mixture, shake to remove any excess, and roll strips in bread crumb mixture to coat. Transfer coated zucchini strips to the prepared baking sheet.', 'public');
-    CALL make_recipe(25, 'Glazed Carrots', CURDATE(), 17, 'Melt butter in the same saucepan; stir brown sugar, salt, and white pepper into butter until brown sugar and salt have dissolved. Transfer carrots into brown sugar sauce; cook and stir until carrots are glazed with sauce, about 5 more minutes.', 'public');
+	CALL make_recipe(1, 'Teriyaki Chicken', CURDATE(), 1, 25, 'Dinner', 'Mix the sauces.  Marinate chicken for an hour.  Throw chicken in a skillet for 5 minutes on each side. Eat.', 'public');
+	CALL make_recipe(2, 'Deep-Fried Butter', CURDATE(), 30, 20, 'Lunch', 'Deep fry the butter', 'public');
+	CALL make_recipe(3, 'Honeyed Turkey', CURDATE(), 2, 60, 'Dinner', 'Honeybaste that fat turkey.  B a k e.', 'public');
+	CALL make_recipe(4, 'Seans secret soup', CURDATE(), 3, 5, 'Snack', 'Heat it up', 'private');
+    CALL make_recipe(5, 'Chocolate Chip Cookies', CURDATE(), 4, 20, 'Snack', 'Cream together the butter, brown sugar, and white sugar in a bowl. Stir in the chocolate chips and nuts. Bake for 10 to 12 minutes in 350 degrees F oven', 'public');
+    CALL make_recipe(6, 'Glazed Ham', CURDATE(), 5, 60, 'Dinner', 'Skim fat from the top of the drippings, and discard. Bake for 30 to 40 minutes in the preheated 250 degress F oven. ', 'public');
+    CALL make_recipe(7, 'Beef with Broccoli', CURDATE(), 7, 20, 'Lunch', 'Slicing the beef into small pieces, In a bowl, mix together the soy sauce, cornstarch, sherry, brown sugar, ginger and garlic. Add the beef and broccoli and the sauce into the skillet', 'public');
+    CALL make_recipe(8, 'Black Bean–Stuffed Sweet Potatoes', CURDATE(), 8, 35, 'Lunch', 'The sweet potato is packed with protein and fiber. Add toppings — like avocado or sour cream', 'public');
+    CALL make_recipe(9, 'Sheet Pan Sausage & Veggies', CURDATE(), 9, 20, 'Dinner', 'Line the sheet pan with parchment or foil for the quickest cleanup — then serve over rice, stuffed into a pita, or on its own.', 'public');
+    CALL make_recipe(10, 'Upgraded Instant Ramen', CURDATE(), 10, 10, 'Snack', 'Fry some bacon and an egg, and add all of them and some green onions into the ramen.', 'public');
+    CALL make_recipe(11, 'Zesty Italian Lunch Wrap', CURDATE(), 14, 10, 'Lunch', 'Layer meats, cheese, lettuce leaves, and banana peppers on top of a flour tortilla. Roll the wrap up tightly.', 'public');
+    CALL make_recipe(12, 'Herbed Skillet Chicken', CURDATE(), 15, 15, 'Dinner', 'Toss white mushrooms and halved red onion. Add olive oil and fresh thyme leaves in 12-in. cast-iron or heavy skillet and top with 4 chicken-leg quarters; Sprinkle with salt and pepper and roast at 450°F 35 to 40 min.', 'public');
+    CALL make_recipe(13, 'Grilling Thick Steaks', CURDATE(), 16, 50, 'Dinner', 'Season steak generously with salt and black pepper on both sides. Cook steak until crust forms ', 'public');
+    CALL make_recipe(14, 'Baked Salmon Fillets Dijon', CURDATE(), 17, 30, 'Dinner', 'Place salmon skin-side down on foil. Spread a thin layer of mustard on the top of each fillet, and season with salt and pepper.', 'public');
+    CALL make_recipe(15, 'Hamburger Stroganoff', CURDATE(), 17, 60, 'Lunch', 'Mix brown gravy, cream cheese, and mushrooms with hamburger, stirring until cream cheese melts. Add milk, sour cream, and mushroom soup to cooked pasta. Blend hamburger mixture with pasta', 'public');
+    CALL make_recipe(16, 'Baked Kale Chips', CURDATE(), 19, 20, 'Snack', 'With a knife or kitchen shears carefully remove the leaves from the thick stems and tear into bite size pieces. Drizzle kale with olive oil and sprinkle with seasoning salt.', 'public');
+    CALL make_recipe(17, 'Easy Tuna Casserole', CURDATE(), 20, 45, 'Lunch', 'Combine the macaroni, tuna, and soup. Mix well, and then top with cheese.', 'public');
+    CALL make_recipe(18, 'Roasted Butternut Squash', CURDATE(), 11, 45, 'Lunch', 'Toss butternut squash with olive oil and garlic in a large bowl. Season with salt and black pepper. Arrange coated squash on a baking sheet', 'public');
+    CALL make_recipe(19, 'Pesto Cheesy Chicken Rolls', CURDATE(), 12, 15, 'Breakfast', 'Spread 2 to 3 tablespoons of the pesto sauce onto each flattened chicken breast. Place one slice of cheese over the pesto. Roll up tightly, and secure with toothpicks. ', 'public');
+    CALL make_recipe(20, 'Yummy Pork Chops', CURDATE(), 13, 45, 'Dinner', 'Place the pork chops in a skillet over medium heat, and cover with the dressing mixture. Cover skillet, and cook pork chops 25 minutes, turning occasionally. ', 'public');
+    CALL make_recipe(21, 'Vanilla Ice Cream', CURDATE(), 14, 40, 'Snack', 'Combine half-and-half, cream, sugar, vanilla and salt in freezer container of ice cream maker. Freeze according to manufacturers instructions.', 'public');
+    CALL make_recipe(22, 'Corn on the Cob', CURDATE(), 15, 10, 'Snack', 'Gently place ears of corn into boiling water, cover the pot, turn off the heat, and let the corn cook in the hot water until tender, about 10 minutes.', 'public');
+    CALL make_recipe(23, 'Ground Beef Curly Noodle', CURDATE(), 16, 15, 'Breakfast', 'Stir in the flavor packet from the noodles, tomatoes, and corn (with their juices). Break up the noodles slightly, and add them to the skillet. Bring to a boil, then reduce heat to low, cover, and simmer for 10 minutes, or until noodles are tender. ', 'public');
+    CALL make_recipe(24, 'Baked Zucchini Fries', CURDATE(), 17, 25, 'Snack', 'Working in batches, dip zucchini strips into egg mixture, shake to remove any excess, and roll strips in bread crumb mixture to coat. Transfer coated zucchini strips to the prepared baking sheet.', 'public');
+    CALL make_recipe(25, 'Glazed Carrots', CURDATE(), 17, 35, 'Lunch', 'Melt butter in the same saucepan; stir brown sugar, salt, and white pepper into butter until brown sugar and salt have dissolved. Transfer carrots into brown sugar sauce; cook and stir until carrots are glazed with sauce, about 5 more minutes.', 'public');
     
 
 	INSERT INTO recipeingredients (foodID, recipeID, ingredientQtty) VALUES 
