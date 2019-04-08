@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class recipePageController implements PageController {
+	private String CREATED_BY_YOU_KEY = "Created by you";
 	@FXML
 	private VBox cardList;
 
@@ -44,10 +45,10 @@ public class recipePageController implements PageController {
 		}
 
 		Map<String, List<RecipeCardComponent>> componentMap = new HashMap<>();
+		List<RecipeCardComponent> byYou = new ArrayList<>();
+		componentMap.put(CREATED_BY_YOU_KEY, byYou);
 
-		for (int i = 0; i < recipeList.size(); i++) {
-			Map<String, Object> recipe = recipeList.get(i);
-
+		for (Map<String, Object> recipe : recipeList) {
 			long id = (Long) recipe.get("recipeID");
 			String name  = recipe.get("recipeName").toString();
 			String category = recipe.get("recipeCategory").toString();
@@ -56,7 +57,6 @@ public class recipePageController implements PageController {
 			if (recipe.get("caloriesPerServing") != null) {
 				calories = (Integer) recipe.get("caloriesPerServing");
 			}
-
 
 			RecipeCardComponent sCard = new RecipeCardComponent(id, name, category, cookTime, calories);
 
@@ -67,7 +67,19 @@ public class recipePageController implements PageController {
 			}
 
 			group.add(sCard);
+
+			if ((Long) recipe.get("userID") == ControllerFactory.makeUserProfileController().getUserID()) {
+				RecipeCardComponent yourCard = new RecipeCardComponent(id, name, category, cookTime, calories);
+				yourCard.getStyleClass().add("hightlightCard");
+				byYou.add(yourCard);
+			}
 		}
+
+		if (!byYou.isEmpty()) {
+			addToList(CREATED_BY_YOU_KEY, byYou);
+		}
+
+		componentMap.remove(CREATED_BY_YOU_KEY);
 
 		for (String label : componentMap.keySet()) {
 			addToList(label, componentMap.get(label));
@@ -88,6 +100,8 @@ public class recipePageController implements PageController {
 
 	private void addToList(String label, List<RecipeCardComponent> group) {
 		Label groupLabel = new Label(Utility.toCapitalized(label));
+		if (label == CREATED_BY_YOU_KEY) groupLabel.getStyleClass().add("hightlightText");
+
 		groupLabel.getStyleClass().add("labelText");
 
 		Line underline = new Line();
