@@ -72,7 +72,7 @@ public class recipeEntryPageController implements PageController {
 		String name = result.get("recipeName").toString();
 		String category = result.get("recipeCategory").toString().toUpperCase();
 		String date = String.format("CREATED %s", Utility.parseDate((Timestamp) result.get("dateCreated")).toUpperCase());
-		String time = String.format("%.0f mins", result.get("recipeCookTime"));
+		String time = String.format("%d mins", result.get("recipeCookTime"));
 		String detail = result.get("recipeDescription").toString();
 
 		recipeName.setText(name);
@@ -119,6 +119,11 @@ public class recipeEntryPageController implements PageController {
 				handleCardScroll(event);
 			}
 		});
+
+		if (controller.isSaved(recipeID)) {
+			addRecipeButton.setText("Saved");
+			addRecipeButton.setSelected(true);
+		}
 
 		addRecipeButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -172,8 +177,7 @@ public class recipeEntryPageController implements PageController {
 			controller.saveRecipe(recipeID);
 		} else {
 			addRecipeButton.setText("+");
-			//TODO: use recipe controller here
-//			controller.remove(recipeID);
+			controller.unsaveRecipe(recipeID);
 		}
 	}
 
