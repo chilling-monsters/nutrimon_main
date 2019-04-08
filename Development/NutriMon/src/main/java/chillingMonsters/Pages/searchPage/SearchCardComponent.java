@@ -2,6 +2,7 @@ package chillingMonsters.Pages.searchPage;
 
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
+import chillingMonsters.Pages.recipePage.recipeCreatePage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -62,6 +63,11 @@ public class SearchCardComponent extends AnchorPane {
         break;
       case RECIPE:
         PageFactory.getRecipeEntryPage(ID).startPage(e);
+        break;
+      case UPDATE:
+        recipeCreatePage recipeForm = PageFactory.getRecipeCreatePage();
+        recipeForm.addToIngredientList(ID);
+        recipeForm.startPage(e);
         break;
       case DEFAULT:
         if (option == PageOption.RECIPE) {

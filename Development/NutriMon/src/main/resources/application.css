@@ -16,7 +16,7 @@
 }
 
 .cardPane {
-    -fx-background-radius: 8 0 8 8;
+    -fx-background-radius: 8 8 8 8;
 }
 .detailCardPane {
     -fx-pref-width: 300px;

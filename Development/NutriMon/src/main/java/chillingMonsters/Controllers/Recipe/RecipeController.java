@@ -8,7 +8,7 @@ public interface RecipeController {
 
   Map<String, Object> getRecipe(long recipeID);
 
-  void createRecipe(String name, String description, Map<Integer, Float> ingredients);
+  void createRecipe(String name, String category, String description, Map<Long, Float> ingredients);
 
   void deleteRecipe(long recipeID);
 

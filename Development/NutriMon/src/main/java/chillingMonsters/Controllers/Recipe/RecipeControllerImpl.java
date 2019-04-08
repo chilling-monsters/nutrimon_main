@@ -142,13 +142,14 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     }
   }
 
-  public void createRecipe(String name, String description, Map<Integer, Float> ingredients) {
+  //TODO: implement here
+  public void createRecipe(String name, String category, String description, Map<Long, Float> ingredients) {
     Map<String, Object> payload = new HashMap<>();
     payload.put("recipeName", name);
     payload.put("recipeDescription", description);
     int recipeId;
     this.create(payload);
-    String selectId = "SELECT recipeID FROM recipe WHERE recipeName like ? AND userID = ?";
+    String selectId = "SELECT recipeID FROM recipes WHERE recipeName like ? AND userID = ?";
     String insertIngredients = "INSERT INTO recipeingredients VALUES (?,?,?)";
     Connection connection = DBConnect.getConnection();
     try (PreparedStatement getId = connection.prepareStatement(selectId)) {
@@ -158,7 +159,7 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
       if (rs.first()) {
         recipeId = rs.getInt("recipeID");
         try (PreparedStatement postIngredients = connection.prepareStatement(insertIngredients)) {
-          for (Map.Entry<Integer, Float> entry : ingredients.entrySet()) {
+          for (Map.Entry<Long, Float> entry : ingredients.entrySet()) {
             postIngredients.setLong(1, entry.getKey());
             postIngredients.setLong(2, recipeId);
             postIngredients.setFloat(3, entry.getValue());
