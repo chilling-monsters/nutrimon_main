@@ -2,6 +2,7 @@ package chillingMonsters.Pages.searchPage;
 
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.Ingredient.IngredientController;
+import chillingMonsters.Controllers.Recipe.RecipeController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
@@ -46,34 +47,18 @@ public class searchPageController implements PageController {
     List<Map<String, Object>> recpSearchResult = new ArrayList<>();
 
     IngredientController ingr = ControllerFactory.makeIngredientController();
-    //TODO: use recipe controller here
-//        RecipeController recp = ControllerFactory.makeIngredientController();
+    RecipeController recp = ControllerFactory.makeRecipeController();
+
     switch (option) {
       case ADD_STOCK:
-        ingrSearchResult = ingr.search(searchQuery);
+        ingrSearchResult = ingr.searchIngredient(searchQuery);
         break;
       case ADD_RECIPE:
-//        recpSearchResult = recp.search(searchQuery);
-        Map<String, Object> card1 = new HashMap<String, Object>() {{
-          put("recipeID", 1L);
-          put("recipeName", "Honey Roasted Turkey");
-          put("recipeCategory", "Dinner");
-          put("recipeCookTime", 125L);
-          put("recipeCalories", 1345F);
-        }};
-        Map<String, Object> card2 = new HashMap<String, Object>() {{
-          put("recipeID", 2L);
-          put("recipeName", "Shrimp Fried Rice");
-          put("recipeCategory", "Lunch");
-          put("recipeCookTime", 35L);
-          put("recipeCalories", 450.0F);
-        }};
-        recpSearchResult.add(card1);
-        recpSearchResult.add(card2);
+        recpSearchResult = recp.searchRecipe(searchQuery);
         break;
       case DEFAULT:
-        ingrSearchResult = ingr.search(searchQuery);
-//        recpSearchResult = recp.search(searchQuery);
+        ingrSearchResult = ingr.searchIngredient(searchQuery);
+        recpSearchResult = recp.searchRecipe(searchQuery);
         break;
     }
 
@@ -98,9 +83,9 @@ public class searchPageController implements PageController {
     for (Map<String, Object> result : recpSearchResult) {
       Long recipeID = (Long) result.get("recipeID");
       String name = Utility.parseFoodName(result.get("recipeName").toString());
-      String category = result.get("recipeCategory").toString().toUpperCase();
+//      String category = result.get("recipeCategory").toString().toUpperCase();
 
-      SearchCardComponent sCard = new SearchCardComponent(recipeID, name, category, option);
+      SearchCardComponent sCard = new SearchCardComponent(recipeID, name, "", option);
 
       searchList.getChildren().add(sCard);
     }

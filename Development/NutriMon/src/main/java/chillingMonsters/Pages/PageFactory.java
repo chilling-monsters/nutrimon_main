@@ -51,6 +51,11 @@ public abstract class PageFactory {
     pageHistory.add(0, newPage);
   }
 
+  public static Page getLandingPage() {
+    //TODO: Landing page here
+    return getRecipePage();
+  }
+
   public static loginPage getLoginPage() {
     if (login == null) login = new loginPage();
 

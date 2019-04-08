@@ -89,8 +89,7 @@ public class stockPageController implements PageController {
   void onMenuClicked(MouseEvent event) {
     ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
-    //TODO: replace with legit menu action
-    PageFactory.getRecipePage().startPage(e);
+    PageFactory.getSearchPage().startPage(e);
   }
 
   private void addToList(String label, List<StockCardComponent> group) {
