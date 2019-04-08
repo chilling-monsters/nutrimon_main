@@ -216,8 +216,10 @@ public class recipeCreatePageController implements PageController {
 
 
 		RecipeController controller = ControllerFactory.makeRecipeController();
-		controller.createRecipe(name, category, details, cookTime, ingredients);
-		PageFactory.getRecipePage().startPage(event);
+		long newRecipeID = controller.createRecipe(name, category, details, cookTime, ingredients);
+
+		controller.saveRecipe(newRecipeID);
+		PageFactory.getRecipeEntryPage(newRecipeID).startPage(event);
 	}
 
 	private void handleCancelButton(ActionEvent event) {

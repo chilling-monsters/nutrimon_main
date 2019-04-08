@@ -142,7 +142,7 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     }
   }
 
-  public void createRecipe(String name, String category, String description, double cookTime, Map<Long, Float> ingredients) {
+  public long createRecipe(String name, String category, String description, double cookTime, Map<Long, Float> ingredients) {
     Map<String, Object> payload = new HashMap<>();
     payload.put("recipeName", name);
     payload.put("recipeDescription", description);
@@ -168,13 +168,13 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
           }
         }
       }
-
-      saveRecipe(recipeId);
     } catch (SQLException e) {
       Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
     } finally {
       DBConnect.close();
     }
+
+    return recipeId;
   }
 
   public Map<String, Object> getRecipe(long recipeID) {
