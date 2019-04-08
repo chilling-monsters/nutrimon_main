@@ -26,7 +26,7 @@ public class RecipeCardComponent extends AnchorPane {
 	@FXML
 	private Label cardCalories;
 
-	public RecipeCardComponent(long recipeID, String name, String category, int time, float calories) {
+	public RecipeCardComponent(long recipeID, String name, String category, int time, int calories) {
 		super();
 		this.recipeID = recipeID;
 
@@ -50,7 +50,7 @@ public class RecipeCardComponent extends AnchorPane {
 		cardName.setText(name);
 		cardCategory.setText(category.toUpperCase());
 		cardCookTime.setText(String.format("%d mins", time));
-		cardCalories.setText(String.format("%.0f kcal", calories));
+		cardCalories.setText(String.format("%d kcal", calories));
 	}
 
 	public void handleOnClick(MouseEvent event) {

@@ -64,7 +64,8 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
 
   public List<Map<String, Object>> showSavedRecipes() {
     List<Map<String, Object>> result = null;
-    String query = "SELECT r.* FROM recipes r JOIN promotedrecipe pr USING (recipeID) " +
+    String query = "SELECT r.*, calcRecipeCalories(recipeID) as 'caloriesPerServing' " +
+        "FROM recipes r JOIN promotedrecipe pr USING (recipeID) " +
             "WHERE pr.userID = ?";
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
       stmt.setLong(1, userId);

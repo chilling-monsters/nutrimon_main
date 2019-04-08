@@ -47,6 +47,10 @@ public class searchPageController implements PageController {
 
   @FXML
   void onSearchEnter() {
+    if (option == PageOption.RECIPE) {
+      addCreateYourOwnCard();
+    }
+
     String currentSearch = searchTxF.getText();
     if (currentSearch.isEmpty()) return;
 
@@ -72,7 +76,6 @@ public class searchPageController implements PageController {
           break;
         case RECIPE:
           recpSearchResult = recp.searchRecipe(searchQuery);
-          addCreateYourOwnCard();
           break;
         case DEFAULT:
           ingrSearchResult = ingr.searchIngredient(searchQuery);
