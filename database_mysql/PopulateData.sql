@@ -83,7 +83,7 @@ CREATE PROCEDURE make_recipe(
     name VARCHAR(45),
     dateMade DATETIME,
     creator BIGINT,
-    cookTime BIGINT,
+    cookTime FLOAT,
     category VARCHAR(15),
     description VARCHAR(256),
     access enum('public','private')
