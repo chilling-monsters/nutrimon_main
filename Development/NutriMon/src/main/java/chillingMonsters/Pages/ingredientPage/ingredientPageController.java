@@ -7,12 +7,16 @@ import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 
 import java.util.Map;
 
@@ -21,6 +25,9 @@ public class ingredientPageController implements PageController {
 
 	@FXML
 	private ImageView backButton;
+
+	@FXML
+	private ImageView moreButton;
 
 	@FXML
 	private Label ingrName;
@@ -76,6 +83,12 @@ public class ingredientPageController implements PageController {
 	@FXML
 	private ToggleButton addToStockButton;
 
+	@FXML
+	private AnchorPane adjustSizeCard;
+
+	@FXML
+	private ScrollPane cardScrollPane;
+
 	public ingredientPageController(long ingredientID) {
 		this.ingredientID = ingredientID;
 	}
@@ -88,7 +101,7 @@ public class ingredientPageController implements PageController {
 		ingrName.setText(Utility.parseFoodName(result.get("foodName").toString()));
 		ingrCategory.setText(result.get("fCategory").toString());
 		ingrAvgSpoilage.setText(String.format("%s Days", result.get("expTime").toString()));
-		ingrCalories.setText(String.format("%s kCal", result.get("fCalories").toString()));
+		ingrCalories.setText(String.format("%s Calories", result.get("fCalories").toString()));
 
 		ingrProtein.setText(result.get("fProtein").toString() + "g");
 		ingrTotalFat.setText(result.get("fTotalFat").toString() + "g");
@@ -108,7 +121,7 @@ public class ingredientPageController implements PageController {
 		addToStockButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				PageFactory.getStockEntryPage(ingredientID, PageOption.ADD_STOCK).startPage(event);
+				PageFactory.getStockEntryPage(ingredientID, PageOption.STOCK).startPage(event);
 			}
 		});
 
@@ -119,5 +132,54 @@ public class ingredientPageController implements PageController {
 				PageFactory.getLastPage().startPage(e);
 			}
 		});
+
+		moreButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+				PageFactory.getStockEntryPage(ingredientID).startPage(e);
+			}
+		});
+
+		cardScrollPane.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent event) {
+				handleListScroll(event);
+			}
+		});
+
+		adjustSizeCard.setOnScroll(new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent event) {
+				handleCardScroll(event);
+			}
+		});
 	}
+
+	private void handleCardScroll(ScrollEvent event) {
+		double diffHeight = 0;
+		if (event.getDeltaY() > 0) diffHeight = -10;
+		else if (event.getDeltaY() < 0) diffHeight = 10;
+
+		adjustSizeCard.setPrefHeight(adjustSizeCard.getHeight() + diffHeight);
+		cardScrollPane.setPrefHeight(cardScrollPane.getHeight() + diffHeight);
+	}
+
+	private void handleListScroll(ScrollEvent event) {
+		if (cardScrollPane.getHeight() == cardScrollPane.getMaxHeight()) {
+			return;
+		}
+
+		event.consume();
+		ScrollEvent retargettedScrollEvent = new ScrollEvent(adjustSizeCard, adjustSizeCard, event.getEventType(),
+			event.getX(), event.getY(), event.getScreenX(), event.getScreenY(), event.isShiftDown(),
+			event.isControlDown(), event.isAltDown(), event.isMetaDown(), event.isDirect(),
+			event.isInertia(), event.getDeltaX(), event.getDeltaY(), event.getTotalDeltaX(),
+			event.getTotalDeltaY(), event.getTextDeltaXUnits(), event.getTextDeltaX(),
+			event.getTextDeltaYUnits(), event.getTextDeltaY(), event.getTouchCount(),
+			event.getPickResult());
+
+		Event.fireEvent(adjustSizeCard, retargettedScrollEvent);
+	}
+
 }

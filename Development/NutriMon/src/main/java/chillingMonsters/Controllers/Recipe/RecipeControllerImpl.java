@@ -1,19 +1,17 @@
 package chillingMonsters.Controllers.Recipe;
 
+import chillingMonsters.Controllers.NutriMonController;
+import chillingMonsters.DBConnect;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import chillingMonsters.Controllers.NutriMonController;
-import chillingMonsters.Controllers.Recipe.RecipeController;
-import chillingMonsters.DBConnect;
 
 import static chillingMonsters.DBConnect.resultsList;
 
@@ -65,7 +63,8 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
 
   public List<Map<String, Object>> showSavedRecipes() {
     List<Map<String, Object>> result = null;
-    String query = "SELECT r.* FROM recipes r JOIN promotedrecipe pr USING (recipeID) " +
+    String query = "SELECT r.*, calcRecipeCalories(recipeID) as 'caloriesPerServing' " +
+        "FROM recipes r JOIN promotedrecipe pr USING (recipeID) " +
             "WHERE pr.userID = ?";
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
       stmt.setLong(1, userId);
@@ -113,13 +112,15 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     return this.exists("promotedrecipe", this.pk, Long.toString(recipeID));
   }
 
-  public void updateRecipe(long recipeID, String name, String description, Map<Integer, Float> ingredients) {
+  public void updateRecipe(long recipeID, String name, String category, String description, double cookTime, Map<Long, Float> ingredients) {
     String clearIngredients = "DELETE FROM recipeingredients WHERE recipeID = ? AND ? IN (" +
             "SELECT DISTINCT recipeID FROM recipes WHERE userID = ?)";
     String insertIngredients = "INSERT INTO recipeingredients VALUES (?,?,?)";
     Map<String, Object> payload = new HashMap<>();
     payload.put("recipeName", name);
     payload.put("recipeDescription", description);
+    payload.put("recipeCategory", category);
+    payload.put("recipeCookTIme", cookTime);
     this.update(recipeID, payload);
     Connection connection = DBConnect.getConnection();
     try (PreparedStatement clearStmt = connection.prepareStatement(clearIngredients)) {
@@ -128,7 +129,7 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
       clearStmt.setLong(3, userId);
       clearStmt.executeUpdate();
       try (PreparedStatement updateIngredients = connection.prepareStatement(insertIngredients)) {
-        for (Map.Entry<Integer, Float> entry : ingredients.entrySet()) {
+        for (Map.Entry<Long, Float> entry : ingredients.entrySet()) {
           updateIngredients.setLong(1, entry.getKey());
           updateIngredients.setLong(2, recipeID);
           updateIngredients.setFloat(3, entry.getValue());
@@ -142,13 +143,15 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     }
   }
 
-  public void createRecipe(String name, String description, Map<Integer, Float> ingredients) {
+  public long createRecipe(String name, String category, String description, double cookTime, Map<Long, Float> ingredients) {
     Map<String, Object> payload = new HashMap<>();
     payload.put("recipeName", name);
     payload.put("recipeDescription", description);
-    int recipeId;
+    payload.put("recipeCategory", category);
+    payload.put("recipeCookTIme", cookTime);
+    long recipeId = 0;
     this.create(payload);
-    String selectId = "SELECT recipeID FROM recipe WHERE recipeName like ? AND userID = ?";
+    String selectId = "SELECT recipeID FROM recipes WHERE recipeName like ? AND userID = ?";
     String insertIngredients = "INSERT INTO recipeingredients VALUES (?,?,?)";
     Connection connection = DBConnect.getConnection();
     try (PreparedStatement getId = connection.prepareStatement(selectId)) {
@@ -156,9 +159,9 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
       getId.setLong(2, userId);
       ResultSet rs = getId.executeQuery();
       if (rs.first()) {
-        recipeId = rs.getInt("recipeID");
+        recipeId = rs.getLong("recipeID");
         try (PreparedStatement postIngredients = connection.prepareStatement(insertIngredients)) {
-          for (Map.Entry<Integer, Float> entry : ingredients.entrySet()) {
+          for (Map.Entry<Long, Float> entry : ingredients.entrySet()) {
             postIngredients.setLong(1, entry.getKey());
             postIngredients.setLong(2, recipeId);
             postIngredients.setFloat(3, entry.getValue());
@@ -171,6 +174,8 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     } finally {
       DBConnect.close();
     }
+
+    return recipeId;
   }
 
   public Map<String, Object> getRecipe(long recipeID) {

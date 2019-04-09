@@ -8,4 +8,6 @@ public interface UserProfileController {
   void updateProfile();
 
   boolean exists(String table, String attr, String record);
+
+  long getUserID();
 }

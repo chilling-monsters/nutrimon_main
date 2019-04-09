@@ -14,10 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class stockPageController implements PageController {
   private static String EXPIRE_KEY = "Expires Soon";
@@ -32,7 +29,7 @@ public class stockPageController implements PageController {
     StockController controller = ControllerFactory.makeStockController();
     List<Map<String, Object>> stockList = controller.showStocks();
 
-    Map<String, List<StockCardComponent>> componentMap = new HashMap<>();
+    Map<String, List<StockCardComponent>> componentMap = new TreeMap<>();
 
     List<StockCardComponent> expiresSoon = new ArrayList<>();
     componentMap.put(EXPIRE_KEY, expiresSoon);
@@ -48,10 +45,10 @@ public class stockPageController implements PageController {
     for (int i = 0; i < stockList.size(); i++) {
       Map<String, Object> stock = stockList.get(i);
 
-      long id = (Long) stock.get("foodID");
+      long id = Long.parseLong(stock.get("foodID").toString());
       String name  = Utility.parseFoodName(stock.get("foodName").toString());
-      double amount = (Double) stock.get("quantity");
-      long exp = (Long) stock.get("next_exp");
+      double amount = Double.parseDouble(stock.get("quantity").toString());
+      long exp = Long.parseLong(stock.get("next_exp").toString());
       String category = stock.get("fCategory").toString();
       StockCardComponent sCard = new StockCardComponent(id, name, amount, exp, category);
 
@@ -82,21 +79,21 @@ public class stockPageController implements PageController {
 
   @FXML
   void stockCreateButtonAction(ActionEvent event) {
-    PageFactory.getSearchPage(PageOption.ADD_STOCK).startPage(event);
+    PageFactory.getSearchPage(PageOption.STOCK).startPage(event);
   }
 
   @FXML
   void onMenuClicked(MouseEvent event) {
     ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
-    PageFactory.getSearchPage(PageOption.DEFAULT).startPage(e);
+    PageFactory.getSearchPage().startPage(e);
   }
 
   private void addToList(String label, List<StockCardComponent> group) {
     Label groupLabel = new Label(Utility.toCapitalized(label));
     groupLabel.getStyleClass().add("labelText");
 
-    if (label == EXPIRE_KEY) groupLabel.getStyleClass().add("expireWarningText");
+    if (label == EXPIRE_KEY) groupLabel.getStyleClass().add("hightlightText");
 
     Line underline = new Line();
     underline.setStartX(0.0f);
@@ -109,8 +106,8 @@ public class stockPageController implements PageController {
     cardList.getChildren().add(underline);
 
     for (StockCardComponent s : group) {
-      s.getStyleClass().add("stockCard");
-      if (label == EXPIRE_KEY) s.getStyleClass().add("expireWarningCard");
+      s.getStyleClass().add("listCard");
+      if (label == EXPIRE_KEY) s.getStyleClass().add("hightlightCard");
       cardList.getChildren().add(s);
     }
   }

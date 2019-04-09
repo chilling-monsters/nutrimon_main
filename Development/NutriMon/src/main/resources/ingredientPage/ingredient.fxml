@@ -3,6 +3,7 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -36,7 +37,7 @@
             </image>
             <styleClass>
                 <String fx:value="backButton button" />
-                <String fx:value="button" />
+                <String fx:value="myButton" />
             </styleClass>
         </ImageView>
         <Label styleClass="titleText" text="Your Ingredients" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
@@ -44,266 +45,279 @@
                 <Font name="SF Pro Display Regular" size="25.0" />
             </font>
         </Label>
-        <AnchorPane maxHeight="660.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+        <AnchorPane fx:id="adjustSizeCard" maxHeight="660.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
             <children>
-                <VBox AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
-                    <children>
-                        <Label fx:id="ingrName" styleClass="titleText" text="Ingredient Name With Long Extra Spaces And Super Long Name" wrapText="true">
-                            <font>
-                                <Font name="SF Pro Display Regular" size="25.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="ingrCategory" styleClass="tagText" text="LABEL" textFill="#9e9e9e">
-                            <font>
-                                <Font name="SF Pro Text Regular" size="9.0" />
-                            </font>
-                        </Label>
-                        <AnchorPane>
-                            <children>
-                                <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                    <children>
-                                        <Label fx:id="ingrAvgSpoilage" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Fresh Time" textAlignment="RIGHT" textFill="#f5a623">
-                                            <font>
-                                                <Font name="SF Pro Display Regular" size="25.0" />
-                                            </font>
-                                            <VBox.margin>
-                                                <Insets top="5.0" />
-                                            </VBox.margin>
-                                        </Label>
-                                        <Label styleClass="tagText" text="AVERAGE FRESH TIME" textAlignment="RIGHT" textFill="#9e9e9e">
-                                            <font>
-                                                <Font name="SF Pro Text Regular" size="9.0" />
-                                            </font>
-                                        </Label>
-                                    </children>
-                                </VBox>
-                                <VBox alignment="TOP_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                    <children>
-                                        <Label fx:id="ingrCalories" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Calories" textAlignment="RIGHT" textFill="#f5a623">
-                                            <font>
-                                                <Font name="SF Pro Display Regular" size="25.0" />
-                                            </font>
-                                            <VBox.margin>
-                                                <Insets top="5.0" />
-                                            </VBox.margin>
-                                        </Label>
-                                        <Label styleClass="tagText" text="PER 100G" textAlignment="RIGHT" textFill="#9e9e9e">
-                                            <font>
-                                                <Font name="SF Pro Text Regular" size="9.0" />
-                                            </font>
-                                        </Label>
-                                    </children>
-                                </VBox>
-                            </children>
-                        </AnchorPane>
-                  <Line endX="150.0" startX="-150.0" stroke="#f5a623">
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </Line>
-                  <AnchorPane>
+            <ScrollPane fx:id="cardScrollPane" hbarPolicy="NEVER" prefHeight="200.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0">
+              <content>
+                <AnchorPane>
                      <children>
-                        <VBox spacing="5.0" AnchorPane.leftAnchor="10.0">
-                           <children>
-                              <VBox>
+                            <VBox AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <children>
+                                    <Label fx:id="ingrName" prefWidth="285.0" styleClass="titleText" text="Ingredient Name With Long Extra Spaces And Super Long Name SUPER SUPER SUPER LONG NAME LIKE REALLY LONG NAME MAN SUPER AWESOME NAME" wrapText="true">
+                                        <font>
+                                            <Font name="SF Pro Display Regular" size="25.0" />
+                                        </font>
+                                    </Label>
+                                    <Label fx:id="ingrCategory" styleClass="tagText" text="LABEL" textFill="#9e9e9e">
+                                        <font>
+                                            <Font name="SF Pro Text Regular" size="9.0" />
+                                        </font>
+                                    </Label>
+                                    <AnchorPane>
+                                        <children>
+                                            <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <children>
+                                                    <Label fx:id="ingrAvgSpoilage" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Fresh Time" textAlignment="RIGHT" textFill="#f5a623">
+                                                        <font>
+                                                            <Font name="SF Pro Display Regular" size="25.0" />
+                                                        </font>
+                                                        <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                        </VBox.margin>
+                                                    </Label>
+                                                    <Label styleClass="tagText" text="AVERAGE FRESH TIME" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                        <font>
+                                                            <Font name="SF Pro Text Regular" size="9.0" />
+                                                        </font>
+                                                    </Label>
+                                                </children>
+                                            </VBox>
+                                            <VBox alignment="TOP_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <children>
+                                                    <Label fx:id="ingrCalories" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Calories" textAlignment="RIGHT" textFill="#f5a623">
+                                                        <font>
+                                                            <Font name="SF Pro Display Regular" size="25.0" />
+                                                        </font>
+                                                        <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                        </VBox.margin>
+                                                    </Label>
+                                                    <Label styleClass="tagText" text="PER 100G" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                        <font>
+                                                            <Font name="SF Pro Text Regular" size="9.0" />
+                                                        </font>
+                                                    </Label>
+                                                </children>
+                                            </VBox>
+                                        </children>
+                                    </AnchorPane>
+                              <Line endX="150.0" startX="-150.0" stroke="#f5a623">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Line>
+                              <AnchorPane>
                                  <children>
-                                    <Label fx:id="ingrProtein" styleClass="headerText" text="fProtein" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="PROTEIN" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
+                                    <VBox spacing="5.0" AnchorPane.leftAnchor="10.0">
+                                       <children>
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="ingrProtein" styleClass="headerText" text="fProtein" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="PROTEIN" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="10.0" layoutY="10.0">
+                                             <children>
+                                                <Label fx:id="ingrTotalFat" styleClass="headerText" text="fTotalFat" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="TOTAL FAT" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="ingrSatFat" styleClass="headerText" text="fSatFat" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="SATURATED FAT" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="ingrCholesterol" styleClass="headerText" text="fCho" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="CHOLESTEROL" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="ingrCarb" styleClass="headerText" text="fCarb" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="CARBOHYDRATE" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="ingrSugar" styleClass="headerText" text="fSugar" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="SUGAR" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox spacing="5.0" AnchorPane.leftAnchor="120.0">
+                                       <children>
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="ingrSodium" styleClass="headerText" text="fSodium" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="SODIUM" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="ingrCalcium" styleClass="headerText" text="fCalcium" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="CALCIUM" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="ingrIron" styleClass="headerText" text="fIron" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="IRON" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="ingrPotassium" styleClass="headerText" text="fPot" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="POTASSIUM" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox AnchorPane.leftAnchor="230.0">
+                                       <children>
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="ingreC" styleClass="headerText" text="fC" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="VITAMIN C" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="ingreE" styleClass="headerText" text="fE" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="VITAMIN E" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="ingreD" styleClass="headerText" text="fD" textFill="#f5a623">
+                                                   <font>
+                                                      <Font name="SF Pro Display Regular" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label styleClass="tagText" text="VITAMIN D" textAlignment="RIGHT" textFill="#9e9e9e">
+                                                   <font>
+                                                      <Font name="SF Pro Text Regular" size="9.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </VBox>
-                              <VBox layoutX="10.0" layoutY="10.0">
-                                 <children>
-                                    <Label fx:id="ingrTotalFat" styleClass="headerText" text="fTotalFat" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="TOTAL FAT" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label fx:id="ingrSatFat" styleClass="headerText" text="fSatFat" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="SATURATED FAT" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label fx:id="ingrCholesterol" styleClass="headerText" text="fCho" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="CHOLESTEROL" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label fx:id="ingrCarb" styleClass="headerText" text="fCarb" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="CARBOHYDRATE" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label fx:id="ingrSugar" styleClass="headerText" text="fSugar" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="SUGAR" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </VBox>
-                        <VBox spacing="5.0" AnchorPane.leftAnchor="120.0">
-                           <children>
-                              <VBox>
-                                 <children>
-                                    <Label fx:id="ingrSodium" styleClass="headerText" text="fSodium" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="SODIUM" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label fx:id="ingrCalcium" styleClass="headerText" text="fCalcium" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="CALCIUM" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label fx:id="ingrIron" styleClass="headerText" text="fIron" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="IRON" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label fx:id="ingrPotassium" styleClass="headerText" text="fPot" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="POTASSIUM" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </VBox>
-                        <VBox AnchorPane.leftAnchor="230.0">
-                           <children>
-                              <VBox>
-                                 <children>
-                                    <Label fx:id="ingreC" styleClass="headerText" text="fC" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="VITAMIN C" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label fx:id="ingreE" styleClass="headerText" text="fE" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="VITAMIN E" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label fx:id="ingreD" styleClass="headerText" text="fD" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label styleClass="tagText" text="VITAMIN D" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </VBox>
+                                 <VBox.margin>
+                                    <Insets top="15.0" />
+                                 </VBox.margin>
+                              </AnchorPane>
+                                </children>
+                            </VBox>
+                        <ImageView fx:id="moreButton" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" styleClass="myButton" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="7.0">
+                           <image>
+                              <Image url="@../img/ic_more2x.png" />
+                           </image>
+                        </ImageView>
                      </children>
-                     <VBox.margin>
-                        <Insets top="15.0" />
-                     </VBox.margin>
                   </AnchorPane>
-                    </children>
-                </VBox>
+              </content>
+            </ScrollPane>
                 <ToggleButton fx:id="addToStockButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="+" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <font>
                         <Font size="12.5" />
@@ -311,7 +325,7 @@
                     <styleClass>
                         <String fx:value="createStockButton" />
                         <String fx:value="secondaryButton" />
-                        <String fx:value="button" />
+                        <String fx:value="myButton" />
                     </styleClass>
                 </ToggleButton>
             </children>

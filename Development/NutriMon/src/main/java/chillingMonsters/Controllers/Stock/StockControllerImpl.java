@@ -1,5 +1,8 @@
 package chillingMonsters.Controllers.Stock;
 
+import chillingMonsters.Controllers.NutriMonController;
+import chillingMonsters.DBConnect;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,10 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import chillingMonsters.Controllers.NutriMonController;
-import chillingMonsters.Controllers.Stock.StockController;
-import chillingMonsters.DBConnect;
 
 public class StockControllerImpl extends NutriMonController implements StockController {
   public StockControllerImpl() {
@@ -95,14 +94,14 @@ public class StockControllerImpl extends NutriMonController implements StockCont
     Map<String, Object> payload = new HashMap<>();
     payload.put("foodID", foodID);
     payload.put("foodQtty", quantity);
-    payload.put("foodExpDate", String.format("\'%s\'", expDate));
+    payload.put("foodExpDate", String.format("%s", expDate));
     this.create(payload);
   }
 
   public void updateStock(long stockID, double quantity, String expDate) {
     Map<String, Object> payload = new HashMap<>();
     payload.put("foodQtty", quantity);
-    payload.put("foodExpDate", String.format("\'%s\'", expDate));
+    payload.put("foodExpDate", String.format("%s", expDate));
     this.update(stockID, payload);
   }
 }

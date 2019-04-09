@@ -8,11 +8,11 @@ public interface RecipeController {
 
   Map<String, Object> getRecipe(long recipeID);
 
-  void createRecipe(String name, String description, Map<Integer, Float> ingredients);
+  long createRecipe(String name, String category, String description, double cookTime, Map<Long, Float> ingredients);
 
   void deleteRecipe(long recipeID);
 
-  void updateRecipe(long recipeID, String name, String description, Map<Integer, Float> ingredients);
+  void updateRecipe(long recipeID, String name, String category, String description, double cookTime, Map<Long, Float> ingredients);
 
   List<Map<String, Object>> showAvailableRecipes();
 

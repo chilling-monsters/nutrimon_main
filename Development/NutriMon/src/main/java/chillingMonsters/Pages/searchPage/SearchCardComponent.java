@@ -2,11 +2,13 @@ package chillingMonsters.Pages.searchPage;
 
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
+import chillingMonsters.Pages.recipePage.recipeCreatePage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -14,8 +16,7 @@ import java.io.IOException;
 
 public class SearchCardComponent extends AnchorPane {
   private PageOption option = PageOption.DEFAULT;
-  private long foodID;
-
+  private long ID;
 
   @FXML
   private Label cardName;
@@ -23,10 +24,13 @@ public class SearchCardComponent extends AnchorPane {
   @FXML
   private Label cardLabel;
 
-  public SearchCardComponent(long foodID, String name, String category, PageOption option) {
+  @FXML
+  private ImageView searchImage;
+
+  public SearchCardComponent(long ID, String name, String category, PageOption option) {
     super();
 
-    this.foodID = foodID;
+    this.ID = ID;
     this.option = option;
 
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/searchPage/searchCard.fxml"));
@@ -54,14 +58,23 @@ public class SearchCardComponent extends AnchorPane {
     ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
     switch (option) {
-      case ADD_STOCK:
-        PageFactory.getStockEntryPage(foodID, option).startPage(e);
+      case STOCK:
+        PageFactory.getStockEntryPage(ID, option).startPage(e);
         break;
-      case ADD_RECIPE:
-        System.out.println("Add Recipe");
+      case RECIPE:
+        PageFactory.getRecipeEntryPage(ID).startPage(e);
+        break;
+      case UPDATE:
+        recipeCreatePage recipeForm = (recipeCreatePage) PageFactory.getLastPage();
+        recipeForm.addToIngredientList(ID);
+        recipeForm.startPage(e);
         break;
       case DEFAULT:
-        PageFactory.getIngredientPage(foodID).startPage(e);
+        if (option == PageOption.RECIPE) {
+          PageFactory.getRecipeEntryPage(ID).startPage(e);
+        } else {
+          PageFactory.getIngredientPage(ID).startPage(e);
+        }
         break;
     }
   }

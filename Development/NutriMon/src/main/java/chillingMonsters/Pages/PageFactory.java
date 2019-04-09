@@ -2,6 +2,9 @@ package chillingMonsters.Pages;
 
 import chillingMonsters.Pages.ingredientPage.ingredientPage;
 import chillingMonsters.Pages.loginPage.loginPage;
+import chillingMonsters.Pages.recipePage.recipeCreatePage;
+import chillingMonsters.Pages.recipePage.recipeEntryPage;
+import chillingMonsters.Pages.recipePage.recipePage;
 import chillingMonsters.Pages.registerPage.registerPage;
 import chillingMonsters.Pages.searchPage.searchPage;
 import chillingMonsters.Pages.stockPage.stockEntryPage;
@@ -15,10 +18,17 @@ public abstract class PageFactory {
 
   private static loginPage login = null;
   private static registerPage register = null;
+
   private static stockPage stock = null;
   private static stockEntryPage stockEntry = null;
+
   private static searchPage search = null;
+
   private static ingredientPage ingredient = null;
+
+  private static recipePage recipe = null;
+  private static recipeEntryPage recipeEntry = null;
+  private static recipeCreatePage recipeCreate = null;
 
   public static Page getLastPage() {
     if (pageHistory.isEmpty()) {
@@ -39,6 +49,11 @@ public abstract class PageFactory {
     }
 
     pageHistory.add(0, newPage);
+  }
+
+  public static Page getLandingPage() {
+    //TODO: Landing page here
+    return getRecipePage();
   }
 
   public static loginPage getLoginPage() {
@@ -95,5 +110,34 @@ public abstract class PageFactory {
 
     addToHistory(ingredient);
     return ingredient;
+  }
+
+  public static recipePage getRecipePage() {
+    if (recipe == null) recipe = new recipePage();
+
+    addToHistory(recipe);
+    return recipe;
+  }
+
+  public static recipeEntryPage getRecipeEntryPage(long recipeID) {
+    if (recipeEntry == null || recipeEntry.recipeID != recipeID) {
+      recipeEntry = new recipeEntryPage(recipeID);
+    }
+
+    addToHistory(recipeEntry);
+    return recipeEntry;
+  }
+
+  public static recipeCreatePage getRecipeCreatePage(long recipeID, PageOption option) {
+    if (recipeCreate == null || recipeCreate.recipeID != recipeID || recipeCreate.option != option) {
+      recipeCreate = new recipeCreatePage(recipeID, option);
+    }
+
+    addToHistory(recipeCreate);
+    return recipeCreate;
+  }
+
+  public static recipeCreatePage getRecipeCreatePage() {
+    return getRecipeCreatePage(0, PageOption.DEFAULT);
   }
 }

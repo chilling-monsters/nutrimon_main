@@ -57,7 +57,7 @@ public class stockEntryPageController implements PageController {
 	public VBox entryList;
 
 	@FXML
-	public VBox createForm;
+	public AnchorPane createForm;
 
 	@FXML
 	public ImageView backButton;
@@ -104,11 +104,10 @@ public class stockEntryPageController implements PageController {
 	public void initialize() {
 		refreshStock();
 
-		if (option == PageOption.ADD_STOCK) {
+		if (option == PageOption.STOCK) {
 			handleAddStock();
 		} else {
-			showForm = false;
-			toggleForm();
+			toggleForm(false);
 		}
 
 		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -186,13 +185,15 @@ public class stockEntryPageController implements PageController {
 
 	private void refreshStock() {
 		entryList.getChildren().clear();
+		scrollList.setPrefHeight(scrollList.getMinHeight());
+		scrollList.setVvalue(0);
 
 		IngredientController ingrController = ControllerFactory.makeIngredientController();
 		Map<String, Object> ingredient = ingrController.getIngredient(foodID);
 
 		String name = ingredient.get("foodName").toString();
 		String category = ingredient.get("fCategory").toString();
-		avgSpoilageDays = (Integer) ingredient.get("expTime");
+		avgSpoilageDays = Integer.parseInt(ingredient.get("expTime").toString());
 
 		entryName.setText(Utility.parseFoodName(name));
 		entryCategory.setText(category);
@@ -209,15 +210,15 @@ public class stockEntryPageController implements PageController {
 			entryList.getChildren().add(emptyLabel);
 		} else {
 			for (Map<String, Object> result : resultsList) {
-				Long stockItemID = (Long) result.get("stockItemID");
-				Long timeLeft = (Long) result.get("time_left");
+				Long stockItemID = Long.parseLong(result.get("stockItemID").toString());
+				Long timeLeft = Long.parseLong(result.get("time_left").toString());
 				Timestamp addedDate = (Timestamp) result.get("added_date");
-				float amount = (Float) result.get("foodQtty");
+				float amount = Float.parseFloat(result.get("foodQtty").toString());
 				totalAmount += amount;
 
 				StockEntryCardComponent sCard = new StockEntryCardComponent(stockItemID, timeLeft, addedDate, amount);
 
-				if (timeLeft <= Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("expireWarningCard");
+				if (timeLeft <= Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("hightlightCard");
 
 				sCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
 					@Override
@@ -234,10 +235,13 @@ public class stockEntryPageController implements PageController {
 	}
 
 	private void handleBackOnClick(MouseEvent event) {
-		handleCancel();
+		if (showForm) {
+			handleCancel();
+		} else {
+			ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+			PageFactory.getStockPage().startPage(e);
+		}
 
-		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-		PageFactory.getLastPage().startPage(e);
 	}
 
 	private void handleMoreOnClick(MouseEvent event) {
@@ -249,14 +253,13 @@ public class stockEntryPageController implements PageController {
 
 	private void handleAddStock() {
 		if (!showForm) {
-			option = PageOption.ADD_STOCK;
+			option = PageOption.STOCK;
 
 			displaySpoilageDays = avgSpoilageDays;
 			displayAddedDate = Utility.today();
 			displayAmount = 0;
 
-			showForm = true;
-			toggleForm();
+			toggleForm(true);
 		} else {
 			if (displayAmount <= 0) {
 				addStockButton.setSelected(true);
@@ -267,7 +270,7 @@ public class stockEntryPageController implements PageController {
 			StockController controller = ControllerFactory.makeStockController();
 			LocalDate expDate = displayAddedDate.toLocalDateTime().toLocalDate().plusDays(avgSpoilageDays);
 			switch (option) {
-				case ADD_STOCK:
+				case STOCK:
 					controller.createStock(foodID, displayAmount, expDate.toString());
 					break;
 				case UPDATE:
@@ -277,40 +280,49 @@ public class stockEntryPageController implements PageController {
 					break;
 			}
 
-			showForm = false;
-			toggleForm();
+			toggleForm(false);
 		}
 	}
 
 	private void handleCancel() {
-		showForm = false;
-		toggleForm();
+		if (showForm) {
+			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
+			if (confirmed) {
+				toggleForm(false);
+			}
+		}
 	}
 
 	private void handleDeleteStock() {
 		StockController controller = ControllerFactory.makeStockController();
 
 		if (option == PageOption.UPDATE) {
-			AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Delete Stock", "Are you sure you want to delete this stock?");
-			controller.deleteStock(currentStockItemID);
+			boolean confirmed = AlertHandler.showConfirmationAlert("Delete Stock", "Are you sure you want to delete this stock?");
+			if (confirmed) {
+				controller.deleteStock(currentStockItemID);
+				toggleForm(false);
+			}
+		} else {
+			handleCancel();
 		}
-
-		showForm = false;
-		toggleForm();
 	}
 
-	private void toggleForm() {
-		if (showForm) {
-			adjustSizePane.setPrefHeight(0);
+	private void toggleForm(boolean show) {
+		showForm = show;
+		if (show) {
 			addStockButton.setText("Save");
 			addStockButton.setSelected(true);
+			adjustSizePane.setPrefHeight(adjustSizePane.getMinHeight());
 
 			dateTxF.setValue(displayAddedDate.toLocalDateTime().toLocalDate());
 			amountTxF.setText(String.format("%.0f", displayAmount));
 			entryCurrentAmount.setText(String.format("%.0f grams", displayAmount));
 
 			setExpiryString();
+
+			deleteEntryButton.setVisible(option == PageOption.UPDATE);
 		} else {
+			option = PageOption.DEFAULT;
 			addStockButton.setText("+");
 			addStockButton.setSelected(false);
 			amountTxF.setText("0");
@@ -318,8 +330,8 @@ public class stockEntryPageController implements PageController {
 			refreshStock();
 		}
 
-		entryList.setVisible(!showForm);
-		createForm.setVisible(showForm);
+		entryList.setVisible(!show);
+		createForm.setVisible(show);
 	}
 
 	private void handleInputChange(String oldValue, String newValue) {
@@ -340,7 +352,6 @@ public class stockEntryPageController implements PageController {
 	private void handleCardClick(MouseEvent event) {
 		if (!showForm) {
 			option = PageOption.UPDATE;
-			showForm = true;
 
 			StockEntryCardComponent clickedCard = (StockEntryCardComponent) event.getSource();
 			currentStockItemID = clickedCard.getStockItemID();
@@ -349,7 +360,7 @@ public class stockEntryPageController implements PageController {
 			displayAmount = clickedCard.getAmount();
 			totalAmount -= displayAmount;
 
-			toggleForm();
+			toggleForm(true);
 		}
 	}
 

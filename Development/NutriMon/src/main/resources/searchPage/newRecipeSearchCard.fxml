@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.String?>
+<fx:root type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <AnchorPane prefHeight="50.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                  <Label fx:id="cardName" alignment="CENTER" styleClass="headerText" text="Create Your Own Recipe" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <font>
+                          <Font name="SF Pro Display Regular" size="15.0" />
+                      </font>
+                  </Label>
+            </children>
+            <styleClass>
+                <String fx:value="searchCardPane" />
+                <String fx:value="card" />
+                <String fx:value="cardPane" />
+                <String fx:value="pane" />
+            </styleClass>
+        </AnchorPane>
+    </children>
+    <effect>
+        <DropShadow blurType="ONE_PASS_BOX" color="#00000080" height="50.0" offsetX="5.0" offsetY="5.0" radius="24.5" width="50.0" />
+    </effect>
+</fx:root>

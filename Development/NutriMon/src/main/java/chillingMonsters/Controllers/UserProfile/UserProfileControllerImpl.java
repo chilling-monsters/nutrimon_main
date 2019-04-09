@@ -78,5 +78,9 @@ public class UserProfileControllerImpl extends NutriMonController implements Use
     public void updateProfile() {
         /* TODO: Implement */
     }
+
+    public long getUserID() {
+        return getUserId();
+    }
 }
 

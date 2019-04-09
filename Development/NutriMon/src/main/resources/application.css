@@ -16,7 +16,7 @@
 }
 
 .cardPane {
-    -fx-background-radius: 8 0 8 8;
+    -fx-background-radius: 8 8 8 8;
 }
 .detailCardPane {
     -fx-pref-width: 300px;
@@ -30,6 +30,10 @@
     -fx-pref-width: 300px;
     -fx-pref-height: 60px;
 }
+.recipe {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 150px;
+}
 
 .cardScrollPane > .viewport {
    -fx-background-color: transparent;
@@ -39,7 +43,7 @@
     -fx-background-color: transparent;
 }
 
-.button:hover {
+.myButton:hover {
     -fx-cursor: hand;
 }
 .primaryButton {
@@ -81,9 +85,14 @@
 .tagText {
     -fx-font-size: 9px;
 }
-.expireWarningText {
+
+.hightlightText {
     -fx-text-fill: #F5A623;
 }
+.secondaryHighlightText {
+    -fx-text-fill: #FF6C00;
+}
+
 .emptyWarningText {
     -fx-font-size: 15px;
     -fx-padding: 100 0 0 0;
@@ -92,13 +101,23 @@
     -fx-pref-width: 300px;
 }
 
-.expireWarningCard {
+.hightlightCard {
     -fx-effect: dropshadow( one-pass-box , #F5A623 , 24.5, 0, 5, 5);
 }
-.stockCard {
+.listCard {
     -fx-padding: 15 0 0 0;
 }
 
 .line {
     -fx-stroke: #F5A623;
+}
+
+.form-field {
+    -fx-background-color: none;
+    -fx-border-width : 0 0 1 0;
+    -fx-border-color: #F5A623;
+}
+
+.disabledText:disabled {
+    -fx-opacity : 1.0;
 }
