@@ -41,6 +41,8 @@ public class PageFactory {
 	private static ingredientPage ingredient;
 
 	private static searchPage search;
+  private static ingredientPage ingredient = null;
+  private static userProfilePage profile = null;
 
 	private static recipePage recipe;
 	private static recipeEntryPage recipeEntry;
