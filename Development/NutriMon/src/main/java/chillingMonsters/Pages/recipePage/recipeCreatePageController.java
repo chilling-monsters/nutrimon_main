@@ -7,6 +7,7 @@ import chillingMonsters.Controllers.Recipe.RecipeController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
+import chillingMonsters.Pages.searchPage.SearchCardComponent;
 import chillingMonsters.Utility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -22,15 +23,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class recipeCreatePageController implements PageController {
+	private long recipeID = 0;
+	private PageOption option;
+
 	private StringProperty cachedName = new SimpleStringProperty("");
 	private StringProperty cachedCategory = new SimpleStringProperty("");
 	private StringProperty cachedFormDetails = new SimpleStringProperty("");
 	private StringProperty cachedCookTime = new SimpleStringProperty("");
 
-	private Map<Long, StringProperty> ingrMap = new HashMap<>();
+	private Map<Long, StringProperty> ingrMap = new LinkedHashMap<Long, StringProperty>();
 
 	@FXML
 	private ImageView backButton;
@@ -42,7 +48,7 @@ public class recipeCreatePageController implements PageController {
 	private ScrollPane formList;
 
 	@FXML
-	private TextArea formName;
+	private TextField formName;
 
 	@FXML
 	private TextField formCookTime;
@@ -68,31 +74,59 @@ public class recipeCreatePageController implements PageController {
 	@FXML
 	private Button saveRecipeButton;
 
+	public recipeCreatePageController(Long recipeID, PageOption option) {
+		this.recipeID = recipeID;
+		this.option = option;
+	}
+
 	@FXML
 	public void initialize() {
+		formName.textProperty().bindBidirectional(cachedName);
+		formCategory.textProperty().bindBidirectional(cachedCategory);
+		formDetails.textProperty().bindBidirectional(cachedFormDetails);
+		formCookTime.textProperty().bindBidirectional(cachedCookTime);
+
+		if (option == PageOption.UPDATE && recipeID != 0) {
+			RecipeController controller = ControllerFactory.makeRecipeController();
+			Map<String, Object> recipe = controller.getRecipe(recipeID);
+
+			formName.setText(recipe.get("recipeName").toString());
+			formCategory.setText(recipe.get("recipeCategory").toString());
+			formDetails.setText(recipe.get("recipeDescription").toString());
+			formCookTime.setText(recipe.get("recipeCookTime").toString());
+
+			List<Map<String, Object>> ingrL = (List<Map<String, Object>>) recipe.get("ingredients");
+			for (Map<String, Object> i : ingrL) {
+				addToIngredientList(Long.parseLong(i.get("foodID").toString()), Float.parseFloat(i.get("ingredientQtty").toString()));
+			}
+		}
+
 		for (long foodID : ingrMap.keySet()) {
 			IngredientController ingrController = ControllerFactory.makeIngredientController();
 			Map<String, Object> result =  ingrController.getIngredient(foodID);
 			String name = Utility.parseFoodName(result.get("foodName").toString());
 			String category = result.get("fCategory").toString();
 
-			RecipeCreateIngredientCardComponent ingrCard = new RecipeCreateIngredientCardComponent(name, category);
+			RecipeCreateIngredientCardComponent ingrCard = new RecipeCreateIngredientCardComponent(foodID,0F, name, category);
 			ingredientList.getChildren().add(ingrCard);
+
+			ingrCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					if (AlertHandler.showConfirmationAlert("Are you sure?", "This ingredient will be removed from the recipe")) {
+						ingredientList.getChildren().remove(ingrCard);
+					}
+				}
+			});
 
 			ingrCard.amountProperty().bindBidirectional(ingrMap.get(foodID));
 		}
-
-		formName.textProperty().bindBidirectional(cachedName);
-		formCategory.textProperty().bindBidirectional(cachedCategory);
-		formDetails.textProperty().bindBidirectional(cachedFormDetails);
-		formCookTime.textProperty().bindBidirectional(cachedCookTime);
-
 
 		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-				PageFactory.getLastPage().startPage(e);
+				handleCancelButton(e);
 			}
 		});
 
@@ -172,10 +206,10 @@ public class recipeCreatePageController implements PageController {
 		PageFactory.getSearchPage(PageOption.UPDATE).startPage(event);
 	}
 
-	public void addToIngredientList(long foodID) {
+	public void addToIngredientList(long foodID, float amount) {
 		if (ingrMap.containsKey(foodID)) return;
 
-		ingrMap.put(foodID, new SimpleStringProperty());
+		ingrMap.put(foodID, new SimpleStringProperty(amount == 0 ? "g" : String.format("%.0fg", amount)));
 	}
 
 	private void handleCreateButton(ActionEvent event) {
@@ -211,15 +245,32 @@ public class recipeCreatePageController implements PageController {
 
 		Map<Long, Float> ingredients = new HashMap<>();
 		for (Long k : ingrMap.keySet()) {
-			ingredients.put(k, Float.parseFloat(ingrMap.get(k).getValue()));
+			String value = ingrMap.get(k).getValue();
+
+			value = value.replaceAll("[^0-9]", "");
+			if (value.isEmpty()) {
+				AlertHandler.showAlert(Alert.AlertType.ERROR, "Oops!", "Please use some ingredients for your recipe");
+				return;
+			}
+
+			ingredients.put(k, Float.parseFloat(value));
 		}
 
 
 		RecipeController controller = ControllerFactory.makeRecipeController();
-		long newRecipeID = controller.createRecipe(name, category, details, cookTime, ingredients);
 
-		controller.saveRecipe(newRecipeID);
-		PageFactory.getRecipeEntryPage(newRecipeID).startPage(event);
+		switch (option) {
+			case RECIPE:
+				recipeID = controller.createRecipe(name, category, details, cookTime, ingredients);
+				controller.saveRecipe(recipeID);
+				break;
+			case UPDATE:
+				controller.updateRecipe(recipeID, name, category, details, cookTime, ingredients);
+				break;
+			case DEFAULT:
+				break;
+		}
+		PageFactory.getRecipeEntryPage(recipeID).startPage(event);
 	}
 
 	private void handleCancelButton(ActionEvent event) {
@@ -233,8 +284,7 @@ public class recipeCreatePageController implements PageController {
 		boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "This recipe will be deleted");
 		if (confirmed) {
 			RecipeController controller = ControllerFactory.makeRecipeController();
-			//TODO: delete here
-//			controller.deleteRecipe(recipeID);
+			controller.deleteRecipe(recipeID);
 			PageFactory.getRecipePage().startPage(event);
 		}
 	}

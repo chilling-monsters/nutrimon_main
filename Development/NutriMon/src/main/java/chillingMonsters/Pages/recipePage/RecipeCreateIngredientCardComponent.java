@@ -1,6 +1,8 @@
 package chillingMonsters.Pages.recipePage;
 
+import chillingMonsters.Pages.PageFactory;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +23,7 @@ public class RecipeCreateIngredientCardComponent extends AnchorPane {
 	@FXML
 	private TextField amountTxF;
 
-	public RecipeCreateIngredientCardComponent(String name, String category) {
+	public RecipeCreateIngredientCardComponent(Long foodID, Float amount, String name, String category) {
 		super();
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/recipePage/recipeIngredientCard.fxml"));
@@ -34,17 +36,24 @@ public class RecipeCreateIngredientCardComponent extends AnchorPane {
 			throw new RuntimeException(e);
 		}
 
+		amountTxF.setText(String.format("%.0fg", amount));
 		cardName.setText(name);
 		cardCategory.setText(category);
-
-		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-			}
-		});
 	}
 
 	public StringProperty amountProperty() {
 		return amountTxF.textProperty();
+	}
+
+	public void setReadyOnly() {
+		amountTxF.setDisable(true);
+		amountTxF.getStyleClass().add("disabledText");
+	}
+
+	public void setHighlight(boolean hightlight) {
+		if (hightlight) {
+			amountTxF.getStyleClass().add("secondaryHighlightText");
+			cardName.getStyleClass().add("secondaryHighlightText");
+		}
 	}
 }

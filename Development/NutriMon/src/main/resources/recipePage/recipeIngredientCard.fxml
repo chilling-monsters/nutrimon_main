@@ -3,55 +3,34 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import java.lang.String?>
-<fx:root type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+
+<fx:root prefHeight="40.0" prefWidth="300.0" styleClass="card" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <AnchorPane maxHeight="50.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <children>
-            <HBox AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
-               <children>
-                  <TextField fx:id="amountTxF" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="55.0" />
-                      <VBox>
-                          <children>
-                              <Label fx:id="cardCategory" styleClass="tagText" text="LABEL" textFill="#9e9e9e">
-                                  <font>
-                                      <Font name="SF Pro Display Regular" size="9.0" />
-                                  </font>
-                              </Label>
-                        <HBox>
-                           <children>
-                              <Label fx:id="cardName1" ellipsisString="" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="15.0" styleClass="headerText" text="g" textFill="#9e9e9e" textOverrun="CLIP">
-                                 <font>
-                                    <Font name="Helvetica" size="15.0" />
-                                 </font>
-                              </Label>
-                                    <Label fx:id="cardName" styleClass="headerText" text="Label" textFill="#f5a623">
-                                        <font>
-                                            <Font name="SF Pro Text Regular" size="15.0" />
-                                        </font>
-                                    </Label>
-                           </children>
-                        </HBox>
-                          </children>
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                      </VBox>
-               </children>
-            </HBox>
-            </children>
-            <styleClass>
-                <String fx:value="detailCardPane" />
-                <String fx:value="card" />
-                <String fx:value="cardPane" />
-                <String fx:value="pane" />
-            </styleClass>
-        </AnchorPane>
+      <HBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <children>
+            <TextField fx:id="amountTxF" alignment="CENTER_RIGHT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="60.0" styleClass="form-field" />
+                <VBox maxHeight="30.0">
+                    <children>
+                        <Label fx:id="cardCategory" styleClass="tagText" text="LABEL" textFill="#9e9e9e">
+                            <font>
+                                <Font name="SF Pro Display Regular" size="9.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="cardName" styleClass="detailText" text="Label" textFill="#9e9e9e">
+                            <font>
+                                <Font name="SF Pro Text Regular" size="12.0" />
+                            </font>
+                        </Label>
+                    </children>
+               <HBox.margin>
+                  <Insets left="3.0" />
+               </HBox.margin>
+                </VBox>
+         </children>
+      </HBox>
     </children>
-    <effect>
-        <DropShadow blurType="ONE_PASS_BOX" color="#00000080" height="50.0" offsetX="5.0" offsetY="5.0" radius="24.5" width="50.0" />
-    </effect>
 </fx:root>

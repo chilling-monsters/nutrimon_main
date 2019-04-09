@@ -1,6 +1,7 @@
 package chillingMonsters.Pages.searchPage;
 
 import chillingMonsters.Pages.PageFactory;
+import chillingMonsters.Pages.PageOption;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;

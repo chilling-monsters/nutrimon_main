@@ -112,13 +112,15 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     return this.exists("promotedrecipe", this.pk, Long.toString(recipeID));
   }
 
-  public void updateRecipe(long recipeID, String name, String description, Map<Long, Float> ingredients) {
+  public void updateRecipe(long recipeID, String name, String category, String description, double cookTime, Map<Long, Float> ingredients) {
     String clearIngredients = "DELETE FROM recipeingredients WHERE recipeID = ? AND ? IN (" +
             "SELECT DISTINCT recipeID FROM recipes WHERE userID = ?)";
     String insertIngredients = "INSERT INTO recipeingredients VALUES (?,?,?)";
     Map<String, Object> payload = new HashMap<>();
     payload.put("recipeName", name);
     payload.put("recipeDescription", description);
+    payload.put("recipeCategory", category);
+    payload.put("recipeCookTIme", cookTime);
     this.update(recipeID, payload);
     Connection connection = DBConnect.getConnection();
     try (PreparedStatement clearStmt = connection.prepareStatement(clearIngredients)) {

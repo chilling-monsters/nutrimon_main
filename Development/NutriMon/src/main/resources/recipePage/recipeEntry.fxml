@@ -53,11 +53,20 @@
                      <children>
                         <VBox maxWidth="300.0">
                            <children>
-                              <Label fx:id="recipeName" maxHeight="30.0" minHeight="30.0" style="-fx-cursor: hand;" styleClass="titleText" text="Recipe With A Super Long Name and Extra Spaces At The End Of It Too, It's Really Long" wrapText="true">
-                                 <font>
-                                    <Font name="SF Pro Display Regular" size="25.0" />
-                                 </font>
-                              </Label>
+                              <AnchorPane>
+                                 <children>
+                                    <Label fx:id="recipeName" maxHeight="30.0" maxWidth="285.0" minHeight="30.0" style="-fx-cursor: hand;" styleClass="titleText" text="Recipe With A Super Long Name and Extra Spaces At The End Of It Too, It's Really Long" wrapText="true">
+                                       <font>
+                                          <Font name="SF Pro Display Regular" size="25.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fx:id="moreButton" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" styleClass="myButton" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="7.0">
+                                       <image>
+                                          <Image url="@../img/ic_more2x.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
                               <AnchorPane maxWidth="-Infinity" prefWidth="300.0">
                                  <children>
                                     <Label fx:id="recipeCategory" layoutX="10.0" layoutY="10.0" styleClass="tagText" text="CATEGORY" textFill="#9e9e9e" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -122,12 +131,12 @@
                               </VBox>
                               <Line endX="150.0" startX="-150.0" stroke="#f5a623">
                                  <VBox.margin>
-                                    <Insets top="10.0" />
+                                    <Insets top="5.0" />
                                  </VBox.margin>
                               </Line>
                               <AnchorPane>
                                  <children>
-                                    <VBox AnchorPane.topAnchor="0.0">
+                                    <VBox AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <Label fx:id="ingrCalories" layoutX="10.0" layoutY="10.0" styleClass="detailText" text="fCalories" textFill="#9e9e9e">
                                              <font>
@@ -166,7 +175,7 @@
                                           </Label>
                                        </children>
                                     </VBox>
-                                    <VBox AnchorPane.leftAnchor="150.0">
+                                    <VBox AnchorPane.leftAnchor="175.0">
                                        <children>
                                            <Label fx:id="ingrCalcium" styleClass="detailText" text="fCalcium" textFill="#9e9e9e">
                                              <font>

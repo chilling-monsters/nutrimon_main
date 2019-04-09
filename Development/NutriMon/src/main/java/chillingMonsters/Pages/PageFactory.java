@@ -128,10 +128,16 @@ public abstract class PageFactory {
     return recipeEntry;
   }
 
-  public static recipeCreatePage getRecipeCreatePage() {
-    if (recipeCreate == null) recipeCreate = new recipeCreatePage();
+  public static recipeCreatePage getRecipeCreatePage(long recipeID, PageOption option) {
+    if (recipeCreate == null || recipeCreate.recipeID != recipeID || recipeCreate.option != option) {
+      recipeCreate = new recipeCreatePage(recipeID, option);
+    }
 
     addToHistory(recipeCreate);
     return recipeCreate;
+  }
+
+  public static recipeCreatePage getRecipeCreatePage() {
+    return getRecipeCreatePage(0, PageOption.DEFAULT);
   }
 }

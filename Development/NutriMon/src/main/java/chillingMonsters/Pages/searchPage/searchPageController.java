@@ -122,12 +122,12 @@ public class searchPageController implements PageController {
     backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
-        handleOnClick(event);
+        handleOnBackClick(event);
       }
     });
   }
 
-  private void handleOnClick(MouseEvent event) {
+  private void handleOnBackClick(MouseEvent event) {
     ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
 
     PageFactory.getLastPage().startPage(e);

@@ -86,18 +86,10 @@
     -fx-font-size: 9px;
 }
 
-.recipeIngredientText {
-    -fx-font-family: "SF Pro Text Regular";
-    -fx-text-fill: #9E9E9E;
-    -fx-padding: 5 0 0 0;
-    -fx-min-width: 300px;
-    -fx-max-width: 300px;
-}
-
 .hightlightText {
     -fx-text-fill: #F5A623;
 }
-.secondaryHighlightTextt {
+.secondaryHighlightText {
     -fx-text-fill: #FF6C00;
 }
 
@@ -118,4 +110,14 @@
 
 .line {
     -fx-stroke: #F5A623;
+}
+
+.form-field {
+    -fx-background-color: none;
+    -fx-border-width : 0 0 1 0;
+    -fx-border-color: #F5A623;
+}
+
+.disabledText:disabled {
+    -fx-opacity : 1.0;
 }

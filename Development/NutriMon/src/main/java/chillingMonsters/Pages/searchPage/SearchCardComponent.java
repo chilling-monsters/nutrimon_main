@@ -65,7 +65,7 @@ public class SearchCardComponent extends AnchorPane {
         PageFactory.getRecipeEntryPage(ID).startPage(e);
         break;
       case UPDATE:
-        recipeCreatePage recipeForm = PageFactory.getRecipeCreatePage();
+        recipeCreatePage recipeForm = (recipeCreatePage) PageFactory.getLastPage();
         recipeForm.addToIngredientList(ID);
         recipeForm.startPage(e);
         break;

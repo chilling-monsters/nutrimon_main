@@ -6,6 +6,7 @@ import chillingMonsters.Controllers.Recipe.RecipeController;
 import chillingMonsters.Controllers.Stock.StockController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
+import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -29,6 +30,9 @@ public class recipeEntryPageController implements PageController {
 
 	@FXML
 	private ImageView backButton;
+
+	@FXML
+	private ImageView moreButton;
 
 	@FXML
 	private AnchorPane recipeCard;
@@ -108,6 +112,7 @@ public class recipeEntryPageController implements PageController {
 
 	@FXML
 	public void initialize() {
+		recipeIngredientsList.getChildren().clear();
 		RecipeController controller = ControllerFactory.makeRecipeController();
 		Map<String, Object> result = controller.getRecipe(recipeID);
 
@@ -161,32 +166,24 @@ public class recipeEntryPageController implements PageController {
 			e += Float.parseFloat(ingrDetails.get("fVE").toString()) * portion;
 			d += Float.parseFloat(ingrDetails.get("fVD").toString()) * portion;
 
-			String labelTxt = String.format("%.0fg of %s", amount, ingrName);
-			Label ingrLabel = new Label();
-			ingrLabel.setWrapText(true);
-			ingrLabel.getStyleClass().add("recipeIngredientText");
-			ingrLabel.getStyleClass().add("detailText");
-			ingrLabel.getStyleClass().add("myButton");
-			ingrLabel.getStyleClass().add("card");
+			String labelCategory = ingrDetails.get("fCategory").toString();
+			RecipeCreateIngredientCardComponent ingrLabel = new RecipeCreateIngredientCardComponent(foodID, amount, ingrName, labelCategory);
+			ingrLabel.setReadyOnly();
 
 			if (amount > stockAmount) {
 				ready = false;
-				ingrLabel.getStyleClass().add("secondaryHighlightTextt");
-				labelTxt = "+ " + labelTxt;
-			} else {
-				labelTxt = "- " + labelTxt;
+				ingrLabel.setHighlight(true);
 			}
-			ingrLabel.setText(labelTxt);
+
+			recipeIngredientsList.getChildren().add(ingrLabel);
 
 			ingrLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-					PageFactory.getIngredientPage(foodID).startPage(e);
+					PageFactory.getStockEntryPage(foodID).startPage(e);
 				}
 			});
-
-			recipeIngredientsList.getChildren().add(ingrLabel);
 		}
 
 		String readyTxt = "";
@@ -194,7 +191,7 @@ public class recipeEntryPageController implements PageController {
 			readyTxt = "Ready";
 		} else {
 			readyTxt = "Not Ready";
-			recipeReady.getStyleClass().add("secondaryHighlightTextt");
+			recipeReady.getStyleClass().add("secondaryHighlightText");
 		}
 
 		recipeName.setText(name);
@@ -223,7 +220,8 @@ public class recipeEntryPageController implements PageController {
 		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				PageFactory.getLastPage().startPage(new ActionEvent(event.getSource(), event.getTarget()));
+				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+				PageFactory.getRecipePage().startPage(e);
 			}
 		});
 
@@ -258,6 +256,13 @@ public class recipeEntryPageController implements PageController {
 			@Override
 			public void handle(MouseEvent event) {
 				handleNameClick();
+			}
+		});
+
+		moreButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				handleMoreClick(event);
 			}
 		});
 	}
@@ -309,5 +314,10 @@ public class recipeEntryPageController implements PageController {
 		} else {
 			recipeName.setMaxHeight(30);
 		}
+	}
+
+	private void handleMoreClick(MouseEvent event) {
+		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
+		PageFactory.getRecipeCreatePage(recipeID, PageOption.UPDATE).startPage(e);
 	}
 }

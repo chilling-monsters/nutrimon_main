@@ -239,7 +239,7 @@ public class stockEntryPageController implements PageController {
 			handleCancel();
 		} else {
 			ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-			PageFactory.getLastPage().startPage(e);
+			PageFactory.getStockPage().startPage(e);
 		}
 
 	}
