@@ -210,8 +210,8 @@ public class stockEntryPageController implements PageController {
 			entryList.getChildren().add(emptyLabel);
 		} else {
 			for (Map<String, Object> result : resultsList) {
-				Long stockItemID = (Long) result.get("stockItemID");
-				Long timeLeft = (Long) result.get("time_left");
+				Long stockItemID = Long.parseLong(result.get("stockItemID").toString());
+				Long timeLeft = Long.parseLong(result.get("time_left").toString());
 				Timestamp addedDate = (Timestamp) result.get("added_date");
 				float amount = Float.parseFloat(result.get("foodQtty").toString());
 				totalAmount += amount;

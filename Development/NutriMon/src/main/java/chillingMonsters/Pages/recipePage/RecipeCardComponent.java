@@ -50,7 +50,7 @@ public class RecipeCardComponent extends AnchorPane {
 		cardName.setText(name);
 		cardCategory.setText(category.toUpperCase());
 		cardCookTime.setText(String.format("%d mins", time));
-		cardCalories.setText(String.format("%d kcal", calories));
+		cardCalories.setText(String.format("%d Cal", calories));
 	}
 
 	public void handleOnClick(MouseEvent event) {

@@ -94,14 +94,14 @@ public class StockControllerImpl extends NutriMonController implements StockCont
     Map<String, Object> payload = new HashMap<>();
     payload.put("foodID", foodID);
     payload.put("foodQtty", quantity);
-    payload.put("foodExpDate", String.format("\'%s\'", expDate));
+    payload.put("foodExpDate", String.format("%s", expDate));
     this.create(payload);
   }
 
   public void updateStock(long stockID, double quantity, String expDate) {
     Map<String, Object> payload = new HashMap<>();
     payload.put("foodQtty", quantity);
-    payload.put("foodExpDate", String.format("\'%s\'", expDate));
+    payload.put("foodExpDate", String.format("%s", expDate));
     this.update(stockID, payload);
   }
 }

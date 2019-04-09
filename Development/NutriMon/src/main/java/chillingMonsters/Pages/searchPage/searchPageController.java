@@ -92,7 +92,7 @@ public class searchPageController implements PageController {
       }
 
       for (Map<String, Object> result : recpSearchResult) {
-        Long recipeID = (Long) result.get("recipeID");
+        Long recipeID = Long.parseLong(result.get("recipeID").toString());
         String name = Utility.parseFoodName(result.get("recipeName").toString());
         String category = result.get("recipeCategory").toString().toUpperCase();
 
@@ -103,7 +103,7 @@ public class searchPageController implements PageController {
       }
 
       for (Map<String, Object> result : ingrSearchResult) {
-        Long foodId = (Long) result.get("foodID");
+        Long foodId = Long.parseLong(result.get("foodID").toString());
         String name = Utility.parseFoodName(result.get("foodName").toString());
         String category = result.get("fCategory").toString().toUpperCase();
 

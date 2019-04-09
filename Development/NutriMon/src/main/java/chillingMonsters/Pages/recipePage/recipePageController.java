@@ -15,10 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class recipePageController implements PageController {
 	private String CREATED_BY_YOU_KEY = "Created by you";
@@ -44,12 +41,12 @@ public class recipePageController implements PageController {
 			return;
 		}
 
-		Map<String, List<RecipeCardComponent>> componentMap = new HashMap<>();
+		Map<String, List<RecipeCardComponent>> componentMap = new TreeMap<>();
 		List<RecipeCardComponent> byYou = new ArrayList<>();
 		componentMap.put(CREATED_BY_YOU_KEY, byYou);
 
 		for (Map<String, Object> recipe : recipeList) {
-			long id = (Long) recipe.get("recipeID");
+			long id = Long.parseLong(recipe.get("recipeID").toString());
 			String name  = recipe.get("recipeName").toString();
 			String category = recipe.get("recipeCategory").toString();
 			int cookTime = Integer.parseInt(recipe.get("recipeCookTime").toString());
@@ -68,7 +65,7 @@ public class recipePageController implements PageController {
 
 			group.add(sCard);
 
-			if ((Long) recipe.get("userID") == ControllerFactory.makeUserProfileController().getUserID()) {
+			if (Long.parseLong(recipe.get("userID").toString()) == ControllerFactory.makeUserProfileController().getUserID()) {
 				RecipeCardComponent yourCard = new RecipeCardComponent(id, name, category, cookTime, calories);
 				yourCard.getStyleClass().add("hightlightCard");
 				byYou.add(yourCard);

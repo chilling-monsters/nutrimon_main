@@ -101,7 +101,7 @@ public class ingredientPageController implements PageController {
 		ingrName.setText(Utility.parseFoodName(result.get("foodName").toString()));
 		ingrCategory.setText(result.get("fCategory").toString());
 		ingrAvgSpoilage.setText(String.format("%s Days", result.get("expTime").toString()));
-		ingrCalories.setText(String.format("%s kCal", result.get("fCalories").toString()));
+		ingrCalories.setText(String.format("%s Cal", result.get("fCalories").toString()));
 
 		ingrProtein.setText(result.get("fProtein").toString() + "g");
 		ingrTotalFat.setText(result.get("fTotalFat").toString() + "g");

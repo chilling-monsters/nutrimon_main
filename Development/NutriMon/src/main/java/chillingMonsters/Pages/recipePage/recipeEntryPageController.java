@@ -61,6 +61,9 @@ public class recipeEntryPageController implements PageController {
 	private ToggleButton addRecipeButton;
 
 	@FXML
+	private Label ingrCalories;
+
+	@FXML
 	private Label ingrProtein;
 
 	@FXML
@@ -119,6 +122,7 @@ public class recipeEntryPageController implements PageController {
 		List<Map<String, Object>> ingredientList = (List<Map<String, Object>>) result.get("ingredients");
 
 		boolean ready = true;
+		float calories = 0;
 		float protein = 0;
 		float totalFat = 0;
 		float satFat = 0;
@@ -141,31 +145,38 @@ public class recipeEntryPageController implements PageController {
 			Map<String, Object> ingrDetails = ingrController.getIngredient(foodID);
 			String ingrName = Utility.parseFoodName(ingrDetails.get("foodName").toString());
 
-			protein += Float.parseFloat(ingrDetails.get("fProtein").toString());
-			totalFat += Float.parseFloat(ingrDetails.get("fTotalFat").toString());
-			satFat += Float.parseFloat(ingrDetails.get("fSaturatedFat").toString());
-			cholesterol += Float.parseFloat(ingrDetails.get("fCholestero").toString());
-			carb += Float.parseFloat(ingrDetails.get("fCarbohydrate").toString());
-			sugar += Float.parseFloat(ingrDetails.get("fSugar").toString());
-			sodium += Float.parseFloat(ingrDetails.get("fSodium").toString());
-			calcium += Float.parseFloat(ingrDetails.get("fCalcium").toString());
-			iron += Float.parseFloat(ingrDetails.get("fIron").toString());
-			potassium += Float.parseFloat(ingrDetails.get("fPotassium").toString());
-			c += Float.parseFloat(ingrDetails.get("fVC").toString());
-			e += Float.parseFloat(ingrDetails.get("fVE").toString());
-			d += Float.parseFloat(ingrDetails.get("fVD").toString());
+			Float portion = amount / 100;
+			calories += Float.parseFloat(ingrDetails.get("fCalories").toString()) * portion;
+			protein += Float.parseFloat(ingrDetails.get("fProtein").toString()) * portion;
+			totalFat += Float.parseFloat(ingrDetails.get("fTotalFat").toString()) * portion;
+			satFat += Float.parseFloat(ingrDetails.get("fSaturatedFat").toString()) * portion;
+			cholesterol += Float.parseFloat(ingrDetails.get("fCholestero").toString()) * portion;
+			carb += Float.parseFloat(ingrDetails.get("fCarbohydrate").toString()) * portion;
+			sugar += Float.parseFloat(ingrDetails.get("fSugar").toString()) * portion;
+			sodium += Float.parseFloat(ingrDetails.get("fSodium").toString()) * portion;
+			calcium += Float.parseFloat(ingrDetails.get("fCalcium").toString()) * portion;
+			iron += Float.parseFloat(ingrDetails.get("fIron").toString()) * portion;
+			potassium += Float.parseFloat(ingrDetails.get("fPotassium").toString()) * portion;
+			c += Float.parseFloat(ingrDetails.get("fVC").toString()) * portion;
+			e += Float.parseFloat(ingrDetails.get("fVE").toString()) * portion;
+			d += Float.parseFloat(ingrDetails.get("fVD").toString()) * portion;
 
 			String labelTxt = String.format("%.0fg of %s", amount, ingrName);
-			Label ingrLabel = new Label(labelTxt);
+			Label ingrLabel = new Label();
 			ingrLabel.setWrapText(true);
 			ingrLabel.getStyleClass().add("recipeIngredientText");
 			ingrLabel.getStyleClass().add("detailText");
 			ingrLabel.getStyleClass().add("myButton");
+			ingrLabel.getStyleClass().add("card");
 
 			if (amount > stockAmount) {
 				ready = false;
 				ingrLabel.getStyleClass().add("secondaryHighlightTextt");
+				labelTxt = "+ " + labelTxt;
+			} else {
+				labelTxt = "- " + labelTxt;
 			}
+			ingrLabel.setText(labelTxt);
 
 			ingrLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
@@ -193,20 +204,21 @@ public class recipeEntryPageController implements PageController {
 		recipeDetail.setText(detail);
 		recipeReady.setText(readyTxt);
 
-		ingrProtein.setText(String.format("%.1f g", protein));
-		ingrTotalFat.setText(String.format("%.1f g", totalFat));
-		ingrSatFat.setText(String.format("%.1f g", satFat));
-		ingrCholesterol.setText(String.format("%.1f g", cholesterol));
-		ingrCarb.setText(String.format("%.1f g", carb));
-		ingrSugar.setText(String.format("%.1f g", sugar));
+		ingrCalories.setText(String.format("%.1f Cal", calories));
+		ingrProtein.setText(String.format("%.1f g Protein", protein));
+		ingrTotalFat.setText(String.format("%.1f g Fat", totalFat));
+		ingrSatFat.setText(String.format("%.1f g Sat. Fat", satFat));
+		ingrCholesterol.setText(String.format("%.1f g Cholesterol", cholesterol));
+		ingrCarb.setText(String.format("%.1f g CarbonHydrate", carb));
+		ingrSugar.setText(String.format("%.1f g Sugar", sugar));
 
-		ingrSodium.setText(String.format("%.1f g", sodium));
-		ingrCalcium.setText(String.format("%.1f g", calcium));
-		ingrIron.setText(String.format("%.1f g", iron));
-		ingrPotassium.setText(String.format("%.1f g", potassium));
-		ingreC.setText(String.format("%.1f g", c));
-		ingreE.setText(String.format("%.1f g", e));
-		ingreD.setText(String.format("%.1f g", d));
+		ingrSodium.setText(String.format("%.1f g Sodium", sodium));
+		ingrCalcium.setText(String.format("%.1f g Calcium", calcium));
+		ingrIron.setText(String.format("%.1f g Iron", iron));
+		ingrPotassium.setText(String.format("%.1f g Potassium", potassium));
+		ingreC.setText(String.format("%.1f g Vitamin C", c));
+		ingreE.setText(String.format("%.1f g Vitamin E", e));
+		ingreD.setText(String.format("%.1f g Vitamin D", d));
 
 		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
