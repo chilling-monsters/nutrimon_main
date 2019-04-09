@@ -50,7 +50,7 @@ public class stockPageController implements PageController {
 
       long id = (Long) stock.get("foodID");
       String name  = Utility.parseFoodName(stock.get("foodName").toString());
-      double amount = (Double) stock.get("quantity");
+      double amount = Double.parseDouble(stock.get("quantity").toString());
       long exp = (Long) stock.get("next_exp");
       String category = stock.get("fCategory").toString();
       StockCardComponent sCard = new StockCardComponent(id, name, amount, exp, category);

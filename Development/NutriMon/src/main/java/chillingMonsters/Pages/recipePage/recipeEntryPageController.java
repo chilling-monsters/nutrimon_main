@@ -20,7 +20,6 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
-import javax.rmi.CORBA.Util;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +60,45 @@ public class recipeEntryPageController implements PageController {
 	@FXML
 	private ToggleButton addRecipeButton;
 
+	@FXML
+	private Label ingrProtein;
+
+	@FXML
+	private Label ingrTotalFat;
+
+	@FXML
+	private Label ingrSatFat;
+
+	@FXML
+	private Label ingrCholesterol;
+
+	@FXML
+	private Label ingrCarb;
+
+	@FXML
+	private Label ingrSugar;
+
+	@FXML
+	private Label ingrSodium;
+
+	@FXML
+	private Label ingrCalcium;
+
+	@FXML
+	private Label ingrIron;
+
+	@FXML
+	private Label ingrPotassium;
+
+	@FXML
+	private Label ingreC;
+
+	@FXML
+	private Label ingreE;
+
+	@FXML
+	private Label ingreD;
+
 	public recipeEntryPageController(long recipeID) {
 		this.recipeID = recipeID;
 	}
@@ -75,19 +113,47 @@ public class recipeEntryPageController implements PageController {
 		String date = String.format("CREATED %s", Utility.parseDate((Timestamp) result.get("dateCreated")).toUpperCase());
 		String time = String.format("%d mins", result.get("recipeCookTime"));
 		String detail = result.get("recipeDescription").toString();
-		boolean ready = true;
 
 		IngredientController ingrController = ControllerFactory.makeIngredientController();
 		StockController stockController = ControllerFactory.makeStockController();
 		List<Map<String, Object>> ingredientList = (List<Map<String, Object>>) result.get("ingredients");
 
+		boolean ready = true;
+		float protein = 0;
+		float totalFat = 0;
+		float satFat = 0;
+		float cholesterol = 0;
+		float carb = 0;
+		float sugar = 0;
+		float sodium = 0;
+		float calcium = 0;
+		float iron = 0;
+		float potassium = 0;
+		float c = 0;
+		float e = 0;
+		float d = 0;
+
 		for (Map<String, Object> ingr : ingredientList) {
-			Long foodID = (Long) ingr.get("foodID");
-			Float amount = (Float) ingr.get("ingredientQtty");
+			Long foodID = Long.parseLong(ingr.get("foodID").toString());
+			Float amount = Float.parseFloat(ingr.get("ingredientQtty").toString());
 			Float stockAmount = stockController.getStockQuantity(foodID);
 
 			Map<String, Object> ingrDetails = ingrController.getIngredient(foodID);
 			String ingrName = Utility.parseFoodName(ingrDetails.get("foodName").toString());
+
+			protein += Float.parseFloat(ingrDetails.get("fProtein").toString());
+			totalFat += Float.parseFloat(ingrDetails.get("fTotalFat").toString());
+			satFat += Float.parseFloat(ingrDetails.get("fSaturatedFat").toString());
+			cholesterol += Float.parseFloat(ingrDetails.get("fCholestero").toString());
+			carb += Float.parseFloat(ingrDetails.get("fCarbohydrate").toString());
+			sugar += Float.parseFloat(ingrDetails.get("fSugar").toString());
+			sodium += Float.parseFloat(ingrDetails.get("fSodium").toString());
+			calcium += Float.parseFloat(ingrDetails.get("fCalcium").toString());
+			iron += Float.parseFloat(ingrDetails.get("fIron").toString());
+			potassium += Float.parseFloat(ingrDetails.get("fPotassium").toString());
+			c += Float.parseFloat(ingrDetails.get("fVC").toString());
+			e += Float.parseFloat(ingrDetails.get("fVE").toString());
+			d += Float.parseFloat(ingrDetails.get("fVD").toString());
 
 			String labelTxt = String.format("%.0fg of %s", amount, ingrName);
 			Label ingrLabel = new Label(labelTxt);
@@ -126,6 +192,21 @@ public class recipeEntryPageController implements PageController {
 		recipeCookTime.setText(time);
 		recipeDetail.setText(detail);
 		recipeReady.setText(readyTxt);
+
+		ingrProtein.setText(String.format("%.1f g", protein));
+		ingrTotalFat.setText(String.format("%.1f g", totalFat));
+		ingrSatFat.setText(String.format("%.1f g", satFat));
+		ingrCholesterol.setText(String.format("%.1f g", cholesterol));
+		ingrCarb.setText(String.format("%.1f g", carb));
+		ingrSugar.setText(String.format("%.1f g", sugar));
+
+		ingrSodium.setText(String.format("%.1f g", sodium));
+		ingrCalcium.setText(String.format("%.1f g", calcium));
+		ingrIron.setText(String.format("%.1f g", iron));
+		ingrPotassium.setText(String.format("%.1f g", potassium));
+		ingreC.setText(String.format("%.1f g", c));
+		ingreE.setText(String.format("%.1f g", e));
+		ingreD.setText(String.format("%.1f g", d));
 
 		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override

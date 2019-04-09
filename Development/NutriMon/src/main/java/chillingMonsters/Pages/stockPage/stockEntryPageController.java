@@ -193,7 +193,7 @@ public class stockEntryPageController implements PageController {
 
 		String name = ingredient.get("foodName").toString();
 		String category = ingredient.get("fCategory").toString();
-		avgSpoilageDays = (Integer) ingredient.get("expTime");
+		avgSpoilageDays = Integer.parseInt(ingredient.get("expTime").toString());
 
 		entryName.setText(Utility.parseFoodName(name));
 		entryCategory.setText(category);
@@ -213,7 +213,7 @@ public class stockEntryPageController implements PageController {
 				Long stockItemID = (Long) result.get("stockItemID");
 				Long timeLeft = (Long) result.get("time_left");
 				Timestamp addedDate = (Timestamp) result.get("added_date");
-				float amount = (Float) result.get("foodQtty");
+				float amount = Float.parseFloat(result.get("foodQtty").toString());
 				totalAmount += amount;
 
 				StockEntryCardComponent sCard = new StockEntryCardComponent(stockItemID, timeLeft, addedDate, amount);

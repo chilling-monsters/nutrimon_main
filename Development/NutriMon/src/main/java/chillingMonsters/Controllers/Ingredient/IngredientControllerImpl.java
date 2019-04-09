@@ -52,7 +52,7 @@ public class IngredientControllerImpl extends NutriMonController implements Ingr
     }
 
     for (String k : ingredient.keySet()) {
-      if (ingredient.get(k) == null) ingredient.put(k, 0);
+      if (ingredient.get(k) == null) ingredient.put(k, "0");
     }
 
     return ingredient;
