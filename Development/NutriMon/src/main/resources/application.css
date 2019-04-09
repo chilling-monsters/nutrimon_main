@@ -30,6 +30,10 @@
     -fx-pref-width: 300px;
     -fx-pref-height: 60px;
 }
+.recipe {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 150px;
+}
 
 .cardScrollPane > .viewport {
    -fx-background-color: transparent;
