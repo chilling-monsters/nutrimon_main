@@ -43,9 +43,10 @@ public class PageFactory {
 	}};
 
 	public static void setApp(StackPane s) {
-		appRoot = s;
-		appRoot.getChildren().add(menu.getPagePane());
-		appRoot.getChildren().add(login.getPagePane());
+		appRoot = new StackPane(login.getPagePane());
+		appRoot.setPickOnBounds(false);
+		s.getChildren().add(menu.getPagePane());
+		s.getChildren().add(appRoot);
 	}
 
 	public static Page getLoginPage() {
@@ -59,7 +60,8 @@ public class PageFactory {
 	}
 
 	public static Page getStockPage() {
-	  return new stockPage();
+	  stock = new stockPage();
+	  return stock;
     }
     public static Page getStockEntryPage(long foodID, PageOption option) {
 		return new stockEntryPage(foodID, option);
@@ -81,10 +83,12 @@ public class PageFactory {
 	}
 
 	public static Page getRecipePage() {
-		return new recipePage();
+		recipe = new recipePage();
+		return recipe;
 	}
 	public static Page getRecipeEntryPage(long recipeID) {
-		return new recipeEntryPage(recipeID);
+		recipeEntry = new recipeEntryPage(recipeID);
+		return recipeEntry;
 	}
 	public static Page getRecipeCreatePage(long recipeID, PageOption option) {
 		if (recipeCreate == null || recipeCreate.recipeID != recipeID || recipeCreate.option != option) {
@@ -131,6 +135,10 @@ public class PageFactory {
 		Timeline slide = new Timeline(start, end);
 		slide.setOnFinished(e -> appRoot.getChildren().remove(curP));
 		slide.play();
+
+		if (nextPage == search) menu.setSelected(0);
+		else if (nextPage == stock) menu.setSelected(3);
+		else if (nextPage == recipe) menu.setSelected(4);
 	}
 
 	public static void showMenu() {

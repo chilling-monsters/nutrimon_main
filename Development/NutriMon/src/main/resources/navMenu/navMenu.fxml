@@ -27,24 +27,24 @@
                   <String fx:value="pane" />
                </styleClass>
             </HBox>
-            <VBox fx:id="menuBar" spacing="20.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox fx:id="menuBar" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <HBox fx:id="search" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
+                  <HBox fx:id="search" prefHeight="60.0" prefWidth="200.0">
                      <children>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../img/Searchwhite2x.png" />
                            </image>
                            <HBox.margin>
-                              <Insets left="40.0" />
+                              <Insets left="40.0" top="12.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label text="Search" textFill="#f5a623">
+                        <Label text="Search" textFill="WHITE">
                            <font>
                               <Font name="SF Pro Display Regular" size="20.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="20.0" />
+                              <Insets left="20.0" top="10.0" />
                            </HBox.margin>
                            <styleClass>
                               <String fx:value="headerText" />
@@ -57,15 +57,18 @@
                         <String fx:value="myButton" />
                         <String fx:value="menuBar" />
                      </styleClass>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </HBox>
-                  <HBox fx:id="today" alignment="CENTER_LEFT" layoutX="10.0" layoutY="70.0" prefHeight="40.0" prefWidth="200.0">
+                  <HBox fx:id="today" layoutX="10.0" layoutY="70.0" prefHeight="60.0" prefWidth="200.0">
                      <children>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../img/Todaywhite2x.png" />
                            </image>
                            <HBox.margin>
-                              <Insets left="40.0" />
+                              <Insets left="40.0" top="14.0" />
                            </HBox.margin>
                         </ImageView>
                         <Label text="Today" textFill="WHITE">
@@ -73,7 +76,7 @@
                               <Font name="SF Pro Display Regular" size="20.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="20.0" />
+                              <Insets left="20.0" top="10.0" />
                            </HBox.margin>
                            <styleClass>
                               <String fx:value="headerText" />
@@ -87,14 +90,14 @@
                         <String fx:value="menuBar" />
                      </styleClass>
                   </HBox>
-                  <HBox fx:id="intake" alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0">
+                  <HBox fx:id="intake" layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="200.0">
                      <children>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../img/Intakewhite2x.png" />
                            </image>
                            <HBox.margin>
-                              <Insets left="40.0" />
+                              <Insets left="40.0" top="15.0" />
                            </HBox.margin>
                         </ImageView>
                         <Label text="Intake" textFill="WHITE">
@@ -102,7 +105,7 @@
                               <Font name="SF Pro Display Regular" size="20.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="20.0" />
+                              <Insets left="20.0" top="10.0" />
                            </HBox.margin>
                            <styleClass>
                               <String fx:value="headerText" />
@@ -116,14 +119,14 @@
                         <String fx:value="menuBar" />
                      </styleClass>
                   </HBox>
-                  <HBox fx:id="stock" alignment="CENTER_LEFT" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="200.0">
+                  <HBox fx:id="stock" layoutX="10.0" layoutY="50.0" prefHeight="60.0" prefWidth="200.0">
                      <children>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../img/Stockwhite2x.png" />
                            </image>
                            <HBox.margin>
-                              <Insets left="40.0" />
+                              <Insets left="40.0" top="13.0" />
                            </HBox.margin>
                         </ImageView>
                         <Label text="Stock" textFill="WHITE">
@@ -131,7 +134,7 @@
                               <Font name="SF Pro Display Regular" size="20.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="20.0" />
+                              <Insets left="20.0" top="10.0" />
                            </HBox.margin>
                            <styleClass>
                               <String fx:value="headerText" />
@@ -145,14 +148,14 @@
                         <String fx:value="menuBar" />
                      </styleClass>
                   </HBox>
-                  <HBox fx:id="recipe" alignment="CENTER_LEFT" layoutX="10.0" layoutY="90.0" prefHeight="40.0" prefWidth="200.0">
+                  <HBox fx:id="recipe" layoutX="10.0" layoutY="90.0" prefHeight="60.0" prefWidth="200.0">
                      <children>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../img/Recipeswhite2x.png" />
                            </image>
                            <HBox.margin>
-                              <Insets left="40.0" />
+                              <Insets left="40.0" top="14.0" />
                            </HBox.margin>
                         </ImageView>
                         <Label text="Recipes" textFill="WHITE">
@@ -160,7 +163,7 @@
                               <Font name="SF Pro Display Regular" size="20.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="20.0" />
+                              <Insets left="20.0" top="10.0" />
                            </HBox.margin>
                            <styleClass>
                               <String fx:value="headerText" />

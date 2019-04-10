@@ -125,9 +125,6 @@
     -fx-opacity : 1.0;
 }
 
-.menuBar:hover > .menuText {
-    -fx-text-fill: #F5A623;
-}
 .menuText {
     -fx-text-fill: white;
 }

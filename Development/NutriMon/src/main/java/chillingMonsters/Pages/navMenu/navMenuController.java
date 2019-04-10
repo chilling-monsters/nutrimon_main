@@ -2,6 +2,7 @@ package chillingMonsters.Pages.navMenu;
 
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
+import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -14,7 +15,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class navMenuController implements PageController {
+	private static Map<HBox, String> iconWhiteMap;
+	private static Map<HBox, String> iconOrangeMap;
+
 	@FXML
 	private HBox search;
 
@@ -42,18 +49,42 @@ public class navMenuController implements PageController {
 	@FXML
 	public void initialize() {
 		backButton.setOnMouseClicked(event -> handleBackOnClick());
-		search.setOnMouseEntered(event -> handleHover(search));
-		today.setOnMouseEntered(event -> handleHover(today));
-		intake.setOnMouseEntered(event -> handleHover(intake));
-		stock.setOnMouseEntered(event -> handleHover(stock));
-		recipe.setOnMouseEntered(event -> handleHover(recipe));
+		search.setOnMouseEntered(event -> highlightSelected(0));
+		today.setOnMouseEntered(event -> highlightSelected(1));
+		intake.setOnMouseEntered(event -> highlightSelected(2));
+		stock.setOnMouseEntered(event -> highlightSelected(3));
+		recipe.setOnMouseEntered(event -> highlightSelected(4));
+
+		search.setOnMouseClicked(event -> {
+			PageFactory.hideMenu();
+		});
+
+		this.iconWhiteMap = new HashMap<HBox, String>() {{
+			put(search, "img/Searchwhite2x.png");
+			put(today, "img/Todaywhite2x.png");
+			put(intake, "img/Intakewhite2x.png");
+			put(stock, "img/Stockwhite2x.png");
+			put(recipe, "img/Recipeswhite2x.png");
+
+		}};
+		this.iconOrangeMap = new HashMap<HBox, String>() {{
+			put(search, "img/Searchorange2x.png");
+			put(today, "img/Todayorange2x.png");
+			put(intake, "img/Intakeorange2x.png");
+			put(stock, "img/Stockorange2x.png");
+			put(recipe, "img/Recipesorange2x.png");
+
+		}};
+
+		highlightSelected(0);
 	}
 
 	private void handleBackOnClick() {
 		PageFactory.hideMenu();
 	}
 
-	private void handleHover(Node n) {
+	private void highlightSelected(int i) {
+		HBox n = (HBox) menuBar.getChildren().get(i);
 		KeyFrame start = new KeyFrame(Duration.ZERO,
 			new KeyValue(activeBox.layoutYProperty(), activeBox.getLayoutY()));
 		KeyFrame end = new KeyFrame(Duration.seconds(0.2),
@@ -61,5 +92,18 @@ public class navMenuController implements PageController {
 
 		Timeline slide = new Timeline(start, end);
 		slide.play();
+
+		for (Node m : menuBar.getChildren()) {
+			HBox b = (HBox) m;
+			b.getChildren().get(0).setStyle(String.format("-fx-image: url(%s);", iconWhiteMap.get(b)));
+			b.getChildren().get(1).setStyle("-fx-text-fill: white;");
+		}
+
+		n.getChildren().get(0).setStyle(String.format("-fx-image: url(%s);", iconOrangeMap.get(n)));
+		n.getChildren().get(1).setStyle("-fx-text-fill: #F5A623;");
+	}
+
+	public void setSelected(int i) {
+		highlightSelected(i);
 	}
 }
