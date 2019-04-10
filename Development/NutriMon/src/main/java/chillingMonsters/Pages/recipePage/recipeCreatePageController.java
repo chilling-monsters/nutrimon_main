@@ -206,7 +206,11 @@ public class recipeCreatePageController implements PageController {
 			case DEFAULT:
 				break;
 		}
-		PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
+		if (recipeID > 0) {
+			PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
+		} else {
+			PageFactory.toNextPage(PageFactory.getRecipePage());
+		}
 	}
 
 	private void handleCancelButton() {

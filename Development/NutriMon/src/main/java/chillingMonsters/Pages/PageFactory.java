@@ -124,10 +124,7 @@ public class PageFactory {
 		return recipe;
 	}
 	public static Page getRecipeEntryPage(long recipeID) {
-		if (recipeEntry == null || recipeEntry.recipeID != recipeID) {
-			recipeEntry = new recipeEntryPage(recipeID);
-		}
-		return recipeEntry;
+		return new recipeEntryPage(recipeID);
 	}
 	public static Page getRecipeCreatePage(long recipeID, PageOption option) {
 		if (recipeCreate == null || recipeCreate.recipeID != recipeID || recipeCreate.option != option) {
@@ -137,7 +134,7 @@ public class PageFactory {
 		return recipeCreate;
 	}
 	public static Page getRecipeCreatePage() {
-		return getRecipeCreatePage(0, PageOption.DEFAULT);
+		return getRecipeCreatePage(0, PageOption.RECIPE);
 	}
 	public static Page getRecipeForm() {
 		return recipeCreate;

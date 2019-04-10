@@ -70,6 +70,7 @@ public class Utility {
 		put("SAU", "SAUCE");
 		put("NOVLT", "NOVELTY");
 		put("VAN", "VANILLA");
+		put("SWT", "SWEET");
 	}};
 
 	public static String parseFoodName(String name) {
