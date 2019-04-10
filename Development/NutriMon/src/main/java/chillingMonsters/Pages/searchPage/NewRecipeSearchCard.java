@@ -1,11 +1,7 @@
 package chillingMonsters.Pages.searchPage;
 
 import chillingMonsters.Pages.PageFactory;
-import chillingMonsters.Pages.PageOption;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
@@ -24,16 +20,10 @@ public class NewRecipeSearchCard extends AnchorPane {
 			throw new RuntimeException(e);
 		}
 
-		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				handleOnClick(event);
-			}
-		});
+		this.setOnMouseClicked(event -> handleOnClick());
 	}
 
-	public void handleOnClick(MouseEvent event) {
-		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-		PageFactory.getRecipeCreatePage().startPage(e);
+	public void handleOnClick() {
+		PageFactory.toNextPage(PageFactory.getRecipeCreatePage());
 	}
 }

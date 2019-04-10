@@ -6,15 +6,16 @@ import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class stockPageController implements PageController {
   private static String EXPIRE_KEY = "Expires Soon";
@@ -78,15 +79,13 @@ public class stockPageController implements PageController {
   }
 
   @FXML
-  void stockCreateButtonAction(ActionEvent event) {
-    PageFactory.getSearchPage(PageOption.STOCK).startPage(event);
+  void stockCreateButtonAction() {
+    PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.STOCK));
   }
 
   @FXML
-  void onMenuClicked(MouseEvent event) {
-    ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-
-    PageFactory.getSearchPage().startPage(e);
+  void onMenuClicked() {
+    PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.DEFAULT));
   }
 
   private void addToList(String label, List<StockCardComponent> group) {

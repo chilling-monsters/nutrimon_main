@@ -1,12 +1,10 @@
 package chillingMonsters.Pages.stockPage;
 
 import chillingMonsters.Pages.PageFactory;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import chillingMonsters.Pages.PageOption;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
@@ -34,12 +32,7 @@ public class StockCardComponent extends AnchorPane {
     fxmlLoader.setRoot(this);
     fxmlLoader.setController(this);
 
-    this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent event) {
-        handleOnClick(event);
-      }
-    });
+    this.setOnMouseClicked(event -> handleOnClick());
 
     try {
       fxmlLoader.load();
@@ -57,9 +50,7 @@ public class StockCardComponent extends AnchorPane {
     cardExpDate.setText(expDate);
   }
 
-  private void handleOnClick(MouseEvent event) {
-    ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-
-    PageFactory.getStockEntryPage(foodID).startPage(e);
+  private void handleOnClick() {
+    PageFactory.toNextPage(PageFactory.getStockEntryPage(foodID, PageOption.DEFAULT));
   }
 }

@@ -10,9 +10,7 @@ import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -110,34 +108,15 @@ public class stockEntryPageController implements PageController {
 			toggleForm(false);
 		}
 
-		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				handleBackOnClick(event);
-			}
-		});
+		backButton.setOnMouseClicked(event -> handleBackOnClick());
+		moreButton.setOnMouseClicked(event -> handleMoreOnClick());
+		addStockButton.setOnAction(event -> handleAddStock());
+		deleteEntryButton.setOnAction(event -> handleDeleteStock());
+		cancelEntryButton.setOnAction(event -> handleCancel());
+		scrollList.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
+		adjustSizePane.setOnScroll(event -> handleCardScroll(event));
 
-		moreButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				handleMoreOnClick(event);
-			}
-		});
-
-		addStockButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleAddStock();
-			}
-		});
-
-		amountTxF.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleAddStock();
-			}
-		});
-
+		amountTxF.setOnAction(event -> handleAddStock());
 		amountTxF.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -147,38 +126,10 @@ public class stockEntryPageController implements PageController {
 			}
 		});
 
-		deleteEntryButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleDeleteStock();
-			}
-		});
-
-		cancelEntryButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleCancel();
-			}
-		});
-
 		dateTxF.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			@Override
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
 				handleDateChange(newValue);
-			}
-		});
-
-		scrollList.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleListScroll(event);
-			}
-		});
-
-		adjustSizePane.setOnScroll(new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleCardScroll(event);
 			}
 		});
 	}
@@ -220,12 +171,7 @@ public class stockEntryPageController implements PageController {
 
 				if (timeLeft <= Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("hightlightCard");
 
-				sCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						handleCardClick(event);
-					}
-				});
+				sCard.setOnMouseClicked(event -> handleCardClick(event));
 
 				entryList.getChildren().add(sCard);
 			}
@@ -234,21 +180,18 @@ public class stockEntryPageController implements PageController {
 		entryTotalAmount.setText(String.format("%.0f g", totalAmount));
 	}
 
-	private void handleBackOnClick(MouseEvent event) {
+	private void handleBackOnClick() {
 		if (showForm) {
 			handleCancel();
 		} else {
-			ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-			PageFactory.getStockPage().startPage(e);
+			PageFactory.toNextPage(PageFactory.getStockPage());
 		}
 
 	}
 
-	private void handleMoreOnClick(MouseEvent event) {
+	private void handleMoreOnClick() {
 		handleCancel();
-
-		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-		PageFactory.getIngredientPage(foodID).startPage(e);
+		PageFactory.toNextPage(PageFactory.getIngredientPage(foodID));
 	}
 
 	private void handleAddStock() {

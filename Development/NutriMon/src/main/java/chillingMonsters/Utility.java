@@ -10,6 +10,7 @@ public class Utility {
 	public static final int SPOILAGE_WARNING_DAYS = 5;
 	public static final int TEXTFIELD_MAX_LENGTH = 9;
 	public static final int CACHE_MAX_SIZE = 10;
+	public static final float STD_TRANSITION_TIME = 0.5F;
 
 	static String[] suffixes = {
 		//0     1     2     3     4     5     6     7     8     9

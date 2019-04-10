@@ -83,13 +83,12 @@ public class registerPageController implements PageController {
 
         // Update database
         register.createProfile(name, email, new_password);
-
-        PageFactory.getStockPage().startPage(event);
+        PageFactory.toNextPage(PageFactory.getLandingPage());
     }
 
     @FXML
     void cancelButtonAction(ActionEvent event) {
-        PageFactory.getLoginPage().startPage(event);
+        PageFactory.toNextPage(PageFactory.getLoginPage());
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete

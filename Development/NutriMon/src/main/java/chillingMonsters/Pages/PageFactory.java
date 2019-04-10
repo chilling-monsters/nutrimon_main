@@ -9,135 +9,131 @@ import chillingMonsters.Pages.registerPage.registerPage;
 import chillingMonsters.Pages.searchPage.searchPage;
 import chillingMonsters.Pages.stockPage.stockEntryPage;
 import chillingMonsters.Pages.stockPage.stockPage;
+import chillingMonsters.Utility;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PageFactory {
-  private static List<Page> pageHistory = new ArrayList<>();
+public class PageFactory {
+	private static StackPane appRoot;
 
-  private static loginPage login = null;
-  private static registerPage register = null;
+	private static loginPage login = new loginPage();
+	private static registerPage register = new registerPage();
 
-  private static stockPage stock = null;
-  private static stockEntryPage stockEntry = null;
+	private static stockPage stock;
+	private static stockEntryPage stockEntry;
+	private static ingredientPage ingredient;
 
-  private static searchPage search = null;
+	private static searchPage search;
 
-  private static ingredientPage ingredient = null;
+	private static recipePage recipe;
+	private static recipeEntryPage recipeEntry;
+	private static recipeCreatePage recipeCreate;
 
-  private static recipePage recipe = null;
-  private static recipeEntryPage recipeEntry = null;
-  private static recipeCreatePage recipeCreate = null;
+	private static List<Page> pageHistory = new ArrayList<Page>() {{
+		add(login);
+	}};
 
-  public static Page getLastPage() {
-    if (pageHistory.isEmpty()) {
-      return stock;
-    } else {
-      pageHistory.remove(0);
-      return pageHistory.get(0);
+	public static void setApp(StackPane s) {
+		appRoot = s;
+	}
+
+	public static Page getLoginPage() {
+		return login;
+	}
+	public static Page getRegisterPage() {
+		return register;
+	}
+	public static Page getLandingPage() {
+		return getStockPage();
+	}
+
+	public static Page getStockPage() {
+	  if (stock == null) stock = new stockPage();
+	  return stock;
     }
-  }
-
-  private static void addToHistory(Page newPage) {
-    for (Page p : pageHistory) {
-      if (p == newPage) {
-        pageHistory.remove(p);
-        pageHistory.add(0, newPage);
-        return;
-      }
-    }
-
-    pageHistory.add(0, newPage);
-  }
-
-  public static Page getLandingPage() {
-    //TODO: Landing page here
-    return getRecipePage();
-  }
-
-  public static loginPage getLoginPage() {
-    if (login == null) login = new loginPage();
-
-    addToHistory(login);
-    return login;
-  }
-
-  public static registerPage getRegisterPage() {
-    if (register == null) register = new registerPage();
-
-    addToHistory(register);
-    return register;
-  }
-
-  public static stockPage getStockPage() {
-    if (stock == null) stock = new stockPage();
-
-    addToHistory(stock);
-    return stock;
-  }
-
-  public static searchPage getSearchPage(PageOption option) {
-    if (search == null || search.option != option) {
-      search = new searchPage(option);
-    }
-
-    addToHistory(search);
-    return search;
-  }
-
-  public static searchPage getSearchPage() {
-    return getSearchPage(PageOption.DEFAULT);
-  }
-
-  public static stockEntryPage getStockEntryPage(long foodID, PageOption option) {
+    public static Page getStockEntryPage(long foodID, PageOption option) {
     if (stockEntry == null || stockEntry.foodID != foodID || stockEntry.option != option) {
       stockEntry = new stockEntryPage(foodID, option);
     }
 
-    addToHistory(stockEntry);
     return stockEntry;
   }
+	public static Page getIngredientPage(long foodID) {
+		if (ingredient == null || ingredient.foodID != foodID) {
+			ingredient = new ingredientPage(foodID);
+		}
 
-  public static stockEntryPage getStockEntryPage(long foodID) {
-    return getStockEntryPage(foodID, PageOption.DEFAULT);
-  }
+		return ingredient;
+	}
 
-  public static ingredientPage getIngredientPage(long foodID) {
-    if (ingredient == null || ingredient.foodID != foodID) {
-      ingredient = new ingredientPage(foodID);
-    }
+	public static Page getSearchPage(PageOption option) {
+		if (search == null || search.option != option) {
+			search = new searchPage(option);
+		}
 
-    addToHistory(ingredient);
-    return ingredient;
-  }
+		return search;
+	}
 
-  public static recipePage getRecipePage() {
-    if (recipe == null) recipe = new recipePage();
+	public static Page getRecipePage() {
+		if (recipe == null) recipe = new recipePage();
+		return recipe;
+	}
+	public static Page getRecipeEntryPage(long recipeID) {
+		if (recipeEntry == null || recipeEntry.recipeID != recipeID) {
+			recipeEntry = new recipeEntryPage(recipeID);
+		}
 
-    addToHistory(recipe);
-    return recipe;
-  }
+		return recipeEntry;
+	}
+	public static Page getRecipeCreatePage(long recipeID, PageOption option) {
+		if (recipeCreate == null || recipeCreate.recipeID != recipeID || recipeCreate.option != option) {
+			recipeCreate = new recipeCreatePage(recipeID, option);
+		}
 
-  public static recipeEntryPage getRecipeEntryPage(long recipeID) {
-    if (recipeEntry == null || recipeEntry.recipeID != recipeID) {
-      recipeEntry = new recipeEntryPage(recipeID);
-    }
+		return recipeCreate;
+	}
+	public static Page getRecipeCreatePage() {
+		return getRecipeCreatePage(0, PageOption.DEFAULT);
+	}
 
-    addToHistory(recipeEntry);
-    return recipeEntry;
-  }
+	public static Page getLastPage() {
+		if (pageHistory.isEmpty()) {
+			return login;
+		} else if (pageHistory.size() == 1) {
+			return pageHistory.get(0);
+		} else {
+			return pageHistory.get(1);
+		}
+	}
 
-  public static recipeCreatePage getRecipeCreatePage(long recipeID, PageOption option) {
-    if (recipeCreate == null || recipeCreate.recipeID != recipeID || recipeCreate.option != option) {
-      recipeCreate = new recipeCreatePage(recipeID, option);
-    }
+	public static void toNextPage(Page nextPage) {
+		Page currentPage = pageHistory.get(0);
 
-    addToHistory(recipeCreate);
-    return recipeCreate;
-  }
+		if (pageHistory.contains(nextPage)) pageHistory.remove(nextPage);
+		pageHistory.add(0, nextPage);
 
-  public static recipeCreatePage getRecipeCreatePage() {
-    return getRecipeCreatePage(0, PageOption.DEFAULT);
-  }
+		AnchorPane nxtP = nextPage.getPagePane();
+		AnchorPane curP = currentPage.getPagePane();
+		appRoot.getChildren().add(nxtP);
+
+		KeyFrame start = new KeyFrame(Duration.ZERO,
+			new KeyValue(nxtP.opacityProperty(), 0),
+			new KeyValue(curP.opacityProperty(), 1));
+		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
+			new KeyValue(nxtP.opacityProperty(), 1),
+			new KeyValue(curP.opacityProperty(), 0));
+
+		Timeline slide = new Timeline(start, end);
+		slide.setOnFinished(e -> {
+			appRoot.getChildren().remove(curP);
+		});
+		slide.play();
+	}
 }

@@ -57,12 +57,12 @@ public class loginPageController implements PageController {
             return;
         }
 
-        PageFactory.getLandingPage().startPage(event);
+        PageFactory.toNextPage(PageFactory.getLandingPage());
     }
 
     @FXML
     void registerButtonAction(ActionEvent event) {
-        PageFactory.getRegisterPage().startPage(event);
+        PageFactory.toNextPage(PageFactory.getRegisterPage());
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete

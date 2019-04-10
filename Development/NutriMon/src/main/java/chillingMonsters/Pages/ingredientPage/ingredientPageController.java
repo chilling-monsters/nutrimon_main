@@ -6,15 +6,12 @@ import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -118,42 +115,23 @@ public class ingredientPageController implements PageController {
 		ingreE.setText(result.get("fVE").toString() + "g");
 		ingreD.setText(result.get("fVD").toString() + "g");
 
-		addToStockButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				PageFactory.getStockEntryPage(ingredientID, PageOption.STOCK).startPage(event);
-			}
-		});
+		addToStockButton.setOnAction(event -> handleAddToStock());
+		backButton.setOnMouseClicked(event -> handleBackOnClick());
+		moreButton.setOnMouseClicked(event -> handleOnClick());
+		cardScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
+		adjustSizeCard.setOnScroll(event -> handleCardScroll(event));
+	}
 
-		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-				PageFactory.getLastPage().startPage(e);
-			}
-		});
+	private void handleAddToStock() {
+		PageFactory.toNextPage(PageFactory.getStockEntryPage(ingredientID, PageOption.STOCK));
+	}
 
-		moreButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-				PageFactory.getStockEntryPage(ingredientID).startPage(e);
-			}
-		});
+	private void handleBackOnClick() {
+		PageFactory.toNextPage(PageFactory.getLastPage());
+	}
 
-		cardScrollPane.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleListScroll(event);
-			}
-		});
-
-		adjustSizeCard.setOnScroll(new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleCardScroll(event);
-			}
-		});
+	private void handleOnClick() {
+		PageFactory.toNextPage(PageFactory.getStockEntryPage(ingredientID, PageOption.DEFAULT));
 	}
 
 	private void handleCardScroll(ScrollEvent event) {

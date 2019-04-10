@@ -7,17 +7,13 @@ import chillingMonsters.Controllers.Recipe.RecipeController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
-import chillingMonsters.Pages.searchPage.SearchCardComponent;
 import chillingMonsters.Utility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -110,67 +106,24 @@ public class recipeCreatePageController implements PageController {
 			RecipeCreateIngredientCardComponent ingrCard = new RecipeCreateIngredientCardComponent(foodID,0F, name, category);
 			ingredientList.getChildren().add(ingrCard);
 
-			ingrCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent event) {
+			ingrCard.setOnMouseClicked(event -> {
 					if (AlertHandler.showConfirmationAlert("Are you sure?", "This ingredient will be removed from the recipe")) {
 						ingredientList.getChildren().remove(ingrCard);
 					}
 				}
-			});
+			);
 
 			ingrCard.amountProperty().bindBidirectional(ingrMap.get(foodID));
 		}
 
-		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-				handleCancelButton(e);
-			}
-		});
+		backButton.setOnMouseClicked(event -> handleCancelButton());
+		addIngredientButton.setOnAction(event -> handleAddIngredient());
+		saveRecipeButton.setOnAction(event -> handleCreateButton());
+		cancelRecipeButton.setOnAction(event -> handleCancelButton());
+		deleteRecipeButton.setOnAction(event -> handleDeleteButton());
 
-		formList.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleFormScroll(event);
-			}
-		});
-
-		createCard.setOnScroll(new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleCardScroll(event);
-			}
-		});
-
-		addIngredientButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleAddIngredient(event);
-			}
-		});
-
-		saveRecipeButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleCreateButton(event);
-			}
-		});
-
-		cancelRecipeButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleCancelButton(event);
-			}
-		});
-
-		deleteRecipeButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleDeleteButton(event);
-			}
-		});
+		formList.addEventFilter(ScrollEvent.SCROLL, event -> handleFormScroll(event));
+		createCard.setOnScroll(event -> handleCardScroll(event));
 	}
 
 	private void handleFormScroll(ScrollEvent event) {
@@ -202,8 +155,8 @@ public class recipeCreatePageController implements PageController {
 		}
 	}
 
-	private void handleAddIngredient(ActionEvent event) {
-		PageFactory.getSearchPage(PageOption.UPDATE).startPage(event);
+	private void handleAddIngredient() {
+		PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.UPDATE));
 	}
 
 	public void addToIngredientList(long foodID, float amount) {
@@ -212,7 +165,7 @@ public class recipeCreatePageController implements PageController {
 		ingrMap.put(foodID, new SimpleStringProperty(amount == 0 ? "g" : String.format("%.0fg", amount)));
 	}
 
-	private void handleCreateButton(ActionEvent event) {
+	private void handleCreateButton() {
 		String name = cachedName.getValue().trim();
 		String category = cachedCategory.getValue().trim();
 		String details = cachedFormDetails.getValue().trim();
@@ -270,22 +223,22 @@ public class recipeCreatePageController implements PageController {
 			case DEFAULT:
 				break;
 		}
-		PageFactory.getRecipeEntryPage(recipeID).startPage(event);
+		PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
 	}
 
-	private void handleCancelButton(ActionEvent event) {
+	private void handleCancelButton() {
 		boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
 		if (confirmed) {
-			PageFactory.getLastPage().startPage(event);
+			PageFactory.toNextPage(PageFactory.getLastPage());
 		}
 	}
 
-	private void handleDeleteButton(ActionEvent event) {
+	private void handleDeleteButton() {
 		boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "This recipe will be deleted");
 		if (confirmed) {
 			RecipeController controller = ControllerFactory.makeRecipeController();
 			controller.deleteRecipe(recipeID);
-			PageFactory.getRecipePage().startPage(event);
+			PageFactory.toNextPage(PageFactory.getRecipePage());
 		}
 	}
 }

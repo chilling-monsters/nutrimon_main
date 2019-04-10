@@ -8,15 +8,12 @@ import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -177,13 +174,7 @@ public class recipeEntryPageController implements PageController {
 
 			recipeIngredientsList.getChildren().add(ingrLabel);
 
-			ingrLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent event) {
-					ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-					PageFactory.getStockEntryPage(foodID).startPage(e);
-				}
-			});
+			ingrLabel.setOnMouseClicked(event -> handleOnIngridentCardClick(foodID));
 		}
 
 		String readyTxt = "";
@@ -217,54 +208,51 @@ public class recipeEntryPageController implements PageController {
 		ingreE.setText(String.format("%.1f g Vitamin E", e));
 		ingreD.setText(String.format("%.1f g Vitamin D", d));
 
-		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-				PageFactory.getRecipePage().startPage(e);
-			}
-		});
+		backButton.setOnMouseClicked(event -> handleBackOnClick());
+		addRecipeButton.setOnAction(event -> handleAddRecipe());
+		recipeName.setOnMouseClicked(event -> handleNameClick());
+		moreButton.setOnMouseClicked(event -> handleMoreClick());
+
+		scrollRecipeDetailPane.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
+		recipeCard.setOnScroll(event -> handleCardScroll(event));
 
 		scrollRecipeDetailPane.setMinHeight(scrollRecipeDetailPane.getMinHeight() - recipeName.getHeight() + recipeName.getMinHeight());
-		scrollRecipeDetailPane.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleListScroll(event);
-			}
-		});
-
-		recipeCard.setOnScroll(new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleCardScroll(event);
-			}
-		});
-
 		if (controller.isSaved(recipeID)) {
 			addRecipeButton.setText("Saved");
 			addRecipeButton.setSelected(true);
 		}
+	}
 
-		addRecipeButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleAddRecipe(event);
-			}
-		});
+	private void handleBackOnClick() {
+		PageFactory.toNextPage(PageFactory.getLastPage());
+	}
 
-		recipeName.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				handleNameClick();
-			}
-		});
+	private void handleOnIngridentCardClick(long foodID) {
+		PageFactory.toNextPage(PageFactory.getIngredientPage(foodID));
+	}
 
-		moreButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				handleMoreClick(event);
-			}
-		});
+	private void handleAddRecipe() {
+		RecipeController controller = ControllerFactory.makeRecipeController();
+
+		if (addRecipeButton.isSelected()) {
+			addRecipeButton.setText("Saved");
+			controller.saveRecipe(recipeID);
+		} else {
+			addRecipeButton.setText("+");
+			controller.unsaveRecipe(recipeID);
+		}
+	}
+
+	private void handleNameClick() {
+		if (recipeName.getMaxHeight() == 30) {
+			recipeName.setMaxHeight(Double.POSITIVE_INFINITY);
+		} else {
+			recipeName.setMaxHeight(30);
+		}
+	}
+
+	private void handleMoreClick() {
+		PageFactory.toNextPage(PageFactory.getRecipeCreatePage(recipeID, PageOption.UPDATE));
 	}
 
 	private void handleListScroll(ScrollEvent event) {
@@ -294,30 +282,5 @@ public class recipeEntryPageController implements PageController {
 		if (recipeCard.getHeight() > recipeCard.getMinHeight()) {
 			scrollRecipeDetailPane.setMaxHeight(scrollRecipeDetailPane.getMaxHeight() + diffHeight);
 		}
-	}
-
-	private void handleAddRecipe(ActionEvent event) {
-		RecipeController controller = ControllerFactory.makeRecipeController();
-
-		if (addRecipeButton.isSelected()) {
-			addRecipeButton.setText("Saved");
-			controller.saveRecipe(recipeID);
-		} else {
-			addRecipeButton.setText("+");
-			controller.unsaveRecipe(recipeID);
-		}
-	}
-
-	private void handleNameClick() {
-		if (recipeName.getMaxHeight() == 30) {
-			recipeName.setMaxHeight(Double.POSITIVE_INFINITY);
-		} else {
-			recipeName.setMaxHeight(30);
-		}
-	}
-
-	private void handleMoreClick(MouseEvent event) {
-		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-		PageFactory.getRecipeCreatePage(recipeID, PageOption.UPDATE).startPage(e);
 	}
 }
