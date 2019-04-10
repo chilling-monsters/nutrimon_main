@@ -224,7 +224,7 @@ public class recipeEntryPageController implements PageController {
 	}
 
 	private void handleBackOnClick() {
-		PageFactory.toNextPage(PageFactory.getLastPage());
+		PageFactory.toNextPage(PageFactory.getRecipePage());
 	}
 
 	private void handleOnIngridentCardClick(long foodID) {

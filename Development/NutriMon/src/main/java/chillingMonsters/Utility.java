@@ -66,6 +66,8 @@ public class Utility {
 		put("SPRD", "SPREAD");
 		put("WHL", "WHOLE");
 		put("SAU", "SAUCE");
+		put("NOVLT", "NOVELTY");
+		put("VAN", "VANILLA");
 	}};
 
 	public static String parseFoodName(String name) {

@@ -55,16 +55,11 @@ public class PageFactory {
 	}
 
 	public static Page getStockPage() {
-	  if (stock == null) stock = new stockPage();
-	  return stock;
+	  return new stockPage();
     }
     public static Page getStockEntryPage(long foodID, PageOption option) {
-    if (stockEntry == null || stockEntry.foodID != foodID || stockEntry.option != option) {
-      stockEntry = new stockEntryPage(foodID, option);
-    }
-
-    return stockEntry;
-  }
+		return new stockEntryPage(foodID, option);
+	}
 	public static Page getIngredientPage(long foodID) {
 		if (ingredient == null || ingredient.foodID != foodID) {
 			ingredient = new ingredientPage(foodID);
@@ -82,15 +77,10 @@ public class PageFactory {
 	}
 
 	public static Page getRecipePage() {
-		if (recipe == null) recipe = new recipePage();
-		return recipe;
+		return new recipePage();
 	}
 	public static Page getRecipeEntryPage(long recipeID) {
-		if (recipeEntry == null || recipeEntry.recipeID != recipeID) {
-			recipeEntry = new recipeEntryPage(recipeID);
-		}
-
-		return recipeEntry;
+		return new recipeEntryPage(recipeID);
 	}
 	public static Page getRecipeCreatePage(long recipeID, PageOption option) {
 		if (recipeCreate == null || recipeCreate.recipeID != recipeID || recipeCreate.option != option) {
@@ -121,7 +111,10 @@ public class PageFactory {
 
 		AnchorPane nxtP = nextPage.getPagePane();
 		AnchorPane curP = currentPage.getPagePane();
-		appRoot.getChildren().add(nxtP);
+
+		if (!appRoot.getChildren().contains(nxtP)) {
+			appRoot.getChildren().add(nxtP);
+		}
 
 		KeyFrame start = new KeyFrame(Duration.ZERO,
 			new KeyValue(nxtP.opacityProperty(), 0),

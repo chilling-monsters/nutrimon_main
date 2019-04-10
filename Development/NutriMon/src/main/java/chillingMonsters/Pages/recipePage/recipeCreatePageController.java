@@ -97,24 +97,7 @@ public class recipeCreatePageController implements PageController {
 			}
 		}
 
-		for (long foodID : ingrMap.keySet()) {
-			IngredientController ingrController = ControllerFactory.makeIngredientController();
-			Map<String, Object> result =  ingrController.getIngredient(foodID);
-			String name = Utility.parseFoodName(result.get("foodName").toString());
-			String category = result.get("fCategory").toString();
-
-			RecipeCreateIngredientCardComponent ingrCard = new RecipeCreateIngredientCardComponent(foodID,0F, name, category);
-			ingredientList.getChildren().add(ingrCard);
-
-			ingrCard.setOnMouseClicked(event -> {
-					if (AlertHandler.showConfirmationAlert("Are you sure?", "This ingredient will be removed from the recipe")) {
-						ingredientList.getChildren().remove(ingrCard);
-					}
-				}
-			);
-
-			ingrCard.amountProperty().bindBidirectional(ingrMap.get(foodID));
-		}
+		renderIngredientList();
 
 		backButton.setOnMouseClicked(event -> handleCancelButton());
 		addIngredientButton.setOnAction(event -> handleAddIngredient());
@@ -163,6 +146,7 @@ public class recipeCreatePageController implements PageController {
 		if (ingrMap.containsKey(foodID)) return;
 
 		ingrMap.put(foodID, new SimpleStringProperty(amount == 0 ? "g" : String.format("%.0fg", amount)));
+		renderIngredientList();
 	}
 
 	private void handleCreateButton() {
@@ -229,7 +213,11 @@ public class recipeCreatePageController implements PageController {
 	private void handleCancelButton() {
 		boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
 		if (confirmed) {
-			PageFactory.toNextPage(PageFactory.getLastPage());
+			if (option == PageOption.UPDATE) {
+				PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
+			} else {
+				PageFactory.toNextPage(PageFactory.getRecipePage());
+			}
 		}
 	}
 
@@ -239,6 +227,29 @@ public class recipeCreatePageController implements PageController {
 			RecipeController controller = ControllerFactory.makeRecipeController();
 			controller.deleteRecipe(recipeID);
 			PageFactory.toNextPage(PageFactory.getRecipePage());
+		}
+	}
+
+	private void renderIngredientList() {
+		ingredientList.getChildren().clear();
+		for (long foodID : ingrMap.keySet()) {
+			IngredientController ingrController = ControllerFactory.makeIngredientController();
+			Map<String, Object> result =  ingrController.getIngredient(foodID);
+			String name = Utility.parseFoodName(result.get("foodName").toString());
+			String category = result.get("fCategory").toString();
+
+			RecipeCreateIngredientCardComponent ingrCard = new RecipeCreateIngredientCardComponent(foodID,0F, name, category);
+			ingredientList.getChildren().add(ingrCard);
+
+			ingrCard.setOnMouseClicked(event -> {
+					if (AlertHandler.showConfirmationAlert("Are you sure?", "This ingredient will be removed from the recipe")) {
+						ingredientList.getChildren().remove(ingrCard);
+						ingrMap.remove(foodID);
+					}
+				}
+			);
+
+			ingrCard.amountProperty().bindBidirectional(ingrMap.get(foodID));
 		}
 	}
 }

@@ -20,10 +20,14 @@ public abstract class PageImpl implements Page {
 
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(fxmlLocation));
 
-		if (controller != null) loader.setController(controller);
+		if (controller != null) {
+			loader.setController(controller);
+			this.controller = controller;
+		}
 
 		try {
 			pagePane = loader.load();
+			if (controller == null) this.controller = loader.getController();
 		} catch (IOException e){
 			e.printStackTrace();
 		}

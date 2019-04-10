@@ -47,7 +47,7 @@
         </Label>
         <AnchorPane fx:id="adjustSizeCard" maxHeight="660.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
             <children>
-            <ScrollPane fx:id="cardScrollPane" hbarPolicy="NEVER" prefHeight="200.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0">
+            <ScrollPane fx:id="cardScrollPane" hbarPolicy="NEVER" prefHeight="200.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0">
               <content>
                 <AnchorPane>
                      <children>
@@ -67,7 +67,7 @@
                                         <children>
                                             <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                 <children>
-                                                    <Label fx:id="ingrAvgSpoilage" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Fresh Time" textAlignment="RIGHT" textFill="#f5a623">
+                                                    <Label fx:id="ingrAvgSpoilage" prefHeight="30.0" prefWidth="100.0" styleClass="titleText" text="Fresh Time" textAlignment="RIGHT" textFill="#f5a623">
                                                         <font>
                                                             <Font name="SF Pro Display Regular" size="25.0" />
                                                         </font>
@@ -84,7 +84,7 @@
                                             </VBox>
                                             <VBox alignment="TOP_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                 <children>
-                                                    <Label fx:id="ingrCalories" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Calories" textAlignment="RIGHT" textFill="#f5a623">
+                                                    <Label fx:id="ingrCalories" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="180.0" styleClass="titleText" text="Calories" textAlignment="RIGHT" textFill="#f5a623">
                                                         <font>
                                                             <Font name="SF Pro Display Regular" size="25.0" />
                                                         </font>
@@ -309,11 +309,6 @@
                               </AnchorPane>
                                 </children>
                             </VBox>
-                        <ImageView fx:id="moreButton" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" styleClass="myButton" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="7.0">
-                           <image>
-                              <Image url="@../img/ic_more2x.png" />
-                           </image>
-                        </ImageView>
                      </children>
                   </AnchorPane>
               </content>

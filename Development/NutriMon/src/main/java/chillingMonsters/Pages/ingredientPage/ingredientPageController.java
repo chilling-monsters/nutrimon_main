@@ -24,9 +24,6 @@ public class ingredientPageController implements PageController {
 	private ImageView backButton;
 
 	@FXML
-	private ImageView moreButton;
-
-	@FXML
 	private Label ingrName;
 
 	@FXML
@@ -98,7 +95,7 @@ public class ingredientPageController implements PageController {
 		ingrName.setText(Utility.parseFoodName(result.get("foodName").toString()));
 		ingrCategory.setText(result.get("fCategory").toString());
 		ingrAvgSpoilage.setText(String.format("%s Days", result.get("expTime").toString()));
-		ingrCalories.setText(String.format("%s Calories", result.get("fCalories").toString()));
+		ingrCalories.setText(String.format("%.0f Calories", Float.parseFloat(result.get("fCalories").toString())));
 
 		ingrProtein.setText(result.get("fProtein").toString() + "g");
 		ingrTotalFat.setText(result.get("fTotalFat").toString() + "g");
@@ -117,7 +114,6 @@ public class ingredientPageController implements PageController {
 
 		addToStockButton.setOnAction(event -> handleAddToStock());
 		backButton.setOnMouseClicked(event -> handleBackOnClick());
-		moreButton.setOnMouseClicked(event -> handleOnClick());
 		cardScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
 		adjustSizeCard.setOnScroll(event -> handleCardScroll(event));
 	}
@@ -128,10 +124,6 @@ public class ingredientPageController implements PageController {
 
 	private void handleBackOnClick() {
 		PageFactory.toNextPage(PageFactory.getLastPage());
-	}
-
-	private void handleOnClick() {
-		PageFactory.toNextPage(PageFactory.getStockEntryPage(ingredientID, PageOption.DEFAULT));
 	}
 
 	private void handleCardScroll(ScrollEvent event) {
