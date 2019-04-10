@@ -187,6 +187,5 @@
     <styleClass>
         <String fx:value="screenPane" />
         <String fx:value="pane" />
-      <String fx:value="cardPane" />
     </styleClass>
 </AnchorPane>

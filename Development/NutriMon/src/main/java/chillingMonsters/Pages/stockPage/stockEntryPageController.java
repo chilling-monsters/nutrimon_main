@@ -177,7 +177,11 @@ public class stockEntryPageController implements PageController {
 	}
 
 	private void handleMoreOnClick() {
-		handleCancel();
+		if (showForm) {
+			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
+			if (!confirmed) return;
+		}
+		toggleForm(false);
 		PageFactory.toNextPage(PageFactory.getIngredientPage(foodID));
 	}
 
@@ -242,7 +246,7 @@ public class stockEntryPageController implements PageController {
 		if (show) {
 			addStockButton.setText("Save");
 			addStockButton.setSelected(true);
-			adjustSizePane.setPrefHeight(adjustSizePane.getMinHeight());
+			AnchorPane.setTopAnchor(adjustSizePane, Utility.MAX_TOP_ANCHOR);
 
 			dateTxF.setValue(displayAddedDate.toLocalDateTime().toLocalDate());
 			amountTxF.setText(String.format("%.0f", displayAmount));
@@ -320,8 +324,14 @@ public class stockEntryPageController implements PageController {
 		if (event.getDeltaY() > 0) diffHeight = -10;
 		else if (event.getDeltaY() < 0) diffHeight = 10;
 
-		adjustSizePane.setPrefHeight(adjustSizePane.getHeight() + diffHeight);
-		scrollList.setPrefHeight(scrollList.getHeight() + diffHeight);
+		double top = AnchorPane.getTopAnchor(adjustSizePane) - diffHeight;
+		if (top > Utility.MAX_TOP_ANCHOR) top = Utility.MAX_TOP_ANCHOR;
+		else if (top < Utility.MIN_TOP_ANCHOR) top = Utility.MIN_TOP_ANCHOR;
+
+		if (adjustSizePane.getMinHeight() <= adjustSizePane.getHeight() && adjustSizePane.getHeight() <= adjustSizePane.getMaxHeight())  {
+			AnchorPane.setTopAnchor(adjustSizePane, top);
+			scrollList.setPrefHeight(scrollList.getHeight() + diffHeight);
+		}
 	}
 
 	private void handleListScroll(ScrollEvent event) {

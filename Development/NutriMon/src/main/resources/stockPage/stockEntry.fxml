@@ -39,7 +39,7 @@
             <Font name="SF Pro Display Regular" size="25.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="adjustSizePane" maxHeight="660.0" minHeight="430.0" prefHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+      <AnchorPane fx:id="adjustSizePane" maxHeight="660.0" minHeight="430.0" prefHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="295.0">
          <children>
             <VBox AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
                <children>
@@ -104,99 +104,96 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <AnchorPane minHeight="300.0">
-                     <children>
-                        <ScrollPane fx:id="scrollList" hbarPolicy="NEVER" maxHeight="530.0" minHeight="300.0" prefHeight="300.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="0.0">
-                          <content>
-                            <AnchorPane>
-                                 <children>
-                                    <VBox fx:id="entryList" spacing="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0">
-                                       <padding>
-                                          <Insets bottom="10.0" />
-                                       </padding>
-                                    </VBox>
-                                 </children>
-                              </AnchorPane>
-                          </content>
-                        </ScrollPane>
-                        <AnchorPane fx:id="createForm" minHeight="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               </children>
+            </VBox>
+            <AnchorPane minHeight="300.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="105.0">
+               <children>
+                  <ScrollPane fx:id="scrollList" hbarPolicy="NEVER" maxHeight="530.0" minHeight="300.0" prefHeight="300.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane>
                            <children>
-                              <VBox minWidth="-Infinity" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Line endX="150.0" startX="-150.0" stroke="#f5a623">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </Line>
-                                    <Label fx:id="entryCurrentAmount" prefHeight="30.0" prefWidth="300.0" styleClass="titleText" text="Amount Label" textAlignment="CENTER" textFill="#f5a623">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="25.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets top="5.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <Label styleClass="tagText" text="CURRENT AMOUNT" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="amountTxF" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="300.0" promptText="                                                                         g" styleClass="form-field">
-                                             <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                    <Label fx:id="entryTimeLeft" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="300.0" styleClass="titleText" text="Expire Label" textAlignment="CENTER" textFill="#ff6c00">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="25.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <Label fx:id="entryAddedDate" layoutX="10.0" layoutY="40.0" styleClass="tagText" text="ADDED ON MAR 8TH" textAlignment="RIGHT" textFill="#9e9e9e">
-                                       <font>
-                                          <Font name="SF Pro Text Regular" size="9.0" />
-                                       </font>
-                                    </Label>
-                                    <DatePicker fx:id="dateTxF" prefWidth="300.0" styleClass="form-field">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </DatePicker>
-                                 </children>
-                              </VBox>
-                              <VBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                                 <children>
-                                    <Button fx:id="deleteEntryButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                       <styleClass>
-                                          <String fx:value="backButton" />
-                                          <String fx:value="myButton" />
-                                       </styleClass>
-                                    </Button>
-                                    <Button fx:id="cancelEntryButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: #FBD249;" text="Cancel" textFill="WHITE">
-                                       <font>
-                                          <Font name="SF Pro Display Regular" size="13.0" />
-                                       </font>
-                                       <styleClass>
-                                          <String fx:value="backButton" />
-                                          <String fx:value="myButton" />
-                                       </styleClass>
-                                    </Button>
-                                 </children>
+                              <VBox fx:id="entryList" spacing="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0">
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
                               </VBox>
                            </children>
                         </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                  <AnchorPane fx:id="createForm" minHeight="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <VBox minWidth="-Infinity" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Line endX="150.0" startX="-150.0" stroke="#f5a623">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Line>
+                              <Label fx:id="entryCurrentAmount" prefHeight="30.0" prefWidth="300.0" styleClass="titleText" text="Amount Label" textAlignment="CENTER" textFill="#f5a623">
+                                 <font>
+                                    <Font name="SF Pro Display Regular" size="25.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label styleClass="tagText" text="CURRENT AMOUNT" textAlignment="RIGHT" textFill="#9e9e9e">
+                                 <font>
+                                    <Font name="SF Pro Text Regular" size="9.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="amountTxF" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="300.0" promptText="                                                                         g" styleClass="form-field">
+                                       <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label fx:id="entryTimeLeft" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="300.0" styleClass="titleText" text="Expire Label" textAlignment="CENTER" textFill="#ff6c00">
+                                 <font>
+                                    <Font name="SF Pro Display Regular" size="25.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label fx:id="entryAddedDate" layoutX="10.0" layoutY="40.0" styleClass="tagText" text="ADDED ON MAR 8TH" textAlignment="RIGHT" textFill="#9e9e9e">
+                                 <font>
+                                    <Font name="SF Pro Text Regular" size="9.0" />
+                                 </font>
+                              </Label>
+                              <DatePicker fx:id="dateTxF" prefWidth="300.0" styleClass="form-field">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </DatePicker>
+                           </children>
+                        </VBox>
+                        <VBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <Button fx:id="deleteEntryButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE">
+                                 <font>
+                                    <Font name="SF Pro Display Regular" size="13.0" />
+                                 </font>
+                                 <styleClass>
+                                    <String fx:value="backButton" />
+                                    <String fx:value="myButton" />
+                                 </styleClass>
+                              </Button>
+                              <Button fx:id="cancelEntryButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: #FBD249;" text="Cancel" textFill="WHITE">
+                                 <font>
+                                    <Font name="SF Pro Display Regular" size="13.0" />
+                                 </font>
+                                 <styleClass>
+                                    <String fx:value="backButton" />
+                                    <String fx:value="myButton" />
+                                 </styleClass>
+                              </Button>
+                           </children>
+                        </VBox>
                      </children>
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
                   </AnchorPane>
                </children>
-            </VBox>
+            </AnchorPane>
             <ToggleButton fx:id="addStockButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="+" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font size="12.5" />
@@ -211,7 +208,6 @@
       </AnchorPane>
    </children>
    <styleClass>
-      <String fx:value="cardPane" />
       <String fx:value="pane" />
       <String fx:value="screenPane" />
    </styleClass>

@@ -269,10 +269,13 @@ public class recipeEntryPageController implements PageController {
 		if (event.getDeltaY() > 0) diffHeight = -10;
 		else if (event.getDeltaY() < 0) diffHeight = 10;
 
-		recipeCard.setPrefHeight(recipeCard.getHeight() + diffHeight);
+		double top = AnchorPane.getTopAnchor(recipeCard) - diffHeight;
+		if (top > Utility.MAX_TOP_ANCHOR) top = Utility.MAX_TOP_ANCHOR;
+		else if (top < Utility.MIN_TOP_ANCHOR) top = Utility.MIN_TOP_ANCHOR;
 
-		if (recipeCard.getHeight() > recipeCard.getMinHeight()) {
-			scrollRecipeDetailPane.setMaxHeight(scrollRecipeDetailPane.getMaxHeight() + diffHeight);
+		if (recipeCard.getMinHeight() <= recipeCard.getHeight() && recipeCard.getHeight() <= recipeCard.getMaxHeight())  {
+			AnchorPane.setTopAnchor(recipeCard, top);
+			scrollRecipeDetailPane.setPrefHeight(scrollRecipeDetailPane.getHeight() + diffHeight);
 		}
 	}
 }

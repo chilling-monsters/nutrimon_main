@@ -37,7 +37,7 @@
                 <Font name="SF Pro Display Regular" size="25.0" />
             </font>
         </Label>
-        <AnchorPane fx:id="createCard" maxHeight="660.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+        <AnchorPane fx:id="createCard" maxHeight="660.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="295.0">
             <children>
             <ScrollPane fx:id="formList" hbarPolicy="NEVER" prefHeight="200.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <content>
@@ -113,7 +113,7 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextArea fx:id="formDetails" layoutX="10.0" layoutY="10.0" prefHeight="365.0" promptText="Preheat the oven to ..." wrapText="true">
+                              <TextArea fx:id="formDetails" layoutX="10.0" layoutY="10.0" promptText="Preheat the oven to ..." wrapText="true">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin></TextArea>
@@ -167,6 +167,5 @@
    <styleClass>
       <String fx:value="screenPane" />
       <String fx:value="pane" />
-      <String fx:value="cardPane" />
    </styleClass>
 </AnchorPane>

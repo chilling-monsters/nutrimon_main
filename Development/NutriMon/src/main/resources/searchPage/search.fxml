@@ -19,18 +19,6 @@
          <children>
             <VBox AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
                <children>
-                  <HBox>
-                     <children>
-                        <Label styleClass="titleText" text="Search" textFill="WHITE">
-                           <font>
-                              <Font name="SF Pro Display Regular" size="25.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="15.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
                   <VBox>
                      <children>
                         <HBox>
@@ -53,11 +41,16 @@
                         <Line endX="160.0" startX="-160.0" stroke="WHITE" />
                      </children>
                      <VBox.margin>
-                        <Insets top="40.0" />
+                        <Insets top="80.0" />
                      </VBox.margin>
                   </VBox>
                </children>
             </VBox>
+            <Label styleClass="titleText" text="Search" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
+               <font>
+                  <Font name="SF Pro Display Regular" size="25.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <ScrollPane hbarPolicy="NEVER" layoutY="182.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
@@ -77,6 +70,5 @@
    <styleClass>
       <String fx:value="screenPane" />
       <String fx:value="pane" />
-      <String fx:value="cardPane" />
    </styleClass>
 </AnchorPane>

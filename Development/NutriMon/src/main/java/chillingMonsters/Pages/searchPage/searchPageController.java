@@ -114,14 +114,6 @@ public class searchPageController implements PageController {
     onSearchEnter();
   }
 
-  private void handleBackOnClick() {
-    if (option == PageOption.DEFAULT) {
-      PageFactory.showMenu();
-    } else {
-      PageFactory.toNextPage(PageFactory.getLastPage());
-    }
-  }
-
   private void addCreateYourOwnCard() {
     if (option != PageOption.RECIPE) return;
     if (searchList.getChildren().isEmpty()

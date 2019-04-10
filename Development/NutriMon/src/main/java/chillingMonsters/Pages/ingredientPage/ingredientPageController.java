@@ -123,8 +123,14 @@ public class ingredientPageController implements PageController {
 		if (event.getDeltaY() > 0) diffHeight = -10;
 		else if (event.getDeltaY() < 0) diffHeight = 10;
 
-		adjustSizeCard.setPrefHeight(adjustSizeCard.getHeight() + diffHeight);
-		cardScrollPane.setPrefHeight(cardScrollPane.getHeight() + diffHeight);
+		double top = AnchorPane.getTopAnchor(adjustSizeCard) - diffHeight;
+		if (top > Utility.MAX_TOP_ANCHOR) top = Utility.MAX_TOP_ANCHOR;
+		else if (top < Utility.MIN_TOP_ANCHOR) top = Utility.MIN_TOP_ANCHOR;
+
+		if (adjustSizeCard.getMinHeight() <= adjustSizeCard.getHeight() && adjustSizeCard.getHeight() <= adjustSizeCard.getMaxHeight())  {
+			AnchorPane.setTopAnchor(adjustSizeCard, top);
+			cardScrollPane.setPrefHeight(cardScrollPane.getHeight() + diffHeight);
+		}
 	}
 
 	private void handleListScroll(ScrollEvent event) {

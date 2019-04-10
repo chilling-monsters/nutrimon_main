@@ -4,11 +4,9 @@ import chillingMonsters.Pages.PageFactory;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class App extends Application {
 	@Override
@@ -23,11 +21,11 @@ public class App extends Application {
 		primaryStage.setScene(scene);
 //		primaryStage.initStyle(StageStyle.TRANSPARENT);
 		primaryStage.setTitle("NutriMon - Don't waste, it's time to eat!");
-		primaryStage.getIcons().add(new Image("/img/NutriMon logo.png"));
+		primaryStage.getIcons().add(new Image("/img/NutriMonLogo2x.png"));
 		primaryStage.setResizable(false);
 		primaryStage.show();
 
-		PageFactory.setApp(appRoot);
+		PageFactory.initialize(appRoot);
 		System.out.println("Current page: Login page");
 	}
 }

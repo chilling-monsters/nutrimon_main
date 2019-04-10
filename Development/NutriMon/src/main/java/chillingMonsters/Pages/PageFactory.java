@@ -19,12 +19,17 @@ import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PageFactory {
+	private static boolean menuShown = false;
+	private static boolean formInProgress = false;
+
+	private static ImageView menuButton = new ImageView();
 	private static StackPane appRoot;
 
 	private static loginPage login = new loginPage();
@@ -45,16 +50,16 @@ public class PageFactory {
 		add(login);
 	}};
 
-	public static void setApp(StackPane s) {
+	public static void initialize(StackPane s) {
 		appRoot = new StackPane(login.getPagePane());
 		appRoot.setPickOnBounds(false);
+		appRoot.setStyle("-fx-border-color: white");
 
 		appRoot.setPrefSize(360, 740);
 
 		s.getChildren().add(menu.getPagePane());
 		s.getChildren().add(appRoot);
 
-		ImageView menuButton = new ImageView("img/MenuIcon2x.png");
 		menuButton.getStyleClass().add("myButton");
 		menuButton.setFitHeight(30);
 		menuButton.setFitWidth(30);
@@ -64,7 +69,8 @@ public class PageFactory {
 
 		StackPane.setAlignment(menuButton, Pos.TOP_LEFT);
 		StackPane.setMargin(menuButton, new Insets(20, 0, 0, 20));
-		menuButton.setOnMouseClicked(event -> showMenu());
+
+		menuButton.setOnMouseClicked(event -> handleNavigation());
 	}
 
 	public static Page getLoginPage() {
@@ -80,8 +86,8 @@ public class PageFactory {
 	}
 
 	public static Page getStockPage() {
-	  if (stock == null) stock = new stockPage();
-	  return stock;
+		if (stock == null) stock = new stockPage();
+		return stock;
     }
     public static Page getStockRefresh() {
 		stock = new stockPage();
@@ -93,6 +99,7 @@ public class PageFactory {
 	    }
 		return stockEntry;
 	}
+
 	public static Page getIngredientPage(long foodID) {
 		if (ingredient == null || ingredient.foodID != foodID) {
 			ingredient = new ingredientPage(foodID);
@@ -100,7 +107,6 @@ public class PageFactory {
 
 		return ingredient;
 	}
-
 	public static Page getSearchPage(PageOption option) {
 		if (search == null || search.option != option) {
 			search = new searchPage(option);
@@ -133,27 +139,24 @@ public class PageFactory {
 	public static Page getRecipeCreatePage() {
 		return getRecipeCreatePage(0, PageOption.DEFAULT);
 	}
+	public static Page getRecipeForm() {
+		return recipeCreate;
+	}
 
-	public static Page getLastPage() {
-		if (pageHistory.isEmpty()) {
-			return login;
-		} else if (pageHistory.size() == 1) {
-			return pageHistory.get(0);
-		} else {
-			return pageHistory.get(1);
-		}
+	public static Page getCurrentPage() {
+		return pageHistory.get(0);
 	}
 	public static void toNextPage(Page nextPage) {
-		Page currentPage = pageHistory.get(0);
+		setMenuAndForm(nextPage);
 
+		Page currentPage = getCurrentPage();
 		if (currentPage == nextPage) return;
 
 		if (pageHistory.size() > 1 && nextPage == pageHistory.get(1)) pageHistory.remove(currentPage);
 
-		for (Page p : pageHistory) {
-			if (p.getClass().equals(nextPage.getClass())) {
-				pageHistory.remove(p);
-			}
+		for (int i = 0; i < pageHistory.size(); i++) {
+			Page p = pageHistory.get(i);
+			if (p.getClass().equals(nextPage.getClass())) pageHistory.remove(p);
 		}
 		pageHistory.add(0, nextPage);
 
@@ -182,19 +185,20 @@ public class PageFactory {
 		else if (nextPage == recipe) menu.setSelected(4);
 	}
 	public static void showMenu() {
-		AnchorPane curP = (AnchorPane) appRoot.getChildren().get(0);
 		KeyFrame start = new KeyFrame(Duration.ZERO);
 		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
 			new KeyValue(appRoot.translateXProperty(), 230),
-			new KeyValue(appRoot.prefHeightProperty(), 550)
+			new KeyValue(appRoot.prefHeightProperty(), 550),
+			new KeyValue(appRoot.maxHeightProperty(), 550)
 		);
 
 		Timeline shrink = new Timeline(start, end);
 		shrink.play();
+
+		menuShown = true;
+		setMenuAndForm(menu);
 	}
 	public static void hideMenu() {
-		AnchorPane curP = (AnchorPane) appRoot.getChildren().get(0);
-
 		KeyFrame start = new KeyFrame(Duration.ZERO);
 		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
 			new KeyValue(appRoot.translateXProperty(), 0),
@@ -203,5 +207,29 @@ public class PageFactory {
 
 		Timeline shrink = new Timeline(start, end);
 		shrink.play();
+
+		menuShown = false;
+		setMenuAndForm(getCurrentPage());
+	}
+	public static void setMenuAndForm(Page p) {
+		if (p instanceof loginPage || p instanceof registerPage) {
+			menuButton.setStyle(null);
+		} else if (p instanceof stockPage || p instanceof recipePage) {
+			menuButton.setStyle("-fx-image: url(img/MenuIcon2x.png)");
+		} else if (p instanceof navMenu) {
+			menuButton.setStyle("-fx-image: url(img/MenuIconWhite2x.png)");
+		} else {
+			menuButton.setStyle("-fx-image: url(img/Menu-Back-Icon-White2x.png)");
+		}
+	}
+	public static void handleNavigation() {
+		Page p = getCurrentPage();
+		if (menuShown) {
+			hideMenu();
+		} else if (p == stock || p == recipe) {
+			showMenu();
+		} else {
+			toNextPage(pageHistory.get(1));
+		}
 	}
 }

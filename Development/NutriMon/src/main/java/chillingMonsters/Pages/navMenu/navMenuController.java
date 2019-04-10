@@ -3,6 +3,8 @@ package chillingMonsters.Pages.navMenu;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
+import chillingMonsters.Pages.recipePage.recipeCreatePage;
+import chillingMonsters.Pages.stockPage.stockEntryPage;
 import chillingMonsters.Utility;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -57,11 +59,19 @@ public class navMenuController implements PageController {
 		});
 		stock.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
-			PageFactory.toNextPage(PageFactory.getStockPage());
+			PageFactory.toNextPage(
+				PageFactory.getCurrentPage() instanceof stockEntryPage
+					? PageFactory.getStockRefresh()
+					: PageFactory.getStockPage()
+			);
 		});
 		recipe.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
-			PageFactory.toNextPage(PageFactory.getRecipePage());
+			PageFactory.toNextPage(
+				PageFactory.getCurrentPage() instanceof recipeCreatePage
+					? PageFactory.getRecipeRefresh()
+					: PageFactory.getRecipePage()
+			);
 		});
 
 		this.iconWhiteMap = new HashMap<HBox, String>() {{

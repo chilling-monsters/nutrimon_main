@@ -127,10 +127,13 @@ public class recipeCreatePageController implements PageController {
 		if (event.getDeltaY() > 0) diffHeight = -10;
 		else if (event.getDeltaY() < 0) diffHeight = 10;
 
-		createCard.setPrefHeight(createCard.getHeight() + diffHeight);
+		double top = AnchorPane.getTopAnchor(createCard) - diffHeight;
+		if (top > Utility.MAX_TOP_ANCHOR) top = Utility.MAX_TOP_ANCHOR;
+		else if (top < Utility.MIN_TOP_ANCHOR) top = Utility.MIN_TOP_ANCHOR;
 
-		if (createCard.getHeight() > createCard.getMinHeight()) {
-			formList.setMaxHeight(formList.getMaxHeight() + diffHeight);
+		if (createCard.getMinHeight() <= createCard.getHeight() && createCard.getHeight() <= createCard.getMaxHeight())  {
+			AnchorPane.setTopAnchor(createCard, top);
+			formList.setPrefHeight(formList.getHeight() + diffHeight);
 		}
 	}
 
