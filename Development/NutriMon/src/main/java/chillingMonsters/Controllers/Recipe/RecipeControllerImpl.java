@@ -15,6 +15,9 @@ import java.util.logging.Logger;
 
 import static chillingMonsters.DBConnect.resultsList;
 
+/**
+ * Concrete implementation of the Recipe Controller.
+ */
 public class RecipeControllerImpl extends NutriMonController implements RecipeController {
 
   public RecipeControllerImpl() {

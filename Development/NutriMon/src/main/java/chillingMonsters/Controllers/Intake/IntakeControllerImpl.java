@@ -11,6 +11,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Concrete implmentation of Intake controller.
+ */
 public class IntakeControllerImpl extends NutriMonController implements IntakeController {
 
   public IntakeControllerImpl() {

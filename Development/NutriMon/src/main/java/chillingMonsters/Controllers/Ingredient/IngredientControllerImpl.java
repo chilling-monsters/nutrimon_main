@@ -14,6 +14,9 @@ import java.util.logging.Logger;
 
 import static chillingMonsters.DBConnect.resultsList;
 
+/**
+ * Implementation of Ingredient Controller.
+ */
 public class IngredientControllerImpl extends NutriMonController implements IngredientController {
   public IngredientControllerImpl() {
     super("ingredients", "foodID");
