@@ -184,7 +184,7 @@ public class stockEntryPageController implements PageController {
 		if (showForm) {
 			handleCancel();
 		} else {
-			PageFactory.toNextPage(PageFactory.getStockPage());
+			PageFactory.toNextPage(PageFactory.getStockRefresh());
 		}
 
 	}

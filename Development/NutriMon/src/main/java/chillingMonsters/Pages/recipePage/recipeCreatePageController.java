@@ -216,7 +216,7 @@ public class recipeCreatePageController implements PageController {
 			if (option == PageOption.UPDATE) {
 				PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
 			} else {
-				PageFactory.toNextPage(PageFactory.getRecipePage());
+				PageFactory.toNextPage(PageFactory.getRecipeRefresh());
 			}
 		}
 	}
@@ -226,7 +226,7 @@ public class recipeCreatePageController implements PageController {
 		if (confirmed) {
 			RecipeController controller = ControllerFactory.makeRecipeController();
 			controller.deleteRecipe(recipeID);
-			PageFactory.toNextPage(PageFactory.getRecipePage());
+			PageFactory.toNextPage(PageFactory.getRecipeRefresh());
 		}
 	}
 

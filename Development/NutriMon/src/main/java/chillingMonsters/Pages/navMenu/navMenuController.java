@@ -57,6 +57,15 @@ public class navMenuController implements PageController {
 
 		search.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
+			PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.DEFAULT));
+		});
+		stock.setOnMouseClicked(event -> {
+			PageFactory.hideMenu();
+			PageFactory.toNextPage(PageFactory.getStockPage());
+		});
+		recipe.setOnMouseClicked(event -> {
+			PageFactory.hideMenu();
+			PageFactory.toNextPage(PageFactory.getRecipePage());
 		});
 
 		this.iconWhiteMap = new HashMap<HBox, String>() {{
@@ -87,20 +96,21 @@ public class navMenuController implements PageController {
 		HBox n = (HBox) menuBar.getChildren().get(i);
 		KeyFrame start = new KeyFrame(Duration.ZERO,
 			new KeyValue(activeBox.layoutYProperty(), activeBox.getLayoutY()));
-		KeyFrame end = new KeyFrame(Duration.seconds(0.2),
+		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME / 2),
 			new KeyValue(activeBox.layoutYProperty(), menuBar.getLayoutY() + n.getLayoutY()));
 
 		Timeline slide = new Timeline(start, end);
 		slide.play();
+		slide.setOnFinished(event -> {
+			for (Node m : menuBar.getChildren()) {
+				HBox b = (HBox) m;
+				b.getChildren().get(0).setStyle(String.format("-fx-image: url(%s);", iconWhiteMap.get(b)));
+				b.getChildren().get(1).setStyle("-fx-text-fill: white;");
+			}
 
-		for (Node m : menuBar.getChildren()) {
-			HBox b = (HBox) m;
-			b.getChildren().get(0).setStyle(String.format("-fx-image: url(%s);", iconWhiteMap.get(b)));
-			b.getChildren().get(1).setStyle("-fx-text-fill: white;");
-		}
-
-		n.getChildren().get(0).setStyle(String.format("-fx-image: url(%s);", iconOrangeMap.get(n)));
-		n.getChildren().get(1).setStyle("-fx-text-fill: #F5A623;");
+			n.getChildren().get(0).setStyle(String.format("-fx-image: url(%s);", iconOrangeMap.get(n)));
+			n.getChildren().get(1).setStyle("-fx-text-fill: #F5A623;");
+		});
 	}
 
 	public void setSelected(int i) {

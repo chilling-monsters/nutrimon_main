@@ -60,11 +60,18 @@ public class PageFactory {
 	}
 
 	public static Page getStockPage() {
-	  stock = new stockPage();
+	  if (stock == null) stock = new stockPage();
 	  return stock;
     }
+    public static Page getStockRefresh() {
+		stock = new stockPage();
+		return stock;
+    }
     public static Page getStockEntryPage(long foodID, PageOption option) {
-		return new stockEntryPage(foodID, option);
+	    if (stockEntry == null || stockEntry.foodID != foodID || stockEntry.option != option) {
+		    stockEntry = new stockEntryPage(foodID, option);
+	    }
+		return stockEntry;
 	}
 	public static Page getIngredientPage(long foodID) {
 		if (ingredient == null || ingredient.foodID != foodID) {
@@ -83,11 +90,17 @@ public class PageFactory {
 	}
 
 	public static Page getRecipePage() {
+		if (recipe == null) recipe = new recipePage();
+		return recipe;
+	}
+	public static Page getRecipeRefresh() {
 		recipe = new recipePage();
 		return recipe;
 	}
 	public static Page getRecipeEntryPage(long recipeID) {
-		recipeEntry = new recipeEntryPage(recipeID);
+		if (recipeEntry == null || recipeEntry.recipeID != recipeID) {
+			recipeEntry = new recipeEntryPage(recipeID);
+		}
 		return recipeEntry;
 	}
 	public static Page getRecipeCreatePage(long recipeID, PageOption option) {
@@ -110,27 +123,29 @@ public class PageFactory {
 			return pageHistory.get(1);
 		}
 	}
-
 	public static void toNextPage(Page nextPage) {
 		Page currentPage = pageHistory.get(0);
+
+		if (currentPage == nextPage) return;
+
 		if (pageHistory.size() > 1 && nextPage == pageHistory.get(1)) pageHistory.remove(currentPage);
 
 		if (pageHistory.contains(nextPage)) pageHistory.remove(nextPage);
 		pageHistory.add(0, nextPage);
 
-		AnchorPane nxtP = nextPage.getPagePane();
 		AnchorPane curP = currentPage.getPagePane();
+		AnchorPane nxtP = nextPage.getPagePane();
 
-		if (!appRoot.getChildren().contains(nxtP)) {
-			appRoot.getChildren().add(nxtP);
-		}
+		if (!appRoot.getChildren().contains(nxtP)) appRoot.getChildren().add(nxtP);
 
 		KeyFrame start = new KeyFrame(Duration.ZERO,
 			new KeyValue(nxtP.opacityProperty(), 0),
-			new KeyValue(curP.opacityProperty(), 1));
-		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
+			new KeyValue(curP.opacityProperty(), 1)
+		);
+		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME * 2),
 			new KeyValue(nxtP.opacityProperty(), 1),
-			new KeyValue(curP.opacityProperty(), 0));
+			new KeyValue(curP.opacityProperty(), 0)
+		);
 
 		Timeline slide = new Timeline(start, end);
 		slide.setOnFinished(e -> appRoot.getChildren().remove(curP));
@@ -140,34 +155,27 @@ public class PageFactory {
 		else if (nextPage == stock) menu.setSelected(3);
 		else if (nextPage == recipe) menu.setSelected(4);
 	}
-
 	public static void showMenu() {
-		Page currentPage = pageHistory.get(0);
-		AnchorPane curP = currentPage.getPagePane();
-
-		KeyFrame start = new KeyFrame(Duration.ZERO,
-			new KeyValue(curP.translateXProperty(), 0),
-			new KeyValue(curP.prefHeightProperty(), 740.0));
+		AnchorPane curP = (AnchorPane) appRoot.getChildren().get(0);
+		KeyFrame start = new KeyFrame(Duration.ZERO);
 		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
-			new KeyValue(curP.translateXProperty(), 230),
-			new KeyValue(curP.prefHeightProperty(), 550.0));
+			new KeyValue(appRoot.translateXProperty(), 230),
+			new KeyValue(appRoot.prefHeightProperty(), 550),
+			new KeyValue(curP.prefHeightProperty(), 550));
 
 		Timeline shrink = new Timeline(start, end);
 		shrink.play();
 	}
-
 	public static void hideMenu() {
-		Page currentPage = pageHistory.get(0);
-		AnchorPane curP = currentPage.getPagePane();
+		AnchorPane curP = (AnchorPane) appRoot.getChildren().get(0);
 
-		KeyFrame start = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
-			new KeyValue(curP.translateXProperty(), 0),
-			new KeyValue(curP.prefHeightProperty(), 740.0));
-		KeyFrame end = new KeyFrame(Duration.ZERO,
-			new KeyValue(curP.translateXProperty(), 230),
-			new KeyValue(curP.prefHeightProperty(), 550.0));
+		KeyFrame start = new KeyFrame(Duration.ZERO);
+		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
+			new KeyValue(appRoot.translateXProperty(), 0),
+			new KeyValue(appRoot.prefHeightProperty(), 750),
+			new KeyValue(curP.prefHeightProperty(), 750));
 
-		Timeline expand = new Timeline(start, end);
-		expand.play();
+		Timeline shrink = new Timeline(start, end);
+		shrink.play();
 	}
 }

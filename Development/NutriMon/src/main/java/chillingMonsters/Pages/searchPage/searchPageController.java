@@ -115,12 +115,16 @@ public class searchPageController implements PageController {
   public void initialize() {
     searchTxF.setText(searchQuery);
     onSearchEnter();
-
+    
     backButton.setOnMouseClicked(event -> handleBackOnClick());
   }
 
   private void handleBackOnClick() {
-    PageFactory.toNextPage(PageFactory.getLastPage());
+    if (option == PageOption.DEFAULT) {
+      PageFactory.showMenu();
+    } else {
+      PageFactory.toNextPage(PageFactory.getLastPage());
+    }
   }
 
   private void addCreateYourOwnCard() {
