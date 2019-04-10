@@ -38,9 +38,6 @@ public class navMenuController implements PageController {
 	private HBox recipe;
 
 	@FXML
-	private ImageView backButton;
-
-	@FXML
 	private HBox activeBox;
 
 	@FXML
@@ -48,7 +45,6 @@ public class navMenuController implements PageController {
 
 	@FXML
 	public void initialize() {
-		backButton.setOnMouseClicked(event -> handleBackOnClick());
 		search.setOnMouseEntered(event -> highlightSelected(0));
 		today.setOnMouseEntered(event -> highlightSelected(1));
 		intake.setOnMouseEntered(event -> highlightSelected(2));
@@ -86,10 +82,6 @@ public class navMenuController implements PageController {
 		}};
 
 		highlightSelected(0);
-	}
-
-	private void handleBackOnClick() {
-		PageFactory.hideMenu();
 	}
 
 	private void highlightSelected(int i) {

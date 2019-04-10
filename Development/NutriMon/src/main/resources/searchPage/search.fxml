@@ -21,18 +21,6 @@
                <children>
                   <HBox>
                      <children>
-                        <ImageView fx:id="backButton" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../img/Menu-Back-Icon-White2x.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                           <styleClass>
-                              <String fx:value="backButton" />
-                              <String fx:value="myButton" />
-                           </styleClass>
-                        </ImageView>
                         <Label styleClass="titleText" text="Search" textFill="WHITE">
                            <font>
                               <Font name="SF Pro Display Regular" size="25.0" />

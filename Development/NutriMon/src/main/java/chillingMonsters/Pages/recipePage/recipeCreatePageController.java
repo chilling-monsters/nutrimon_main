@@ -35,9 +35,6 @@ public class recipeCreatePageController implements PageController {
 	private Map<Long, StringProperty> ingrMap = new LinkedHashMap<Long, StringProperty>();
 
 	@FXML
-	private ImageView backButton;
-
-	@FXML
 	private AnchorPane createCard;
 
 	@FXML
@@ -99,7 +96,6 @@ public class recipeCreatePageController implements PageController {
 
 		renderIngredientList();
 
-		backButton.setOnMouseClicked(event -> handleCancelButton());
 		addIngredientButton.setOnAction(event -> handleAddIngredient());
 		saveRecipeButton.setOnAction(event -> handleCreateButton());
 		cancelRecipeButton.setOnAction(event -> handleCancelButton());

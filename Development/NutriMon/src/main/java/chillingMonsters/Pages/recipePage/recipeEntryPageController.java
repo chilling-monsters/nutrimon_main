@@ -26,9 +26,6 @@ public class recipeEntryPageController implements PageController {
 	private long recipeID;
 
 	@FXML
-	private ImageView backButton;
-
-	@FXML
 	private ImageView moreButton;
 
 	@FXML
@@ -208,7 +205,6 @@ public class recipeEntryPageController implements PageController {
 		ingreE.setText(String.format("%.1f g Vitamin E", e));
 		ingreD.setText(String.format("%.1f g Vitamin D", d));
 
-		backButton.setOnMouseClicked(event -> handleBackOnClick());
 		addRecipeButton.setOnAction(event -> handleAddRecipe());
 		recipeName.setOnMouseClicked(event -> handleNameClick());
 		moreButton.setOnMouseClicked(event -> handleMoreClick());
@@ -221,10 +217,6 @@ public class recipeEntryPageController implements PageController {
 			addRecipeButton.setText("Saved");
 			addRecipeButton.setSelected(true);
 		}
-	}
-
-	private void handleBackOnClick() {
-		PageFactory.toNextPage(PageFactory.getRecipeRefresh());
 	}
 
 	private void handleOnIngridentCardClick(long foodID) {

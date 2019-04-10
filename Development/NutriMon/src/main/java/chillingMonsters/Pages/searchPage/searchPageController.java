@@ -29,9 +29,6 @@ public class searchPageController implements PageController {
   @FXML
   public VBox searchList;
 
-  @FXML
-  public ImageView backButton;
-
   public searchPageController(PageOption option) {
     this.option = option;
     this.cachedResults = new LinkedHashMap<String, List<SearchCardComponent>>() {
@@ -115,8 +112,6 @@ public class searchPageController implements PageController {
   public void initialize() {
     searchTxF.setText(searchQuery);
     onSearchEnter();
-    
-    backButton.setOnMouseClicked(event -> handleBackOnClick());
   }
 
   private void handleBackOnClick() {

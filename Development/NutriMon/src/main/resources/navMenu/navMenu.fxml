@@ -181,15 +181,6 @@
             </VBox>
          </children>
       </AnchorPane>
-      <ImageView fx:id="backButton" fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
-         <image>
-            <Image url="@../img/Menu-Back-Icon-White2x.png" />
-         </image>
-         <styleClass>
-            <String fx:value="backButton button" />
-            <String fx:value="myButton" />
-         </styleClass>
-      </ImageView>
       <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#fafafa" height="500.0" layoutX="213.0" layoutY="50.0" opacity="0.2" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="120.0" />
       <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#ffffff51" height="550.0" layoutX="260.0" layoutY="130.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="200.0" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="95.0" />
     </children>

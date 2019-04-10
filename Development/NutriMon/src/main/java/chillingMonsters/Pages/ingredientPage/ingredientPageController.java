@@ -21,9 +21,6 @@ public class ingredientPageController implements PageController {
 	private long ingredientID;
 
 	@FXML
-	private ImageView backButton;
-
-	@FXML
 	private Label ingrName;
 
 	@FXML
@@ -113,17 +110,12 @@ public class ingredientPageController implements PageController {
 		ingreD.setText(result.get("fVD").toString() + "g");
 
 		addToStockButton.setOnAction(event -> handleAddToStock());
-		backButton.setOnMouseClicked(event -> handleBackOnClick());
 		cardScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
 		adjustSizeCard.setOnScroll(event -> handleCardScroll(event));
 	}
 
 	private void handleAddToStock() {
 		PageFactory.toNextPage(PageFactory.getStockEntryPage(ingredientID, PageOption.STOCK));
-	}
-
-	private void handleBackOnClick() {
-		PageFactory.toNextPage(PageFactory.getLastPage());
 	}
 
 	private void handleCardScroll(ScrollEvent event) {

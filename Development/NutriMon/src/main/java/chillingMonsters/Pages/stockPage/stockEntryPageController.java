@@ -58,9 +58,6 @@ public class stockEntryPageController implements PageController {
 	public AnchorPane createForm;
 
 	@FXML
-	public ImageView backButton;
-
-	@FXML
 	public ImageView moreButton;
 
 	@FXML
@@ -108,7 +105,6 @@ public class stockEntryPageController implements PageController {
 			toggleForm(false);
 		}
 
-		backButton.setOnMouseClicked(event -> handleBackOnClick());
 		moreButton.setOnMouseClicked(event -> handleMoreOnClick());
 		addStockButton.setOnAction(event -> handleAddStock());
 		deleteEntryButton.setOnAction(event -> handleDeleteStock());
@@ -178,15 +174,6 @@ public class stockEntryPageController implements PageController {
 		}
 
 		entryTotalAmount.setText(String.format("%.0f g", totalAmount));
-	}
-
-	private void handleBackOnClick() {
-		if (showForm) {
-			handleCancel();
-		} else {
-			PageFactory.toNextPage(PageFactory.getStockRefresh());
-		}
-
 	}
 
 	private void handleMoreOnClick() {

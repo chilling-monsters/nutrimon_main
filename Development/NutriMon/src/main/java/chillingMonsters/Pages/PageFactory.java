@@ -14,6 +14,9 @@ import chillingMonsters.Utility;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -45,8 +48,23 @@ public class PageFactory {
 	public static void setApp(StackPane s) {
 		appRoot = new StackPane(login.getPagePane());
 		appRoot.setPickOnBounds(false);
+
+		appRoot.setPrefSize(360, 740);
+
 		s.getChildren().add(menu.getPagePane());
 		s.getChildren().add(appRoot);
+
+		ImageView menuButton = new ImageView("img/MenuIcon2x.png");
+		menuButton.getStyleClass().add("myButton");
+		menuButton.setFitHeight(30);
+		menuButton.setFitWidth(30);
+
+		menuButton.setPickOnBounds(false);
+		s.getChildren().add(menuButton);
+
+		StackPane.setAlignment(menuButton, Pos.TOP_LEFT);
+		StackPane.setMargin(menuButton, new Insets(20, 0, 0, 20));
+		menuButton.setOnMouseClicked(event -> showMenu());
 	}
 
 	public static Page getLoginPage() {
@@ -56,6 +74,8 @@ public class PageFactory {
 		return register;
 	}
 	public static Page getLandingPage() {
+		getStockPage();
+		getRecipePage();
 		return getStockPage();
 	}
 
@@ -130,19 +150,25 @@ public class PageFactory {
 
 		if (pageHistory.size() > 1 && nextPage == pageHistory.get(1)) pageHistory.remove(currentPage);
 
-		if (pageHistory.contains(nextPage)) pageHistory.remove(nextPage);
+		for (Page p : pageHistory) {
+			if (p.getClass().equals(nextPage.getClass())) {
+				pageHistory.remove(p);
+			}
+		}
 		pageHistory.add(0, nextPage);
 
 		AnchorPane curP = currentPage.getPagePane();
 		AnchorPane nxtP = nextPage.getPagePane();
 
-		if (!appRoot.getChildren().contains(nxtP)) appRoot.getChildren().add(nxtP);
+		nxtP.prefHeightProperty().bind(appRoot.prefHeightProperty());
+		if (appRoot.getChildren().contains(nxtP)) appRoot.getChildren().remove(nxtP);
+		appRoot.getChildren().add(nxtP);
 
 		KeyFrame start = new KeyFrame(Duration.ZERO,
 			new KeyValue(nxtP.opacityProperty(), 0),
 			new KeyValue(curP.opacityProperty(), 1)
 		);
-		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME * 2),
+		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
 			new KeyValue(nxtP.opacityProperty(), 1),
 			new KeyValue(curP.opacityProperty(), 0)
 		);
@@ -160,8 +186,8 @@ public class PageFactory {
 		KeyFrame start = new KeyFrame(Duration.ZERO);
 		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
 			new KeyValue(appRoot.translateXProperty(), 230),
-			new KeyValue(appRoot.prefHeightProperty(), 550),
-			new KeyValue(curP.prefHeightProperty(), 550));
+			new KeyValue(appRoot.prefHeightProperty(), 550)
+		);
 
 		Timeline shrink = new Timeline(start, end);
 		shrink.play();
@@ -172,8 +198,8 @@ public class PageFactory {
 		KeyFrame start = new KeyFrame(Duration.ZERO);
 		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
 			new KeyValue(appRoot.translateXProperty(), 0),
-			new KeyValue(appRoot.prefHeightProperty(), 750),
-			new KeyValue(curP.prefHeightProperty(), 750));
+			new KeyValue(appRoot.prefHeightProperty(), 740)
+		);
 
 		Timeline shrink = new Timeline(start, end);
 		shrink.play();

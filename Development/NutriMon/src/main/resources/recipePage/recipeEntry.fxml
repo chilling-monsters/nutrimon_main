@@ -31,15 +31,6 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <ImageView fx:id="backButton" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
-         <image>
-            <Image url="@../img/Menu-Back-Icon-White2x.png" />
-         </image>
-         <styleClass>
-            <String fx:value="backButton" />
-            <String fx:value="myButton" />
-         </styleClass>
-      </ImageView>
       <Label styleClass="titleText" text="Your Recipes" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="SF Pro Display Regular" size="25.0" />
