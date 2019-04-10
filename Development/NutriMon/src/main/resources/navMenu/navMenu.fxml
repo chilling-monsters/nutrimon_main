@@ -1,14 +1,198 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="navMenu.NavMenu"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.navMenu.navMenuController">
+    <children>
+        <Label layoutX="121.0" layoutY="226.0" styleClass="titleText" text="Menu" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
+            <font>
+                <Font name="SF Pro Display Regular" size="25.0" />
+            </font>
+        </Label>
+      <AnchorPane AnchorPane.bottomAnchor="460.0" AnchorPane.topAnchor="230.0">
+         <children>
+            <HBox fx:id="activeBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
+               <styleClass>
+                  <String fx:value="myButton" />
+                  <String fx:value="cardPane" />
+                  <String fx:value="pane" />
+               </styleClass>
+            </HBox>
+            <VBox fx:id="menuBar" spacing="20.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox fx:id="search" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/Searchwhite2x.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label text="Search" textFill="#f5a623">
+                           <font>
+                              <Font name="SF Pro Display Regular" size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="headerText" />
+                              <String fx:value="menuText" />
+                           </styleClass>
+                        </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="cardPane" />
+                        <String fx:value="myButton" />
+                        <String fx:value="menuBar" />
+                     </styleClass>
+                  </HBox>
+                  <HBox fx:id="today" alignment="CENTER_LEFT" layoutX="10.0" layoutY="70.0" prefHeight="40.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/Todaywhite2x.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label text="Today" textFill="WHITE">
+                           <font>
+                              <Font name="SF Pro Display Regular" size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="headerText" />
+                              <String fx:value="menuText" />
+                           </styleClass>
+                        </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="myButton" />
+                        <String fx:value="cardPane" />
+                        <String fx:value="menuBar" />
+                     </styleClass>
+                  </HBox>
+                  <HBox fx:id="intake" alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/Intakewhite2x.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label text="Intake" textFill="WHITE">
+                           <font>
+                              <Font name="SF Pro Display Regular" size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="headerText" />
+                              <String fx:value="menuText" />
+                           </styleClass>
+                        </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="cardPane" />
+                        <String fx:value="myButton" />
+                        <String fx:value="menuBar" />
+                     </styleClass>
+                  </HBox>
+                  <HBox fx:id="stock" alignment="CENTER_LEFT" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/Stockwhite2x.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label text="Stock" textFill="WHITE">
+                           <font>
+                              <Font name="SF Pro Display Regular" size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="headerText" />
+                              <String fx:value="menuText" />
+                           </styleClass>
+                        </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="cardPane" />
+                        <String fx:value="myButton" />
+                        <String fx:value="menuBar" />
+                     </styleClass>
+                  </HBox>
+                  <HBox fx:id="recipe" alignment="CENTER_LEFT" layoutX="10.0" layoutY="90.0" prefHeight="40.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/Recipeswhite2x.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label text="Recipes" textFill="WHITE">
+                           <font>
+                              <Font name="SF Pro Display Regular" size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="headerText" />
+                              <String fx:value="menuText" />
+                           </styleClass>
+                        </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="cardPane" />
+                        <String fx:value="myButton" />
+                        <String fx:value="menuBar" />
+                     </styleClass>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <ImageView fx:id="backButton" fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <image>
+            <Image url="@../img/Menu-Back-Icon-White2x.png" />
+         </image>
+         <styleClass>
+            <String fx:value="backButton button" />
+            <String fx:value="myButton" />
+         </styleClass>
+      </ImageView>
+      <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#fafafa" height="500.0" layoutX="213.0" layoutY="50.0" opacity="0.2" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="120.0" />
+      <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#ffffff51" height="550.0" layoutX="260.0" layoutY="130.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="200.0" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="95.0" />
+    </children>
+    <styleClass>
+        <String fx:value="screenPane" />
+        <String fx:value="pane" />
+      <String fx:value="cardPane" />
+    </styleClass>
 </AnchorPane>

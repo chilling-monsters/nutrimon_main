@@ -11,16 +11,17 @@ import javafx.stage.Stage;
 public class App extends Application {
 	@Override
 	public void start(Stage primaryStage) {
-		AnchorPane login = PageFactory.getLoginPage().getPagePane();
-		StackPane appRoot = new StackPane(login);
+		StackPane appRoot = new StackPane();
 
 		Scene scene = new Scene(appRoot);
 		scene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
 
 		primaryStage.setScene(scene);
+		primaryStage.setHeight(740);
+		primaryStage.setWidth(360);
 		primaryStage.setTitle("NutriMon - Don't waste, it's time to eat!");
 		primaryStage.getIcons().add(new Image("img/NutriMon logo.png"));
-		primaryStage.setResizable(true);
+		primaryStage.setResizable(false);
 		primaryStage.show();
 
 		PageFactory.setApp(appRoot);

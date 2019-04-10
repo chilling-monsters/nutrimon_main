@@ -2,6 +2,7 @@ package chillingMonsters.Pages;
 
 import chillingMonsters.Pages.ingredientPage.ingredientPage;
 import chillingMonsters.Pages.loginPage.loginPage;
+import chillingMonsters.Pages.navMenu.navMenu;
 import chillingMonsters.Pages.recipePage.recipeCreatePage;
 import chillingMonsters.Pages.recipePage.recipeEntryPage;
 import chillingMonsters.Pages.recipePage.recipePage;
@@ -25,6 +26,7 @@ public class PageFactory {
 
 	private static loginPage login = new loginPage();
 	private static registerPage register = new registerPage();
+	private static navMenu menu = new navMenu();
 
 	private static stockPage stock;
 	private static stockEntryPage stockEntry;
@@ -42,6 +44,8 @@ public class PageFactory {
 
 	public static void setApp(StackPane s) {
 		appRoot = s;
+		appRoot.getChildren().add(menu.getPagePane());
+		appRoot.getChildren().add(login.getPagePane());
 	}
 
 	public static Page getLoginPage() {
@@ -105,6 +109,7 @@ public class PageFactory {
 
 	public static void toNextPage(Page nextPage) {
 		Page currentPage = pageHistory.get(0);
+		if (pageHistory.size() > 1 && nextPage == pageHistory.get(1)) pageHistory.remove(currentPage);
 
 		if (pageHistory.contains(nextPage)) pageHistory.remove(nextPage);
 		pageHistory.add(0, nextPage);
@@ -124,9 +129,37 @@ public class PageFactory {
 			new KeyValue(curP.opacityProperty(), 0));
 
 		Timeline slide = new Timeline(start, end);
-		slide.setOnFinished(e -> {
-			appRoot.getChildren().remove(curP);
-		});
+		slide.setOnFinished(e -> appRoot.getChildren().remove(curP));
 		slide.play();
+	}
+
+	public static void showMenu() {
+		Page currentPage = pageHistory.get(0);
+		AnchorPane curP = currentPage.getPagePane();
+
+		KeyFrame start = new KeyFrame(Duration.ZERO,
+			new KeyValue(curP.translateXProperty(), 0),
+			new KeyValue(curP.prefHeightProperty(), 740.0));
+		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
+			new KeyValue(curP.translateXProperty(), 230),
+			new KeyValue(curP.prefHeightProperty(), 550.0));
+
+		Timeline shrink = new Timeline(start, end);
+		shrink.play();
+	}
+
+	public static void hideMenu() {
+		Page currentPage = pageHistory.get(0);
+		AnchorPane curP = currentPage.getPagePane();
+
+		KeyFrame start = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
+			new KeyValue(curP.translateXProperty(), 0),
+			new KeyValue(curP.prefHeightProperty(), 740.0));
+		KeyFrame end = new KeyFrame(Duration.ZERO,
+			new KeyValue(curP.translateXProperty(), 230),
+			new KeyValue(curP.prefHeightProperty(), 550.0));
+
+		Timeline expand = new Timeline(start, end);
+		expand.play();
 	}
 }

@@ -86,7 +86,7 @@ public class recipePageController implements PageController {
 
 	@FXML
 	void onMenuClicked() {
-		PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.DEFAULT));
+		PageFactory.showMenu();
 	}
 
 	@FXML

@@ -85,7 +85,7 @@ public class stockPageController implements PageController {
 
   @FXML
   void onMenuClicked() {
-    PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.DEFAULT));
+    PageFactory.showMenu();
   }
 
   private void addToList(String label, List<StockCardComponent> group) {
