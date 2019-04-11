@@ -1,6 +1,7 @@
 package chillingMonsters.Pages;
 
 import chillingMonsters.Pages.ingredientPage.ingredientPage;
+import chillingMonsters.Pages.intakePage.intakePage;
 import chillingMonsters.Pages.loginPage.loginPage;
 import chillingMonsters.Pages.navMenu.navMenu;
 import chillingMonsters.Pages.recipePage.recipeCreatePage;
@@ -36,12 +37,15 @@ public class PageFactory {
 	private static registerPage register = new registerPage();
 	private static navMenu menu = new navMenu();
 
+	private static searchPage search;
+
 	private static stockPage stock;
 	private static stockEntryPage stockEntry;
 	private static ingredientPage ingredient;
 
 	private static searchPage search;
 	private static userProfilePage profile = null;
+	private static intakePage intake;
 
 	private static recipePage recipe;
 	private static recipeEntryPage recipeEntry;
@@ -144,6 +148,15 @@ public class PageFactory {
 		return recipeCreate;
 	}
 
+	public static Page getIntakePage() {
+		if (intake == null) intake = new intakePage();
+		return intake;
+	}
+	public static Page getIntakeRefresh() {
+		intake = new intakePage();
+		return intake;
+	}
+
 	public static Page getCurrentPage() {
 		return pageHistory.get(0);
 	}
@@ -215,11 +228,11 @@ public class PageFactory {
 		setMenuAndForm(getCurrentPage());
 	}
 	public static void setMenuAndForm(Page p) {
-		if (p instanceof loginPage || p instanceof registerPage) {
+		if (p == login || p == register) {
 			menuButton.setStyle(null);
-		} else if (p instanceof stockPage || p instanceof recipePage) {
+		} else if (p == stock || p == recipe || p == intake || p == search) {
 			menuButton.setStyle("-fx-image: url(img/MenuIcon2x.png)");
-		} else if (p instanceof navMenu) {
+		} else if (p == menu) {
 			menuButton.setStyle("-fx-image: url(img/MenuIconWhite2x.png)");
 		} else {
 			menuButton.setStyle("-fx-image: url(img/Menu-Back-Icon-White2x.png)");
@@ -232,7 +245,7 @@ public class PageFactory {
 			return;
 		}
 
-		if (p == stock || p == recipe) {
+		if (p == stock || p == recipe || p == intake || p == search) {
 			showMenu();
 			return;
 		}
