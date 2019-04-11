@@ -235,9 +235,9 @@ public class PageFactory {
 		}
 
 		Page lastPage = pageHistory.get(1);
-		if (p == recipeEntry || lastPage == recipe) {
+		if (p == recipeEntry && lastPage == recipe) {
 			lastPage = getRecipeRefresh();
-		} else if (p == stockEntry || lastPage == stock) {
+		} else if (p == stockEntry && lastPage == stock) {
 			lastPage = getStockRefresh();
 		}
 

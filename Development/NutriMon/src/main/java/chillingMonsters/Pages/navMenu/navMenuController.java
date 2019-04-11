@@ -3,18 +3,14 @@ package chillingMonsters.Pages.navMenu;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
-import chillingMonsters.Pages.recipePage.recipeCreatePage;
-import chillingMonsters.Pages.stockPage.stockEntryPage;
 import chillingMonsters.Utility;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.HashMap;
@@ -59,19 +55,15 @@ public class navMenuController implements PageController {
 		});
 		stock.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
-			PageFactory.toNextPage(
-				PageFactory.getCurrentPage() instanceof stockEntryPage
-					? PageFactory.getStockRefresh()
-					: PageFactory.getStockPage()
-			);
+			if (PageFactory.getCurrentPage() != PageFactory.getStockPage()) {
+				PageFactory.toNextPage(PageFactory.getStockRefresh());
+			}
 		});
 		recipe.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
-			PageFactory.toNextPage(
-				PageFactory.getCurrentPage() instanceof recipeCreatePage
-					? PageFactory.getRecipeRefresh()
-					: PageFactory.getRecipePage()
-			);
+			if (PageFactory.getCurrentPage() != PageFactory.getRecipePage()) {
+				PageFactory.toNextPage(PageFactory.getRecipeRefresh());
+			}
 		});
 
 		this.iconWhiteMap = new HashMap<HBox, String>() {{
