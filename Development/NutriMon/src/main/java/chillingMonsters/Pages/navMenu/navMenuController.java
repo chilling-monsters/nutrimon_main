@@ -4,6 +4,7 @@ import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Pages.intakePage.intakePage;
+import chillingMonsters.Pages.landingPage.landingPage;
 import chillingMonsters.Pages.recipePage.recipeCreatePage;
 import chillingMonsters.Pages.stockPage.stockEntryPage;
 import chillingMonsters.Utility;
@@ -59,7 +60,7 @@ public class navMenuController implements PageController {
 		today.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
 			PageFactory.toNextPage(
-				PageFactory.getCurrentPage() instanceof stockEntryPage
+				PageFactory.getCurrentPage() instanceof landingPage
 					? PageFactory.getLandingRefresh()
 					: PageFactory.getLandingPage()
 			);

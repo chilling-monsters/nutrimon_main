@@ -47,7 +47,7 @@ public class recipePageController implements PageController {
 		componentMap.put(CREATED_BY_YOU_KEY, byYou);
 
 		for (Map<String, Object> recipe : recipeList) {
-			long id = Long.parseLong(recipe.get("recipeID").toString());
+			long id = Utility.parseID(recipe.get("recipeID").toString(), 0);
 			String name  = recipe.get("recipeName").toString();
 			String category = recipe.get("recipeCategory").toString();
 			int cookTime = Integer.parseInt(recipe.get("recipeCookTime").toString());
@@ -66,7 +66,7 @@ public class recipePageController implements PageController {
 
 			group.add(sCard);
 
-			if (Long.parseLong(recipe.get("userID").toString()) == ControllerFactory.makeUserProfileController().getUserID()) {
+			if (Utility.parseID(recipe.get("userID").toString(), 0) == ControllerFactory.makeUserProfileController().getUserID()) {
 				RecipeCardComponent yourCard = new RecipeCardComponent(id, name, category, cookTime, calories);
 				yourCard.getStyleClass().add("hightlightCard");
 				byYou.add(yourCard);
@@ -82,11 +82,6 @@ public class recipePageController implements PageController {
 		for (String label : componentMap.keySet()) {
 			addToList(label, componentMap.get(label));
 		}
-	}
-
-	@FXML
-	void onMenuClicked() {
-		PageFactory.showMenu();
 	}
 
 	@FXML

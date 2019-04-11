@@ -137,7 +137,7 @@ public class recipeEntryPageController implements PageController {
 		float d = 0;
 
 		for (Map<String, Object> ingr : ingredientList) {
-			Long foodID = Long.parseLong(ingr.get("foodID").toString());
+			Long foodID = Utility.parseID(ingr.get("foodID").toString(), 0);
 			Float amount = Float.parseFloat(ingr.get("ingredientQtty").toString());
 			Float stockAmount = stockController.getStockQuantity(foodID);
 

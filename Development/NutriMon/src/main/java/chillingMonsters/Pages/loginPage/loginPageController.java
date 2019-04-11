@@ -57,7 +57,7 @@ public class loginPageController implements PageController {
             return;
         }
 
-        PageFactory.toNextPage(PageFactory.getLandingPage());
+        PageFactory.toNextPage(PageFactory.getLandingRefresh());
     }
 
     @FXML

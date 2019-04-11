@@ -21,7 +21,7 @@ public class App extends Application {
 		primaryStage.setScene(scene);
 //		primaryStage.initStyle(StageStyle.TRANSPARENT);
 		primaryStage.setTitle("NutriMon - Don't waste, it's time to eat!");
-		primaryStage.getIcons().add(new Image("/img/NutriMonLogo2x.png"));
+		primaryStage.getIcons().add(new Image("img/NutriMonLogo2x.png"));
 		primaryStage.setResizable(false);
 		primaryStage.show();
 

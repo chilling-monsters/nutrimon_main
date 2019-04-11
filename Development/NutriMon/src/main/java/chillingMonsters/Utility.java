@@ -2,9 +2,16 @@ package chillingMonsters;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Utility {
 	public static final int SPOILAGE_WARNING_DAYS = 5;
@@ -14,7 +21,7 @@ public class Utility {
 	public static final double MIN_TOP_ANCHOR = 65;
 	public static final double MAX_TOP_ANCHOR = 295;
 
-	static String[] suffixes = {
+	private static String[] suffixes = {
 		//0     1     2     3     4     5     6     7     8     9
 		"th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th",
 		//10    11    12    13    14    15    16    17    18    19
@@ -24,7 +31,7 @@ public class Utility {
 		//30    31
 		"th", "st" };
 
-	static Map<String, String> knownAcronyms = new HashMap<String, String>() {{
+	private static Map<String, String> knownAcronyms = new HashMap<String, String>() {{
 		put("WITH SALT", "SALTED");
 		put("LRG", "LARGE");
 		put("SML", "SMALL");
@@ -127,13 +134,32 @@ public class Utility {
 	}
 
 	public static String parseDate(Timestamp dateTime) {
-
 		Date dt = new Date((long) dateTime.getTime());
 
 		int day = Integer.parseInt(new SimpleDateFormat("d").format(dt));
 		String month = new SimpleDateFormat("MMM").format(dt);
+		int year = Integer.parseInt(new SimpleDateFormat("yyyy").format(dt));
 
 		return month + " " + day + suffixes[day];
+	}
+
+	public static String parseProperDate(String s) {
+		LocalDate dateAdded = LocalDate.parse(s);
+		long dayDiff = DAYS.between(dateAdded, LocalDate.now());
+
+		if (dayDiff == 0) return "Today";
+		else if (dayDiff == 1) return "Yesterday";
+
+		DayOfWeek wkDay = dateAdded.getDayOfWeek();
+		DayOfWeek todayWeekday = LocalDate.now().getDayOfWeek();
+		String weekDayStr = wkDay.getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+		if (dayDiff < todayWeekday.getValue()) {
+			return  "This " + weekDayStr;
+		} else if (dayDiff < todayWeekday.getValue() + 7){
+			return  "Last " + weekDayStr;
+		} else {
+			return parseDate(Timestamp.valueOf(dateAdded.atStartOfDay()));
+		}
 	}
 
 	public static Timestamp today() {
@@ -141,9 +167,25 @@ public class Utility {
 	}
 
 	public static double parseQuantity(String s, double defaultValue) {
+		if (s == null) return defaultValue;
+
 		double result;
 		try {
 			result = Double.parseDouble(s);
+			if (result < 0) throw new NumberFormatException();
+		} catch (NumberFormatException e) {
+			result = defaultValue;
+		}
+
+		return result;
+	}
+
+	public static long parseID(String s, long defaultValue) {
+		if (s == null) return defaultValue;
+
+		long result;
+		try {
+			result = Long.parseLong(s);
 			if (result < 0) throw new NumberFormatException();
 		} catch (NumberFormatException e) {
 			result = defaultValue;

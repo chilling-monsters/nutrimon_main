@@ -161,14 +161,14 @@ public class PageFactory {
 	}
 
 	public static Page getLandingPage() {
-		getStockRefresh();
-		getRecipeRefresh();
-		getIntakeRefresh();
-
 		if (landing == null) landing = new landingPage();
 		return landing;
 	}
 	public static Page getLandingRefresh() {
+		getStockRefresh();
+		getRecipeRefresh();
+		getIntakeRefresh();
+
 		landing = new landingPage();
 		return landing;
 	}
@@ -217,7 +217,6 @@ public class PageFactory {
 		else if (nextPage == recipe) menu.setSelected(4);
 	}
 	public static void showMenu() {
-		menu.getPagePane().setVisible(true);
 		KeyFrame start = new KeyFrame(Duration.ZERO);
 		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
 			new KeyValue(appRoot.translateXProperty(), 230),
@@ -240,7 +239,6 @@ public class PageFactory {
 
 		Timeline shrink = new Timeline(start, end);
 		shrink.play();
-		shrink.setOnFinished(event -> menu.getPagePane().setVisible(false));
 
 		menuShown = false;
 		setMenuAndForm(getCurrentPage());

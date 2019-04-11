@@ -83,7 +83,7 @@ public class registerPageController implements PageController {
 
         // Update database
         register.createProfile(name, email, new_password);
-        PageFactory.toNextPage(PageFactory.getLandingPage());
+        PageFactory.toNextPage(PageFactory.getLandingRefresh());
     }
 
     @FXML
