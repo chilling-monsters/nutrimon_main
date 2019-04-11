@@ -20,7 +20,7 @@
             <Font name="SF Pro Display Regular" size="25.0" />
          </font>
       </Label>
-      <AnchorPane prefHeight="85.0" style="-fx-background-color: #F5A623;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0">
+      <AnchorPane prefHeight="80.0" style="-fx-background-color: #F5A623;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
          <children>
             <VBox AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
                <children>

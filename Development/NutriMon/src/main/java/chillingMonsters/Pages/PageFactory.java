@@ -2,6 +2,7 @@ package chillingMonsters.Pages;
 
 import chillingMonsters.Pages.ingredientPage.ingredientPage;
 import chillingMonsters.Pages.intakePage.intakePage;
+import chillingMonsters.Pages.landingPage.landingPage;
 import chillingMonsters.Pages.loginPage.loginPage;
 import chillingMonsters.Pages.navMenu.navMenu;
 import chillingMonsters.Pages.recipePage.recipeCreatePage;
@@ -46,6 +47,8 @@ public class PageFactory {
 	private static searchPage search;
 	private static userProfilePage profile = null;
 	private static intakePage intake;
+
+	private static landingPage landing;
 
 	private static recipePage recipe;
 	private static recipeEntryPage recipeEntry;
@@ -157,6 +160,19 @@ public class PageFactory {
 		return intake;
 	}
 
+	public static Page getLandingPage() {
+		getStockRefresh();
+		getRecipeRefresh();
+		getIntakeRefresh();
+
+		if (landing == null) landing = new landingPage();
+		return landing;
+	}
+	public static Page getLandingRefresh() {
+		landing = new landingPage();
+		return landing;
+	}
+
 	public static Page getCurrentPage() {
 		return pageHistory.get(0);
 	}
@@ -195,6 +211,8 @@ public class PageFactory {
 		slide.play();
 
 		if (nextPage == search) menu.setSelected(0);
+		else if (nextPage == landing) menu.setSelected(1);
+		else if (nextPage == intake) menu.setSelected(2);
 		else if (nextPage == stock) menu.setSelected(3);
 		else if (nextPage == recipe) menu.setSelected(4);
 	}
@@ -230,7 +248,7 @@ public class PageFactory {
 	public static void setMenuAndForm(Page p) {
 		if (p == login || p == register) {
 			menuButton.setStyle(null);
-		} else if (p == stock || p == recipe || p == intake || p == search) {
+		} else if (p == stock || p == recipe || p == intake || p == search || p == landing) {
 			menuButton.setStyle("-fx-image: url(img/MenuIcon2x.png)");
 		} else if (p == menu) {
 			menuButton.setStyle("-fx-image: url(img/MenuIconWhite2x.png)");
@@ -245,7 +263,7 @@ public class PageFactory {
 			return;
 		}
 
-		if (p == stock || p == recipe || p == intake || p == search) {
+		if (p == stock || p == recipe || p == intake || p == search || p == landing) {
 			showMenu();
 			return;
 		}
