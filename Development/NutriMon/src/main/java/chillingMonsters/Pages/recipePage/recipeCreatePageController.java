@@ -89,7 +89,7 @@ public class recipeCreatePageController implements PageController {
 
 			List<Map<String, Object>> ingrL = (List<Map<String, Object>>) recipe.get("ingredients");
 			for (Map<String, Object> i : ingrL) {
-				addToIngredientList(Long.parseLong(i.get("foodID").toString()), Float.parseFloat(i.get("ingredientQtty").toString()));
+				addToIngredientList(Utility.parseID(i.get("foodID").toString(), 0), Float.parseFloat(i.get("ingredientQtty").toString()));
 			}
 		}
 

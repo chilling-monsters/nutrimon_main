@@ -46,10 +46,10 @@ public class stockPageController implements PageController {
     for (int i = 0; i < stockList.size(); i++) {
       Map<String, Object> stock = stockList.get(i);
 
-      long id = Long.parseLong(stock.get("foodID").toString());
+      long id = Utility.parseID(stock.get("foodID").toString(), 0);
       String name  = Utility.parseFoodName(stock.get("foodName").toString());
-      double amount = Double.parseDouble(stock.get("quantity").toString());
-      long exp = Long.parseLong(stock.get("next_exp").toString());
+      double amount = Utility.parseQuantity(stock.get("quantity").toString(), 0);
+      long exp = Utility.parseID(stock.get("next_exp").toString(), 0);
       String category = stock.get("fCategory").toString();
       StockCardComponent sCard = new StockCardComponent(id, name, amount, exp, category);
 
@@ -81,11 +81,6 @@ public class stockPageController implements PageController {
   @FXML
   void stockCreateButtonAction() {
     PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.STOCK));
-  }
-
-  @FXML
-  void onMenuClicked() {
-    PageFactory.showMenu();
   }
 
   private void addToList(String label, List<StockCardComponent> group) {
