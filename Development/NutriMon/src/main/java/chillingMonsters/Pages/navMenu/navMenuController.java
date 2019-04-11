@@ -3,6 +3,9 @@ package chillingMonsters.Pages.navMenu;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
+import chillingMonsters.Pages.intakePage.intakePage;
+import chillingMonsters.Pages.recipePage.recipeCreatePage;
+import chillingMonsters.Pages.stockPage.stockEntryPage;
 import chillingMonsters.Utility;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -58,6 +61,14 @@ public class navMenuController implements PageController {
 			if (PageFactory.getCurrentPage() != PageFactory.getStockPage()) {
 				PageFactory.toNextPage(PageFactory.getStockRefresh());
 			}
+		});
+		intake.setOnMouseClicked(event -> {
+			PageFactory.hideMenu();
+			PageFactory.toNextPage(
+				PageFactory.getCurrentPage() instanceof intakePage
+					? PageFactory.getIntakePage()
+					: PageFactory.getIntakeRefresh()
+			);
 		});
 		recipe.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
