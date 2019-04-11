@@ -51,7 +51,7 @@ public class StockEntryCardComponent extends AnchorPane {
 		}
 
 		entryAddedDate.setText(String.format("Added %s", Utility.parseDate(addedDate)));
-		entryAmount.setText(String.format("%.0fg", amount));
+		entryAmount.setText(String.format("%.1fg", amount));
 	}
 
 	public long getStockItemID() { return stockItemID; }

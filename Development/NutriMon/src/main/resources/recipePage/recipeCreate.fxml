@@ -45,7 +45,7 @@
                      <children>
                             <VBox AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
                            <children>
-                              <TextField fx:id="formName" styleClass="form-field" />
+                              <TextField fx:id="formName" promptText="Roasted Squash" styleClass="form-field" />
                               <Label prefWidth="300.0" styleClass="tagText" text="RECIPE NAME" textFill="#9e9e9e">
                                  <font>
                                     <Font name="SF Pro Display Regular" size="9.0" />
@@ -68,7 +68,7 @@
                                     </VBox>
                                     <VBox alignment="TOP_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <TextField fx:id="formCookTime" alignment="CENTER_RIGHT" promptText="mins" styleClass="form-field">
+                                          <TextField fx:id="formCookTime" alignment="CENTER_RIGHT" promptText="15 mins" styleClass="form-field">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="13.0" />
                                              </font>

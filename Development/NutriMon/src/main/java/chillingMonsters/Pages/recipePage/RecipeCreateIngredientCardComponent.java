@@ -32,7 +32,7 @@ public class RecipeCreateIngredientCardComponent extends AnchorPane {
 			throw new RuntimeException(e);
 		}
 
-		amountTxF.setText(String.format("%.0fg", amount));
+		amountTxF.setText(String.format("%.1fg", amount));
 		cardName.setText(name);
 		cardCategory.setText(category);
 	}

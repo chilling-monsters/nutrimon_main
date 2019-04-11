@@ -70,7 +70,7 @@ public class PageFactory {
 		StackPane.setAlignment(menuButton, Pos.TOP_LEFT);
 		StackPane.setMargin(menuButton, new Insets(20, 0, 0, 20));
 
-		menuButton.setOnMouseClicked(event -> handleNavigation());
+		menuButton.setOnMouseClicked(event -> handleBackNavigation());
 	}
 
 	public static Page getLoginPage() {
@@ -80,8 +80,8 @@ public class PageFactory {
 		return register;
 	}
 	public static Page getLandingPage() {
-		getStockPage();
-		getRecipePage();
+		getStockRefresh();
+		getRecipeRefresh();
 		return getStockPage();
 	}
 
@@ -124,7 +124,8 @@ public class PageFactory {
 		return recipe;
 	}
 	public static Page getRecipeEntryPage(long recipeID) {
-		return new recipeEntryPage(recipeID);
+		recipeEntry = new recipeEntryPage(recipeID);
+		return recipeEntry;
 	}
 	public static Page getRecipeCreatePage(long recipeID, PageOption option) {
 		if (recipeCreate == null || recipeCreate.recipeID != recipeID || recipeCreate.option != option) {
@@ -221,14 +222,25 @@ public class PageFactory {
 			menuButton.setStyle("-fx-image: url(img/Menu-Back-Icon-White2x.png)");
 		}
 	}
-	public static void handleNavigation() {
+	public static void handleBackNavigation() {
 		Page p = getCurrentPage();
 		if (menuShown) {
 			hideMenu();
-		} else if (p == stock || p == recipe) {
-			showMenu();
-		} else {
-			toNextPage(pageHistory.get(1));
+			return;
 		}
+
+		if (p == stock || p == recipe) {
+			showMenu();
+			return;
+		}
+
+		Page lastPage = pageHistory.get(1);
+		if (p == recipeEntry || lastPage == recipe) {
+			lastPage = getRecipeRefresh();
+		} else if (p == stockEntry || lastPage == stock) {
+			lastPage = getStockRefresh();
+		}
+
+		toNextPage(lastPage);
 	}
 }

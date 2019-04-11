@@ -173,7 +173,7 @@ public class stockEntryPageController implements PageController {
 			}
 		}
 
-		entryTotalAmount.setText(String.format("%.0f g", totalAmount));
+		entryTotalAmount.setText(String.format("%.1f g", totalAmount));
 	}
 
 	private void handleMoreOnClick() {
@@ -249,8 +249,8 @@ public class stockEntryPageController implements PageController {
 			AnchorPane.setTopAnchor(adjustSizePane, Utility.MAX_TOP_ANCHOR);
 
 			dateTxF.setValue(displayAddedDate.toLocalDateTime().toLocalDate());
-			amountTxF.setText(String.format("%.0f", displayAmount));
-			entryCurrentAmount.setText(String.format("%.0f grams", displayAmount));
+			amountTxF.setText(String.format("%.1f", displayAmount));
+			entryCurrentAmount.setText(String.format("%.1f grams", displayAmount));
 
 			setExpiryString();
 
@@ -279,8 +279,8 @@ public class stockEntryPageController implements PageController {
 		}
 
 
-		entryCurrentAmount.setText(String.format("%.0f grams", displayAmount));
-		entryTotalAmount.setText(String.format("%.0f g", totalAmount));
+		entryCurrentAmount.setText(String.format("%.1f grams", displayAmount));
+		entryTotalAmount.setText(String.format("%.1f g", totalAmount));
 	}
 
 	private void handleCardClick(MouseEvent event) {

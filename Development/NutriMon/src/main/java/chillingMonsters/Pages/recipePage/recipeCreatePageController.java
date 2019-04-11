@@ -144,7 +144,7 @@ public class recipeCreatePageController implements PageController {
 	public void addToIngredientList(long foodID, float amount) {
 		if (ingrMap.containsKey(foodID)) return;
 
-		ingrMap.put(foodID, new SimpleStringProperty(amount == 0 ? "g" : String.format("%.0fg", amount)));
+		ingrMap.put(foodID, new SimpleStringProperty(amount == 0 ? "g" : String.format("%.1fg", amount)));
 		renderIngredientList();
 	}
 
@@ -183,13 +183,13 @@ public class recipeCreatePageController implements PageController {
 		for (Long k : ingrMap.keySet()) {
 			String value = ingrMap.get(k).getValue();
 
-			value = value.replaceAll("[^0-9]", "");
-			if (value.isEmpty()) {
+			float fValue = Float.valueOf(value.replaceAll("[^\\d.]+|\\.(?!\\d)", ""));
+			if (value.isEmpty() || Math.abs(fValue - 0) < 0.01) {
 				AlertHandler.showAlert(Alert.AlertType.ERROR, "Oops!", "Please use some ingredients for your recipe");
 				return;
 			}
 
-			ingredients.put(k, Float.parseFloat(value));
+			ingredients.put(k, fValue);
 		}
 
 
@@ -209,7 +209,7 @@ public class recipeCreatePageController implements PageController {
 		if (recipeID > 0) {
 			PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
 		} else {
-			PageFactory.toNextPage(PageFactory.getRecipePage());
+			PageFactory.toNextPage(PageFactory.getRecipeRefresh());
 		}
 	}
 
