@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.landingPage.landingPageController">
+    <children>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="360.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+            <content>
+                <AnchorPane styleClass="cardScrollPane">
+                    <children>
+                        <VBox fx:id="cardList" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="0.0">
+                            <padding>
+                                <Insets bottom="20.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets top="-30.0" />
+                    </padding>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+        <Label layoutX="121.0" layoutY="226.0" styleClass="titleText" text="For Today" textFill="#f5a623" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
+            <font>
+                <Font name="SF Pro Display Regular" size="25.0" />
+            </font>
+        </Label>
+    </children>
+    <styleClass>
+        <String fx:value="screenPane" />
+        <String fx:value="pane" />
+    </styleClass>
+</AnchorPane>

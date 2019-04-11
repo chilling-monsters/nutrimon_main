@@ -56,6 +56,14 @@ public class navMenuController implements PageController {
 			PageFactory.hideMenu();
 			PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.DEFAULT));
 		});
+		today.setOnMouseClicked(event -> {
+			PageFactory.hideMenu();
+			PageFactory.toNextPage(
+				PageFactory.getCurrentPage() instanceof stockEntryPage
+					? PageFactory.getLandingRefresh()
+					: PageFactory.getLandingPage()
+			);
+		});
 		stock.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
 			if (PageFactory.getCurrentPage() != PageFactory.getStockPage()) {
@@ -66,8 +74,8 @@ public class navMenuController implements PageController {
 			PageFactory.hideMenu();
 			PageFactory.toNextPage(
 				PageFactory.getCurrentPage() instanceof intakePage
-					? PageFactory.getIntakePage()
-					: PageFactory.getIntakeRefresh()
+					? PageFactory.getIntakeRefresh()
+					: PageFactory.getIntakePage()
 			);
 		});
 		recipe.setOnMouseClicked(event -> {
