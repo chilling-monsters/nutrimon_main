@@ -11,12 +11,18 @@ import chillingMonsters.Controllers.Stock.StockControllerImpl;
 import chillingMonsters.Controllers.UserProfile.UserProfileController;
 import chillingMonsters.Controllers.UserProfile.UserProfileControllerImpl;
 
+/**
+ * Factory class to build and hold singletons of all controllers.
+ */
 public abstract class ControllerFactory {
+  // Singletons of each controller.
   private static StockController stockControl = null;
   private static UserProfileController loginControl = null;
   private static RecipeController recipeControl = null;
   private static IngredientController ingredientControl = null;
   private static IntakeController intakeControl = null;
+
+  private ControllerFactory(){}
 
   public static StockController makeStockController() {
     if (stockControl == null) {

@@ -12,9 +12,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Abstract controller class that keeps track of logged in user and provides generic CRUD
+ * functionality.
+ */
 public abstract class NutriMonController {
   protected static long userId;
-  protected final String table;
+  private final String table;
   protected final String pk;
 
   public NutriMonController(String table, String pk) {
@@ -22,18 +26,18 @@ public abstract class NutriMonController {
     this.pk = pk;
   }
 
-  public static void setUserId(long id) {
+  protected static void setUserId(long id) {
     userId = id;
   }
 
-  public static long getUserId() {
+  protected static long getUserId() {
     return userId;
   }
 
   /**
    * Retrieve ALL the information of a table.
    */
-  public List<Map<String, Object>> show() {
+  protected List<Map<String, Object>> show() {
     List<Map<String, Object>> output = new ArrayList<>();
     try {
       ResultSet rs;
@@ -76,7 +80,7 @@ public abstract class NutriMonController {
     return null;
   }
 
-  public void delete(long id) {
+  protected void delete(long id) {
     try (PreparedStatement stmt = DBConnect.getConnection()
             .prepareStatement(String.format("DELETE FROM %s WHERE userID = ? AND %s = ?",
                     table, pk))) {
@@ -118,7 +122,7 @@ public abstract class NutriMonController {
     }
   }
 
-  public void create(Map<String, Object> values) {
+  protected void create(Map<String, Object> values) {
     StringBuilder fields = new StringBuilder("(");
     StringBuilder vals = new StringBuilder("(");
     String toAppend;
@@ -157,7 +161,7 @@ public abstract class NutriMonController {
    * @param record input string
    * @return true if found
    */
-  public boolean exists(String table, String attr, String record) {
+  protected boolean exists(String table, String attr, String record) {
     boolean check = false;
 
     String queryString = "SELECT " + attr + " FROM " + table +
