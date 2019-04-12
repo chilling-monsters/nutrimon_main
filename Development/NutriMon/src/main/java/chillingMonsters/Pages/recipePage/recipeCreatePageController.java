@@ -82,7 +82,7 @@ public class recipeCreatePageController implements PageController {
 			RecipeController controller = ControllerFactory.makeRecipeController();
 			Map<String, Object> recipe = controller.getRecipe(recipeID);
 
-			formName.setText(recipe.get("recipeName").toString());
+			formName.setText(Utility.toCapitalized(recipe.get("recipeName").toString()));
 			formCategory.setText(recipe.get("recipeCategory").toString());
 			formDetails.setText(recipe.get("recipeDescription").toString());
 			formCookTime.setText(recipe.get("recipeCookTime").toString());

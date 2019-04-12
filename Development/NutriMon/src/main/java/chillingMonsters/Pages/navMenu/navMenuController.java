@@ -59,11 +59,7 @@ public class navMenuController implements PageController {
 		});
 		today.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
-			PageFactory.toNextPage(
-				PageFactory.getCurrentPage() instanceof landingPage
-					? PageFactory.getLandingRefresh()
-					: PageFactory.getLandingPage()
-			);
+			PageFactory.toNextPage(PageFactory.getLandingPage());
 		});
 		stock.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
@@ -73,11 +69,9 @@ public class navMenuController implements PageController {
 		});
 		intake.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
-			PageFactory.toNextPage(
-				PageFactory.getCurrentPage() instanceof intakePage
-					? PageFactory.getIntakeRefresh()
-					: PageFactory.getIntakePage()
-			);
+			if (PageFactory.getCurrentPage() != PageFactory.getIntakePage()) {
+				PageFactory.toNextPage(PageFactory.getIntakeRefresh());
+			}
 		});
 		recipe.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();

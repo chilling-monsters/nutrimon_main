@@ -161,8 +161,12 @@ public class PageFactory {
 		intake = new intakePage();
 		return intake;
 	}
-	public static Page getIntakeEntry(long intakeID) {
-		intakeEntry = new intakeEntryPage(intakeID);
+	public static Page getIntakeEntry(long intakeID, PageOption option) {
+		intakeEntry = new intakeEntryPage(intakeID, option);
+		return intakeEntry;
+	}
+	public static Page getIntakeCreateEntry(long foodID) {
+		intakeEntry = new intakeEntryPage(foodID, PageOption.INTAKE);
 		return intakeEntry;
 	}
 

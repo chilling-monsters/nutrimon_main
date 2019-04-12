@@ -88,7 +88,7 @@
                                     <Font name="SF Pro Display Regular" size="25.0" />
                                  </font>
                               </Label>
-                              <Label styleClass="tagText" text="CURRENT AMOUNT" textAlignment="RIGHT" textFill="#9e9e9e">
+                              <Label styleClass="tagText" text="CURRENT CALORIES" textAlignment="RIGHT" textFill="#9e9e9e">
                                  <font>
                                     <Font name="SF Pro Text Regular" size="9.0" />
                                  </font>
@@ -108,7 +108,7 @@
                               <Insets />
                            </VBox.margin>
                         </TextField>
-                        <Label styleClass="tagText" text="CURRENT AMOUNT" textAlignment="RIGHT" textFill="#9e9e9e">
+                        <Label styleClass="tagText" text="NEW AMOUNT" textAlignment="RIGHT" textFill="#9e9e9e">
                            <font>
                               <Font name="SF Pro Text Regular" size="9.0" />
                            </font>
@@ -154,13 +154,13 @@
                   </VBox>
                </children>
             </AnchorPane>
-                <Button fx:id="addRecipeButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="Save" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                <Button fx:id="saveEntryButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="Save" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <font>
                         <Font size="12.5" />
                     </font>
                     <styleClass>
                         <String fx:value="createStockButton" />
-                        <String fx:value="secondaryButton" />
+                        <String fx:value="tertiaryButton" />
                         <String fx:value="myButton" />
                     </styleClass>
                 </Button>

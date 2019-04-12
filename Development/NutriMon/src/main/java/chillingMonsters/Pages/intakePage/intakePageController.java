@@ -4,6 +4,8 @@ import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.Ingredient.IngredientController;
 import chillingMonsters.Controllers.Intake.IntakeController;
 import chillingMonsters.Pages.PageController;
+import chillingMonsters.Pages.PageFactory;
+import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,12 +31,7 @@ public class intakePageController implements PageController {
 	private VBox cardList;
 
 	@FXML
-	private Button stockCreateButton;
-
-	@FXML
-	void stockCreateButtonAction(ActionEvent event) {
-
-	}
+	private Button createButton;
 
 	@FXML
 	public void initialize() {
@@ -57,25 +54,26 @@ public class intakePageController implements PageController {
 				String type = intake.get("type").toString();
 
 				Long ID = 0L;
-				double amount = 0D;
-				String name = "", category = "";
+				String name = "", category = "", amountStr = "";
 				if (intake.get("foodID") != null) {
 					ID = Utility.parseID(intake.get("foodID").toString(), 0);
-					amount = Utility.parseQuantity(intake.get("intakeQtty").toString(), 0);
+					double amount = Utility.parseQuantity(intake.get("intakeQtty").toString(), 0);
+					amountStr = String.format("%.1fg", amount);
 
 					Map<String, Object> ingr = ControllerFactory.makeIngredientController().getIngredient(ID);
 					name = Utility.parseFoodName(ingr.get("foodName").toString());
 					category = ingr.get("fCategory").toString();
 				} else if (intake.get("recipeID") != null) {
 					ID = Utility.parseID(intake.get("recipeID").toString(), 0);
-					amount = Utility.parseQuantity(intake.get("serving").toString(), 0);
+					double amount = Utility.parseQuantity(intake.get("serving").toString(), 0);
+					amountStr = String.format("%.1f serving" + ((Math.abs(amount - 1) > 0.1) ? "s" : ""), amount);
 
 					Map<String, Object> rcp = ControllerFactory.makeRecipeController().getRecipe(ID);
-					name = rcp.get("recipeName").toString();
+					name = Utility.toCapitalized(rcp.get("recipeName").toString());
 					category = rcp.get("recipeCategory").toString();
 				}
 
-				IntakeCardComponent inCard = new IntakeCardComponent(intakeID, name, String.format("%s: %s", type, category), calories, amount);
+				IntakeCardComponent inCard = new IntakeCardComponent(intakeID, name, String.format("%s: %s", type, category), calories, amountStr);
 
 				dateGroup.add(inCard);
 			}
@@ -112,4 +110,8 @@ public class intakePageController implements PageController {
 		}
 	}
 
+	@FXML
+	void createIntakeAction() {
+		PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.INTAKE));
+	}
 }
