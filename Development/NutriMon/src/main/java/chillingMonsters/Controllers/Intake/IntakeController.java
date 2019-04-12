@@ -35,4 +35,11 @@ public interface IntakeController {
    * @param date the new date of the intake.
    */
   void updateIntakeDate(long intakeID, String date);
+
+  /**
+   * Gets the intake of the user with the given intakeID.
+   * @param intakeID the identifier of the intake instance.
+   * @return the desired intake. Returns null if no such intake exists.
+   */
+  Map<String, Object> getIntake(long intakeID);
 }

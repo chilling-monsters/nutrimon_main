@@ -29,6 +29,8 @@ ALTER TABLE foodintake DROP FOREIGN KEY fk_foodIntake_userIntake;
 ALTER TABLE userintake MODIFY COLUMN intakeID BIGINT(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE recipeintake ADD CONSTRAINT fk_recipeIntake_userIntake FOREIGN KEY (intakeID) REFERENCES userintake (intakeID);
 ALTER TABLE foodintake ADD CONSTRAINT fk_foodIntake_userIntake FOREIGN KEY (intakeID) REFERENCES userintake (intakeID);
+ALTER TABLE recipes ADD COLUMN recipeCookTime INT NOT NULL;
+ALTER TABLE recipes ADD COLUMN recipeCategory VARCHAR(255) NOT NULL;
 delimiter //
 
 DROP PROCEDURE IF EXISTS wipe_db //
@@ -310,6 +312,28 @@ BEGIN
 		FROM foodintake JOIN userintake USING(intakeID)
         WHERE userID = user) intakes
 	ORDER BY date DESC, time;
+END //
+
+DROP PROCEDURE IF EXISTS get_intake //
+CREATE PROCEDURE get_intake
+(
+	user BIGINT(20),
+    intake BIGINT(20)
+)
+BEGIN
+	SELECT * FROM
+		(SELECT intakeID, serving, recipeID, NULL as intakeQtty, NULL as foodID, 'recipe' as type,
+			CAST(intakeDate as DATE) as 'date', CAST(intakeDate as TIME) as 'time',
+            calcRecipeIntakeCalories(intakeID) as 'Calories'
+		FROM recipeintake JOIN userintake USING(intakeID)
+        WHERE userID = user AND intakeID = intake
+		UNION
+		SELECT intakeID, NULL as serving, NULL as recipeID, intakeQtty, foodID, 'stock' as type,
+			CAST(intakeDate as DATE) as 'date', CAST(intakeDate as TIME) as 'time',
+            calcFoodIntakeCalories(intakeID) as 'Calories'
+		FROM foodintake JOIN userintake USING(intakeID)
+        WHERE userID = user AND intakeID = intake) intakes
+	LIMIT 1;
 END //
 
 DROP PROCEDURE IF EXISTS intake_recipe//
