@@ -29,4 +29,23 @@ public class AlertHandler {
         ButtonType confirmedButton = (ButtonType) confirmedOption.get();
         return confirmedButton.getButtonData() == ButtonBar.ButtonData.OK_DONE;
     }
+
+    public static boolean showCriticalAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType); // initialize
+
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        ButtonType confirm = new ButtonType("Confirm");
+        ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(confirm, cancel);
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == confirm)
+            return true;
+        else
+            return false;
+    }
 }

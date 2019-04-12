@@ -1,13 +1,20 @@
 package chillingMonsters.Controllers.UserProfile;
 
+import java.util.List;
+import java.util.Map;
+
 public interface UserProfileController {
   boolean verifyCredentials(String email, String password);
 
   void createProfile(String userName, String userEmail, String password);
 
-  void updateProfile();
+  void updateProfile(String userName, String userEmail, String password, String gender);
 
-  boolean exists(String table, String attr, String record);
+  void deleteProfile();
+
+  boolean exists(String email);
 
   long getUserID();
+
+  Map<String, Object> getProfile();
 }

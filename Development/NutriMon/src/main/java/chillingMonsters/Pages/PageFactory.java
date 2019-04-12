@@ -10,6 +10,7 @@ import chillingMonsters.Pages.registerPage.registerPage;
 import chillingMonsters.Pages.searchPage.searchPage;
 import chillingMonsters.Pages.stockPage.stockEntryPage;
 import chillingMonsters.Pages.stockPage.stockPage;
+import chillingMonsters.Pages.userProfilePage.userProfilePage;
 import chillingMonsters.Utility;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -19,7 +20,6 @@ import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -41,6 +41,7 @@ public class PageFactory {
 	private static ingredientPage ingredient;
 
 	private static searchPage search;
+	private static userProfilePage profile = null;
 
 	private static recipePage recipe;
 	private static recipeEntryPage recipeEntry;
@@ -79,9 +80,11 @@ public class PageFactory {
 	public static Page getRegisterPage() {
 		return register;
 	}
+	public static Page getUserProfilePage() {
+		profile = new userProfilePage();
+		return profile;
+	}
 	public static Page getLandingPage() {
-		getStockRefresh();
-		getRecipeRefresh();
 		return getStockPage();
 	}
 

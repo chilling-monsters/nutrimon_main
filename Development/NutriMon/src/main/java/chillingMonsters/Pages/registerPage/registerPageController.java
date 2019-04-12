@@ -46,7 +46,7 @@ public class registerPageController implements PageController {
             return;
         }
 
-        if (register.exists("userProfile", "userEmail", email)) {
+        if (register.exists(email)) {
             AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "This Email address has been used");
             return;
         }
