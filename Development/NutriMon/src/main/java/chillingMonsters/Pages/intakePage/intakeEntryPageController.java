@@ -7,25 +7,33 @@ import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Pages.searchPage.SearchCardComponent;
 import chillingMonsters.Utility;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class intakeEntryPageController implements PageController {
 	private long intakeID;
-	private double currentAmount = 0;
 	private PageOption option;
+
+	private double amount;
+	private double caloriesPerUnit;
 
 	@FXML
 	private Label entryDate;
@@ -70,11 +78,19 @@ public class intakeEntryPageController implements PageController {
 		cancelEntryButton.setOnAction(event -> handleCancelOnClick());
 		deleteEntryButton.setOnAction(event -> handleDeleteOnClick());
 		saveEntryButton.setOnAction(event -> handleSaveOnClick());
+		amountTxF.textProperty().addListener(event -> handleInputChange());
+		dateTxF.valueProperty().addListener(event -> handleDateChange());
 
-		if (option == PageOption.INTAKE) {
-
-		} else {
-
+		switch (option) {
+			case INTAKE_STOCK:
+				break;
+			case INTAKE_RECIPE:
+				break;
+			case UPDATE:
+				refreshIntake();
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -82,33 +98,31 @@ public class intakeEntryPageController implements PageController {
 		IntakeController controller = ControllerFactory.makeIntakeController();
 		Map<String, Object> intake = controller.getIntake(intakeID);
 
-		String type = intake.get("type").toString();
-		entryCategory.setText(type.toUpperCase());
+		String type = intake.get("type").toString().toUpperCase();
+		if (type.equals("RECIPE")) option = PageOption.INTAKE_RECIPE;
+		else if (type.equals("STOCK")) option = PageOption.INTAKE_STOCK;
+
+		entryCategory.setText(String.format("INTAKE TYPE: %S", type));
 
 		Long ID = 0L;
-		String name = "", category = "";
 		if (intake.get("foodID") != null) {
 			ID = Utility.parseID(intake.get("foodID").toString(), 0);
-			currentAmount = Utility.parseQuantity(intake.get("intakeQtty").toString(), 0);
+			amount = Utility.parseQuantity(intake.get("intakeQtty").toString(), 0);
 
 			addIngredientCard(ID);
 		} else if (intake.get("recipeID") != null) {
 			ID = Utility.parseID(intake.get("recipeID").toString(), 0);
-			currentAmount = Utility.parseQuantity(intake.get("serving").toString(), 0);
+			amount = Utility.parseQuantity(intake.get("serving").toString(), 0);
 
 			addRecipeCard(ID);
 		}
 
-		String amountStrFormatter = type.toUpperCase() == "STOCK" ? "%.1f g" : ("%.1f serving" + (Math.abs(currentAmount - 1) > 0.1 ? "s" : ""));
-		entryCurrentAmount.setText(String.format(amountStrFormatter, currentAmount));
-		amountTxF.setText(String.format("%.1f", currentAmount));
-
 		int calories = Integer.parseInt(intake.get("Calories").toString());
-		entryCalories.setText(String.format("%d Cal", calories));
+		caloriesPerUnit = calories / amount;
+		amountTxF.setText(String.format("%.1f", amount));
 
-		Date date = (Date) intake.get("date");
-		//TODO: set local date
-//		dateTxF.setValue(date);
+		String date = intake.get("date").toString();
+		dateTxF.setValue(LocalDate.parse(date));
 	}
 
 	private void addIngredientCard(long foodID) {
@@ -125,6 +139,21 @@ public class intakeEntryPageController implements PageController {
 		String category = rcp.get("recipeCategory").toString();
 
 		entryContent.getChildren().add(new SearchCardComponent(recipeID, name, category, PageOption.RECIPE));
+	}
+
+	private void handleInputChange() {
+		Double value = Utility.parseQuantity(amountTxF.getText(), 0);
+
+		String sFormatter = (option == PageOption.INTAKE_RECIPE) ? "%.1f serving" + ((value - 1 > 0.1) ? "s" : "") : ".1f g";
+		entryCurrentAmount.setText(String.format(sFormatter, value));
+
+		Double updateCal = caloriesPerUnit * value;
+		entryCalories.setText(String.format("%.0f Cal", updateCal));
+	}
+
+	private void handleDateChange() {
+		String date = dateTxF.getValue().toString();
+		entryDate.setText(Utility.parseProperDate(date));
 	}
 
 	private void handleCancelOnClick() {

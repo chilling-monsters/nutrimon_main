@@ -45,8 +45,7 @@ public class PageFactory {
 	private static stockEntryPage stockEntry;
 	private static ingredientPage ingredient;
 
-	private static searchPage search;
-	private static userProfilePage profile = null;
+	private static userProfilePage profile;
 	private static intakePage intake;
 	private static intakeEntryPage intakeEntry;
 
@@ -93,9 +92,6 @@ public class PageFactory {
 		profile = new userProfilePage();
 		return profile;
 	}
-	public static Page getLandingPage() {
-		return getStockPage();
-	}
 
 	public static Page getStockPage() {
 		if (stock == null) stock = new stockPage();
@@ -106,9 +102,7 @@ public class PageFactory {
 		return stock;
     }
     public static Page getStockEntryPage(long foodID, PageOption option) {
-	    if (stockEntry == null || stockEntry.foodID != foodID || stockEntry.option != option) {
-		    stockEntry = new stockEntryPage(foodID, option);
-	    }
+	    stockEntry = new stockEntryPage(foodID, option);
 		return stockEntry;
 	}
 
@@ -139,7 +133,7 @@ public class PageFactory {
 		recipeEntry = new recipeEntryPage(recipeID);
 		return recipeEntry;
 	}
-	public static Page getRecipeCreatePage(long recipeID, PageOption option) {
+	public static Page getRecipeEditPage(long recipeID, PageOption option) {
 		if (recipeCreate == null || recipeCreate.recipeID != recipeID || recipeCreate.option != option) {
 			recipeCreate = new recipeCreatePage(recipeID, option);
 		}
@@ -147,7 +141,7 @@ public class PageFactory {
 		return recipeCreate;
 	}
 	public static Page getRecipeCreatePage() {
-		return getRecipeCreatePage(0, PageOption.RECIPE);
+		return getRecipeEditPage(0, PageOption.RECIPE);
 	}
 	public static Page getRecipeForm() {
 		return recipeCreate;
@@ -163,10 +157,6 @@ public class PageFactory {
 	}
 	public static Page getIntakeEntry(long intakeID, PageOption option) {
 		intakeEntry = new intakeEntryPage(intakeID, option);
-		return intakeEntry;
-	}
-	public static Page getIntakeCreateEntry(long foodID) {
-		intakeEntry = new intakeEntryPage(foodID, PageOption.INTAKE);
 		return intakeEntry;
 	}
 

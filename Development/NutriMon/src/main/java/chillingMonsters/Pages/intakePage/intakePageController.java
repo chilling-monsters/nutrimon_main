@@ -1,28 +1,21 @@
 package chillingMonsters.Pages.intakePage;
 
 import chillingMonsters.Controllers.ControllerFactory;
-import chillingMonsters.Controllers.Ingredient.IngredientController;
 import chillingMonsters.Controllers.Intake.IntakeController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.*;
-
-import static java.time.temporal.ChronoUnit.DAYS;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class intakePageController implements PageController {
 	private static final String TODAY = "Today";
@@ -112,6 +105,6 @@ public class intakePageController implements PageController {
 
 	@FXML
 	void createIntakeAction() {
-		PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.INTAKE));
+		PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.INTAKE_STOCK));
 	}
 }
