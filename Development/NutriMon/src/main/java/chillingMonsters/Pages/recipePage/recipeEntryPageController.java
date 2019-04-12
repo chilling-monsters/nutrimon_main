@@ -244,6 +244,7 @@ public class recipeEntryPageController implements PageController {
 	}
 
 	private void handleMoreClick() {
+		PageFactory.setFormInProgress(true);
 		PageFactory.toNextPage(PageFactory.getRecipeEditPage(recipeID, PageOption.UPDATE));
 	}
 

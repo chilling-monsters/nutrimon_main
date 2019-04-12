@@ -243,6 +243,7 @@ public class stockEntryPageController implements PageController {
 
 	private void toggleForm(boolean show) {
 		showForm = show;
+		PageFactory.setFormInProgress(show);
 		if (show) {
 			addStockButton.setText("Save");
 			addStockButton.setSelected(true);

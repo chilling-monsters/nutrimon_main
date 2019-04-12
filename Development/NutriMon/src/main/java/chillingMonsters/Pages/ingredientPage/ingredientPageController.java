@@ -8,6 +8,7 @@ import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
@@ -71,7 +72,7 @@ public class ingredientPageController implements PageController {
 	private Label ingreD;
 
 	@FXML
-	private ToggleButton addToStockButton;
+	private Button addToStockButton;
 
 	@FXML
 	private AnchorPane adjustSizeCard;
