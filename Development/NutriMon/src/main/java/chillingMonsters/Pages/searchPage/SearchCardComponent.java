@@ -60,11 +60,7 @@ public class SearchCardComponent extends AnchorPane {
         PageFactory.toNextPage(recipeForm);
         break;
       case DEFAULT:
-        if (option == PageOption.RECIPE) {
-          PageFactory.toNextPage(PageFactory.getRecipeEntryPage(ID));
-        } else {
-          PageFactory.toNextPage(PageFactory.getIngredientPage(ID));
-        }
+        PageFactory.toNextPage(PageFactory.getIngredientPage(ID));
         break;
     }
   }

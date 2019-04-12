@@ -53,24 +53,29 @@ public class intakePageController implements PageController {
 			List<Map<String, Object>> byDate = results.get(d);
 			for (Map<String, Object> intake : byDate) {
 				Long intakeID = Utility.parseID(intake.get("intakeID").toString(), 0);
-				String type = intake.get("type").toString();
 				int calories = Integer.parseInt(intake.get("Calories").toString());
+				String type = intake.get("type").toString();
 
-				Long foodID = 0L, recipeID = 0L;
+				Long ID = 0L;
 				double amount = 0D;
-				String name = "";
+				String name = "", category = "";
 				if (intake.get("foodID") != null) {
-					foodID = Utility.parseID(intake.get("foodID").toString(), 0);
+					ID = Utility.parseID(intake.get("foodID").toString(), 0);
 					amount = Utility.parseQuantity(intake.get("intakeQtty").toString(), 0);
-					name = ControllerFactory.makeIngredientController().getIngredient(foodID).get("foodName").toString();
-					name = Utility.parseFoodName(name);
+
+					Map<String, Object> ingr = ControllerFactory.makeIngredientController().getIngredient(ID);
+					name = Utility.parseFoodName(ingr.get("foodName").toString());
+					category = ingr.get("fCategory").toString();
 				} else if (intake.get("recipeID") != null) {
-					recipeID = Utility.parseID(intake.get("foodID").toString(), 0);
+					ID = Utility.parseID(intake.get("recipeID").toString(), 0);
 					amount = Utility.parseQuantity(intake.get("serving").toString(), 0);
-					name = ControllerFactory.makeIngredientController().getIngredient(recipeID).get("recipeName").toString();
+
+					Map<String, Object> rcp = ControllerFactory.makeRecipeController().getRecipe(ID);
+					name = rcp.get("recipeName").toString();
+					category = rcp.get("recipeCategory").toString();
 				}
 
-				IntakeCardComponent inCard = new IntakeCardComponent(intakeID, name, type, calories, amount);
+				IntakeCardComponent inCard = new IntakeCardComponent(intakeID, name, String.format("%s: %s", type, category), calories, amount);
 
 				dateGroup.add(inCard);
 			}
