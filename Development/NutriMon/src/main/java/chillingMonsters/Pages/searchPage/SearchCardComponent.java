@@ -62,8 +62,9 @@ public class SearchCardComponent extends AnchorPane {
       case DEFAULT:
         PageFactory.toNextPage(PageFactory.getIngredientPage(ID));
         break;
-      case INTAKE:
-        PageFactory.toNextPage(PageFactory.getIntakeCreateEntry(ID));
+      case INTAKE_RECIPE:
+      case INTAKE_STOCK:
+        PageFactory.toNextPage(PageFactory.getIntakeEntry(ID, option));
         break;
     }
   }

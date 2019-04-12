@@ -244,7 +244,7 @@ public class recipeEntryPageController implements PageController {
 	}
 
 	private void handleMoreClick() {
-		PageFactory.toNextPage(PageFactory.getRecipeCreatePage(recipeID, PageOption.UPDATE));
+		PageFactory.toNextPage(PageFactory.getRecipeEditPage(recipeID, PageOption.UPDATE));
 	}
 
 	private void handleListScroll(ScrollEvent event) {
