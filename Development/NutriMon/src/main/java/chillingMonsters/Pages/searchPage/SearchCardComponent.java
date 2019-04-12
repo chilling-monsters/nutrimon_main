@@ -43,7 +43,7 @@ public class SearchCardComponent extends AnchorPane {
     }
 
     cardName.setText(name);
-    cardLabel.setText(category);
+    cardLabel.setText(category.toUpperCase());
   }
 
   private void handleOnClick() {
@@ -61,6 +61,9 @@ public class SearchCardComponent extends AnchorPane {
         break;
       case DEFAULT:
         PageFactory.toNextPage(PageFactory.getIngredientPage(ID));
+        break;
+      case INTAKE:
+        PageFactory.toNextPage(PageFactory.getIntakeCreateEntry(ID));
         break;
     }
   }

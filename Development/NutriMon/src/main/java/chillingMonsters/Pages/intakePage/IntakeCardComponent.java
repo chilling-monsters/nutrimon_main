@@ -1,6 +1,7 @@
 package chillingMonsters.Pages.intakePage;
 
 import chillingMonsters.Pages.PageFactory;
+import chillingMonsters.Pages.PageOption;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -23,7 +24,7 @@ public class IntakeCardComponent extends AnchorPane {
 	@FXML
 	private Label cardAmount;
 
-	public IntakeCardComponent(long intakeID, String name, String category, int calories, double amount) {
+	public IntakeCardComponent(long intakeID, String name, String category, int calories, String amount) {
 		super();
 		this.intakeID = intakeID;
 
@@ -42,10 +43,10 @@ public class IntakeCardComponent extends AnchorPane {
 		cardName.setText(name);
 		cardCategory.setText(category.toUpperCase());
 		cardCalories.setText(String.format("%d Cal", calories));
-		cardAmount.setText(String.format("%.1fg", amount));
+		cardAmount.setText(amount);
 	}
 
 	public void handleOnClick() {
-		PageFactory.toNextPage(PageFactory.getIntakeEntry(intakeID));
+		PageFactory.toNextPage(PageFactory.getIntakeEntry(intakeID, PageOption.UPDATE));
 	}
 }

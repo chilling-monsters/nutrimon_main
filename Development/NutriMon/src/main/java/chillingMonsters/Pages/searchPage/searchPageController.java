@@ -73,6 +73,7 @@ public class searchPageController implements PageController {
           ingrSearchResult = ingr.searchIngredient(searchQuery);
           break;
         case DEFAULT:
+        case INTAKE:
           ingrSearchResult = ingr.searchIngredient(searchQuery);
           recpSearchResult = recp.searchRecipe(searchQuery);
           break;
@@ -85,11 +86,12 @@ public class searchPageController implements PageController {
 
       for (Map<String, Object> result : recpSearchResult) {
         Long recipeID = Utility.parseID(result.get("recipeID").toString(), 0);
-        String name = Utility.parseFoodName(result.get("recipeName").toString());
+        String name = Utility.toCapitalized(result.get("recipeName").toString());
         String category = result.get("recipeCategory").toString().toUpperCase();
 
-        SearchCardComponent sCard = new SearchCardComponent(recipeID, name, category, PageOption.RECIPE);
-        if (option == PageOption.DEFAULT) sCard.getStyleClass().add("hightlightCard");
+        if (option == PageOption.DEFAULT) option = PageOption.RECIPE;
+        SearchCardComponent sCard = new SearchCardComponent(recipeID, name, category, option);
+        if (option == PageOption.RECIPE || option == PageOption.INTAKE) sCard.getStyleClass().add("hightlightCard");
 
         showAndSaveCache(sCard);
       }

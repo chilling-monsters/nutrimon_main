@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.intakePage.intakePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.intakePage.intakePageController">
     <children>
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="14.0" layoutY="64.0" prefWidth="360.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
             <content>
@@ -33,7 +33,7 @@
             </font>
         </Label>
 
-        <Button fx:id="stockCreateButton" graphicTextGap="0.0" layoutX="35.0" layoutY="265.0" mnemonicParsing="false" onAction="#stockCreateButtonAction" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 27px;" text="+" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0">
+        <Button fx:id="createButton" graphicTextGap="0.0" layoutX="35.0" layoutY="265.0" mnemonicParsing="false" onAction="#createIntakeAction" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 27px;" text="+" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0">
             <font>
                 <Font size="20.0" />
             </font>

@@ -48,7 +48,7 @@ public class recipePageController implements PageController {
 
 		for (Map<String, Object> recipe : recipeList) {
 			long id = Utility.parseID(recipe.get("recipeID").toString(), 0);
-			String name  = recipe.get("recipeName").toString();
+			String name  = Utility.toCapitalized(recipe.get("recipeName").toString());
 			String category = recipe.get("recipeCategory").toString();
 			int cookTime = Integer.parseInt(recipe.get("recipeCookTime").toString());
 			int calories = 0;
