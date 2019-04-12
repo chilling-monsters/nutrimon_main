@@ -10,9 +10,7 @@ import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -58,9 +56,6 @@ public class stockEntryPageController implements PageController {
 
 	@FXML
 	public AnchorPane createForm;
-
-	@FXML
-	public ImageView backButton;
 
 	@FXML
 	public ImageView moreButton;
@@ -110,34 +105,14 @@ public class stockEntryPageController implements PageController {
 			toggleForm(false);
 		}
 
-		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				handleBackOnClick(event);
-			}
-		});
+		moreButton.setOnMouseClicked(event -> handleMoreOnClick());
+		addStockButton.setOnAction(event -> handleAddStock());
+		deleteEntryButton.setOnAction(event -> handleDeleteStock());
+		cancelEntryButton.setOnAction(event -> handleCancel());
+		scrollList.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
+		adjustSizePane.setOnScroll(event -> handleCardScroll(event));
 
-		moreButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				handleMoreOnClick(event);
-			}
-		});
-
-		addStockButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleAddStock();
-			}
-		});
-
-		amountTxF.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleAddStock();
-			}
-		});
-
+		amountTxF.setOnAction(event -> handleAddStock());
 		amountTxF.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -147,38 +122,10 @@ public class stockEntryPageController implements PageController {
 			}
 		});
 
-		deleteEntryButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleDeleteStock();
-			}
-		});
-
-		cancelEntryButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleCancel();
-			}
-		});
-
 		dateTxF.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			@Override
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
 				handleDateChange(newValue);
-			}
-		});
-
-		scrollList.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleListScroll(event);
-			}
-		});
-
-		adjustSizePane.setOnScroll(new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleCardScroll(event);
 			}
 		});
 	}
@@ -220,35 +167,22 @@ public class stockEntryPageController implements PageController {
 
 				if (timeLeft <= Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("hightlightCard");
 
-				sCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						handleCardClick(event);
-					}
-				});
+				sCard.setOnMouseClicked(event -> handleCardClick(event));
 
 				entryList.getChildren().add(sCard);
 			}
 		}
 
-		entryTotalAmount.setText(String.format("%.0f g", totalAmount));
+		entryTotalAmount.setText(String.format("%.1f g", totalAmount));
 	}
 
-	private void handleBackOnClick(MouseEvent event) {
+	private void handleMoreOnClick() {
 		if (showForm) {
-			handleCancel();
-		} else {
-			ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-			PageFactory.getStockPage().startPage(e);
+			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
+			if (!confirmed) return;
 		}
-
-	}
-
-	private void handleMoreOnClick(MouseEvent event) {
-		handleCancel();
-
-		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-		PageFactory.getIngredientPage(foodID).startPage(e);
+		toggleForm(false);
+		PageFactory.toNextPage(PageFactory.getIngredientPage(foodID));
 	}
 
 	private void handleAddStock() {
@@ -312,11 +246,11 @@ public class stockEntryPageController implements PageController {
 		if (show) {
 			addStockButton.setText("Save");
 			addStockButton.setSelected(true);
-			adjustSizePane.setPrefHeight(adjustSizePane.getMinHeight());
+			AnchorPane.setTopAnchor(adjustSizePane, Utility.MAX_TOP_ANCHOR);
 
 			dateTxF.setValue(displayAddedDate.toLocalDateTime().toLocalDate());
-			amountTxF.setText(String.format("%.0f", displayAmount));
-			entryCurrentAmount.setText(String.format("%.0f grams", displayAmount));
+			amountTxF.setText(String.format("%.1f", displayAmount));
+			entryCurrentAmount.setText(String.format("%.1f grams", displayAmount));
 
 			setExpiryString();
 
@@ -345,8 +279,8 @@ public class stockEntryPageController implements PageController {
 		}
 
 
-		entryCurrentAmount.setText(String.format("%.0f grams", displayAmount));
-		entryTotalAmount.setText(String.format("%.0f g", totalAmount));
+		entryCurrentAmount.setText(String.format("%.1f grams", displayAmount));
+		entryTotalAmount.setText(String.format("%.1f g", totalAmount));
 	}
 
 	private void handleCardClick(MouseEvent event) {
@@ -390,8 +324,14 @@ public class stockEntryPageController implements PageController {
 		if (event.getDeltaY() > 0) diffHeight = -10;
 		else if (event.getDeltaY() < 0) diffHeight = 10;
 
-		adjustSizePane.setPrefHeight(adjustSizePane.getHeight() + diffHeight);
-		scrollList.setPrefHeight(scrollList.getHeight() + diffHeight);
+		double top = AnchorPane.getTopAnchor(adjustSizePane) - diffHeight;
+		if (top > Utility.MAX_TOP_ANCHOR) top = Utility.MAX_TOP_ANCHOR;
+		else if (top < Utility.MIN_TOP_ANCHOR) top = Utility.MIN_TOP_ANCHOR;
+
+		if (adjustSizePane.getMinHeight() <= adjustSizePane.getHeight() && adjustSizePane.getHeight() <= adjustSizePane.getMaxHeight())  {
+			AnchorPane.setTopAnchor(adjustSizePane, top);
+			scrollList.setPrefHeight(scrollList.getHeight() + diffHeight);
+		}
 	}
 
 	private void handleListScroll(ScrollEvent event) {

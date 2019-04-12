@@ -10,6 +10,9 @@ public class Utility {
 	public static final int SPOILAGE_WARNING_DAYS = 5;
 	public static final int TEXTFIELD_MAX_LENGTH = 9;
 	public static final int CACHE_MAX_SIZE = 10;
+	public static final float STD_TRANSITION_TIME = 0.25F;
+	public static final double MIN_TOP_ANCHOR = 65;
+	public static final double MAX_TOP_ANCHOR = 295;
 
 	static String[] suffixes = {
 		//0     1     2     3     4     5     6     7     8     9
@@ -65,6 +68,9 @@ public class Utility {
 		put("SPRD", "SPREAD");
 		put("WHL", "WHOLE");
 		put("SAU", "SAUCE");
+		put("NOVLT", "NOVELTY");
+		put("VAN", "VANILLA");
+		put("SWT", "SWEET");
 	}};
 
 	public static String parseFoodName(String name) {

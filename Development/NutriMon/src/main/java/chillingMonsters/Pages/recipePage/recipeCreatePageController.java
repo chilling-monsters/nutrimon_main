@@ -7,17 +7,12 @@ import chillingMonsters.Controllers.Recipe.RecipeController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
-import chillingMonsters.Pages.searchPage.SearchCardComponent;
 import chillingMonsters.Utility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -37,9 +32,6 @@ public class recipeCreatePageController implements PageController {
 	private StringProperty cachedCookTime = new SimpleStringProperty("");
 
 	private Map<Long, StringProperty> ingrMap = new LinkedHashMap<Long, StringProperty>();
-
-	@FXML
-	private ImageView backButton;
 
 	@FXML
 	private AnchorPane createCard;
@@ -101,76 +93,15 @@ public class recipeCreatePageController implements PageController {
 			}
 		}
 
-		for (long foodID : ingrMap.keySet()) {
-			IngredientController ingrController = ControllerFactory.makeIngredientController();
-			Map<String, Object> result =  ingrController.getIngredient(foodID);
-			String name = Utility.parseFoodName(result.get("foodName").toString());
-			String category = result.get("fCategory").toString();
+		renderIngredientList();
 
-			RecipeCreateIngredientCardComponent ingrCard = new RecipeCreateIngredientCardComponent(foodID,0F, name, category);
-			ingredientList.getChildren().add(ingrCard);
+		addIngredientButton.setOnAction(event -> handleAddIngredient());
+		saveRecipeButton.setOnAction(event -> handleCreateButton());
+		cancelRecipeButton.setOnAction(event -> handleCancelButton());
+		deleteRecipeButton.setOnAction(event -> handleDeleteButton());
 
-			ingrCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent event) {
-					if (AlertHandler.showConfirmationAlert("Are you sure?", "This ingredient will be removed from the recipe")) {
-						ingredientList.getChildren().remove(ingrCard);
-					}
-				}
-			});
-
-			ingrCard.amountProperty().bindBidirectional(ingrMap.get(foodID));
-		}
-
-		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-				handleCancelButton(e);
-			}
-		});
-
-		formList.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleFormScroll(event);
-			}
-		});
-
-		createCard.setOnScroll(new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleCardScroll(event);
-			}
-		});
-
-		addIngredientButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleAddIngredient(event);
-			}
-		});
-
-		saveRecipeButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleCreateButton(event);
-			}
-		});
-
-		cancelRecipeButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleCancelButton(event);
-			}
-		});
-
-		deleteRecipeButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				handleDeleteButton(event);
-			}
-		});
+		formList.addEventFilter(ScrollEvent.SCROLL, event -> handleFormScroll(event));
+		createCard.setOnScroll(event -> handleCardScroll(event));
 	}
 
 	private void handleFormScroll(ScrollEvent event) {
@@ -195,24 +126,28 @@ public class recipeCreatePageController implements PageController {
 		if (event.getDeltaY() > 0) diffHeight = -10;
 		else if (event.getDeltaY() < 0) diffHeight = 10;
 
-		createCard.setPrefHeight(createCard.getHeight() + diffHeight);
+		double top = AnchorPane.getTopAnchor(createCard) - diffHeight;
+		if (top > Utility.MAX_TOP_ANCHOR) top = Utility.MAX_TOP_ANCHOR;
+		else if (top < Utility.MIN_TOP_ANCHOR) top = Utility.MIN_TOP_ANCHOR;
 
-		if (createCard.getHeight() > createCard.getMinHeight()) {
-			formList.setMaxHeight(formList.getMaxHeight() + diffHeight);
+		if (createCard.getMinHeight() <= createCard.getHeight() && createCard.getHeight() <= createCard.getMaxHeight())  {
+			AnchorPane.setTopAnchor(createCard, top);
+			formList.setPrefHeight(formList.getHeight() + diffHeight);
 		}
 	}
 
-	private void handleAddIngredient(ActionEvent event) {
-		PageFactory.getSearchPage(PageOption.UPDATE).startPage(event);
+	private void handleAddIngredient() {
+		PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.UPDATE));
 	}
 
 	public void addToIngredientList(long foodID, float amount) {
 		if (ingrMap.containsKey(foodID)) return;
 
-		ingrMap.put(foodID, new SimpleStringProperty(amount == 0 ? "g" : String.format("%.0fg", amount)));
+		ingrMap.put(foodID, new SimpleStringProperty(amount == 0 ? "g" : String.format("%.1fg", amount)));
+		renderIngredientList();
 	}
 
-	private void handleCreateButton(ActionEvent event) {
+	private void handleCreateButton() {
 		String name = cachedName.getValue().trim();
 		String category = cachedCategory.getValue().trim();
 		String details = cachedFormDetails.getValue().trim();
@@ -247,13 +182,13 @@ public class recipeCreatePageController implements PageController {
 		for (Long k : ingrMap.keySet()) {
 			String value = ingrMap.get(k).getValue();
 
-			value = value.replaceAll("[^0-9]", "");
-			if (value.isEmpty()) {
+			float fValue = Float.valueOf(value.replaceAll("[^\\d.]+|\\.(?!\\d)", ""));
+			if (value.isEmpty() || Math.abs(fValue - 0) < 0.01) {
 				AlertHandler.showAlert(Alert.AlertType.ERROR, "Oops!", "Please use some ingredients for your recipe");
 				return;
 			}
 
-			ingredients.put(k, Float.parseFloat(value));
+			ingredients.put(k, fValue);
 		}
 
 
@@ -270,22 +205,53 @@ public class recipeCreatePageController implements PageController {
 			case DEFAULT:
 				break;
 		}
-		PageFactory.getRecipeEntryPage(recipeID).startPage(event);
-	}
-
-	private void handleCancelButton(ActionEvent event) {
-		boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
-		if (confirmed) {
-			PageFactory.getLastPage().startPage(event);
+		if (recipeID > 0) {
+			PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
+		} else {
+			PageFactory.toNextPage(PageFactory.getRecipeRefresh());
 		}
 	}
 
-	private void handleDeleteButton(ActionEvent event) {
+	private void handleCancelButton() {
+		boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
+		if (confirmed) {
+			if (option == PageOption.UPDATE) {
+				PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
+			} else {
+				PageFactory.toNextPage(PageFactory.getRecipeRefresh());
+			}
+		}
+	}
+
+	private void handleDeleteButton() {
 		boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "This recipe will be deleted");
 		if (confirmed) {
 			RecipeController controller = ControllerFactory.makeRecipeController();
 			controller.deleteRecipe(recipeID);
-			PageFactory.getRecipePage().startPage(event);
+			PageFactory.toNextPage(PageFactory.getRecipeRefresh());
+		}
+	}
+
+	private void renderIngredientList() {
+		ingredientList.getChildren().clear();
+		for (long foodID : ingrMap.keySet()) {
+			IngredientController ingrController = ControllerFactory.makeIngredientController();
+			Map<String, Object> result =  ingrController.getIngredient(foodID);
+			String name = Utility.parseFoodName(result.get("foodName").toString());
+			String category = result.get("fCategory").toString();
+
+			RecipeCreateIngredientCardComponent ingrCard = new RecipeCreateIngredientCardComponent(foodID,0F, name, category);
+			ingredientList.getChildren().add(ingrCard);
+
+			ingrCard.setOnMouseClicked(event -> {
+					if (AlertHandler.showConfirmationAlert("Are you sure?", "This ingredient will be removed from the recipe")) {
+						ingredientList.getChildren().remove(ingrCard);
+						ingrMap.remove(foodID);
+					}
+				}
+			);
+
+			ingrCard.amountProperty().bindBidirectional(ingrMap.get(foodID));
 		}
 	}
 }

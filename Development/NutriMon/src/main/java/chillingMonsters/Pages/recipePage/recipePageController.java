@@ -6,16 +6,17 @@ import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class recipePageController implements PageController {
 	private String CREATED_BY_YOU_KEY = "Created by you";
@@ -84,15 +85,13 @@ public class recipePageController implements PageController {
 	}
 
 	@FXML
-	void onMenuClicked(MouseEvent event) {
-		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-
-		PageFactory.getSearchPage().startPage(e);
+	void onMenuClicked() {
+		PageFactory.showMenu();
 	}
 
 	@FXML
-	void recipeCreateButtonAction(ActionEvent event) {
-		PageFactory.getSearchPage(PageOption.RECIPE).startPage(event);
+	void recipeCreateButtonAction() {
+		PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.RECIPE));
 	}
 
 	private void addToList(String label, List<RecipeCardComponent> group) {

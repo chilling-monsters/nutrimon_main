@@ -1,19 +1,31 @@
 package chillingMonsters;
 
-import chillingMonsters.Controllers.ControllerFactory;
+import chillingMonsters.Pages.PageFactory;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
-import java.util.List;
-import java.util.Map;
+public class App extends Application {
+	@Override
+	public void start(Stage primaryStage) {
+		StackPane appRoot = new StackPane();
+		appRoot.setPrefSize(360, 740);
 
-public class App {
+		Scene scene = new Scene(appRoot);
+		scene.setFill(Color.TRANSPARENT);
+		scene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
 
-  public static void main(String[] args) {
-    Map<String, List<Map<String,Object>>> result = ControllerFactory.makeIntakeController().showIntakesByDate();
-    for (String date : result.keySet()) {
-      List<Map<String, Object>> intakes = result.get(date);
-      for (Map<String, Object> intake : intakes) {
-        System.out.println(date + intake.entrySet().toString());
-      }
-    }
-  }
+		primaryStage.setScene(scene);
+//		primaryStage.initStyle(StageStyle.TRANSPARENT);
+		primaryStage.setTitle("NutriMon - Don't waste, it's time to eat!");
+		primaryStage.getIcons().add(new Image("/img/NutriMonLogo2x.png"));
+		primaryStage.setResizable(false);
+		primaryStage.show();
+
+		PageFactory.initialize(appRoot);
+		System.out.println("Current page: Login page");
+	}
 }

@@ -6,15 +6,11 @@ import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -22,12 +18,6 @@ import java.util.Map;
 
 public class ingredientPageController implements PageController {
 	private long ingredientID;
-
-	@FXML
-	private ImageView backButton;
-
-	@FXML
-	private ImageView moreButton;
 
 	@FXML
 	private Label ingrName;
@@ -101,7 +91,7 @@ public class ingredientPageController implements PageController {
 		ingrName.setText(Utility.parseFoodName(result.get("foodName").toString()));
 		ingrCategory.setText(result.get("fCategory").toString());
 		ingrAvgSpoilage.setText(String.format("%s Days", result.get("expTime").toString()));
-		ingrCalories.setText(String.format("%s Calories", result.get("fCalories").toString()));
+		ingrCalories.setText(String.format("%.0f Calories", Float.parseFloat(result.get("fCalories").toString())));
 
 		ingrProtein.setText(result.get("fProtein").toString() + "g");
 		ingrTotalFat.setText(result.get("fTotalFat").toString() + "g");
@@ -118,42 +108,13 @@ public class ingredientPageController implements PageController {
 		ingreE.setText(result.get("fVE").toString() + "g");
 		ingreD.setText(result.get("fVD").toString() + "g");
 
-		addToStockButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				PageFactory.getStockEntryPage(ingredientID, PageOption.STOCK).startPage(event);
-			}
-		});
+		addToStockButton.setOnAction(event -> handleAddToStock());
+		cardScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
+		adjustSizeCard.setOnScroll(event -> handleCardScroll(event));
+	}
 
-		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-				PageFactory.getLastPage().startPage(e);
-			}
-		});
-
-		moreButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-				PageFactory.getStockEntryPage(ingredientID).startPage(e);
-			}
-		});
-
-		cardScrollPane.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleListScroll(event);
-			}
-		});
-
-		adjustSizeCard.setOnScroll(new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				handleCardScroll(event);
-			}
-		});
+	private void handleAddToStock() {
+		PageFactory.toNextPage(PageFactory.getStockEntryPage(ingredientID, PageOption.STOCK));
 	}
 
 	private void handleCardScroll(ScrollEvent event) {
@@ -161,8 +122,14 @@ public class ingredientPageController implements PageController {
 		if (event.getDeltaY() > 0) diffHeight = -10;
 		else if (event.getDeltaY() < 0) diffHeight = 10;
 
-		adjustSizeCard.setPrefHeight(adjustSizeCard.getHeight() + diffHeight);
-		cardScrollPane.setPrefHeight(cardScrollPane.getHeight() + diffHeight);
+		double top = AnchorPane.getTopAnchor(adjustSizeCard) - diffHeight;
+		if (top > Utility.MAX_TOP_ANCHOR) top = Utility.MAX_TOP_ANCHOR;
+		else if (top < Utility.MIN_TOP_ANCHOR) top = Utility.MIN_TOP_ANCHOR;
+
+		if (adjustSizeCard.getMinHeight() <= adjustSizeCard.getHeight() && adjustSizeCard.getHeight() <= adjustSizeCard.getMaxHeight())  {
+			AnchorPane.setTopAnchor(adjustSizeCard, top);
+			cardScrollPane.setPrefHeight(cardScrollPane.getHeight() + diffHeight);
+		}
 	}
 
 	private void handleListScroll(ScrollEvent event) {

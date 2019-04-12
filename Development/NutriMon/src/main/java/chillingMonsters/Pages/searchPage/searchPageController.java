@@ -4,16 +4,11 @@ import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.Ingredient.IngredientController;
 import chillingMonsters.Controllers.Recipe.RecipeController;
 import chillingMonsters.Pages.PageController;
-import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -31,9 +26,6 @@ public class searchPageController implements PageController {
 
   @FXML
   public VBox searchList;
-
-  @FXML
-  public ImageView backButton;
 
   public searchPageController(PageOption option) {
     this.option = option;
@@ -118,19 +110,6 @@ public class searchPageController implements PageController {
   public void initialize() {
     searchTxF.setText(searchQuery);
     onSearchEnter();
-
-    backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent event) {
-        handleOnBackClick(event);
-      }
-    });
-  }
-
-  private void handleOnBackClick(MouseEvent event) {
-    ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-
-    PageFactory.getLastPage().startPage(e);
   }
 
   private void addCreateYourOwnCard() {

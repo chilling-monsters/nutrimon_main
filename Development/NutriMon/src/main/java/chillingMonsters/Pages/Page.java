@@ -1,7 +1,7 @@
 package chillingMonsters.Pages;
 
-import javafx.event.ActionEvent;
+import javafx.scene.layout.AnchorPane;
 
 public interface Page {
-	public void startPage(ActionEvent event);
+	AnchorPane getPagePane();
 }

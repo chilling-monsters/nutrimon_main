@@ -3,13 +3,10 @@ package chillingMonsters.Pages.searchPage;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Pages.recipePage.recipeCreatePage;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
@@ -37,12 +34,7 @@ public class SearchCardComponent extends AnchorPane {
     fxmlLoader.setRoot(this);
     fxmlLoader.setController(this);
 
-    this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent event) {
-        handleOnClick(event);
-      }
-    });
+    this.setOnMouseClicked(event -> handleOnClick());
 
     try {
       fxmlLoader.load();
@@ -54,26 +46,24 @@ public class SearchCardComponent extends AnchorPane {
     cardLabel.setText(category);
   }
 
-  private void handleOnClick(MouseEvent event) {
-    ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-
+  private void handleOnClick() {
     switch (option) {
       case STOCK:
-        PageFactory.getStockEntryPage(ID, option).startPage(e);
+        PageFactory.toNextPage(PageFactory.getStockEntryPage(ID, option));
         break;
       case RECIPE:
-        PageFactory.getRecipeEntryPage(ID).startPage(e);
+        PageFactory.toNextPage(PageFactory.getRecipeEntryPage(ID));
         break;
       case UPDATE:
-        recipeCreatePage recipeForm = (recipeCreatePage) PageFactory.getLastPage();
+        recipeCreatePage recipeForm = (recipeCreatePage) PageFactory.getRecipeForm();
         recipeForm.addToIngredientList(ID);
-        recipeForm.startPage(e);
+        PageFactory.toNextPage(recipeForm);
         break;
       case DEFAULT:
         if (option == PageOption.RECIPE) {
-          PageFactory.getRecipeEntryPage(ID).startPage(e);
+          PageFactory.toNextPage(PageFactory.getRecipeEntryPage(ID));
         } else {
-          PageFactory.getIngredientPage(ID).startPage(e);
+          PageFactory.toNextPage(PageFactory.getIngredientPage(ID));
         }
         break;
     }

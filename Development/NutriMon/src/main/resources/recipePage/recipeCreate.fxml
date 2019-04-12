@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" styleClass="screenPane pane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <ImageView fitHeight="361.0" fitWidth="361.0" layoutX="104.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <image>
@@ -32,21 +32,12 @@
                 </LinearGradient>
             </fill>
         </Rectangle>
-        <ImageView fx:id="backButton" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
-            <image>
-                <Image url="@../img/Menu-Back-Icon-White2x.png" />
-            </image>
-            <styleClass>
-                <String fx:value="backButton" />
-                <String fx:value="myButton" />
-            </styleClass>
-        </ImageView>
         <Label styleClass="titleText" text="Your Recipes" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
             <font>
                 <Font name="SF Pro Display Regular" size="25.0" />
             </font>
         </Label>
-        <AnchorPane fx:id="createCard" maxHeight="660.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+        <AnchorPane fx:id="createCard" maxHeight="660.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="295.0">
             <children>
             <ScrollPane fx:id="formList" hbarPolicy="NEVER" prefHeight="200.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <content>
@@ -54,7 +45,7 @@
                      <children>
                             <VBox AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
                            <children>
-                              <TextField fx:id="formName" styleClass="form-field" />
+                              <TextField fx:id="formName" promptText="Roasted Squash" styleClass="form-field" />
                               <Label prefWidth="300.0" styleClass="tagText" text="RECIPE NAME" textFill="#9e9e9e">
                                  <font>
                                     <Font name="SF Pro Display Regular" size="9.0" />
@@ -77,7 +68,7 @@
                                     </VBox>
                                     <VBox alignment="TOP_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <TextField fx:id="formCookTime" alignment="CENTER_RIGHT" promptText="mins" styleClass="form-field">
+                                          <TextField fx:id="formCookTime" alignment="CENTER_RIGHT" promptText="15 mins" styleClass="form-field">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="13.0" />
                                              </font>
@@ -122,7 +113,7 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextArea fx:id="formDetails" layoutX="10.0" layoutY="10.0" prefHeight="365.0" promptText="Preheat the oven to ..." wrapText="true">
+                              <TextArea fx:id="formDetails" layoutX="10.0" layoutY="10.0" promptText="Preheat the oven to ..." wrapText="true">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin></TextArea>
@@ -173,4 +164,8 @@
             </children>
         </AnchorPane>
     </children>
+   <styleClass>
+      <String fx:value="screenPane" />
+      <String fx:value="pane" />
+   </styleClass>
 </AnchorPane>

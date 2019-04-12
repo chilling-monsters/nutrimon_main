@@ -1,12 +1,9 @@
 package chillingMonsters.Pages.recipePage;
 
 import chillingMonsters.Pages.PageFactory;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
@@ -40,12 +37,7 @@ public class RecipeCardComponent extends AnchorPane {
 			throw new RuntimeException(e);
 		}
 
-		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				handleOnClick(event);
-			}
-		});
+		this.setOnMouseClicked(event -> handleOnClick());
 
 		cardName.setText(name);
 		cardCategory.setText(category.toUpperCase());
@@ -53,9 +45,7 @@ public class RecipeCardComponent extends AnchorPane {
 		cardCalories.setText(String.format("%d Cal", calories));
 	}
 
-	public void handleOnClick(MouseEvent event) {
-		ActionEvent e = new ActionEvent(event.getSource(), event.getTarget());
-
-		PageFactory.getRecipeEntryPage(recipeID).startPage(e);
+	public void handleOnClick() {
+		PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
 	}
 }

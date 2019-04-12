@@ -1,51 +1,41 @@
 package chillingMonsters.Pages;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
 public abstract class PageImpl implements Page {
+	protected AnchorPane pagePane;
+
 	protected String fxmlLocation;
 	protected String title;
 	protected String debugString;
 	protected PageController controller;
 
-	public PageImpl(String fxmlLocation, String title, String debugString) {
+	public PageImpl(String fxmlLocation, String title, String debugString, PageController controller) {
 		this.fxmlLocation = fxmlLocation;
 		this.title = title;
 		this.debugString = debugString;
-	}
 
-	public PageImpl(String fxmlLocation, String title, String debugString, PageController controller) {
-		this(fxmlLocation, title, debugString);
-		this.controller = controller;
-	}
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(fxmlLocation));
 
-	public void startPage(ActionEvent event) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(fxmlLocation));
-
-			if (controller != null) {
-				loader.setController(controller);
-			}
-
-			Scene scene = new Scene(loader.load());
-
-			scene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
-			Stage stage = (Stage)((Node)(event.getSource())).getScene().getWindow();
-			stage.setScene(scene);
-			stage.setTitle(title);
-
-			stage.show();
-
-			System.out.println(debugString);
+		if (controller != null) {
+			loader.setController(controller);
+			this.controller = controller;
 		}
-		catch (IOException e) {
+
+		try {
+			pagePane = loader.load();
+			if (controller == null) this.controller = loader.getController();
+		} catch (IOException e){
 			e.printStackTrace();
 		}
 	}
+
+	public PageImpl(String fxmlLocation, String title, String debugString) {
+		this(fxmlLocation, title, debugString, null);
+	}
+
+	public AnchorPane getPagePane() { return pagePane; }
 }

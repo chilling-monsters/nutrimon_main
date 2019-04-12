@@ -121,3 +121,10 @@
 .disabledText:disabled {
     -fx-opacity : 1.0;
 }
+.screenPane:disabled {
+    -fx-opacity : 1.0;
+}
+
+.menuText {
+    -fx-text-fill: white;
+}

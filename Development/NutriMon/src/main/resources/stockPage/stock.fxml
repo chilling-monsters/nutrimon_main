@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import java.lang.*?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.stockPage.stockPageController">
    <children>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="14.0" layoutY="64.0" prefWidth="360.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
@@ -27,11 +27,6 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <ImageView fx:id="menuButton" fitHeight="30.0" fitWidth="30.0" layoutX="76.0" layoutY="113.0" onMouseClicked="#onMenuClicked" pickOnBounds="true" preserveRatio="true" styleClass="myButton" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
-         <image>
-            <Image url="@../img/Menu%20Icon2x.png" />
-         </image>
-      </ImageView>
       <Label layoutX="121.0" layoutY="226.0" styleClass="titleText" text="Your Stock" textFill="#f5a623" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="SF Pro Display Regular" size="25.0" />

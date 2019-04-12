@@ -1,14 +1,10 @@
 package chillingMonsters.Pages.recipePage;
 
-import chillingMonsters.Pages.PageFactory;
 import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
@@ -36,7 +32,7 @@ public class RecipeCreateIngredientCardComponent extends AnchorPane {
 			throw new RuntimeException(e);
 		}
 
-		amountTxF.setText(String.format("%.0fg", amount));
+		amountTxF.setText(String.format("%.1fg", amount));
 		cardName.setText(name);
 		cardCategory.setText(category);
 	}
