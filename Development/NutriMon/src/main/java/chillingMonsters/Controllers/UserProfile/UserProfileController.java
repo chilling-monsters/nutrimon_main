@@ -12,7 +12,7 @@ public interface UserProfileController {
 
   void deleteProfile();
 
-  boolean exists(String table, String attr, String record);
+  boolean exists(String email);
 
   long getUserID();
 

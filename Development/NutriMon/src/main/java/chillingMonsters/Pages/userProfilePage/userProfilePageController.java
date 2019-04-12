@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import chillingMonsters.AlertHandler;
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.UserProfile.UserProfileController;
+import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -17,7 +18,7 @@ import javafx.scene.image.ImageView;
 
 import javafx.event.ActionEvent;
 
-public class userProfilePageController {
+public class userProfilePageController implements PageController {
 
     @FXML // fx:id="edit_pswd"
     private Button edit_pswd; // Value injected by FXMLLoader
@@ -99,14 +100,14 @@ public class userProfilePageController {
         if (AlertHandler.showCriticalAlert(Alert.AlertType.WARNING, "Delete your profile",
                 "You will lose all your records on NutriMon. Are you sure?")){
             profileCtrl.deleteProfile();
-            PageFactory.getLoginPage().startPage(event);
+//            PageFactory.getLoginPage().startPage(event);
         }
     }
 
     @FXML
     void logoutButtonAction(ActionEvent event) {
         if (btn_confirm.isDisabled()) {
-            PageFactory.getLoginPage().startPage(event);
+//            PageFactory.getLoginPage().startPage(event);
             AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "See you soon!", "Logged out!");
         }
         else
@@ -138,7 +139,7 @@ public class userProfilePageController {
             return;
         }
         if (!userEmail.equals(email))
-            if (profileCtrl.exists("userProfile", "userEmail", userEmail)) {
+            if (profileCtrl.exists(userEmail)) {
                 AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "This Email address has been used");
                 return;
             }
@@ -176,7 +177,7 @@ public class userProfilePageController {
 
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
-    void initialize() {
+    public void initialize() {
 
         UserProfileController profileCtrl = ControllerFactory.makeUserProfileController();
         Map<String, Object> profileList = profileCtrl.getProfile();

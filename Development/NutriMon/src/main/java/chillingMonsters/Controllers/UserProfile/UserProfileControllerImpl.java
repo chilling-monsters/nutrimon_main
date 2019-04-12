@@ -147,5 +147,9 @@ public class UserProfileControllerImpl extends NutriMonController implements Use
 
         return profile;
     }
+
+    public boolean exists(String email) {
+        return this.exists("userProfile", "userID", email);
+    }
 }
 
