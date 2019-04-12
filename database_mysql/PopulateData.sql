@@ -29,8 +29,6 @@ ALTER TABLE foodintake DROP FOREIGN KEY fk_foodIntake_userIntake;
 ALTER TABLE userintake MODIFY COLUMN intakeID BIGINT(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE recipeintake ADD CONSTRAINT fk_recipeIntake_userIntake FOREIGN KEY (intakeID) REFERENCES userintake (intakeID);
 ALTER TABLE foodintake ADD CONSTRAINT fk_foodIntake_userIntake FOREIGN KEY (intakeID) REFERENCES userintake (intakeID);
-ALTER TABLE recipes ADD COLUMN recipeCookTime INT NOT NULL;
-ALTER TABLE recipes ADD COLUMN recipeCategory VARCHAR(255) NOT NULL;
 delimiter //
 
 DROP PROCEDURE IF EXISTS wipe_db //
