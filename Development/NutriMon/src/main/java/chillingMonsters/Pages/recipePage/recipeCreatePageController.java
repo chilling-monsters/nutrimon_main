@@ -8,6 +8,8 @@ import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.Event;
@@ -23,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 public class recipeCreatePageController implements PageController {
-	private long recipeID = 0;
+	private long recipeID;
 	private PageOption option;
 
 	private StringProperty cachedName = new SimpleStringProperty("");
@@ -31,7 +33,7 @@ public class recipeCreatePageController implements PageController {
 	private StringProperty cachedFormDetails = new SimpleStringProperty("");
 	private StringProperty cachedCookTime = new SimpleStringProperty("");
 
-	private Map<Long, StringProperty> ingrMap = new LinkedHashMap<Long, StringProperty>();
+	private Map<Long, StringProperty> ingrMap = new LinkedHashMap<>();
 
 	@FXML
 	private AnchorPane createCard;
@@ -191,7 +193,7 @@ public class recipeCreatePageController implements PageController {
 			ingredients.put(k, fValue);
 		}
 
-
+		PageFactory.setFormInProgress(false);
 		RecipeController controller = ControllerFactory.makeRecipeController();
 
 		switch (option) {
@@ -215,6 +217,7 @@ public class recipeCreatePageController implements PageController {
 	private void handleCancelButton() {
 		boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
 		if (confirmed) {
+			PageFactory.setFormInProgress(false);
 			if (option == PageOption.UPDATE) {
 				PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
 			} else {
@@ -226,6 +229,7 @@ public class recipeCreatePageController implements PageController {
 	private void handleDeleteButton() {
 		boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "This recipe will be deleted");
 		if (confirmed) {
+			PageFactory.setFormInProgress(false);
 			RecipeController controller = ControllerFactory.makeRecipeController();
 			controller.deleteRecipe(recipeID);
 			PageFactory.toNextPage(PageFactory.getRecipeRefresh());

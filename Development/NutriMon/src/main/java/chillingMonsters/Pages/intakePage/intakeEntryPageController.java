@@ -1,9 +1,11 @@
 package chillingMonsters.Pages.intakePage;
 
+import chillingMonsters.AlertHandler;
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.Ingredient.IngredientController;
 import chillingMonsters.Controllers.Intake.IntakeController;
 import chillingMonsters.Pages.PageController;
+import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Pages.searchPage.SearchCardComponent;
 import chillingMonsters.Utility;
@@ -11,10 +13,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -49,7 +48,7 @@ public class intakeEntryPageController implements PageController {
 	private Label entryCalories;
 
 	@FXML
-	private AnchorPane editForm;
+	private VBox editForm;
 
 	@FXML
 	private TextField amountTxF;
@@ -64,7 +63,7 @@ public class intakeEntryPageController implements PageController {
 	private Button cancelEntryButton;
 
 	@FXML
-	private Button saveEntryButton;
+	private ToggleButton saveEntryButton;
 
 	public intakeEntryPageController(long ID, PageOption option) {
 		this.ID = ID;
@@ -73,6 +72,13 @@ public class intakeEntryPageController implements PageController {
 
 	@FXML
 	public void initialize() {
+		editForm.visibleProperty().bindBidirectional(saveEntryButton.selectedProperty());
+		saveEntryButton.selectedProperty().addListener(event -> {
+			boolean selected = saveEntryButton.isSelected();
+			PageFactory.setFormInProgress(selected);
+			saveEntryButton.setText(selected ? "Save" : "Edit");
+		});
+
 		cancelEntryButton.setOnAction(event -> handleCancelOnClick());
 		deleteEntryButton.setOnAction(event -> handleDeleteOnClick());
 		saveEntryButton.setOnAction(event -> handleSaveOnClick());
@@ -85,12 +91,14 @@ public class intakeEntryPageController implements PageController {
 				category.setValue("STOCK");
 				amountTxF.setText("0");
 				dateTxF.setValue(LocalDate.now());
+				saveEntryButton.setSelected(true);
 				addIngredientCard(ID);
 				break;
 			case INTAKE_RECIPE:
 				category.setValue("RECIPE");
 				amountTxF.setText("0");
 				dateTxF.setValue(LocalDate.now());
+				saveEntryButton.setSelected(true);
 				addRecipeCard(ID);
 				break;
 			case UPDATE:
@@ -160,7 +168,12 @@ public class intakeEntryPageController implements PageController {
 	}
 
 	private void handleCancelOnClick() {
-
+		if (editForm.isVisible()) {
+			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
+			if (confirmed) {
+				editForm.setVisible(false);
+			}
+		}
 	}
 
 	private void handleDeleteOnClick() {

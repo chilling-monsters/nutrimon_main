@@ -1,5 +1,6 @@
 package chillingMonsters.Pages;
 
+import chillingMonsters.AlertHandler;
 import chillingMonsters.Pages.ingredientPage.ingredientPage;
 import chillingMonsters.Pages.intakePage.intakeEntryPage;
 import chillingMonsters.Pages.intakePage.intakePage;
@@ -18,6 +19,8 @@ import chillingMonsters.Utility;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
@@ -177,7 +180,7 @@ public class PageFactory {
 		return pageHistory.get(0);
 	}
 	public static void toNextPage(Page nextPage) {
-		setMenuAndForm(nextPage);
+		setMenuButtonStyle(nextPage);
 
 		Page currentPage = getCurrentPage();
 		if (currentPage == nextPage) return;
@@ -228,7 +231,7 @@ public class PageFactory {
 		shrink.play();
 
 		menuShown = true;
-		setMenuAndForm(menu);
+		setMenuButtonStyle(menu);
 	}
 	public static void hideMenu() {
 		KeyFrame start = new KeyFrame(Duration.ZERO);
@@ -241,9 +244,9 @@ public class PageFactory {
 		shrink.play();
 
 		menuShown = false;
-		setMenuAndForm(getCurrentPage());
+		setMenuButtonStyle(getCurrentPage());
 	}
-	public static void setMenuAndForm(Page p) {
+	public static void setMenuButtonStyle(Page p) {
 		if (p == login || p == register) {
 			menuButton.setStyle(null);
 		} else if (p == stock || p == recipe || p == intake || p == search || p == landing) {
@@ -255,6 +258,15 @@ public class PageFactory {
 		}
 	}
 	public static void handleBackNavigation() {
+		if (formInProgress) {
+			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
+			if (confirmed) {
+				formInProgress = false;
+			} else {
+				return;
+			}
+		}
+
 		Page p = getCurrentPage();
 		if (menuShown) {
 			hideMenu();
@@ -267,12 +279,15 @@ public class PageFactory {
 		}
 
 		Page lastPage = pageHistory.get(1);
-		if (p == recipeEntry && lastPage == recipe) {
+		if ((p == recipeEntry && lastPage == recipe) || (p == recipeEntry && lastPage == recipeCreate)) {
 			lastPage = getRecipeRefresh();
 		} else if (p == stockEntry && lastPage == stock) {
 			lastPage = getStockRefresh();
 		}
 
 		toNextPage(lastPage);
+	}
+	public static void setFormInProgress(boolean f) {
+		formInProgress = f;
 	}
 }
