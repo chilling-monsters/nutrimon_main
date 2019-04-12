@@ -32,7 +32,7 @@ public class IntakeControllerImpl extends NutriMonController implements IntakeCo
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
       stmt.setLong(1, userId);
       ResultSet rs = stmt.executeQuery();
-      results = DBConnect.resultsList(rs);
+      results = resultsList(rs);
     } catch (SQLException e) {
       Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
     }
@@ -89,5 +89,24 @@ public class IntakeControllerImpl extends NutriMonController implements IntakeCo
     } finally {
       DBConnect.close();
     }
+  }
+
+  public Map<String, Object> getIntake(long intakeID) {
+    Map<String, Object> intake = null;
+    String query = "CALL get_intake(?,?)";
+    try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
+      stmt.setLong(1, userId);
+      stmt.setLong(2, intakeID);
+      ResultSet rs = stmt.executeQuery();
+      List<Map<String, Object>> results = resultsList(rs);
+      if (!results.isEmpty()) {
+        intake = results.get(0);
+      }
+    } catch (SQLException e) {
+      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+    } finally {
+      DBConnect.close();
+    }
+    return intake;
   }
 }

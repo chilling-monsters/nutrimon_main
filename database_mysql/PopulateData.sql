@@ -312,6 +312,28 @@ BEGIN
 	ORDER BY date DESC, time;
 END //
 
+DROP PROCEDURE IF EXISTS get_intake //
+CREATE PROCEDURE get_intake
+(
+	user BIGINT(20),
+    intake BIGINT(20)
+)
+BEGIN
+	SELECT * FROM
+		(SELECT intakeID, serving, recipeID, NULL as intakeQtty, NULL as foodID, 'recipe' as type,
+			CAST(intakeDate as DATE) as 'date', CAST(intakeDate as TIME) as 'time',
+            calcRecipeIntakeCalories(intakeID) as 'Calories'
+		FROM recipeintake JOIN userintake USING(intakeID)
+        WHERE userID = user AND intakeID = intake
+		UNION
+		SELECT intakeID, NULL as serving, NULL as recipeID, intakeQtty, foodID, 'stock' as type,
+			CAST(intakeDate as DATE) as 'date', CAST(intakeDate as TIME) as 'time',
+            calcFoodIntakeCalories(intakeID) as 'Calories'
+		FROM foodintake JOIN userintake USING(intakeID)
+        WHERE userID = user AND intakeID = intake) intakes
+	LIMIT 1;
+END //
+
 DROP PROCEDURE IF EXISTS intake_recipe//
 CREATE PROCEDURE intake_recipe
 (
