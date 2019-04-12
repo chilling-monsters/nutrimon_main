@@ -15,14 +15,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label styleClass="titleText" text="Search" textFill="#f5a623" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
-         <font>
-            <Font name="SF Pro Display Regular" size="25.0" />
-         </font>
-      </Label>
-      <AnchorPane prefHeight="80.0" style="-fx-background-color: #F5A623;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+      <AnchorPane prefHeight="140.0" style="-fx-background-color: #F5A623;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
+            <VBox AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                <children>
                   <HBox>
                      <children>
@@ -46,7 +41,7 @@
             </VBox>
          </children>
       </AnchorPane>
-      <ScrollPane hbarPolicy="NEVER" layoutY="182.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
+      <ScrollPane hbarPolicy="NEVER" layoutY="182.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="140.0">
         <content>
           <AnchorPane styleClass="cardScrollPane">
                <children>
@@ -59,6 +54,11 @@
             </AnchorPane>
         </content>
       </ScrollPane>
+      <Label styleClass="titleText" text="Search" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="SF Pro Display Regular" size="25.0" />
+         </font>
+      </Label>
    </children>
    <styleClass>
       <String fx:value="screenPane" />

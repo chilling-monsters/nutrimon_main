@@ -113,7 +113,7 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextArea fx:id="formDetails" layoutX="10.0" layoutY="10.0" promptText="Preheat the oven to ..." wrapText="true">
+                              <TextArea fx:id="formDetails" layoutX="10.0" layoutY="10.0" prefHeight="370.0" promptText="Preheat the oven to ..." wrapText="true">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin></TextArea>

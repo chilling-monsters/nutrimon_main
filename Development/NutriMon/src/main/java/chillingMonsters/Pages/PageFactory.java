@@ -249,16 +249,24 @@ public class PageFactory {
 	public static void setMenuButtonStyle(Page p) {
 		if (p == login || p == register) {
 			menuButton.setStyle(null);
-		} else if (p == stock || p == recipe || p == intake || p == search || p == landing) {
+		} else if (p == stock || p == recipe || p == intake || p == landing) {
 			menuButton.setStyle("-fx-image: url(img/MenuIcon2x.png)");
-		} else if (p == menu) {
+		} else if (p == menu || (p == search && !formInProgress)) {
 			menuButton.setStyle("-fx-image: url(img/MenuIconWhite2x.png)");
 		} else {
 			menuButton.setStyle("-fx-image: url(img/Menu-Back-Icon-White2x.png)");
 		}
 	}
 	public static void handleBackNavigation() {
+		Page p = getCurrentPage();
+		Page lastPage = pageHistory.get(1);
+
 		if (formInProgress) {
+			if (p == search && lastPage == recipeCreate) {
+				toNextPage(lastPage);
+				return;
+			}
+
 			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
 			if (confirmed) {
 				formInProgress = false;
@@ -267,7 +275,6 @@ public class PageFactory {
 			}
 		}
 
-		Page p = getCurrentPage();
 		if (menuShown) {
 			hideMenu();
 			return;
@@ -278,7 +285,6 @@ public class PageFactory {
 			return;
 		}
 
-		Page lastPage = pageHistory.get(1);
 		if ((p == recipeEntry && lastPage == recipe) || (p == recipeEntry && lastPage == recipeCreate)) {
 			lastPage = getRecipeRefresh();
 		} else if (p == stockEntry && lastPage == stock) {
