@@ -8,10 +8,7 @@ import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Pages.searchPage.SearchCardComponent;
 import chillingMonsters.Utility;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -29,9 +26,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class intakeEntryPageController implements PageController {
-	private long intakeID;
+	private long ID;
 	private PageOption option;
 
+	private StringProperty category = new SimpleStringProperty("");
 	private double amount;
 	private double caloriesPerUnit;
 
@@ -68,8 +66,8 @@ public class intakeEntryPageController implements PageController {
 	@FXML
 	private Button saveEntryButton;
 
-	public intakeEntryPageController(long intakeID, PageOption option) {
-		this.intakeID = intakeID;
+	public intakeEntryPageController(long ID, PageOption option) {
+		this.ID = ID;
 		this.option = option;
 	}
 
@@ -80,11 +78,20 @@ public class intakeEntryPageController implements PageController {
 		saveEntryButton.setOnAction(event -> handleSaveOnClick());
 		amountTxF.textProperty().addListener(event -> handleInputChange());
 		dateTxF.valueProperty().addListener(event -> handleDateChange());
+		entryCategory.textProperty().bind(Bindings.format("INTAKE TYPE: %S", category));
 
 		switch (option) {
 			case INTAKE_STOCK:
+				category.setValue("STOCK");
+				amountTxF.setText("0");
+				dateTxF.setValue(LocalDate.now());
+				addIngredientCard(ID);
 				break;
 			case INTAKE_RECIPE:
+				category.setValue("RECIPE");
+				amountTxF.setText("0");
+				dateTxF.setValue(LocalDate.now());
+				addRecipeCard(ID);
 				break;
 			case UPDATE:
 				refreshIntake();
@@ -96,29 +103,23 @@ public class intakeEntryPageController implements PageController {
 
 	private void refreshIntake() {
 		IntakeController controller = ControllerFactory.makeIntakeController();
-		Map<String, Object> intake = controller.getIntake(intakeID);
+		Map<String, Object> intake = controller.getIntake(ID);
 
-		String type = intake.get("type").toString().toUpperCase();
-		if (type.equals("RECIPE")) option = PageOption.INTAKE_RECIPE;
-		else if (type.equals("STOCK")) option = PageOption.INTAKE_STOCK;
+		category.setValue(intake.get("type").toString().toUpperCase());
 
-		entryCategory.setText(String.format("INTAKE TYPE: %S", type));
-
-		Long ID = 0L;
+		Long contentID = 0L;
 		if (intake.get("foodID") != null) {
-			ID = Utility.parseID(intake.get("foodID").toString(), 0);
+			contentID = Utility.parseID(intake.get("foodID").toString(), 0);
 			amount = Utility.parseQuantity(intake.get("intakeQtty").toString(), 0);
 
-			addIngredientCard(ID);
+			addIngredientCard(contentID);
 		} else if (intake.get("recipeID") != null) {
-			ID = Utility.parseID(intake.get("recipeID").toString(), 0);
+			contentID = Utility.parseID(intake.get("recipeID").toString(), 0);
 			amount = Utility.parseQuantity(intake.get("serving").toString(), 0);
 
-			addRecipeCard(ID);
+			addRecipeCard(contentID);
 		}
 
-		int calories = Integer.parseInt(intake.get("Calories").toString());
-		caloriesPerUnit = calories / amount;
 		amountTxF.setText(String.format("%.1f", amount));
 
 		String date = intake.get("date").toString();
@@ -129,6 +130,7 @@ public class intakeEntryPageController implements PageController {
 		Map<String, Object> ingr = ControllerFactory.makeIngredientController().getIngredient(foodID);
 		String name = Utility.parseFoodName(ingr.get("foodName").toString());
 		String category = ingr.get("fCategory").toString();
+		caloriesPerUnit = Double.parseDouble(ingr.get("fCalories").toString()) / 100;
 
 		entryContent.getChildren().add(new SearchCardComponent(foodID, name, category, PageOption.DEFAULT));
 	}
@@ -137,6 +139,7 @@ public class intakeEntryPageController implements PageController {
 		Map<String, Object> rcp = ControllerFactory.makeRecipeController().getRecipe(recipeID);
 		String name = Utility.toCapitalized(rcp.get("recipeName").toString());
 		String category = rcp.get("recipeCategory").toString();
+		caloriesPerUnit = Double.parseDouble(rcp.get("caloriesPerServing").toString());
 
 		entryContent.getChildren().add(new SearchCardComponent(recipeID, name, category, PageOption.RECIPE));
 	}
@@ -144,7 +147,7 @@ public class intakeEntryPageController implements PageController {
 	private void handleInputChange() {
 		Double value = Utility.parseQuantity(amountTxF.getText(), 0);
 
-		String sFormatter = (option == PageOption.INTAKE_RECIPE) ? "%.1f serving" + ((value - 1 > 0.1) ? "s" : "") : ".1f g";
+		String sFormatter = (category.getValue().equals("RECIPE")) ? "%.1f serving" + ((value - 1 > 0.1) ? "s" : "") : "%.1f g";
 		entryCurrentAmount.setText(String.format(sFormatter, value));
 
 		Double updateCal = caloriesPerUnit * value;

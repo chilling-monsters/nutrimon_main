@@ -90,10 +90,10 @@ public class searchPageController implements PageController {
         String name = Utility.toCapitalized(result.get("recipeName").toString());
         String category = result.get("recipeCategory").toString().toUpperCase();
 
-        if (option == PageOption.DEFAULT) option = PageOption.RECIPE;
-        else if (option == PageOption.INTAKE_STOCK) option = PageOption.INTAKE_RECIPE;
+        PageOption cardOption = PageOption.RECIPE;
+        if (option == PageOption.INTAKE_STOCK) cardOption = PageOption.INTAKE_RECIPE;
 
-        SearchCardComponent sCard = new SearchCardComponent(recipeID, name, category, option);
+        SearchCardComponent sCard = new SearchCardComponent(recipeID, name, category, cardOption);
         sCard.getStyleClass().add("hightlightCard");
 
         showAndSaveCache(sCard);
