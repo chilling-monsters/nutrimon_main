@@ -1,6 +1,7 @@
 package chillingMonsters.Pages;
 
 import chillingMonsters.Pages.ingredientPage.ingredientPage;
+import chillingMonsters.Pages.intakePage.intakeEntryPage;
 import chillingMonsters.Pages.intakePage.intakePage;
 import chillingMonsters.Pages.landingPage.landingPage;
 import chillingMonsters.Pages.loginPage.loginPage;
@@ -47,6 +48,7 @@ public class PageFactory {
 	private static searchPage search;
 	private static userProfilePage profile = null;
 	private static intakePage intake;
+	private static intakeEntryPage intakeEntry;
 
 	private static landingPage landing;
 
@@ -158,6 +160,10 @@ public class PageFactory {
 	public static Page getIntakeRefresh() {
 		intake = new intakePage();
 		return intake;
+	}
+	public static Page getIntakeEntry(long intakeID) {
+		intakeEntry = new intakeEntryPage(intakeID);
+		return intakeEntry;
 	}
 
 	public static Page getLandingPage() {

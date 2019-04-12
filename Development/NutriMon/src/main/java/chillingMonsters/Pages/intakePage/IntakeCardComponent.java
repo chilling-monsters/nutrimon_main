@@ -46,6 +46,6 @@ public class IntakeCardComponent extends AnchorPane {
 	}
 
 	public void handleOnClick() {
-
+		PageFactory.toNextPage(PageFactory.getIntakeEntry(intakeID));
 	}
 }
