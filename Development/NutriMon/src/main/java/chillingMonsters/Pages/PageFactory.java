@@ -34,6 +34,7 @@ public class PageFactory {
 	private static boolean formInProgress = false;
 
 	private static ImageView menuButton = new ImageView();
+	private static ImageView userIcon = new ImageView();
 	private static StackPane appRoot;
 
 	//pages initialized without userID
@@ -75,6 +76,7 @@ public class PageFactory {
 		s.getChildren().add(menu.getPagePane());
 		s.getChildren().add(appRoot);
 
+		//Add an all-present menu button
 		menuButton.getStyleClass().add("myButton");
 		menuButton.setFitHeight(30);
 		menuButton.setFitWidth(30);
@@ -86,6 +88,19 @@ public class PageFactory {
 		StackPane.setMargin(menuButton, new Insets(20, 0, 0, 20));
 
 		menuButton.setOnMouseClicked(event -> handleBackNavigation());
+
+		//Add an all-present profile pic
+		userIcon.getStyleClass().add("myButton");
+		userIcon.setFitHeight(40);
+		userIcon.setFitWidth(40);
+
+		userIcon.setPickOnBounds(false);
+		s.getChildren().add(userIcon);
+
+		StackPane.setAlignment(userIcon, Pos.TOP_RIGHT);
+		StackPane.setMargin(userIcon, new Insets(20, 20, 0, 0));
+
+		userIcon.setOnMouseClicked(event -> toNextPage(getUserProfilePage()));
 	}
 
 	//Front-loading pages
@@ -248,6 +263,8 @@ public class PageFactory {
 		} else {
 			menuButton.setStyle("-fx-image: url(img/Menu-Back-Icon-White2x.png)");
 		}
+		
+		userIcon.setStyle("-fx-image: url(img/UserProfile2x.png)");
 	}
 
 	//Handle back navigation through menu button according to page state
