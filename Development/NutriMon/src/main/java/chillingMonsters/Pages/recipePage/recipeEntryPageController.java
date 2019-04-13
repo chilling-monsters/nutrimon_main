@@ -116,6 +116,7 @@ public class recipeEntryPageController implements PageController {
 
 	public void refresh() {
 		recipeIngredientsList.getChildren().clear();
+
 		RecipeController controller = ControllerFactory.makeRecipeController();
 		Map<String, Object> result = controller.getRecipe(recipeID);
 

@@ -44,7 +44,8 @@ public class recipePageController implements PageController {
 			return;
 		}
 
-		Map<String, List<RecipeCardComponent>> componentMap = new TreeMap<>();
+
+		Map<String, List<RecipeCardComponent>> componentMap = new TreeMap<>(Utility.parseRecipeComparator());
 		List<RecipeCardComponent> byYou = new ArrayList<>();
 		componentMap.put(CREATED_BY_YOU_KEY, byYou);
 

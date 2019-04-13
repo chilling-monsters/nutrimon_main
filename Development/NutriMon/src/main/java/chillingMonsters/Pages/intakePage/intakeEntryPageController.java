@@ -89,6 +89,7 @@ public class intakeEntryPageController implements PageController {
 
 	public void refresh() {
 		entryContent.getChildren().clear();
+
 		switch (option) {
 			case INTAKE_STOCK:
 				category.setValue("STOCK");

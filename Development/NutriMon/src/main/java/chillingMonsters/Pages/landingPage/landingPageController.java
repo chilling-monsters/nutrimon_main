@@ -37,7 +37,7 @@ public class landingPageController implements PageController {
 			return;
 		}
 
-		Map<String, List<RecipeCardComponent>> componentMap = new TreeMap<>();
+		Map<String, List<RecipeCardComponent>> componentMap = new TreeMap<>(Utility.parseRecipeComparator());
 
 		for (Map<String, Object> recipe : results) {
 			long id = Utility.parseID(recipe.get("recipeID").toString(), 0);

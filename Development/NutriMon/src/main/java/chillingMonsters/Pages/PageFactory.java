@@ -129,31 +129,19 @@ public class PageFactory {
 
     //Self-refreshing entry pages
     public static Page getIngredientPage(long foodID) {
-	    if (ingredient == null || ingredient.foodID != foodID) {
-		    ingredient = new ingredientPage(foodID);
-	    }
-
+	    ingredient = new ingredientPage(foodID);
 	    return ingredient;
     }
     public static Page getStockEntryPage(long foodID, PageOption option) {
-	    if (stockEntry == null || stockEntry.foodID != foodID || stockEntry.option != option) {
-		    stockEntry = new stockEntryPage(foodID, option);
-	    }
-
+	    stockEntry = new stockEntryPage(foodID, option);
 		return stockEntry;
 	}
 	public static Page getRecipeEntryPage(long recipeID) {
-		if (recipeEntry == null || recipeEntry.recipeID != recipeID) {
-			recipeEntry = new recipeEntryPage(recipeID);
-		}
-
+		recipeEntry = new recipeEntryPage(recipeID);
 		return recipeEntry;
 	}
 	public static Page getIntakeEntry(long intakeID, PageOption option) {
-		if (intakeEntry == null || intakeEntry.intakeID != intakeID || intakeEntry.option != option) {
-			intakeEntry = new intakeEntryPage(intakeID, option);
-		}
-
+		intakeEntry = new intakeEntryPage(intakeID, option);
 		return intakeEntry;
 	}
 
@@ -298,9 +286,7 @@ public class PageFactory {
 		}
 
 		//Force back from recipe entry if back from recipe create/edit from
-		if (p == recipeEntry && lastPage == recipeCreate) {
-			lastPage = recipe;
-		}
+		if (p == recipeEntry && lastPage == recipeCreate) lastPage = recipe;
 
 		toNextPage(lastPage);
 	}

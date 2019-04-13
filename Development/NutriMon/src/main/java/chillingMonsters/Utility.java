@@ -5,10 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -78,6 +75,8 @@ public class Utility {
 		put("VAN", "VANILLA");
 		put("SWT", "SWEET");
 	}};
+
+	private static String[] recipeCategoryOrder = {"CREATED BY YOU", "BREAKFAST", "LUNCH", "DINNER", "SNACK"};
 
 	public static String parseFoodName(String name) {
 		String[] byComma = name.split(",");
@@ -191,5 +190,20 @@ public class Utility {
 		}
 
 		return result;
+	}
+
+	public static Comparator<String> parseRecipeComparator() {
+		Comparator<String> recipeComparator = new Comparator<String>() {
+			@Override public int compare(String s1, String s2) {
+				for (String s : recipeCategoryOrder) {
+					if (s.equals(s1.toUpperCase()) && !s.equals(s2.toUpperCase())) return -1;
+					if (s.equals(s2.toUpperCase()) && !s.equals(s1.toUpperCase())) return 1;
+				}
+
+				return s1.compareTo(s2);
+			}
+		};
+
+		return recipeComparator;
 	}
 }

@@ -54,7 +54,7 @@ public class recipeCreatePageController implements PageController {
 	private Button addIngredientButton;
 
 	@FXML
-	private TextField formCategory;
+	private ChoiceBox formCategory;
 
 	@FXML
 	private TextArea formDetails;
@@ -75,27 +75,12 @@ public class recipeCreatePageController implements PageController {
 
 	@FXML
 	public void initialize() {
+		formCategory.getItems().addAll("Breakfast", "Lunch", "Dinner", "Snack");
+
 		formName.textProperty().bindBidirectional(cachedName);
-		formCategory.textProperty().bindBidirectional(cachedCategory);
+		formCategory.valueProperty().bindBidirectional(cachedCategory);
 		formDetails.textProperty().bindBidirectional(cachedFormDetails);
 		formCookTime.textProperty().bindBidirectional(cachedCookTime);
-
-		if (option == PageOption.UPDATE && recipeID != 0) {
-			RecipeController controller = ControllerFactory.makeRecipeController();
-			Map<String, Object> recipe = controller.getRecipe(recipeID);
-
-			formName.setText(Utility.toCapitalized(recipe.get("recipeName").toString()));
-			formCategory.setText(recipe.get("recipeCategory").toString());
-			formDetails.setText(recipe.get("recipeDescription").toString());
-			formCookTime.setText(recipe.get("recipeCookTime").toString());
-
-			List<Map<String, Object>> ingrL = (List<Map<String, Object>>) recipe.get("ingredients");
-			for (Map<String, Object> i : ingrL) {
-				addToIngredientList(Utility.parseID(i.get("foodID").toString(), 0), Float.parseFloat(i.get("ingredientQtty").toString()));
-			}
-		}
-
-		renderIngredientList();
 
 		addIngredientButton.setOnAction(event -> handleAddIngredient());
 		saveRecipeButton.setOnAction(event -> handleCreateButton());
@@ -106,6 +91,29 @@ public class recipeCreatePageController implements PageController {
 		createCard.setOnScroll(event -> handleCardScroll(event));
 	}
 
+	public void refresh() {
+		if (option == PageOption.UPDATE && recipeID != 0) {
+			RecipeController controller = ControllerFactory.makeRecipeController();
+			Map<String, Object> recipe = controller.getRecipe(recipeID);
+
+			formName.setText(Utility.toCapitalized(recipe.get("recipeName").toString()));
+			formCategory.setValue(recipe.get("recipeCategory").toString());
+			formDetails.setText(recipe.get("recipeDescription").toString());
+			formCookTime.setText(recipe.get("recipeCookTime").toString());
+
+			List<Map<String, Object>> ingrL = (List<Map<String, Object>>) recipe.get("ingredients");
+			for (Map<String, Object> i : ingrL) {
+				Long foodID = Utility.parseID(i.get("foodID").toString(), 0);
+				Float amount = Float.parseFloat(i.get("ingredientQtty").toString());
+
+				addToIngredientList(foodID, amount);
+			}
+		}
+
+		renderIngredientList();
+	}
+
+	//Event handlers
 	private void handleFormScroll(ScrollEvent event) {
 		if (createCard.getHeight() == createCard.getMaxHeight()) {
 			return;
@@ -140,13 +148,6 @@ public class recipeCreatePageController implements PageController {
 
 	private void handleAddIngredient() {
 		PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.UPDATE));
-	}
-
-	public void addToIngredientList(long foodID, float amount) {
-		if (ingrMap.containsKey(foodID)) return;
-
-		ingrMap.put(foodID, new SimpleStringProperty(amount == 0 ? "g" : String.format("%.1fg", amount)));
-		renderIngredientList();
 	}
 
 	private void handleCreateButton() {
@@ -236,8 +237,15 @@ public class recipeCreatePageController implements PageController {
 		}
 	}
 
+	//Helper functions
+	public void addToIngredientList(long foodID, float amount) {
+		ingrMap.put(foodID, new SimpleStringProperty(amount == 0 ? "g" : String.format("%.1fg", amount)));
+		renderIngredientList();
+	}
+
 	private void renderIngredientList() {
 		ingredientList.getChildren().clear();
+
 		for (long foodID : ingrMap.keySet()) {
 			IngredientController ingrController = ControllerFactory.makeIngredientController();
 			Map<String, Object> result =  ingrController.getIngredient(foodID);
@@ -258,6 +266,4 @@ public class recipeCreatePageController implements PageController {
 			ingrCard.amountProperty().bindBidirectional(ingrMap.get(foodID));
 		}
 	}
-
-	public void refresh() {}
 }
