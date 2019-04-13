@@ -42,7 +42,8 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
 
   public List<Map<String, Object>> showAvailableRecipes() {
     List<Map<String, Object>> result = null;
-    String query = "SELECT * FROM recipes WHERE canBeMade(?,recipeID) > 0";
+    String query = "SELECT r.*, calcRecipeCalories(recipeID) as 'caloriesPerServing' " +
+        "FROM recipes r WHERE canBeMade(?,recipeID) > 0";
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
       stmt.setLong(1, userId);
       try (ResultSet rs = stmt.executeQuery()) {

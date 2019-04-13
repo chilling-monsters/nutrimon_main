@@ -29,7 +29,7 @@ public class landingPageController implements PageController {
 		RecipeController controller = ControllerFactory.makeRecipeController();
 		List<Map<String, Object>> results = controller.showAvailableRecipes();
 
-		if (results.isEmpty()) {
+		if (results == null || results.isEmpty()) {
 			Label emptyLabel = new Label("We ain't got squash.");
 			emptyLabel.getStyleClass().add("emptyWarningText");
 
