@@ -90,35 +90,6 @@
                         <String fx:value="menuBar" />
                      </styleClass>
                   </HBox>
-                  <HBox fx:id="intake" layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="200.0">
-                     <children>
-                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../img/Intakewhite2x.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets left="40.0" top="15.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <Label text="Intake" textFill="WHITE">
-                           <font>
-                              <Font name="SF Pro Display Regular" size="20.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="20.0" top="10.0" />
-                           </HBox.margin>
-                           <styleClass>
-                              <String fx:value="headerText" />
-                              <String fx:value="menuText" />
-                           </styleClass>
-                        </Label>
-                     </children>
-                     <styleClass>
-                        <String fx:value="cardPane" />
-                        <String fx:value="myButton" />
-                        <String fx:value="menuBar" />
-                     </styleClass>
-                  </HBox>
                   <HBox fx:id="stock" layoutX="10.0" layoutY="50.0" prefHeight="60.0" prefWidth="200.0">
                      <children>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -159,6 +130,35 @@
                            </HBox.margin>
                         </ImageView>
                         <Label text="Recipes" textFill="WHITE">
+                           <font>
+                              <Font name="SF Pro Display Regular" size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" top="10.0" />
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="headerText" />
+                              <String fx:value="menuText" />
+                           </styleClass>
+                        </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="cardPane" />
+                        <String fx:value="myButton" />
+                        <String fx:value="menuBar" />
+                     </styleClass>
+                  </HBox>
+                  <HBox fx:id="intake" layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/Intakewhite2x.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="40.0" top="15.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label text="Intake" textFill="WHITE">
                            <font>
                               <Font name="SF Pro Display Regular" size="20.0" />
                            </font>

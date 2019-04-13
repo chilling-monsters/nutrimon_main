@@ -26,6 +26,5 @@ public class App extends Application {
 		primaryStage.show();
 
 		PageFactory.initialize(appRoot);
-		System.out.println("Current page: Login page");
 	}
 }

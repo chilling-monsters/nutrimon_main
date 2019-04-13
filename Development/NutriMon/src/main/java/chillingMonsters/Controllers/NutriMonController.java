@@ -144,7 +144,6 @@ public abstract class NutriMonController {
 
     try {
       try (Statement stmt = DBConnect.getConnection().createStatement()) {
-        System.out.println(query);
         stmt.executeUpdate(query);
       }
       DBConnect.close();

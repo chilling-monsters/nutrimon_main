@@ -50,8 +50,6 @@ public abstract class DBConnect {
             Class.forName(driver);
             con = DriverManager.getConnection(String.format("%s%s?allowPublicKeyRetrieval=true&useSSL=false", host, dbname), username, password);
 
-            System.out.println("Database Connection Established...");
-
         } catch (Exception e) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -91,7 +89,6 @@ public abstract class DBConnect {
           if (con != null && !con.isClosed()) {
             con.close();
           }
-          System.out.println("Database Connection Closed");
         } catch (SQLException e) {
           Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, "Connection failed to close", e);
         }
