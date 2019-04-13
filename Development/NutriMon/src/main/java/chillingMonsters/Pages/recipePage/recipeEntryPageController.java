@@ -223,7 +223,7 @@ public class recipeEntryPageController implements PageController {
 
 	//event handlers
 	private void handleOnIngridentCardClick(long foodID) {
-		PageFactory.toNextPage(PageFactory.getIngredientPage(foodID));
+		PageFactory.toNextPage(PageFactory.getStockEntryPage(foodID, PageOption.DEFAULT));
 	}
 
 	private void handleAddRecipe() {

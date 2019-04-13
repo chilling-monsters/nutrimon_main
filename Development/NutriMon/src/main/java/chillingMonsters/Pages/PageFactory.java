@@ -106,7 +106,6 @@ public class PageFactory {
 			search = new searchPage(option);
 		}
 
-		search.refresh();
 		return search;
 	}
 
@@ -134,7 +133,6 @@ public class PageFactory {
 		    ingredient = new ingredientPage(foodID);
 	    }
 
-	    ingredient.refresh();
 	    return ingredient;
     }
     public static Page getStockEntryPage(long foodID, PageOption option) {
@@ -142,14 +140,13 @@ public class PageFactory {
 		    stockEntry = new stockEntryPage(foodID, option);
 	    }
 
-	    stockEntry.refresh();
 		return stockEntry;
 	}
 	public static Page getRecipeEntryPage(long recipeID) {
 		if (recipeEntry == null || recipeEntry.recipeID != recipeID) {
 			recipeEntry = new recipeEntryPage(recipeID);
 		}
-		recipeEntry.refresh();
+
 		return recipeEntry;
 	}
 	public static Page getIntakeEntry(long intakeID, PageOption option) {
@@ -157,7 +154,6 @@ public class PageFactory {
 			intakeEntry = new intakeEntryPage(intakeID, option);
 		}
 
-		intakeEntry.refresh();
 		return intakeEntry;
 	}
 
@@ -167,7 +163,6 @@ public class PageFactory {
 			recipeCreate = new recipeCreatePage(recipeID, option);
 		}
 
-		recipeCreate.refresh();
 		return recipeCreate;
 	}
 	public static Page getRecipeCreatePage() {
@@ -182,10 +177,12 @@ public class PageFactory {
 		setMenuButtonStyle(nextPage);
 
 		Page currentPage = getCurrentPage();
+
+		//Skip if same page navigation
 		if (currentPage == nextPage) return;
 
+		//History management, remove current entry if going to last page
 		if (pageHistory.size() > 1 && nextPage == pageHistory.get(1)) pageHistory.remove(currentPage);
-
 		for (int i = 0; i < pageHistory.size(); i++) {
 			Page p = pageHistory.get(i);
 			if (p.getClass().equals(nextPage.getClass())) pageHistory.remove(p);
@@ -199,6 +196,7 @@ public class PageFactory {
 		if (appRoot.getChildren().contains(nxtP)) appRoot.getChildren().remove(nxtP);
 		appRoot.getChildren().add(nxtP);
 
+		//Fade animation
 		KeyFrame start = new KeyFrame(Duration.ZERO,
 			new KeyValue(nxtP.opacityProperty(), 0),
 			new KeyValue(curP.opacityProperty(), 1)
@@ -211,18 +209,15 @@ public class PageFactory {
 		Timeline slide = new Timeline(start, end);
 		slide.setOnFinished(e -> {
 			appRoot.getChildren().remove(curP);
-
-			if (nextPage == landing || nextPage == stock || nextPage == recipe || nextPage == intake) {
-				nextPage.refresh();
-			}
+			nextPage.refresh();
 		});
 		slide.play();
 
 		if (nextPage == search) menu.setSelected(0);
 		else if (nextPage == landing) menu.setSelected(1);
-		else if (nextPage == intake) menu.setSelected(2);
-		else if (nextPage == stock) menu.setSelected(3);
-		else if (nextPage == recipe) menu.setSelected(4);
+		else if (nextPage == stock) menu.setSelected(2);
+		else if (nextPage == recipe) menu.setSelected(3);
+		else if (nextPage == intake) menu.setSelected(4);
 	}
 
 	//Display the menu
@@ -262,7 +257,7 @@ public class PageFactory {
 			menuButton.setStyle(null);
 		} else if (p == stock || p == recipe || p == intake || p == landing) {
 			menuButton.setStyle("-fx-image: url(img/MenuIcon2x.png)");
-		} else if (p == menu || (p == search && !formInProgress)) {
+		} else if (p == menu || (p == search && ((searchPage) p).option == PageOption.DEFAULT && !formInProgress)) {
 			menuButton.setStyle("-fx-image: url(img/MenuIconWhite2x.png)");
 		} else {
 			menuButton.setStyle("-fx-image: url(img/Menu-Back-Icon-White2x.png)");
@@ -274,7 +269,9 @@ public class PageFactory {
 		Page p = getCurrentPage();
 		Page lastPage = pageHistory.get(1);
 
+		//Check if any form is in progress, warn if so
 		if (formInProgress) {
+			//Skip check for recipe create form
 			if (p == search && lastPage == recipeCreate) {
 				toNextPage(lastPage);
 				return;
@@ -288,16 +285,19 @@ public class PageFactory {
 			}
 		}
 
+		//Hide menu if shown
 		if (menuShown) {
 			hideMenu();
 			return;
 		}
 
-		if (p == stock || p == recipe || p == intake || p == landing || p == search) {
+		//Base pages, show menu
+		if (p == stock || p == recipe || p == intake || p == landing || (p == search && ((searchPage) p).option == PageOption.DEFAULT)) {
 			showMenu();
 			return;
 		}
 
+		//Force back from recipe entry if back from recipe create/edit from
 		if (p == recipeEntry && lastPage == recipeCreate) {
 			lastPage = recipe;
 		}
