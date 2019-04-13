@@ -9,6 +9,7 @@ import chillingMonsters.Utility;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 
@@ -36,7 +37,7 @@ public class intakePageController implements PageController {
 		IntakeController controller = ControllerFactory.makeIntakeController();
 		Map<String, List<Map<String, Object>>> results = controller.showIntakesByDate();
 
-		if (results.isEmpty()) {
+		if (results == null || results.isEmpty()) {
 			Label emptyLabel = new Label("We ain't got squash.");
 			emptyLabel.getStyleClass().add("emptyWarningText");
 
@@ -45,20 +46,21 @@ public class intakePageController implements PageController {
 		}
 
 		Map<String, List<IntakeCardComponent>> componentMap = new TreeMap<>();
-		for (String d : results.keySet()) {
+		Map<String, Integer> caloriesMap = new TreeMap<>();
 
-			List<IntakeCardComponent> dateGroup = componentMap.get(d);
-			if (dateGroup == null) {
-				dateGroup = new ArrayList<>();
-				componentMap.put(Utility.parseProperDate(d), dateGroup);
+		for (String d : results.keySet()) {
+			if (componentMap.get(d) == null) {
+				componentMap.put(d, new ArrayList<>());
 			}
+			List<IntakeCardComponent> dateGroup = componentMap.get(d);
+
+			if (caloriesMap.get(d) == null) {
+				caloriesMap.put(d, 0);
+			}
+			Integer dayTotal = caloriesMap.get(d);
 
 			List<Map<String, Object>> byDate = results.get(d);
 			for (Map<String, Object> intake : byDate) {
-				Long intakeID = Utility.parseID(intake.get("intakeID").toString(), 0);
-				int calories = Integer.parseInt(intake.get("Calories").toString());
-				String type = intake.get("type").toString();
-
 				Long ID = 0L;
 				String name = "", category = "", amountStr = "";
 				if (intake.get("foodID") != null) {
@@ -79,17 +81,24 @@ public class intakePageController implements PageController {
 					category = rcp.get("recipeCategory").toString();
 				}
 
+				Long intakeID = Utility.parseID(intake.get("intakeID").toString(), 0);
+				int calories = Integer.parseInt(intake.get("Calories").toString());
+				String type = intake.get("type").toString();
+
 				IntakeCardComponent inCard = new IntakeCardComponent(intakeID, name, String.format("%s: %s", type, category), calories, amountStr);
 
 				dateGroup.add(inCard);
+				dayTotal += calories;
 			}
-			break;
+
+			caloriesMap.put(d, dayTotal);
 		}
 
 		for (String k : componentMap.keySet()) {
 			List<IntakeCardComponent> group = componentMap.get(k);
+			Integer dayTotal = caloriesMap.get(k);
 
-			addToList(k, group);
+			addToList(Utility.parseProperDate(k), dayTotal, group);
 		}
 	}
 
@@ -100,11 +109,12 @@ public class intakePageController implements PageController {
 	}
 
 	//helper functions
-	private void addToList(String label, List<IntakeCardComponent> group) {
-		Label groupLabel = new Label(Utility.toCapitalized(label));
-		if (label == TODAY) groupLabel.getStyleClass().add("hightlightText");
-
-		groupLabel.getStyleClass().add("labelText");
+	private void addToList(String label, Integer cal, List<IntakeCardComponent> group) {
+		for (IntakeCardComponent s : group) {
+			s.getStyleClass().add("listCard");
+			if (label == TODAY) s.getStyleClass().add("hightlightCard");
+			cardList.getChildren().add(0, s);
+		}
 
 		Line underline = new Line();
 		underline.setStartX(0.0f);
@@ -112,14 +122,23 @@ public class intakePageController implements PageController {
 		underline.setEndX(300.0f);
 		underline.setEndY(100.0f);
 		underline.getStyleClass().add("line");
+		cardList.getChildren().add(0, underline);
 
-		cardList.getChildren().add(groupLabel);
-		cardList.getChildren().add(underline);
+		AnchorPane titlePane = new AnchorPane();
+		Label groupLabel = new Label(label);
+		if (label == TODAY) groupLabel.getStyleClass().add("hightlightText");
+		groupLabel.getStyleClass().add("labelText");
 
-		for (IntakeCardComponent s : group) {
-			s.getStyleClass().add("listCard");
-			if (label == TODAY) s.getStyleClass().add("hightlightCard");
-			cardList.getChildren().add(s);
-		}
+		titlePane.getChildren().add(groupLabel);
+		AnchorPane.setLeftAnchor(groupLabel, 0D);
+
+		Label calLabel = new Label(String.format("%d Cal", cal));
+		if (label == TODAY) calLabel.getStyleClass().add("hightlightText");
+		calLabel.getStyleClass().add("labelText");
+
+		titlePane.getChildren().add(calLabel);
+		AnchorPane.setRightAnchor(calLabel, 0D);
+
+		cardList.getChildren().add(0, titlePane);
 	}
 }

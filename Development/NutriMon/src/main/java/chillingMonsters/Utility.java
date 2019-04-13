@@ -152,9 +152,9 @@ public class Utility {
 		DayOfWeek wkDay = dateAdded.getDayOfWeek();
 		DayOfWeek todayWeekday = LocalDate.now().getDayOfWeek();
 		String weekDayStr = wkDay.getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-		if (dayDiff < todayWeekday.getValue()) {
+		if (0 < dayDiff && dayDiff < todayWeekday.getValue()) {
 			return  "This " + weekDayStr;
-		} else if (dayDiff < todayWeekday.getValue() + 7){
+		} else if (0 < dayDiff && dayDiff < todayWeekday.getValue() + 7){
 			return  "Last " + weekDayStr;
 		} else {
 			return parseDate(Timestamp.valueOf(dateAdded.atStartOfDay()));

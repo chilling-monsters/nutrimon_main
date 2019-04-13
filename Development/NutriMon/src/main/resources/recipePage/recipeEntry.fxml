@@ -46,7 +46,7 @@
                            <children>
                               <AnchorPane>
                                  <children>
-                                    <Label fx:id="recipeName" maxHeight="30.0" maxWidth="285.0" minHeight="30.0" style="-fx-cursor: hand;" styleClass="titleText" text="Recipe With A Super Long Name and Extra Spaces At The End Of It Too, It's Really Long" wrapText="true">
+                                    <Label fx:id="recipeName" maxHeight="30.0" maxWidth="285.0" minHeight="30.0" style="-fx-cursor: hand;" styleClass="titleText" wrapText="true">
                                        <font>
                                           <Font name="SF Pro Display Regular" size="25.0" />
                                        </font>
@@ -76,7 +76,7 @@
                                  <children>
                                     <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label fx:id="recipeCookTime" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Cook Time" textAlignment="RIGHT" textFill="#f5a623">
+                                          <Label fx:id="recipeCookTime" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" textAlignment="RIGHT" textFill="#f5a623">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="25.0" />
                                              </font>
@@ -93,7 +93,7 @@
                                     </VBox>
                                     <VBox alignment="TOP_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label fx:id="recipeReady" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" text="Ready" textAlignment="RIGHT" textFill="#f5a623">
+                                          <Label fx:id="recipeReady" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="150.0" styleClass="titleText" textAlignment="RIGHT" textFill="#f5a623">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="25.0" />
                                              </font>
@@ -129,37 +129,37 @@
                                  <children>
                                     <VBox AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label fx:id="ingrCalories" layoutX="10.0" layoutY="10.0" styleClass="detailText" text="fCalories" textFill="#9e9e9e">
+                                          <Label fx:id="ingrCalories" layoutX="10.0" layoutY="10.0" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Text Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ingrProtein" styleClass="detailText" text="fProtein" textFill="#9e9e9e">
+                                          <Label fx:id="ingrProtein" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Text Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ingrTotalFat" styleClass="detailText" text="fTotalFat" textFill="#9e9e9e">
+                                          <Label fx:id="ingrTotalFat" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Text Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ingrSatFat" styleClass="detailText" text="fSatFat" textFill="#9e9e9e">
+                                          <Label fx:id="ingrSatFat" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Text Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ingrCholesterol" styleClass="detailText" text="fCho" textFill="#9e9e9e">
+                                          <Label fx:id="ingrCholesterol" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Text Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ingrCarb" styleClass="detailText" text="fCarb" textFill="#9e9e9e">
+                                          <Label fx:id="ingrCarb" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Text Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ingrSugar" styleClass="detailText" text="fSugar" textFill="#9e9e9e">
+                                          <Label fx:id="ingrSugar" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Text Regular" size="12.0" />
                                              </font>
@@ -168,37 +168,37 @@
                                     </VBox>
                                     <VBox AnchorPane.leftAnchor="175.0">
                                        <children>
-                                           <Label fx:id="ingrCalcium" styleClass="detailText" text="fCalcium" textFill="#9e9e9e">
+                                           <Label fx:id="ingrCalcium" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ingrIron" styleClass="detailText" text="fIron" textFill="#9e9e9e">
+                                          <Label fx:id="ingrIron" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ingrPotassium" styleClass="detailText" text="fPot" textFill="#9e9e9e">
+                                          <Label fx:id="ingrPotassium" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ingrSodium" styleClass="detailText" text="fSodium" textFill="#9e9e9e">
+                                          <Label fx:id="ingrSodium" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ingreC" styleClass="detailText" text="fC" textFill="#9e9e9e">
+                                          <Label fx:id="ingreC" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ingreE" styleClass="detailText" text="fE" textFill="#9e9e9e">
+                                          <Label fx:id="ingreE" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ingreD" styleClass="detailText" text="fD" textFill="#9e9e9e">
+                                          <Label fx:id="ingreD" styleClass="detailText" textFill="#9e9e9e">
                                              <font>
                                                 <Font name="SF Pro Display Regular" size="12.0" />
                                              </font>

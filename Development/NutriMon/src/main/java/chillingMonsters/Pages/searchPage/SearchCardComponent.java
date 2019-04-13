@@ -21,9 +21,6 @@ public class SearchCardComponent extends AnchorPane {
   @FXML
   private Label cardLabel;
 
-  @FXML
-  private ImageView searchImage;
-
   public SearchCardComponent(long ID, String name, String category, PageOption option) {
     super();
 

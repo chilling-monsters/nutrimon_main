@@ -34,6 +34,7 @@ public class intakeEntryPageController implements PageController {
 	private StringProperty category = new SimpleStringProperty("");
 	private double amount;
 	private double caloriesPerUnit;
+	private LocalDate date;
 
 	@FXML
 	private Label entryDate;
@@ -73,15 +74,21 @@ public class intakeEntryPageController implements PageController {
 	@FXML
 	public void initialize() {
 		editForm.visibleProperty().bindBidirectional(saveEntryButton.selectedProperty());
+		saveEntryButton.selectedProperty().addListener(event -> {
+			boolean selected = saveEntryButton.isSelected();
+			PageFactory.setFormInProgress(selected);
+			saveEntryButton.setText(selected ? "Save" : "Edit");
+		});
 
 		cancelEntryButton.setOnAction(event -> handleCancelOnClick());
-		saveEntryButton.selectedProperty().addListener(event -> handleSaveOnClick());
+		saveEntryButton.setOnAction(event -> handleSaveOnClick());
 		amountTxF.textProperty().addListener(event -> handleInputChange());
 		dateTxF.valueProperty().addListener(event -> handleDateChange());
 		entryCategory.textProperty().bind(Bindings.format("INTAKE TYPE: %S", category));
 	}
 
 	public void refresh() {
+		entryContent.getChildren().clear();
 		switch (option) {
 			case INTAKE_STOCK:
 				category.setValue("STOCK");
@@ -118,8 +125,8 @@ public class intakeEntryPageController implements PageController {
 	}
 
 	private void handleDateChange() {
-		String date = dateTxF.getValue().toString();
-		entryDate.setText(Utility.parseProperDate(date));
+		date = dateTxF.getValue();
+		entryDate.setText(Utility.parseProperDate(date.toString()));
 	}
 
 	private boolean handleCancelOnClick() {
@@ -127,6 +134,10 @@ public class intakeEntryPageController implements PageController {
 			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
 			if (confirmed) {
 				editForm.setVisible(false);
+
+				if (option == PageOption.INTAKE_STOCK || option == PageOption.INTAKE_RECIPE) {
+					PageFactory.handleBackNavigation();
+				}
 			}
 
 			return confirmed;
@@ -136,22 +147,43 @@ public class intakeEntryPageController implements PageController {
 	}
 
 	private void handleSaveOnClick() {
-		boolean selected = saveEntryButton.isSelected();
-		PageFactory.setFormInProgress(selected);
-		saveEntryButton.setText(selected ? "Save" : "Edit");
-
 		if (!saveEntryButton.isSelected()) {
 			IntakeController controller = ControllerFactory.makeIntakeController();
 
+			float amountFl = (float) amount;
+			String dateStr = Timestamp.valueOf(date.atStartOfDay()).toString();
+
+			if ((amountFl - 0) < 0.1) {
+				AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "Your intake amount must be positive");
+				return;
+			}
+
 			switch (option) {
 				case INTAKE_STOCK:
-					controller.intakeStock(ID, (float) amount);
-					PageFactory.toNextPage(PageFactory.getIntakePage());
+					if (!controller.intakeStock(ID, amountFl, dateStr)) {
+						if (!AlertHandler.showConfirmationAlert("Failed...", "You don't have enough stock for this")) {
+							PageFactory.handleBackNavigation();
+						} else {
+							saveEntryButton.setSelected(true);
+						}
+					} else {
+						PageFactory.toNextPage(PageFactory.getIntakePage());
+					}
 					break;
 				case INTAKE_RECIPE:
+					if (!controller.intakeRecipe(ID, amountFl, dateStr)) {
+						if (AlertHandler.showConfirmationAlert("Failed...", "You don't have enough stock for this")) {
+							PageFactory.handleBackNavigation();
+						} else {
+							saveEntryButton.setSelected(true);
+						}
+					} else {
+						PageFactory.toNextPage(PageFactory.getIntakePage());
+					}
 					break;
 				case UPDATE:
-					controller.updateIntakeDate(ID, Timestamp.valueOf(dateTxF.getValue().atStartOfDay()).toString());
+					controller.updateIntakeDate(ID, dateStr);
+					PageFactory.toNextPage(PageFactory.getIntakePage());
 					break;
 			}
 		}
@@ -161,6 +193,8 @@ public class intakeEntryPageController implements PageController {
 	private void refreshIntake() {
 		IntakeController controller = ControllerFactory.makeIntakeController();
 		Map<String, Object> intake = controller.getIntake(ID);
+
+		if (intake == null) return;
 
 		category.setValue(intake.get("type").toString().toUpperCase());
 
@@ -185,6 +219,8 @@ public class intakeEntryPageController implements PageController {
 
 	private void addIngredientCard(long foodID) {
 		Map<String, Object> ingr = ControllerFactory.makeIngredientController().getIngredient(foodID);
+		if (ingr == null) return;
+
 		String name = Utility.parseFoodName(ingr.get("foodName").toString());
 		String category = ingr.get("fCategory").toString();
 		caloriesPerUnit = Double.parseDouble(ingr.get("fCalories").toString()) / 100;
@@ -199,6 +235,8 @@ public class intakeEntryPageController implements PageController {
 
 	private void addRecipeCard(long recipeID) {
 		Map<String, Object> rcp = ControllerFactory.makeRecipeController().getRecipe(recipeID);
+		if (rcp == null) return;
+		
 		String name = Utility.toCapitalized(rcp.get("recipeName").toString());
 		String category = rcp.get("recipeCategory").toString();
 		caloriesPerUnit = Double.parseDouble(rcp.get("caloriesPerServing").toString());

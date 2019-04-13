@@ -353,5 +353,7 @@ public class stockEntryPageController implements PageController {
 	}
 
 
-	public void refresh() {}
+	public void refresh() {
+		initialize();
+	}
 }
