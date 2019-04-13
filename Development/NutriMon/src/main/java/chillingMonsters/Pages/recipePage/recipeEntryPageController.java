@@ -106,6 +106,15 @@ public class recipeEntryPageController implements PageController {
 
 	@FXML
 	public void initialize() {
+		addRecipeButton.setOnAction(event -> handleAddRecipe());
+		recipeName.setOnMouseClicked(event -> handleNameClick());
+		moreButton.setOnMouseClicked(event -> handleMoreClick());
+
+		scrollRecipeDetailPane.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
+		recipeCard.setOnScroll(event -> handleCardScroll(event));
+	}
+
+	public void refresh() {
 		recipeIngredientsList.getChildren().clear();
 		RecipeController controller = ControllerFactory.makeRecipeController();
 		Map<String, Object> result = controller.getRecipe(recipeID);
@@ -205,13 +214,6 @@ public class recipeEntryPageController implements PageController {
 		ingreE.setText(String.format("%.1f g Vitamin E", e));
 		ingreD.setText(String.format("%.1f g Vitamin D", d));
 
-		addRecipeButton.setOnAction(event -> handleAddRecipe());
-		recipeName.setOnMouseClicked(event -> handleNameClick());
-		moreButton.setOnMouseClicked(event -> handleMoreClick());
-
-		scrollRecipeDetailPane.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
-		recipeCard.setOnScroll(event -> handleCardScroll(event));
-
 		scrollRecipeDetailPane.setMinHeight(scrollRecipeDetailPane.getMinHeight() - recipeName.getHeight() + recipeName.getMinHeight());
 		if (controller.isSaved(recipeID)) {
 			addRecipeButton.setText("Saved");
@@ -219,6 +221,7 @@ public class recipeEntryPageController implements PageController {
 		}
 	}
 
+	//event handlers
 	private void handleOnIngridentCardClick(long foodID) {
 		PageFactory.toNextPage(PageFactory.getIngredientPage(foodID));
 	}

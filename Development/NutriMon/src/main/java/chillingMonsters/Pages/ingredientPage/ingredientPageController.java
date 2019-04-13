@@ -86,6 +86,12 @@ public class ingredientPageController implements PageController {
 
 	@FXML
 	public void initialize() {
+		addToStockButton.setOnAction(event -> handleAddToStock());
+		cardScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
+		adjustSizeCard.setOnScroll(event -> handleCardScroll(event));
+	}
+
+	public void refresh() {
 		IngredientController controller = ControllerFactory.makeIngredientController();
 		Map<String, Object> result = controller.getIngredient(ingredientID);
 
@@ -108,12 +114,9 @@ public class ingredientPageController implements PageController {
 		ingreC.setText(result.get("fVC").toString() + "g");
 		ingreE.setText(result.get("fVE").toString() + "g");
 		ingreD.setText(result.get("fVD").toString() + "g");
-
-		addToStockButton.setOnAction(event -> handleAddToStock());
-		cardScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
-		adjustSizeCard.setOnScroll(event -> handleCardScroll(event));
 	}
 
+	//event listeners
 	private void handleAddToStock() {
 		PageFactory.toNextPage(PageFactory.getStockEntryPage(ingredientID, PageOption.STOCK));
 	}
@@ -149,5 +152,4 @@ public class ingredientPageController implements PageController {
 
 		Event.fireEvent(adjustSizeCard, retargettedScrollEvent);
 	}
-
 }

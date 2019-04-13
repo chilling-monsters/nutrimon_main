@@ -24,6 +24,7 @@ public class NewRecipeSearchCard extends AnchorPane {
 	}
 
 	public void handleOnClick() {
+		PageFactory.setFormInProgress(true);
 		PageFactory.toNextPage(PageFactory.getRecipeCreatePage());
 	}
 }

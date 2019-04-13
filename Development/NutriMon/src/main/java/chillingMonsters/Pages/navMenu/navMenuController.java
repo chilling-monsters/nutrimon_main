@@ -60,19 +60,19 @@ public class navMenuController implements PageController {
 		stock.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
 			if (PageFactory.getCurrentPage() != PageFactory.getStockPage()) {
-				PageFactory.toNextPage(PageFactory.getStockRefresh());
+				PageFactory.toNextPage(PageFactory.getStockPage());
 			}
 		});
 		intake.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
 			if (PageFactory.getCurrentPage() != PageFactory.getIntakePage()) {
-				PageFactory.toNextPage(PageFactory.getIntakeRefresh());
+				PageFactory.toNextPage(PageFactory.getIntakePage());
 			}
 		});
 		recipe.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
 			if (PageFactory.getCurrentPage() != PageFactory.getRecipePage()) {
-				PageFactory.toNextPage(PageFactory.getRecipeRefresh());
+				PageFactory.toNextPage(PageFactory.getRecipePage());
 			}
 		});
 
@@ -92,10 +92,13 @@ public class navMenuController implements PageController {
 			put(recipe, "img/Recipesorange2x.png");
 
 		}};
+	}
 
+	public void refresh() {
 		highlightSelected(0);
 	}
 
+	//helper functions
 	private void highlightSelected(int i) {
 		HBox n = (HBox) menuBar.getChildren().get(i);
 		KeyFrame start = new KeyFrame(Duration.ZERO,

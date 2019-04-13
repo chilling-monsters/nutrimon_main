@@ -38,30 +38,35 @@ public class PageFactory {
 	private static ImageView menuButton = new ImageView();
 	private static StackPane appRoot;
 
+	//pages initialized without userID
 	private static loginPage login = new loginPage();
 	private static registerPage register = new registerPage();
 	private static navMenu menu = new navMenu();
+	private static searchPage search = new searchPage(PageOption.DEFAULT);
 
-	private static searchPage search;
-
-	private static stockPage stock;
-	private static stockEntryPage stockEntry;
-	private static ingredientPage ingredient;
-
-	private static userProfilePage profile;
-	private static intakePage intake;
-	private static intakeEntryPage intakeEntry;
-
+	//heavy-data pages, refresh on need-based
 	private static landingPage landing;
-
+	private static stockPage stock;
 	private static recipePage recipe;
+	private static intakePage intake;
+	private static userProfilePage profile;
+
+	//entry pages, refrehsed on load
+	private static ingredientPage ingredient;
+	private static stockEntryPage stockEntry;
 	private static recipeEntryPage recipeEntry;
+	private static intakeEntryPage intakeEntry;
 	private static recipeCreatePage recipeCreate;
 
+	//page history list
 	private static List<Page> pageHistory = new ArrayList<Page>() {{
 		add(login);
 	}};
+	public static Page getCurrentPage() {
+		return pageHistory.get(0);
+	}
 
+	//Set the root pane for management
 	public static void initialize(StackPane s) {
 		appRoot = new StackPane(login.getPagePane());
 		appRoot.setPickOnBounds(false);
@@ -85,6 +90,7 @@ public class PageFactory {
 		menuButton.setOnMouseClicked(event -> handleBackNavigation());
 	}
 
+	//Front-loading pages
 	public static Page getLoginPage() {
 		return login;
 	}
@@ -95,90 +101,83 @@ public class PageFactory {
 		profile = new userProfilePage();
 		return profile;
 	}
-
-	public static Page getStockPage() {
-		if (stock == null) stock = new stockPage();
-		return stock;
-    }
-    public static Page getStockRefresh() {
-		stock = new stockPage();
-		return stock;
-    }
-    public static Page getStockEntryPage(long foodID, PageOption option) {
-	    stockEntry = new stockEntryPage(foodID, option);
-		return stockEntry;
-	}
-
-	public static Page getIngredientPage(long foodID) {
-		if (ingredient == null || ingredient.foodID != foodID) {
-			ingredient = new ingredientPage(foodID);
-		}
-
-		return ingredient;
-	}
 	public static Page getSearchPage(PageOption option) {
 		if (search == null || search.option != option) {
 			search = new searchPage(option);
 		}
 
+		search.refresh();
 		return search;
 	}
 
+	//Back-loading list pages
+	public static Page getLandingPage() {
+		if (landing == null) landing = new landingPage();
+		return landing;
+	}
+	public static Page getStockPage() {
+		if (stock == null) stock = new stockPage();
+		return stock;
+    }
 	public static Page getRecipePage() {
 		if (recipe == null) recipe = new recipePage();
 		return recipe;
 	}
-	public static Page getRecipeRefresh() {
-		recipe = new recipePage();
-		return recipe;
+	public static Page getIntakePage() {
+		if (intake == null) intake = new intakePage();
+		return intake;
+	}
+
+    //Self-refreshing entry pages
+    public static Page getIngredientPage(long foodID) {
+	    if (ingredient == null || ingredient.foodID != foodID) {
+		    ingredient = new ingredientPage(foodID);
+	    }
+
+	    ingredient.refresh();
+	    return ingredient;
+    }
+    public static Page getStockEntryPage(long foodID, PageOption option) {
+	    if (stockEntry == null || stockEntry.foodID != foodID || stockEntry.option != option) {
+		    stockEntry = new stockEntryPage(foodID, option);
+	    }
+
+	    stockEntry.refresh();
+		return stockEntry;
 	}
 	public static Page getRecipeEntryPage(long recipeID) {
-		recipeEntry = new recipeEntryPage(recipeID);
+		if (recipeEntry == null || recipeEntry.recipeID != recipeID) {
+			recipeEntry = new recipeEntryPage(recipeID);
+		}
+		recipeEntry.refresh();
 		return recipeEntry;
 	}
+	public static Page getIntakeEntry(long intakeID, PageOption option) {
+		if (intakeEntry == null || intakeEntry.intakeID != intakeID || intakeEntry.option != option) {
+			intakeEntry = new intakeEntryPage(intakeID, option);
+		}
+
+		intakeEntry.refresh();
+		return intakeEntry;
+	}
+
+	//Edit form
 	public static Page getRecipeEditPage(long recipeID, PageOption option) {
 		if (recipeCreate == null || recipeCreate.recipeID != recipeID || recipeCreate.option != option) {
 			recipeCreate = new recipeCreatePage(recipeID, option);
 		}
 
+		recipeCreate.refresh();
 		return recipeCreate;
 	}
 	public static Page getRecipeCreatePage() {
 		return getRecipeEditPage(0, PageOption.RECIPE);
 	}
-	public static Page getRecipeForm() {
+	public static Page getCurrentRecipeForm() {
 		return recipeCreate;
 	}
 
-	public static Page getIntakePage() {
-		if (intake == null) intake = new intakePage();
-		return intake;
-	}
-	public static Page getIntakeRefresh() {
-		intake = new intakePage();
-		return intake;
-	}
-	public static Page getIntakeEntry(long intakeID, PageOption option) {
-		intakeEntry = new intakeEntryPage(intakeID, option);
-		return intakeEntry;
-	}
-
-	public static Page getLandingPage() {
-		if (landing == null) landing = new landingPage();
-		return landing;
-	}
-	public static Page getLandingRefresh() {
-		getStockRefresh();
-		getRecipeRefresh();
-		getIntakeRefresh();
-
-		landing = new landingPage();
-		return landing;
-	}
-
-	public static Page getCurrentPage() {
-		return pageHistory.get(0);
-	}
+	//Advance to another page
 	public static void toNextPage(Page nextPage) {
 		setMenuButtonStyle(nextPage);
 
@@ -210,7 +209,13 @@ public class PageFactory {
 		);
 
 		Timeline slide = new Timeline(start, end);
-		slide.setOnFinished(e -> appRoot.getChildren().remove(curP));
+		slide.setOnFinished(e -> {
+			appRoot.getChildren().remove(curP);
+
+			if (nextPage == landing || nextPage == stock || nextPage == recipe || nextPage == intake) {
+				nextPage.refresh();
+			}
+		});
 		slide.play();
 
 		if (nextPage == search) menu.setSelected(0);
@@ -219,6 +224,8 @@ public class PageFactory {
 		else if (nextPage == stock) menu.setSelected(3);
 		else if (nextPage == recipe) menu.setSelected(4);
 	}
+
+	//Display the menu
 	public static void showMenu() {
 		KeyFrame start = new KeyFrame(Duration.ZERO);
 		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
@@ -233,6 +240,8 @@ public class PageFactory {
 		menuShown = true;
 		setMenuButtonStyle(menu);
 	}
+
+	//Hide the menu
 	public static void hideMenu() {
 		KeyFrame start = new KeyFrame(Duration.ZERO);
 		KeyFrame end = new KeyFrame(Duration.seconds(Utility.STD_TRANSITION_TIME),
@@ -246,6 +255,8 @@ public class PageFactory {
 		menuShown = false;
 		setMenuButtonStyle(getCurrentPage());
 	}
+
+	//Set the menu to an appropriate color according to page state
 	public static void setMenuButtonStyle(Page p) {
 		if (p == login || p == register) {
 			menuButton.setStyle(null);
@@ -257,6 +268,8 @@ public class PageFactory {
 			menuButton.setStyle("-fx-image: url(img/Menu-Back-Icon-White2x.png)");
 		}
 	}
+
+	//Handle back navigation through menu button according to page state
 	public static void handleBackNavigation() {
 		Page p = getCurrentPage();
 		Page lastPage = pageHistory.get(1);
@@ -280,19 +293,19 @@ public class PageFactory {
 			return;
 		}
 
-		if (p == stock || p == recipe || p == intake || p == search || p == landing) {
+		if (p == stock || p == recipe || p == intake || p == landing || p == search) {
 			showMenu();
 			return;
 		}
 
-		if ((p == recipeEntry && lastPage == recipe) || (p == recipeEntry && lastPage == recipeCreate)) {
-			lastPage = getRecipeRefresh();
-		} else if (p == stockEntry && lastPage == stock) {
-			lastPage = getStockRefresh();
+		if (p == recipeEntry && lastPage == recipeCreate) {
+			lastPage = recipe;
 		}
 
 		toNextPage(lastPage);
 	}
+
+	//Toggle whether a form is active
 	public static void setFormInProgress(boolean f) {
 		formInProgress = f;
 	}

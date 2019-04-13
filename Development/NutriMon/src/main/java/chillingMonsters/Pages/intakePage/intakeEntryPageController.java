@@ -79,7 +79,9 @@ public class intakeEntryPageController implements PageController {
 		amountTxF.textProperty().addListener(event -> handleInputChange());
 		dateTxF.valueProperty().addListener(event -> handleDateChange());
 		entryCategory.textProperty().bind(Bindings.format("INTAKE TYPE: %S", category));
+	}
 
+	public void refresh() {
 		switch (option) {
 			case INTAKE_STOCK:
 				category.setValue("STOCK");
@@ -104,6 +106,58 @@ public class intakeEntryPageController implements PageController {
 		}
 	}
 
+	//event listeners
+	private void handleInputChange() {
+		amount = Utility.parseQuantity(amountTxF.getText(), 0);
+
+		String sFormatter = (category.getValue().equals("RECIPE")) ? "%.1f serving" + ((amount - 1 > 0.1) ? "s" : "") : "%.1f g";
+		entryCurrentAmount.setText(String.format(sFormatter, amount));
+
+		Double updateCal = caloriesPerUnit * amount;
+		entryCalories.setText(String.format("%.0f Cal", updateCal));
+	}
+
+	private void handleDateChange() {
+		String date = dateTxF.getValue().toString();
+		entryDate.setText(Utility.parseProperDate(date));
+	}
+
+	private boolean handleCancelOnClick() {
+		if (editForm.isVisible()) {
+			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
+			if (confirmed) {
+				editForm.setVisible(false);
+			}
+
+			return confirmed;
+		}
+
+		return true;
+	}
+
+	private void handleSaveOnClick() {
+		boolean selected = saveEntryButton.isSelected();
+		PageFactory.setFormInProgress(selected);
+		saveEntryButton.setText(selected ? "Save" : "Edit");
+
+		if (!saveEntryButton.isSelected()) {
+			IntakeController controller = ControllerFactory.makeIntakeController();
+
+			switch (option) {
+				case INTAKE_STOCK:
+					controller.intakeStock(ID, (float) amount);
+					PageFactory.toNextPage(PageFactory.getIntakePage());
+					break;
+				case INTAKE_RECIPE:
+					break;
+				case UPDATE:
+					controller.updateIntakeDate(ID, Timestamp.valueOf(dateTxF.getValue().atStartOfDay()).toString());
+					break;
+			}
+		}
+	}
+
+	//helper functions
 	private void refreshIntake() {
 		IntakeController controller = ControllerFactory.makeIntakeController();
 		Map<String, Object> intake = controller.getIntake(ID);
@@ -155,60 +209,6 @@ public class intakeEntryPageController implements PageController {
 			if (handleCancelOnClick()) onMouseClicked.handle(event);
 		});
 		entryContent.getChildren().add(rpCard);
-	}
-
-	private void handleInputChange() {
-		amount = Utility.parseQuantity(amountTxF.getText(), 0);
-
-		String sFormatter = (category.getValue().equals("RECIPE")) ? "%.1f serving" + ((amount - 1 > 0.1) ? "s" : "") : "%.1f g";
-		entryCurrentAmount.setText(String.format(sFormatter, amount));
-
-		Double updateCal = caloriesPerUnit * amount;
-		entryCalories.setText(String.format("%.0f Cal", updateCal));
-	}
-
-	private void handleDateChange() {
-		String date = dateTxF.getValue().toString();
-		entryDate.setText(Utility.parseProperDate(date));
-	}
-
-	private boolean handleCancelOnClick() {
-		if (editForm.isVisible()) {
-			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
-			if (confirmed) {
-				editForm.setVisible(false);
-			}
-
-			return confirmed;
-		}
-
-		return true;
-	}
-
-	private void handleDeleteOnClick() {
-
-	}
-
-	private void handleSaveOnClick() {
-		boolean selected = saveEntryButton.isSelected();
-		PageFactory.setFormInProgress(selected);
-		saveEntryButton.setText(selected ? "Save" : "Edit");
-
-		if (!saveEntryButton.isSelected()) {
-			IntakeController controller = ControllerFactory.makeIntakeController();
-
-			switch (option) {
-				case INTAKE_STOCK:
-					controller.intakeStock(ID, (float) amount);
-					PageFactory.toNextPage(PageFactory.getIntakeRefresh());
-					break;
-				case INTAKE_RECIPE:
-					break;
-				case UPDATE:
-					controller.updateIntakeDate(ID, Timestamp.valueOf(dateTxF.getValue().atStartOfDay()).toString());
-					break;
-			}
-		}
 	}
 }
 

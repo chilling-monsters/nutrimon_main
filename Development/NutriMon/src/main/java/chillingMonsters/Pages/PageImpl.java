@@ -38,4 +38,8 @@ public abstract class PageImpl implements Page {
 	}
 
 	public AnchorPane getPagePane() { return pagePane; }
+
+	public void refresh() {
+		this.controller.refresh();
+	}
 }
