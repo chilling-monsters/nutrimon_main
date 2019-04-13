@@ -210,7 +210,7 @@ public class recipeCreatePageController implements PageController {
 		if (recipeID > 0) {
 			PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
 		} else {
-			PageFactory.toNextPage(PageFactory.getRecipeRefresh());
+			PageFactory.toNextPage(PageFactory.getRecipePage());
 		}
 	}
 
@@ -221,7 +221,7 @@ public class recipeCreatePageController implements PageController {
 			if (option == PageOption.UPDATE) {
 				PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
 			} else {
-				PageFactory.toNextPage(PageFactory.getRecipeRefresh());
+				PageFactory.toNextPage(PageFactory.getRecipePage());
 			}
 		}
 	}
@@ -232,7 +232,7 @@ public class recipeCreatePageController implements PageController {
 			PageFactory.setFormInProgress(false);
 			RecipeController controller = ControllerFactory.makeRecipeController();
 			controller.deleteRecipe(recipeID);
-			PageFactory.toNextPage(PageFactory.getRecipeRefresh());
+			PageFactory.toNextPage(PageFactory.getRecipePage());
 		}
 	}
 
@@ -258,4 +258,6 @@ public class recipeCreatePageController implements PageController {
 			ingrCard.amountProperty().bindBidirectional(ingrMap.get(foodID));
 		}
 	}
+
+	public void refresh() {}
 }

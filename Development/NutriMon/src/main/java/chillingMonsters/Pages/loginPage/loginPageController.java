@@ -57,7 +57,7 @@ public class loginPageController implements PageController {
             return;
         }
 
-        PageFactory.toNextPage(PageFactory.getLandingRefresh());
+        PageFactory.toNextPage(PageFactory.getLandingPage());
     }
 
     @FXML
@@ -74,4 +74,6 @@ public class loginPageController implements PageController {
         assert txtF_email != null : "fx:id=\"txtF_user_name\" was not injected: check your FXML file 'login.fxml'.";
         assert btn_login != null : "fx:id=\"btn_login\" was not injected: check your FXML file 'login.fxml'.";
     }
+
+    public void refresh() {}
 }

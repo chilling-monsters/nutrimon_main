@@ -204,4 +204,7 @@ public class userProfilePageController implements PageController {
         btn_confirm.setDisable(true);
 
     }
+
+
+    public void refresh() {}
 }

@@ -24,13 +24,15 @@ public class recipePageController implements PageController {
 	private VBox cardList;
 
 	@FXML
-	private ImageView menuButton;
-
-	@FXML
 	private Button recipeCreateButton;
 
 	@FXML
 	public void initialize() {
+		cardList.getChildren().clear();
+	}
+
+	public void refresh() {
+		initialize();
 		RecipeController controller = ControllerFactory.makeRecipeController();
 		List<Map<String, Object>> recipeList = controller.showSavedRecipes();
 
@@ -84,11 +86,13 @@ public class recipePageController implements PageController {
 		}
 	}
 
+	//button event handler
 	@FXML
 	void recipeCreateButtonAction() {
 		PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.RECIPE));
 	}
 
+	//helper functions
 	private void addToList(String label, List<RecipeCardComponent> group) {
 		Label groupLabel = new Label(Utility.toCapitalized(label));
 		if (label == CREATED_BY_YOU_KEY) groupLabel.getStyleClass().add("hightlightText");
@@ -110,4 +114,5 @@ public class recipePageController implements PageController {
 			cardList.getChildren().add(s);
 		}
 	}
+
 }

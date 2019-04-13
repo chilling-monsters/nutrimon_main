@@ -17,132 +17,138 @@ import java.util.List;
 import java.util.Map;
 
 public class searchPageController implements PageController {
-  public String searchQuery = "";
-  private PageOption option;
-  private LinkedHashMap<String, List<SearchCardComponent>> cachedResults;
+	public String searchQuery = "";
+	private PageOption option;
+	private LinkedHashMap<String, List<SearchCardComponent>> cachedResults;
 
-  @FXML
-  public TextField searchTxF;
+	@FXML
+	public TextField searchTxF;
 
-  @FXML
-  public VBox searchList;
+	@FXML
+	public VBox searchList;
 
-  public searchPageController(PageOption option) {
-    this.option = option;
-    this.cachedResults = new LinkedHashMap<String, List<SearchCardComponent>>() {
-      @Override
-      protected boolean removeEldestEntry(Map.Entry<String, List<SearchCardComponent>> eldest) {
-        return size() > Utility.CACHE_MAX_SIZE;
-      }
-    };
-  }
+	public searchPageController(PageOption option) {
+		this.option = option;
+		this.cachedResults = new LinkedHashMap<String, List<SearchCardComponent>>() {
+			@Override
+			protected boolean removeEldestEntry(Map.Entry<String, List<SearchCardComponent>> eldest) {
+				return size() > Utility.CACHE_MAX_SIZE;
+			}
+		};
+	}
 
-  @FXML
-  void onSearchEnter() {
-    addCreateYourOwnCard();
+	@FXML
+	public void initialize() {
+		searchTxF.setText(searchQuery);
+	}
 
-    String currentSearch = searchTxF.getText().trim();
-    if (currentSearch.isEmpty()) return;
+	public void refresh() {
+		initialize();
+		onSearchEnter();
+	}
 
-    List<SearchCardComponent> cache = cachedResults.get(currentSearch);
-    if (cache != null) {
-      if (!searchList.getChildren().contains(cache)) {
-        searchList.getChildren().clear();
-        addCreateYourOwnCard();
-        searchList.getChildren().addAll(cache);
-      }
-    } else {
-      searchQuery = currentSearch;
-      searchList.getChildren().clear();
-      addCreateYourOwnCard();
+	//Event handlers
+	@FXML
+	public void onSearchEnter() {
+		addCreateYourOwnCard();
 
-      IngredientController ingr = ControllerFactory.makeIngredientController();
-      RecipeController recp = ControllerFactory.makeRecipeController();
+		String currentSearch = searchTxF.getText().trim();
+		if (currentSearch.isEmpty()) return;
 
-      List<Map<String, Object>> ingrSearchResult = new ArrayList<>();
-      List<Map<String, Object>> recpSearchResult = new ArrayList<>();
+		List<SearchCardComponent> cache = cachedResults.get(currentSearch);
+		if (cache != null) {
+			if (!searchList.getChildren().contains(cache)) {
+				searchList.getChildren().clear();
+				addCreateYourOwnCard();
+				searchList.getChildren().addAll(cache);
+			}
+		} else {
+			searchQuery = currentSearch;
+			searchList.getChildren().clear();
+			addCreateYourOwnCard();
 
-      switch (option) {
-        case STOCK:
-          ingrSearchResult = ingr.searchIngredient(searchQuery);
-          break;
-        case RECIPE:
-          recpSearchResult = recp.searchRecipe(searchQuery);
-          break;
-        case UPDATE:
-          ingrSearchResult = ingr.searchIngredient(searchQuery);
-          break;
-        case DEFAULT:
-        case INTAKE_RECIPE:
-        case INTAKE_STOCK:
-          ingrSearchResult = ingr.searchIngredient(searchQuery);
-          recpSearchResult = recp.searchRecipe(searchQuery);
-          break;
-      }
+			IngredientController ingr = ControllerFactory.makeIngredientController();
+			RecipeController recp = ControllerFactory.makeRecipeController();
 
-      if (ingrSearchResult.isEmpty() && recpSearchResult.isEmpty()) {
-        addEmptyWarningLabel();
-        return;
-      }
+			List<Map<String, Object>> ingrSearchResult = new ArrayList<>();
+			List<Map<String, Object>> recpSearchResult = new ArrayList<>();
 
-      for (Map<String, Object> result : recpSearchResult) {
-        Long recipeID = Utility.parseID(result.get("recipeID").toString(), 0);
-        String name = Utility.toCapitalized(result.get("recipeName").toString());
-        String category = result.get("recipeCategory").toString().toUpperCase();
+			switch (option) {
+				case STOCK:
+					ingrSearchResult = ingr.searchIngredient(searchQuery);
+					break;
+				case RECIPE:
+					recpSearchResult = recp.searchRecipe(searchQuery);
+					break;
+				case UPDATE:
+					ingrSearchResult = ingr.searchIngredient(searchQuery);
+					break;
+				case DEFAULT:
+				case INTAKE_RECIPE:
+				case INTAKE_STOCK:
+					ingrSearchResult = ingr.searchIngredient(searchQuery);
+					recpSearchResult = recp.searchRecipe(searchQuery);
+					break;
+			}
 
-        PageOption cardOption = PageOption.RECIPE;
-        if (option == PageOption.INTAKE_STOCK) cardOption = PageOption.INTAKE_RECIPE;
+			if (ingrSearchResult.isEmpty() && recpSearchResult.isEmpty()) {
+				addEmptyWarningLabel();
+				return;
+			}
 
-        SearchCardComponent sCard = new SearchCardComponent(recipeID, name, category, cardOption);
-        sCard.getStyleClass().add("hightlightCard");
+			for (Map<String, Object> result : recpSearchResult) {
+				Long recipeID = Utility.parseID(result.get("recipeID").toString(), 0);
+				String name = Utility.toCapitalized(result.get("recipeName").toString());
+				String category = result.get("recipeCategory").toString().toUpperCase();
 
-        showAndSaveCache(sCard);
-      }
+				PageOption cardOption = PageOption.RECIPE;
+				if (option == PageOption.INTAKE_STOCK) cardOption = PageOption.INTAKE_RECIPE;
 
-      for (Map<String, Object> result : ingrSearchResult) {
-        Long foodId = Utility.parseID(result.get("foodID").toString(), 0);
-        String name = Utility.parseFoodName(result.get("foodName").toString());
-        String category = result.get("fCategory").toString().toUpperCase();
+				SearchCardComponent sCard = new SearchCardComponent(recipeID, name, category, cardOption);
+				sCard.getStyleClass().add("hightlightCard");
 
-        SearchCardComponent sCard = new SearchCardComponent(foodId, name, category, option);
+				showAndSaveCache(sCard);
+			}
 
-        showAndSaveCache(sCard);
-      }
-    }
-  }
+			for (Map<String, Object> result : ingrSearchResult) {
+				Long foodId = Utility.parseID(result.get("foodID").toString(), 0);
+				String name = Utility.parseFoodName(result.get("foodName").toString());
+				String category = result.get("fCategory").toString().toUpperCase();
 
-  @FXML
-  public void initialize() {
-    searchTxF.setText(searchQuery);
-    onSearchEnter();
-  }
+				SearchCardComponent sCard = new SearchCardComponent(foodId, name, category, option);
 
-  private void addCreateYourOwnCard() {
-    if (option != PageOption.RECIPE) return;
-    if (searchList.getChildren().isEmpty()
-        || !(searchList.getChildren().get(0) instanceof NewRecipeSearchCard)) {
-      NewRecipeSearchCard nCard = new NewRecipeSearchCard();
-      searchList.getChildren().add(0, nCard);
-    }
-  }
+				showAndSaveCache(sCard);
+			}
+		}
+	}
 
-  private void addEmptyWarningLabel() {
-    Label emptyLabel = new Label("We ain't got squash.");
-    emptyLabel.getStyleClass().add("emptyWarningText");
+	//Helper functions
+	private void addCreateYourOwnCard() {
+		if (option != PageOption.RECIPE) return;
+		if (searchList.getChildren().isEmpty()
+			|| !(searchList.getChildren().get(0) instanceof NewRecipeSearchCard)) {
+			NewRecipeSearchCard nCard = new NewRecipeSearchCard();
+			searchList.getChildren().add(0, nCard);
+		}
+	}
 
-    searchList.getChildren().add(emptyLabel);
-  }
+	private void addEmptyWarningLabel() {
+		Label emptyLabel = new Label("We ain't got squash.");
+		emptyLabel.getStyleClass().add("emptyWarningText");
 
-  private void showAndSaveCache(SearchCardComponent sCard) {
-    searchList.getChildren().add(sCard);
+		searchList.getChildren().add(emptyLabel);
+	}
 
-    List<SearchCardComponent> cache = cachedResults.get(searchQuery);
-    if (cache == null) {
-      cache = new ArrayList<>();
-      cache.add(sCard);
-      cachedResults.put(searchQuery, cache);
-    } else {
-      cache.add(sCard);
-    }
-  }
+	private void showAndSaveCache(SearchCardComponent sCard) {
+		searchList.getChildren().add(sCard);
+
+		List<SearchCardComponent> cache = cachedResults.get(searchQuery);
+		if (cache == null) {
+			cache = new ArrayList<>();
+			cache.add(sCard);
+			cachedResults.put(searchQuery, cache);
+		} else {
+			cache.add(sCard);
+		}
+	}
 }

@@ -351,4 +351,7 @@ public class stockEntryPageController implements PageController {
 
 		Event.fireEvent(adjustSizePane, retargettedScrollEvent);
 	}
+
+
+	public void refresh() {}
 }

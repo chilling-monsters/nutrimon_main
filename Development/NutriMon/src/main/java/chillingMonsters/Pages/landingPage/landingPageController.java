@@ -21,6 +21,11 @@ public class landingPageController implements PageController {
 
 	@FXML
 	public void initialize() {
+		cardList.getChildren().clear();
+	}
+
+	public void refresh() {
+		initialize();
 		RecipeController controller = ControllerFactory.makeRecipeController();
 		List<Map<String, Object>> results = controller.showAvailableRecipes();
 
@@ -58,8 +63,10 @@ public class landingPageController implements PageController {
 		for (String label : componentMap.keySet()) {
 			addToList(label, componentMap.get(label));
 		}
+
 	}
 
+	//helper functions
 	private void addToList(String label, List<RecipeCardComponent> group) {
 		Label groupLabel = new Label(Utility.toCapitalized(label));
 

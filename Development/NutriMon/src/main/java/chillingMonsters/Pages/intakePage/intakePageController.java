@@ -28,6 +28,11 @@ public class intakePageController implements PageController {
 
 	@FXML
 	public void initialize() {
+		cardList.getChildren().clear();
+	}
+
+	public void refresh() {
+		initialize();
 		IntakeController controller = ControllerFactory.makeIntakeController();
 		Map<String, List<Map<String, Object>>> results = controller.showIntakesByDate();
 
@@ -88,6 +93,13 @@ public class intakePageController implements PageController {
 		}
 	}
 
+	//button event handlers
+	@FXML
+	void createIntakeAction() {
+		PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.INTAKE_STOCK));
+	}
+
+	//helper functions
 	private void addToList(String label, List<IntakeCardComponent> group) {
 		Label groupLabel = new Label(Utility.toCapitalized(label));
 		if (label == TODAY) groupLabel.getStyleClass().add("hightlightText");
@@ -109,10 +121,5 @@ public class intakePageController implements PageController {
 			if (label == TODAY) s.getStyleClass().add("hightlightCard");
 			cardList.getChildren().add(s);
 		}
-	}
-
-	@FXML
-	void createIntakeAction() {
-		PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.INTAKE_STOCK));
 	}
 }
