@@ -212,7 +212,7 @@ CREATE FUNCTION canBeMade
 )
 RETURNS INT DETERMINISTIC
 BEGIN
-	DECLARE servings INT;
+	DECLARE servings DOUBLE;
 
 	SELECT MIN(IFNULL(stockQtty / recipeQtty, 0)) INTO servings
 	FROM
@@ -339,11 +339,12 @@ CREATE PROCEDURE intake_recipe
 (
 	user BIGINT(20),
     recipe BIGINT(20),
-    serving INT
+    serving FLOAT,
+    eatTime DATETIME
 )
 BEGIN
 	IF canBeMade(user, recipe) >= serving THEN
-		INSERT INTO userintake(userID) VALUES (user);
+		INSERT INTO userintake(userID, intakeDate) VALUES (user, eatTime);
 		INSERT INTO recipeintake VALUES(LAST_INSERT_ID(), serving, recipe);
 	ELSE 
 		SIGNAL SQLSTATE '45000'
@@ -356,11 +357,12 @@ CREATE PROCEDURE intake_food
 (
 	user BIGINT(20),
     food BIGINT(20),
-    quantity float(10,3)
+    quantity float(10,3),
+    eatTime DATETIME
 )
 BEGIN
 	IF haveStock(user, food, quantity) THEN
-		INSERT INTO userintake(userID) VALUES (user);
+		INSERT INTO userintake(userID, intakeDate) VALUES (user, eatTime);
 		INSERT INTO foodintake VALUES(LAST_INSERT_ID(), quantity, food);
 	ELSE
 		SIGNAL SQLSTATE '45000'
