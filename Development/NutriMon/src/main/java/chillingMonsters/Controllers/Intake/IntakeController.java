@@ -13,7 +13,7 @@ public interface IntakeController {
    * @param recipeID the id of the recipe that was consumed.
    * @param servings how many servings of the recipe were consumed.
    */
-  void intakeRecipe(long recipeID, int servings);
+  void intakeRecipe(long recipeID, float servings, String date);
 
   /**
    * Consumes an ingredient with the given ID.  Generates a new intake instance documenting the action
@@ -21,7 +21,7 @@ public interface IntakeController {
    * @param foodID the id of the ingredient that was consumed.
    * @param quantity how many servings of the recipe were consumed.
    */
-  void intakeStock(long foodID, float quantity);
+  void intakeStock(long foodID, float quantity, String date);
 
   /**
    * Gets all the intakes of the user, grouped by date and ordered by time.
