@@ -285,12 +285,6 @@ public class PageFactory {
 			return;
 		}
 
-		//Force back from recipe entry if back from recipe create/edit from
-		if (p == recipeEntry && lastPage == recipeCreate) {
-			pageHistory.remove(lastPage);
-			lastPage = pageHistory.get(1);
-		}
-
 		toNextPage(lastPage);
 	}
 
