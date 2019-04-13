@@ -52,7 +52,7 @@ public class IntakeControllerImpl extends NutriMonController implements IntakeCo
   }
 
   public void intakeStock(long foodID, float quantity, String date) {
-    String query = "CALL intake_food(?,?,?)";
+    String query = "CALL intake_food(?,?,?,?)";
     try (CallableStatement stmt = DBConnect.getConnection().prepareCall(query)) {
       stmt.setLong(1, userId);
       stmt.setLong(2, foodID);
@@ -67,7 +67,7 @@ public class IntakeControllerImpl extends NutriMonController implements IntakeCo
   }
 
   public void intakeRecipe(long recipeID, float serving, String date) {
-    String query = "CALL intake_recipe(?,?,?)";
+    String query = "CALL intake_recipe(?,?,?,?)";
     try (CallableStatement stmt = DBConnect.getConnection().prepareCall(query)) {
       stmt.setLong(1, userId);
       stmt.setLong(2, recipeID);
