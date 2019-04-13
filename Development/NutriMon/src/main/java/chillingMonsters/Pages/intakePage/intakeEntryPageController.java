@@ -15,9 +15,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
@@ -57,9 +60,6 @@ public class intakeEntryPageController implements PageController {
 	private DatePicker dateTxF;
 
 	@FXML
-	private Button deleteEntryButton;
-
-	@FXML
 	private Button cancelEntryButton;
 
 	@FXML
@@ -73,15 +73,9 @@ public class intakeEntryPageController implements PageController {
 	@FXML
 	public void initialize() {
 		editForm.visibleProperty().bindBidirectional(saveEntryButton.selectedProperty());
-		saveEntryButton.selectedProperty().addListener(event -> {
-			boolean selected = saveEntryButton.isSelected();
-			PageFactory.setFormInProgress(selected);
-			saveEntryButton.setText(selected ? "Save" : "Edit");
-		});
 
 		cancelEntryButton.setOnAction(event -> handleCancelOnClick());
-		deleteEntryButton.setOnAction(event -> handleDeleteOnClick());
-		saveEntryButton.setOnAction(event -> handleSaveOnClick());
+		saveEntryButton.selectedProperty().addListener(event -> handleSaveOnClick());
 		amountTxF.textProperty().addListener(event -> handleInputChange());
 		dateTxF.valueProperty().addListener(event -> handleDateChange());
 		entryCategory.textProperty().bind(Bindings.format("INTAKE TYPE: %S", category));
@@ -102,6 +96,7 @@ public class intakeEntryPageController implements PageController {
 				addRecipeCard(ID);
 				break;
 			case UPDATE:
+				amountTxF.setDisable(true);
 				refreshIntake();
 				break;
 			default:
@@ -140,7 +135,12 @@ public class intakeEntryPageController implements PageController {
 		String category = ingr.get("fCategory").toString();
 		caloriesPerUnit = Double.parseDouble(ingr.get("fCalories").toString()) / 100;
 
-		entryContent.getChildren().add(new SearchCardComponent(foodID, name, category, PageOption.DEFAULT));
+		SearchCardComponent inCard = new SearchCardComponent(foodID, name, category, PageOption.DEFAULT);
+		EventHandler<? super MouseEvent> onMouseClicked = inCard.getOnMouseClicked();
+		inCard.setOnMouseClicked(event -> {
+			if (handleCancelOnClick()) onMouseClicked.handle(event);
+		});
+		entryContent.getChildren().add(inCard);
 	}
 
 	private void addRecipeCard(long recipeID) {
@@ -149,16 +149,21 @@ public class intakeEntryPageController implements PageController {
 		String category = rcp.get("recipeCategory").toString();
 		caloriesPerUnit = Double.parseDouble(rcp.get("caloriesPerServing").toString());
 
-		entryContent.getChildren().add(new SearchCardComponent(recipeID, name, category, PageOption.RECIPE));
+		SearchCardComponent rpCard = new SearchCardComponent(recipeID, name, category, PageOption.RECIPE);
+		EventHandler<? super MouseEvent> onMouseClicked = rpCard.getOnMouseClicked();
+		rpCard.setOnMouseClicked(event -> {
+			if (handleCancelOnClick()) onMouseClicked.handle(event);
+		});
+		entryContent.getChildren().add(rpCard);
 	}
 
 	private void handleInputChange() {
-		Double value = Utility.parseQuantity(amountTxF.getText(), 0);
+		amount = Utility.parseQuantity(amountTxF.getText(), 0);
 
-		String sFormatter = (category.getValue().equals("RECIPE")) ? "%.1f serving" + ((value - 1 > 0.1) ? "s" : "") : "%.1f g";
-		entryCurrentAmount.setText(String.format(sFormatter, value));
+		String sFormatter = (category.getValue().equals("RECIPE")) ? "%.1f serving" + ((amount - 1 > 0.1) ? "s" : "") : "%.1f g";
+		entryCurrentAmount.setText(String.format(sFormatter, amount));
 
-		Double updateCal = caloriesPerUnit * value;
+		Double updateCal = caloriesPerUnit * amount;
 		entryCalories.setText(String.format("%.0f Cal", updateCal));
 	}
 
@@ -167,13 +172,17 @@ public class intakeEntryPageController implements PageController {
 		entryDate.setText(Utility.parseProperDate(date));
 	}
 
-	private void handleCancelOnClick() {
+	private boolean handleCancelOnClick() {
 		if (editForm.isVisible()) {
 			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
 			if (confirmed) {
 				editForm.setVisible(false);
 			}
+
+			return confirmed;
 		}
+
+		return true;
 	}
 
 	private void handleDeleteOnClick() {
@@ -181,7 +190,25 @@ public class intakeEntryPageController implements PageController {
 	}
 
 	private void handleSaveOnClick() {
+		boolean selected = saveEntryButton.isSelected();
+		PageFactory.setFormInProgress(selected);
+		saveEntryButton.setText(selected ? "Save" : "Edit");
 
+		if (!saveEntryButton.isSelected()) {
+			IntakeController controller = ControllerFactory.makeIntakeController();
+
+			switch (option) {
+				case INTAKE_STOCK:
+					controller.intakeStock(ID, (float) amount);
+					PageFactory.toNextPage(PageFactory.getIntakeRefresh());
+					break;
+				case INTAKE_RECIPE:
+					break;
+				case UPDATE:
+					controller.updateIntakeDate(ID, Timestamp.valueOf(dateTxF.getValue().atStartOfDay()).toString());
+					break;
+			}
+		}
 	}
 }
 

@@ -131,18 +131,6 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
-                  <Button fx:id="deleteEntryButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE" visible="false">
-                     <font>
-                        <Font name="SF Pro Display Regular" size="13.0" />
-                     </font>
-                     <styleClass>
-                        <String fx:value="backButton" />
-                        <String fx:value="myButton" />
-                     </styleClass>
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </Button>
                   <Button fx:id="cancelEntryButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: #FBD249;" text="Cancel" textFill="WHITE">
                      <font>
                         <Font name="SF Pro Display Regular" size="13.0" />

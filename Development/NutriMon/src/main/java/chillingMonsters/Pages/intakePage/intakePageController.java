@@ -31,6 +31,14 @@ public class intakePageController implements PageController {
 		IntakeController controller = ControllerFactory.makeIntakeController();
 		Map<String, List<Map<String, Object>>> results = controller.showIntakesByDate();
 
+		if (results.isEmpty()) {
+			Label emptyLabel = new Label("We ain't got squash.");
+			emptyLabel.getStyleClass().add("emptyWarningText");
+
+			cardList.getChildren().add(emptyLabel);
+			return;
+		}
+
 		Map<String, List<IntakeCardComponent>> componentMap = new TreeMap<>();
 		for (String d : results.keySet()) {
 
