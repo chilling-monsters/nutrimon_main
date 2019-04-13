@@ -100,7 +100,7 @@ public class stockEntryPageController implements PageController {
 		refreshStock();
 
 		if (option == PageOption.STOCK) {
-			handleAddStock();
+			toggleForm(true);
 		} else {
 			toggleForm(false);
 		}
