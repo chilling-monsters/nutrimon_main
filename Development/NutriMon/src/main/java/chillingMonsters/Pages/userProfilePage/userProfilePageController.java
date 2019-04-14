@@ -171,6 +171,8 @@ public class userProfilePageController implements PageController {
     private void handleDelete() {
         if (AlertHandler.showCriticalAlert(Alert.AlertType.WARNING, "Are you sure?", "You will lose all of your data. We're squashed :(")) {
             ControllerFactory.makeUserProfileController().deleteProfile();
+	        PageFactory.logout();
+	        ControllerFactory.makeUserProfileController().logout();
         }
     }
 }

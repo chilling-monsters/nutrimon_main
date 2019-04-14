@@ -100,7 +100,10 @@ public class PageFactory {
 		StackPane.setAlignment(userIcon, Pos.TOP_RIGHT);
 		StackPane.setMargin(userIcon, new Insets(20, 20, 0, 0));
 
-		userIcon.setOnMouseClicked(event -> toNextPage(getUserProfilePage()));
+		userIcon.setOnMouseClicked(event -> {
+			hideMenu();
+			toNextPage(getUserProfilePage());
+		});
 	}
 
 	//Front-loading pages
