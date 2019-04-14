@@ -6,6 +6,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -16,7 +17,10 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.userProfilePage.userProfilePageController">
     <children>
-        <ImageView fitHeight="361.0" fitWidth="361.0" layoutX="104.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <ImageView fitHeight="361.0" fitWidth="361.0" layoutX="104.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../img/ozMQSFm.png" />
+         </image></ImageView>
         <Rectangle arcHeight="5.0" height="500.0" layoutX="10.0" layoutY="10.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="360.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <fill>
                 <LinearGradient endX="0.4759615384615384" endY="0.42788461538461536" startX="0.49519230769230765">
@@ -34,7 +38,7 @@
         </Label>
         <AnchorPane maxHeight="660.0" minHeight="430.0" prefHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="295.0">
             <children>
-                <VBox spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
+                <VBox spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                     <children>
                   <VBox layoutX="10.0" layoutY="10.0" prefWidth="285.0">
                      <children>
