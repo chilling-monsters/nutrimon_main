@@ -102,6 +102,13 @@
                   </VBox>
                     </children>
                 </VBox>
+            <Button fx:id="deleteButton" mnemonicParsing="false" text="Delete Permanently" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="95.0">
+               <styleClass>
+                  <String fx:value="form-field" />
+                  <String fx:value="myButton" />
+                  <String fx:value="secondaryHighlightText" />
+               </styleClass>
+            </Button>
             <Button fx:id="logoutButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: red;" text="Logout" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                <font>
                   <Font name="SF Pro Display Regular" size="13.0" />

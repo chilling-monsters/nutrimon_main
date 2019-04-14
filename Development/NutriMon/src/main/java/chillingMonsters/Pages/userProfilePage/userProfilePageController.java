@@ -47,6 +47,9 @@ public class userProfilePageController implements PageController {
     @FXML
     private Button updateButton;
 
+    @FXML
+    private Button deleteButton;
+
     public void initialize() {
         changePswForm.visibleProperty().bindBidirectional(changePasswordButton.selectedProperty());
         curPasswordTxF.disableProperty().bind(changePasswordButton.selectedProperty().not());
@@ -55,6 +58,7 @@ public class userProfilePageController implements PageController {
 
         logoutButton.setOnAction(event -> handleLogout());
         updateButton.setOnAction(event -> handleUpdate());
+        deleteButton.setOnAction(event -> handleDelete());
     }
 
     public void refresh() {
@@ -162,5 +166,11 @@ public class userProfilePageController implements PageController {
 
         AlertHandler.showAlert(Alert.AlertType.INFORMATION, "Success!", "Your profile have been updated!");
         refresh();
+    }
+
+    private void handleDelete() {
+        if (AlertHandler.showCriticalAlert(Alert.AlertType.WARNING, "Are you sure?", "You will lose all of your data. We're squashed :(")) {
+            ControllerFactory.makeUserProfileController().deleteProfile();
+        }
     }
 }
