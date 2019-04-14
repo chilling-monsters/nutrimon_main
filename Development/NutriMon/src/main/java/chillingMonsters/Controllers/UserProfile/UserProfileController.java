@@ -16,4 +16,6 @@ public interface UserProfileController {
   long getUserID();
 
   Map<String, Object> getProfile();
+
+  void logout();
 }

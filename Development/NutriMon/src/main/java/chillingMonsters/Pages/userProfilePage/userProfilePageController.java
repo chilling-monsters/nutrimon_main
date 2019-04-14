@@ -4,207 +4,163 @@ import chillingMonsters.AlertHandler;
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.UserProfile.UserProfileController;
 import chillingMonsters.Pages.PageController;
+import chillingMonsters.Pages.PageFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 
 import java.util.Map;
 
 public class userProfilePageController implements PageController {
+    private static final String PASSWORD_STR = "--- --- ---";
 
-    @FXML // fx:id="edit_pswd"
-    private Button edit_pswd; // Value injected by FXMLLoader
-
-    @FXML // fx:id="lbl_usrid"
-    private Label lbl_usrid; // Value injected by FXMLLoader
-
-    @FXML // fx:id="choiceB_gender"
-    private ChoiceBox<?> choiceB_gender; // Value injected by FXMLLoader
-
-    @FXML // fx:id="edit_name"
-    private Button edit_name; // Value injected by FXMLLoader
-
-    @FXML // fx:id="txtF_email"
-    private TextField txtF_email; // Value injected by FXMLLoader
-
-    @FXML // fx:id="pswdF_pswd"
-    private PasswordField pswdF_pswd; // Value injected by FXMLLoader
-    private boolean passChanged = false;    // default false
-
-    @FXML // fx:id="edit_email"
-    private Button edit_email; // Value injected by FXMLLoader
-
-    @FXML // fx:id="edit_gdr"
-    private Button edit_gdr; // Value injected by FXMLLoader
-
-    @FXML // fx:id="btn_confirm"
-    private Button btn_confirm; // Value injected by FXMLLoader
-
-    @FXML // fx:id="btn_delete"
-    private Button btn_delete; // Value injected by FXMLLoader
-
-    @FXML // fx:id="txtF_name"
-    private TextField txtF_name; // Value injected by FXMLLoader
-
-    @FXML // fx:id="backButton"
-    private ImageView backButton; // Value injected by FXMLLoader
-
-    @FXML // fx:id="btn_logout"
-    private Button btn_logout; // Value injected by FXMLLoader
-
-    private String userName = null;
-    private String userEmail = null;
-    private String password = null;
-    private String gender = null;
-
+    private String username;
+    private String email;
+    private String password;
 
     @FXML
-    void editNameButtonAction(ActionEvent event) {
-        txtF_name.setDisable(false);
-        btn_confirm.setDisable(false);
+    private TextField usernameTxF;
+
+    @FXML
+    private TextField emailTxF;
+
+    @FXML
+    private PasswordField curPasswordTxF;
+
+    @FXML
+    private ToggleButton changePasswordButton;
+
+    @FXML
+    private VBox changePswForm;
+
+    @FXML
+    private PasswordField newPasswordTxF;
+
+    @FXML
+    private PasswordField cfPasswordTxF;
+
+    @FXML
+    private Button logoutButton;
+
+    @FXML
+    private Button updateButton;
+
+    public void initialize() {
+        changePswForm.visibleProperty().bindBidirectional(changePasswordButton.selectedProperty());
+        curPasswordTxF.disableProperty().bind(changePasswordButton.selectedProperty().not());
+
+        changePasswordButton.setOnAction(event -> handleChangePasswordForm());
+
+        logoutButton.setOnAction(event -> handleLogout());
+        updateButton.setOnAction(event -> handleUpdate());
     }
 
-    @FXML
-    void editEmailButtonAction(ActionEvent event) {
-        txtF_email.setDisable(false);
-        btn_confirm.setDisable(false);
+    public void refresh() {
+        UserProfileController controller = ControllerFactory.makeUserProfileController();
+        Map<String, Object> result = controller.getProfile();
+
+        changePasswordButton.setSelected(false);
+
+        username = result.get("userName").toString();
+        email = result.get("userEmail").toString();
+        password = result.get("password").toString();
+
+        usernameTxF.setText(username);
+        emailTxF.setText(email);
+
+        curPasswordTxF.setText(PASSWORD_STR);
+        newPasswordTxF.setText("");
+        cfPasswordTxF.setText("");
     }
 
-    @FXML
-    void editPswdButtonAction(ActionEvent event) {
-        pswdF_pswd.clear();
-        pswdF_pswd.setDisable(false);
+    //Event handlers
+    private void handleChangePasswordForm() {
+        boolean fVisible = changePswForm.isVisible();
+        PageFactory.setFormInProgress(fVisible);
 
-        passChanged = true;
-        btn_confirm.setDisable(false);
+        if (fVisible) {
+            curPasswordTxF.setText("");
+        } else {
+            curPasswordTxF.setText(PASSWORD_STR);
+        }
+
     }
 
-    @FXML
-    void editGdrButtonAction(ActionEvent event) {
-        choiceB_gender.setDisable(false);
-        btn_confirm.setDisable(false);
-    }
-
-    @FXML
-    void deleteButtonAction(ActionEvent event) {
-        UserProfileController profileCtrl = ControllerFactory.makeUserProfileController();
-
-        if (AlertHandler.showCriticalAlert(Alert.AlertType.WARNING, "Delete your profile",
-                "You will lose all your records on NutriMon. Are you sure?")){
-            profileCtrl.deleteProfile();
-//            PageFactory.getLoginPage().startPage(event);
+    private void handleLogout() {
+        if (AlertHandler.showConfirmationAlert("Are you sure?", "You will be logged out")) {
+            PageFactory.logout();
+            ControllerFactory.makeUserProfileController().logout();
         }
     }
 
-    @FXML
-    void logoutButtonAction(ActionEvent event) {
-        if (btn_confirm.isDisabled()) {
-//            PageFactory.getLoginPage().startPage(event);
-            AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "See you soon!", "Logged out!");
+    private void handleUpdate() {
+        String newUserName = usernameTxF.getText();
+        String newEmail = emailTxF.getText();
+        String curPassword = curPasswordTxF.getText();
+        String newPassword = newPasswordTxF.getText();
+        String cfPassword = cfPasswordTxF.getText();
+
+        if (newUserName.equals(username)
+            && newEmail.equals(email)
+            && !changePswForm.isVisible()) {
+            AlertHandler.showAlert(Alert.AlertType.INFORMATION, "Dodged that bullet!", "Your profile remains unchanged!");
+            return;
         }
-        else
-            AlertHandler.showAlert(Alert.AlertType.ERROR, "Oops!", "Please confirm your changes before logout!");
-    }
-
-
-    @FXML
-    void confirmButtonAction(ActionEvent event) {
-        UserProfileController profileCtrl = ControllerFactory.makeUserProfileController();
-        String email;
-
-        userName = txtF_name.getText();
-        email = userEmail;
-        userEmail = txtF_email.getText();
-        if (passChanged)
-            password = pswdF_pswd.getText();
-        gender = choiceB_gender.getValue().toString();
 
         // Check the Email, not null missing '@', unique
-
-        if (userEmail.isEmpty()) {
-            AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Please enter your Email Address");
+        if (newEmail.isEmpty()) {
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Oops!", "Please enter your email address");
             return;
         }
 
-        if (userEmail.indexOf('@') == -1) {
-            AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "Invalid Email address");
+        if (newEmail.indexOf('@') == -1) {
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "Invalid email address");
             return;
         }
-        if (!userEmail.equals(email))
-            if (profileCtrl.exists(userEmail)) {
-                AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "This Email address has been used");
+
+        UserProfileController controller = ControllerFactory.makeUserProfileController();
+        if (controller.exists(newEmail)) {
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "This Email address has been used");
+            return;
+        }
+
+        // Check name, not null
+        if (newUserName.isEmpty()) {
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Oops!", "User name cannot be empty");
+            return;
+        }
+
+        if (changePswForm.isVisible()) {
+            // Check the password, more than 8 digits
+            if (curPassword.isEmpty() || newPassword.isEmpty() || cfPassword.isEmpty()) {
+                AlertHandler.showAlert(Alert.AlertType.ERROR, "Oops!", "Password cannot be empty");
                 return;
             }
 
-        // Check name, not null
-        if (userName.isEmpty()) {
-            AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "User name cannot be empty");
-            return;
+            if (newPassword.length() < 8) {
+                AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "Your Password must contain at least 8 digits");
+                return;
+            }
+
+            if (!newPassword.equals(cfPassword)) {
+                AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "Your new passwords do not match");
+                return;
+            }
+
+            if (!curPassword.equals(password)) {
+                AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "Your current password is not correct");
+                return;
+            }
+
+            controller.updateProfile(newUserName, newEmail, newPassword, "");
+        } else {
+            controller.updateProfile(newUserName, newEmail, password, "");
         }
 
-        // Check the password, more than 8 digits
-        if (password.isEmpty()) {
-            AlertHandler.showAlert(Alert.AlertType.WARNING, "Oops!", "Password cannot be empty");
-            return;
-        }
 
-        if (password.length() < 8) {
-            AlertHandler.showAlert(Alert.AlertType.ERROR, "Failed...", "Your Password must contain at least 8 digits");
-            return;
-        }
-
-        if (gender.equals(" -- "))
-            gender = "";
-
-
-        profileCtrl.updateProfile(userName, userEmail, password, gender);
-        AlertHandler.showAlert(Alert.AlertType.CONFIRMATION, "Success!", "Your profile have been updated!");
-
-        btn_confirm.setDisable(true);
-        pswdF_pswd.setDisable(true);
-        txtF_name.setDisable(true);
-        txtF_email.setDisable(true);
-        choiceB_gender.setDisable(true);
+        AlertHandler.showAlert(Alert.AlertType.INFORMATION, "Success!", "Your profile have been updated!");
+        refresh();
     }
-
-
-    @FXML // This method is called by the FXMLLoader when initialization is complete
-    public void initialize() {
-
-        UserProfileController profileCtrl = ControllerFactory.makeUserProfileController();
-        Map<String, Object> profileList = profileCtrl.getProfile();
-        userName = profileList.get("userName").toString();
-        userEmail = profileList.get("userEmail").toString();
-        password = profileList.get("password").toString();
-        gender = profileList.get("gender").toString();
-
-        // Preset and Disable fields
-        lbl_usrid.setText(Long.toString(profileCtrl.getUserID()));
-
-        txtF_name.setText(userName);
-        txtF_name.setDisable(true);
-
-        txtF_email.setText(userEmail);
-        txtF_email.setDisable(true);
-
-        pswdF_pswd.setText("-----------------------------");    // not showing the real password
-        pswdF_pswd.setDisable(true);
-
-        if (gender.equals(""))
-            choiceB_gender.getSelectionModel().selectFirst();
-        else if (gender.equals("male"))
-            choiceB_gender.getSelectionModel().select(1);
-        else if (gender.equals("female"))
-            choiceB_gender.getSelectionModel().select(2);
-        else
-            choiceB_gender.getSelectionModel().select(3);
-        choiceB_gender.setDisable(true);
-
-        btn_confirm.setDisable(true);
-
-    }
-
-
-    public void refresh() {}
 }

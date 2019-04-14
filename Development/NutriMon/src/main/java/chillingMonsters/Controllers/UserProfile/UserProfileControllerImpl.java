@@ -150,5 +150,9 @@ public class UserProfileControllerImpl extends NutriMonController implements Use
     public boolean exists(String email) {
         return this.exists("userProfile", "userID", email);
     }
+
+    public void logout() {
+        setUserId(0);
+    }
 }
 

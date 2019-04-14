@@ -111,7 +111,7 @@ public class PageFactory {
 		return register;
 	}
 	public static Page getUserProfilePage() {
-		profile = new userProfilePage();
+		if (profile == null) profile = new userProfilePage();
 		return profile;
 	}
 	public static Page getSearchPage(PageOption option) {
@@ -256,6 +256,8 @@ public class PageFactory {
 	public static void setMenuButtonStyle(Page p) {
 		if (p == login || p == register) {
 			menuButton.setStyle(null);
+			userIcon.setStyle(null);
+			return;
 		} else if (p == stock || p == recipe || p == intake || p == landing) {
 			menuButton.setStyle("-fx-image: url(img/MenuIcon2x.png)");
 		} else if (p == menu || (p == search && ((searchPage) p).option == PageOption.DEFAULT && !formInProgress)) {
@@ -311,5 +313,34 @@ public class PageFactory {
 	//Toggle whether a form is active
 	public static void setFormInProgress(boolean f) {
 		formInProgress = f;
+	}
+
+	public static void logout() {
+		login = new loginPage();
+		register = new registerPage();
+
+		toNextPage(login);
+
+		menuShown = false;
+		formInProgress = false;
+
+		landing = null;
+		stock = null;
+		recipe = null;
+		intake = null;
+		profile = null;
+		search = null;
+
+		ingredient = null;
+		stockEntry = null;
+
+		ingredient = null;
+		stockEntry = null;
+		recipeEntry = null;
+		intakeEntry = null;
+		recipeCreate = null;
+
+		pageHistory.clear();
+		pageHistory.add(login);
 	}
 }
