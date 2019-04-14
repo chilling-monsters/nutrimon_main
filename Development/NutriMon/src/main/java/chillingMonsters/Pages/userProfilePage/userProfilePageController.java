@@ -1,22 +1,15 @@
 package chillingMonsters.Pages.userProfilePage;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-
 import chillingMonsters.AlertHandler;
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.UserProfile.UserProfileController;
 import chillingMonsters.Pages.PageController;
-import chillingMonsters.Pages.PageFactory;
-import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
-import javafx.event.ActionEvent;
+import java.util.Map;
 
 public class userProfilePageController implements PageController {
 
@@ -211,4 +204,7 @@ public class userProfilePageController implements PageController {
         btn_confirm.setDisable(true);
 
     }
+
+
+    public void refresh() {}
 }

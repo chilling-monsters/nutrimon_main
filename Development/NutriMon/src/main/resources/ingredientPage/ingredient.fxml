@@ -2,9 +2,9 @@
 
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -44,7 +44,7 @@
                      <children>
                             <VBox AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <children>
-                                    <Label fx:id="ingrName" prefWidth="285.0" styleClass="titleText" text="Ingredient Name With Long Extra Spaces And Super Long Name SUPER SUPER SUPER LONG NAME LIKE REALLY LONG NAME MAN SUPER AWESOME NAME" wrapText="true">
+                                    <Label fx:id="ingrName" prefWidth="285.0" styleClass="titleText" wrapText="true">
                                         <font>
                                             <Font name="SF Pro Display Regular" size="25.0" />
                                         </font>
@@ -58,7 +58,7 @@
                                         <children>
                                             <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                 <children>
-                                                    <Label fx:id="ingrAvgSpoilage" prefHeight="30.0" prefWidth="100.0" styleClass="titleText" text="Fresh Time" textAlignment="RIGHT" textFill="#f5a623">
+                                                    <Label fx:id="ingrAvgSpoilage" prefHeight="30.0" prefWidth="100.0" styleClass="titleText" textAlignment="RIGHT" textFill="#f5a623">
                                                         <font>
                                                             <Font name="SF Pro Display Regular" size="25.0" />
                                                         </font>
@@ -75,7 +75,7 @@
                                             </VBox>
                                             <VBox alignment="TOP_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                 <children>
-                                                    <Label fx:id="ingrCalories" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="180.0" styleClass="titleText" text="Calories" textAlignment="RIGHT" textFill="#f5a623">
+                                                    <Label fx:id="ingrCalories" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="180.0" styleClass="titleText" textAlignment="RIGHT" textFill="#f5a623">
                                                         <font>
                                                             <Font name="SF Pro Display Regular" size="25.0" />
                                                         </font>
@@ -103,7 +103,7 @@
                                        <children>
                                           <VBox>
                                              <children>
-                                                <Label fx:id="ingrProtein" styleClass="headerText" text="fProtein" textFill="#f5a623">
+                                                <Label fx:id="ingrProtein" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -117,7 +117,7 @@
                                           </VBox>
                                           <VBox layoutX="10.0" layoutY="10.0">
                                              <children>
-                                                <Label fx:id="ingrTotalFat" styleClass="headerText" text="fTotalFat" textFill="#f5a623">
+                                                <Label fx:id="ingrTotalFat" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -131,7 +131,7 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label fx:id="ingrSatFat" styleClass="headerText" text="fSatFat" textFill="#f5a623">
+                                                <Label fx:id="ingrSatFat" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -145,7 +145,7 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label fx:id="ingrCholesterol" styleClass="headerText" text="fCho" textFill="#f5a623">
+                                                <Label fx:id="ingrCholesterol" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -159,7 +159,7 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label fx:id="ingrCarb" styleClass="headerText" text="fCarb" textFill="#f5a623">
+                                                <Label fx:id="ingrCarb" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -173,7 +173,7 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label fx:id="ingrSugar" styleClass="headerText" text="fSugar" textFill="#f5a623">
+                                                <Label fx:id="ingrSugar" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -191,7 +191,7 @@
                                        <children>
                                           <VBox>
                                              <children>
-                                                <Label fx:id="ingrSodium" styleClass="headerText" text="fSodium" textFill="#f5a623">
+                                                <Label fx:id="ingrSodium" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -205,7 +205,7 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label fx:id="ingrCalcium" styleClass="headerText" text="fCalcium" textFill="#f5a623">
+                                                <Label fx:id="ingrCalcium" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -219,7 +219,7 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label fx:id="ingrIron" styleClass="headerText" text="fIron" textFill="#f5a623">
+                                                <Label fx:id="ingrIron" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -233,7 +233,7 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label fx:id="ingrPotassium" styleClass="headerText" text="fPot" textFill="#f5a623">
+                                                <Label fx:id="ingrPotassium" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -251,7 +251,7 @@
                                        <children>
                                           <VBox>
                                              <children>
-                                                <Label fx:id="ingreC" styleClass="headerText" text="fC" textFill="#f5a623">
+                                                <Label fx:id="ingreC" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -265,7 +265,7 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label fx:id="ingreE" styleClass="headerText" text="fE" textFill="#f5a623">
+                                                <Label fx:id="ingreE" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -279,7 +279,7 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label fx:id="ingreD" styleClass="headerText" text="fD" textFill="#f5a623">
+                                                <Label fx:id="ingreD" styleClass="headerText" textFill="#f5a623">
                                                    <font>
                                                       <Font name="SF Pro Display Regular" size="13.0" />
                                                    </font>
@@ -304,7 +304,7 @@
                   </AnchorPane>
               </content>
             </ScrollPane>
-                <ToggleButton fx:id="addToStockButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="+" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                <Button fx:id="addToStockButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="Add" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <font>
                         <Font size="12.5" />
                     </font>
@@ -313,7 +313,7 @@
                         <String fx:value="secondaryButton" />
                         <String fx:value="myButton" />
                     </styleClass>
-                </ToggleButton>
+                </Button>
             </children>
         </AnchorPane>
     </children>

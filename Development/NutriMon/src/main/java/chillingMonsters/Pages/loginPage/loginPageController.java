@@ -67,11 +67,13 @@ public class loginPageController implements PageController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     public void initialize() {
-        // txtF_email.setText("test@email.com");
-        // pswdF_password.setText("password");
+         txtF_email.setText("test@email.com");
+         pswdF_password.setText("password");
         assert btn_register != null : "fx:id=\"btn_register\" was not injected: check your FXML file 'login.fxml'.";
         assert pswdF_password != null : "fx:id=\"pswdF_password\" was not injected: check your FXML file 'login.fxml'.";
         assert txtF_email != null : "fx:id=\"txtF_user_name\" was not injected: check your FXML file 'login.fxml'.";
         assert btn_login != null : "fx:id=\"btn_login\" was not injected: check your FXML file 'login.fxml'.";
     }
+
+    public void refresh() {}
 }

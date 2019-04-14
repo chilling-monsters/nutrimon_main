@@ -100,4 +100,6 @@ public class registerPageController implements PageController {
         assert txtF_name != null : "fx:id=\"txtF_name\" was not injected: check your FXML file 'register.fxml'.";
         assert pswdF_new_password != null : "fx:id=\"txtF_new_password\" was not injected: check your FXML file 'register.fxml'.";
     }
+
+    public void refresh() {}
 }

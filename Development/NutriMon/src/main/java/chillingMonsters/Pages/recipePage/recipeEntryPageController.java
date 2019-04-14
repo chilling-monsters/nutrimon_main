@@ -10,6 +10,7 @@ import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
@@ -26,7 +27,10 @@ public class recipeEntryPageController implements PageController {
 	private long recipeID;
 
 	@FXML
-	private ImageView moreButton;
+	private Button editRecipe;
+
+	@FXML
+	private Button intakeButton;
 
 	@FXML
 	private AnchorPane recipeCard;
@@ -106,9 +110,23 @@ public class recipeEntryPageController implements PageController {
 
 	@FXML
 	public void initialize() {
+		addRecipeButton.setOnAction(event -> handleAddRecipe());
+		recipeName.setOnMouseClicked(event -> handleNameClick());
+		editRecipe.setOnAction(event -> handleEditClick());
+		intakeButton.setOnAction(event -> handleAddToIntake());
+
+		scrollRecipeDetailPane.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
+		recipeCard.setOnScroll(event -> handleCardScroll(event));
+	}
+
+	public void refresh() {
 		recipeIngredientsList.getChildren().clear();
+
 		RecipeController controller = ControllerFactory.makeRecipeController();
 		Map<String, Object> result = controller.getRecipe(recipeID);
+
+		Long userID = Utility.parseID(result.get("userID").toString(), 0);
+		editRecipe.setVisible(userID == ControllerFactory.makeUserProfileController().getUserID());
 
 		String name = Utility.toCapitalized(result.get("recipeName").toString());
 		String category = result.get("recipeCategory").toString().toUpperCase();
@@ -137,7 +155,7 @@ public class recipeEntryPageController implements PageController {
 		float d = 0;
 
 		for (Map<String, Object> ingr : ingredientList) {
-			Long foodID = Long.parseLong(ingr.get("foodID").toString());
+			Long foodID = Utility.parseID(ingr.get("foodID").toString(), 0);
 			Float amount = Float.parseFloat(ingr.get("ingredientQtty").toString());
 			Float stockAmount = stockController.getStockQuantity(foodID);
 
@@ -205,13 +223,6 @@ public class recipeEntryPageController implements PageController {
 		ingreE.setText(String.format("%.1f g Vitamin E", e));
 		ingreD.setText(String.format("%.1f g Vitamin D", d));
 
-		addRecipeButton.setOnAction(event -> handleAddRecipe());
-		recipeName.setOnMouseClicked(event -> handleNameClick());
-		moreButton.setOnMouseClicked(event -> handleMoreClick());
-
-		scrollRecipeDetailPane.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
-		recipeCard.setOnScroll(event -> handleCardScroll(event));
-
 		scrollRecipeDetailPane.setMinHeight(scrollRecipeDetailPane.getMinHeight() - recipeName.getHeight() + recipeName.getMinHeight());
 		if (controller.isSaved(recipeID)) {
 			addRecipeButton.setText("Saved");
@@ -219,8 +230,14 @@ public class recipeEntryPageController implements PageController {
 		}
 	}
 
+	//event handlers
+	private void handleAddToIntake() {
+		refresh();
+		PageFactory.toNextPage(PageFactory.getIntakeEntry(recipeID, PageOption.INTAKE_RECIPE));
+	}
+
 	private void handleOnIngridentCardClick(long foodID) {
-		PageFactory.toNextPage(PageFactory.getIngredientPage(foodID));
+		PageFactory.toNextPage(PageFactory.getStockEntryPage(foodID, PageOption.DEFAULT));
 	}
 
 	private void handleAddRecipe() {
@@ -230,7 +247,7 @@ public class recipeEntryPageController implements PageController {
 			addRecipeButton.setText("Saved");
 			controller.saveRecipe(recipeID);
 		} else {
-			addRecipeButton.setText("+");
+			addRecipeButton.setText("Save");
 			controller.unsaveRecipe(recipeID);
 		}
 	}
@@ -243,8 +260,9 @@ public class recipeEntryPageController implements PageController {
 		}
 	}
 
-	private void handleMoreClick() {
-		PageFactory.toNextPage(PageFactory.getRecipeCreatePage(recipeID, PageOption.UPDATE));
+	private void handleEditClick() {
+		PageFactory.setFormInProgress(true);
+		PageFactory.toNextPage(PageFactory.getRecipeEditPage(recipeID, PageOption.UPDATE));
 	}
 
 	private void handleListScroll(ScrollEvent event) {

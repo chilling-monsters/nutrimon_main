@@ -15,45 +15,33 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane prefHeight="150.0" style="-fx-background-color: #F5A623;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane prefHeight="140.0" style="-fx-background-color: #F5A623;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+            <VBox AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                <children>
-                  <VBox>
+                  <HBox>
                      <children>
-                        <HBox>
-                           <children>
-                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../img/ic_search2x.png" />
-                                 </image>
-                                 <HBox.margin>
-                                    <Insets top="7.0" />
-                                 </HBox.margin>
-                              </ImageView>
-                              <TextField fx:id="searchTxF" onAction="#onSearchEnter" prefHeight="30.0" prefWidth="280.0" style="-fx-background-color: transparent; -fx-text-inner-color: white;" styleClass="headerText">
-                                 <font>
-                                    <Font name="SF Pro Display Regular" size="15.0" />
-                                 </font>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <Line endX="160.0" startX="-160.0" stroke="WHITE" />
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/ic_search2x.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets top="7.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <TextField fx:id="searchTxF" onAction="#onSearchEnter" prefHeight="30.0" prefWidth="280.0" style="-fx-background-color: transparent; -fx-text-inner-color: white;" styleClass="headerText">
+                           <font>
+                              <Font name="SF Pro Display Regular" size="15.0" />
+                           </font>
+                        </TextField>
                      </children>
-                     <VBox.margin>
-                        <Insets top="80.0" />
-                     </VBox.margin>
-                  </VBox>
+                  </HBox>
+                  <Line endX="160.0" startX="-160.0" stroke="WHITE" />
                </children>
             </VBox>
-            <Label styleClass="titleText" text="Search" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
-               <font>
-                  <Font name="SF Pro Display Regular" size="25.0" />
-               </font>
-            </Label>
          </children>
       </AnchorPane>
-      <ScrollPane hbarPolicy="NEVER" layoutY="182.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
+      <ScrollPane hbarPolicy="NEVER" layoutY="182.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="140.0">
         <content>
           <AnchorPane styleClass="cardScrollPane">
                <children>
@@ -66,6 +54,11 @@
             </AnchorPane>
         </content>
       </ScrollPane>
+      <Label styleClass="titleText" text="Search" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="SF Pro Display Regular" size="25.0" />
+         </font>
+      </Label>
    </children>
    <styleClass>
       <String fx:value="screenPane" />

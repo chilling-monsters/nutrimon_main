@@ -42,7 +42,8 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
 
   public List<Map<String, Object>> showAvailableRecipes() {
     List<Map<String, Object>> result = null;
-    String query = "SELECT * FROM recipes WHERE canBeMade(?,recipeID) > 0";
+    String query = "SELECT r.*, calcRecipeCalories(recipeID) as 'caloriesPerServing' " +
+        "FROM recipes r WHERE canBeMade(?,recipeID) > 0";
     try (PreparedStatement stmt = DBConnect.getConnection().prepareStatement(query)) {
       stmt.setLong(1, userId);
       try (ResultSet rs = stmt.executeQuery()) {
@@ -116,8 +117,7 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
   }
 
   public void updateRecipe(long recipeID, String name, String category, String description, double cookTime, Map<Long, Float> ingredients) {
-    String clearIngredients = "DELETE FROM recipeingredients WHERE recipeID = ? AND ? IN (" +
-            "SELECT DISTINCT recipeID FROM recipes WHERE userID = ?)";
+    String clearIngredients = "DELETE FROM recipeingredients WHERE recipeID = ?";
     String insertIngredients = "INSERT INTO recipeingredients VALUES (?,?,?)";
     Map<String, Object> payload = new HashMap<>();
     payload.put("recipeName", name);
@@ -127,9 +127,8 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
     this.update(recipeID, payload);
     Connection connection = DBConnect.getConnection();
     try (PreparedStatement clearStmt = connection.prepareStatement(clearIngredients)) {
+      connection.setAutoCommit(false);
       clearStmt.setLong(1, recipeID);
-      clearStmt.setLong(2, recipeID);
-      clearStmt.setLong(3, userId);
       clearStmt.executeUpdate();
       try (PreparedStatement updateIngredients = connection.prepareStatement(insertIngredients)) {
         for (Map.Entry<Long, Float> entry : ingredients.entrySet()) {
@@ -139,9 +138,20 @@ public class RecipeControllerImpl extends NutriMonController implements RecipeCo
           updateIngredients.executeUpdate();
         }
       }
+      connection.commit();
     } catch (SQLException e) {
       Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+      try {
+        connection.rollback();
+      } catch (SQLException e1) {
+        Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e1.getMessage(), e1);
+      }
     } finally {
+      try {
+        connection.setAutoCommit(true);
+      } catch (SQLException e) {
+        Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+      }
       DBConnect.close();
     }
   }

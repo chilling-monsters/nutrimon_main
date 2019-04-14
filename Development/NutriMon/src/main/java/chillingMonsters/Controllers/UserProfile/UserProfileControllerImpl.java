@@ -2,7 +2,6 @@ package chillingMonsters.Controllers.UserProfile;
 
 import chillingMonsters.Controllers.NutriMonController;
 import chillingMonsters.DBConnect;
-import jdk.nashorn.internal.codegen.types.Type;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

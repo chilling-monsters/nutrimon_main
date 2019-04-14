@@ -7,137 +7,180 @@ import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class searchPageController implements PageController {
-  public String searchQuery = "";
-  private PageOption option;
-  private LinkedHashMap<String, List<SearchCardComponent>> cachedResults;
+	private PageOption option;
+	public String searchQuery = "";
 
-  @FXML
-  public TextField searchTxF;
+	private List<Map<String, Object>> rcpCache = new ArrayList<>();
+	private List<Map<String, Object>> ingrCache = new ArrayList<>();
 
-  @FXML
-  public VBox searchList;
+	@FXML
+	public TextField searchTxF;
 
-  public searchPageController(PageOption option) {
-    this.option = option;
-    this.cachedResults = new LinkedHashMap<String, List<SearchCardComponent>>() {
-      @Override
-      protected boolean removeEldestEntry(Map.Entry<String, List<SearchCardComponent>> eldest) {
-        return size() > Utility.CACHE_MAX_SIZE;
-      }
-    };
-  }
+	@FXML
+	public VBox searchList;
 
-  @FXML
-  void onSearchEnter() {
-    addCreateYourOwnCard();
+	@FXML
+	public Label moreLabel;
 
-    String currentSearch = searchTxF.getText().trim();
-    if (currentSearch.isEmpty()) return;
+	public searchPageController(PageOption option) {
+		this.option = option;
+	}
 
-    List<SearchCardComponent> cache = cachedResults.get(currentSearch);
-    if (cache != null) {
-      if (!searchList.getChildren().contains(cache)) {
-        searchList.getChildren().clear();
-        addCreateYourOwnCard();
-        searchList.getChildren().addAll(cache);
-      }
-    } else {
-      searchQuery = currentSearch;
-      searchList.getChildren().clear();
-      addCreateYourOwnCard();
+	@FXML
+	public void initialize() {
+		searchTxF.setText(searchQuery);
+		rcpCache.clear();
+		ingrCache.clear();
 
-      IngredientController ingr = ControllerFactory.makeIngredientController();
-      RecipeController recp = ControllerFactory.makeRecipeController();
+		moreLabel = new Label("More ...");
+		moreLabel.setAlignment(Pos.CENTER);
+		moreLabel.getStyleClass().addAll("headerText", "hightlightText", "card", "searchCardPane", "cardPane");
+		moreLabel.setOnMouseClicked(event -> handleMoreOnClick());
+	}
 
-      List<Map<String, Object>> ingrSearchResult = new ArrayList<>();
-      List<Map<String, Object>> recpSearchResult = new ArrayList<>();
+	public void refresh() {
+		initialize();
+		onSearchEnter();
+	}
 
-      switch (option) {
-        case STOCK:
-          ingrSearchResult = ingr.searchIngredient(searchQuery);
-          break;
-        case RECIPE:
-          recpSearchResult = recp.searchRecipe(searchQuery);
-          break;
-        case UPDATE:
-          ingrSearchResult = ingr.searchIngredient(searchQuery);
-          break;
-        case DEFAULT:
-          ingrSearchResult = ingr.searchIngredient(searchQuery);
-          recpSearchResult = recp.searchRecipe(searchQuery);
-          break;
-      }
+	//Event handlers
+	@FXML
+	public void onSearchEnter() {
+		addCreateYourOwnCard();
 
-      if (ingrSearchResult.isEmpty() && recpSearchResult.isEmpty()) {
-        addEmptyWarningLabel();
-        return;
-      }
+		String currentSearch = searchTxF.getText().trim();
+		if (currentSearch.isEmpty()) return;
 
-      for (Map<String, Object> result : recpSearchResult) {
-        Long recipeID = Long.parseLong(result.get("recipeID").toString());
-        String name = Utility.parseFoodName(result.get("recipeName").toString());
-        String category = result.get("recipeCategory").toString().toUpperCase();
+		searchQuery = currentSearch;
+		searchList.getChildren().clear();
+		addCreateYourOwnCard();
 
-        SearchCardComponent sCard = new SearchCardComponent(recipeID, name, category, PageOption.RECIPE);
-        if (option == PageOption.DEFAULT) sCard.getStyleClass().add("hightlightCard");
+		IngredientController ingr = ControllerFactory.makeIngredientController();
+		RecipeController recp = ControllerFactory.makeRecipeController();
 
-        showAndSaveCache(sCard);
-      }
+		List<Map<String, Object>> ingrSearchResult = new ArrayList<>();
+		List<Map<String, Object>> recpSearchResult = new ArrayList<>();
 
-      for (Map<String, Object> result : ingrSearchResult) {
-        Long foodId = Long.parseLong(result.get("foodID").toString());
-        String name = Utility.parseFoodName(result.get("foodName").toString());
-        String category = result.get("fCategory").toString().toUpperCase();
+		switch (option) {
+			case STOCK:
+				ingrSearchResult = ingr.searchIngredient(searchQuery);
+				break;
+			case RECIPE:
+				recpSearchResult = recp.searchRecipe(searchQuery);
+				break;
+			case UPDATE:
+				ingrSearchResult = ingr.searchIngredient(searchQuery);
+				break;
+			case DEFAULT:
+			case INTAKE_RECIPE:
+			case INTAKE_STOCK:
+				ingrSearchResult = ingr.searchIngredient(searchQuery);
+				recpSearchResult = recp.searchRecipe(searchQuery);
+				break;
+		}
 
-        SearchCardComponent sCard = new SearchCardComponent(foodId, name, category, option);
+		if (ingrSearchResult.isEmpty() && recpSearchResult.isEmpty()) {
+			addEmptyWarningLabel();
+			return;
+		}
 
-        showAndSaveCache(sCard);
-      }
-    }
-  }
+		for (Map<String, Object> result : recpSearchResult) {
+			if (searchList.getChildren().size() >= Utility.CACHE_MAX_SIZE) {
+				rcpCache.add(result);
+			} else {
+				renderRecipeCard(result);
+			}
+		}
 
-  @FXML
-  public void initialize() {
-    searchTxF.setText(searchQuery);
-    onSearchEnter();
-  }
+		for (Map<String, Object> result : ingrSearchResult) {
+			if (searchList.getChildren().size() >= Utility.CACHE_MAX_SIZE) {
+				ingrCache.add(result);
+			} else {
+				renderIngrCard(result);
+			}
+		}
 
-  private void addCreateYourOwnCard() {
-    if (option != PageOption.RECIPE) return;
-    if (searchList.getChildren().isEmpty()
-        || !(searchList.getChildren().get(0) instanceof NewRecipeSearchCard)) {
-      NewRecipeSearchCard nCard = new NewRecipeSearchCard();
-      searchList.getChildren().add(0, nCard);
-    }
-  }
+		addMoreButton();
+	}
 
-  private void addEmptyWarningLabel() {
-    Label emptyLabel = new Label("We ain't got squash.");
-    emptyLabel.getStyleClass().add("emptyWarningText");
+	//Event handlers
+	private void handleMoreOnClick() {
+		searchList.getChildren().remove(moreLabel);
 
-    searchList.getChildren().add(emptyLabel);
-  }
+		int i = 0;
+		while (i < Utility.CACHE_MAX_SIZE) {
+			if (rcpCache.isEmpty()) break;
 
-  private void showAndSaveCache(SearchCardComponent sCard) {
-    searchList.getChildren().add(sCard);
+			renderRecipeCard(rcpCache.get(0));
+			rcpCache.remove(0);
+			i++;
+		}
 
-    List<SearchCardComponent> cache = cachedResults.get(searchQuery);
-    if (cache == null) {
-      cache = new ArrayList<>();
-      cache.add(sCard);
-      cachedResults.put(searchQuery, cache);
-    } else {
-      cache.add(sCard);
-    }
-  }
+		while (i < Utility.CACHE_MAX_SIZE) {
+			if (ingrCache.isEmpty()) break;
+
+			renderIngrCard(ingrCache.get(0));
+			ingrCache.remove(0);
+			i++;
+		}
+
+		addMoreButton();
+	}
+
+	//Helper functions
+	private void renderRecipeCard(Map<String, Object> r) {
+		Long recipeID = Utility.parseID(r.get("recipeID").toString(), 0);
+		String name = Utility.toCapitalized(r.get("recipeName").toString());
+		String category = r.get("recipeCategory").toString().toUpperCase();
+
+		PageOption cardOption = PageOption.RECIPE;
+		if (option == PageOption.INTAKE_STOCK) cardOption = PageOption.INTAKE_RECIPE;
+
+		SearchCardComponent sCard = new SearchCardComponent(recipeID, name, category, cardOption);
+		sCard.getStyleClass().add("hightlightCard");
+
+		searchList.getChildren().add(sCard);
+	}
+
+	private void renderIngrCard(Map<String, Object> i) {
+		Long foodId = Utility.parseID(i.get("foodID").toString(), 0);
+		String name = Utility.parseFoodName(i.get("foodName").toString());
+		String category = i.get("fCategory").toString().toUpperCase();
+
+		SearchCardComponent sCard = new SearchCardComponent(foodId, name, category, option);
+
+		searchList.getChildren().add(sCard);
+	}
+
+	private void addCreateYourOwnCard() {
+		if (option != PageOption.RECIPE) return;
+		if (searchList.getChildren().isEmpty()
+			|| !(searchList.getChildren().get(0) instanceof NewRecipeSearchCard)) {
+			NewRecipeSearchCard nCard = new NewRecipeSearchCard();
+			searchList.getChildren().add(0, nCard);
+		}
+	}
+
+	private void addEmptyWarningLabel() {
+		Label emptyLabel = new Label("We ain't got squash.");
+		emptyLabel.getStyleClass().add("emptyWarningText");
+
+		searchList.getChildren().add(emptyLabel);
+	}
+
+	private void addMoreButton() {
+		if (rcpCache.size() > 0 || ingrCache.size() > 0) {
+			searchList.getChildren().add(moreLabel);
+		}
+	}
 }

@@ -6,7 +6,6 @@ import chillingMonsters.Pages.recipePage.recipeCreatePage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
@@ -20,9 +19,6 @@ public class SearchCardComponent extends AnchorPane {
 
   @FXML
   private Label cardLabel;
-
-  @FXML
-  private ImageView searchImage;
 
   public SearchCardComponent(long ID, String name, String category, PageOption option) {
     super();
@@ -43,7 +39,7 @@ public class SearchCardComponent extends AnchorPane {
     }
 
     cardName.setText(name);
-    cardLabel.setText(category);
+    cardLabel.setText(category.toUpperCase());
   }
 
   private void handleOnClick() {
@@ -55,16 +51,16 @@ public class SearchCardComponent extends AnchorPane {
         PageFactory.toNextPage(PageFactory.getRecipeEntryPage(ID));
         break;
       case UPDATE:
-        recipeCreatePage recipeForm = (recipeCreatePage) PageFactory.getRecipeForm();
+        recipeCreatePage recipeForm = (recipeCreatePage) PageFactory.getCurrentRecipeForm();
         recipeForm.addToIngredientList(ID);
         PageFactory.toNextPage(recipeForm);
         break;
       case DEFAULT:
-        if (option == PageOption.RECIPE) {
-          PageFactory.toNextPage(PageFactory.getRecipeEntryPage(ID));
-        } else {
-          PageFactory.toNextPage(PageFactory.getIngredientPage(ID));
-        }
+        PageFactory.toNextPage(PageFactory.getIngredientPage(ID));
+        break;
+      case INTAKE_RECIPE:
+      case INTAKE_STOCK:
+        PageFactory.toNextPage(PageFactory.getIntakeEntry(ID, option));
         break;
     }
   }

@@ -1,13 +1,11 @@
-package chillingMonsters.Pages.recipePage;
+package chillingMonsters.Pages.landingPage;
 
 import chillingMonsters.Controllers.ControllerFactory;
 import chillingMonsters.Controllers.Recipe.RecipeController;
 import chillingMonsters.Pages.PageController;
-import chillingMonsters.Pages.PageFactory;
-import chillingMonsters.Pages.PageOption;
+import chillingMonsters.Pages.recipePage.RecipeCardComponent;
 import chillingMonsters.Utility;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
@@ -17,13 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class recipePageController implements PageController {
-	private String CREATED_BY_YOU_KEY = "Created by you";
+public class landingPageController implements PageController {
 	@FXML
 	private VBox cardList;
-
-	@FXML
-	private Button recipeCreateButton;
 
 	@FXML
 	public void initialize() {
@@ -33,9 +27,9 @@ public class recipePageController implements PageController {
 	public void refresh() {
 		initialize();
 		RecipeController controller = ControllerFactory.makeRecipeController();
-		List<Map<String, Object>> recipeList = controller.showSavedRecipes();
+		List<Map<String, Object>> results = controller.showAvailableRecipes();
 
-		if (recipeList.isEmpty()) {
+		if (results == null || results.isEmpty()) {
 			Label emptyLabel = new Label("We ain't got squash.");
 			emptyLabel.getStyleClass().add("emptyWarningText");
 
@@ -43,12 +37,9 @@ public class recipePageController implements PageController {
 			return;
 		}
 
-
 		Map<String, List<RecipeCardComponent>> componentMap = new TreeMap<>(Utility.parseRecipeComparator());
-		List<RecipeCardComponent> byYou = new ArrayList<>();
-		componentMap.put(CREATED_BY_YOU_KEY, byYou);
 
-		for (Map<String, Object> recipe : recipeList) {
+		for (Map<String, Object> recipe : results) {
 			long id = Utility.parseID(recipe.get("recipeID").toString(), 0);
 			String name  = Utility.toCapitalized(recipe.get("recipeName").toString());
 			String category = recipe.get("recipeCategory").toString();
@@ -67,35 +58,17 @@ public class recipePageController implements PageController {
 			}
 
 			group.add(sCard);
-
-			if (Utility.parseID(recipe.get("userID").toString(), 0) == ControllerFactory.makeUserProfileController().getUserID()) {
-				RecipeCardComponent yourCard = new RecipeCardComponent(id, name, category, cookTime, calories);
-				yourCard.getStyleClass().add("hightlightCard");
-				byYou.add(yourCard);
-			}
 		}
-
-		if (!byYou.isEmpty()) {
-			addToList(CREATED_BY_YOU_KEY, byYou);
-		}
-
-		componentMap.remove(CREATED_BY_YOU_KEY);
 
 		for (String label : componentMap.keySet()) {
 			addToList(label, componentMap.get(label));
 		}
-	}
 
-	//button event handler
-	@FXML
-	void recipeCreateButtonAction() {
-		PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.RECIPE));
 	}
 
 	//helper functions
 	private void addToList(String label, List<RecipeCardComponent> group) {
 		Label groupLabel = new Label(Utility.toCapitalized(label));
-		if (label == CREATED_BY_YOU_KEY) groupLabel.getStyleClass().add("hightlightText");
 
 		groupLabel.getStyleClass().add("labelText");
 
@@ -114,5 +87,4 @@ public class recipePageController implements PageController {
 			cardList.getChildren().add(s);
 		}
 	}
-
 }

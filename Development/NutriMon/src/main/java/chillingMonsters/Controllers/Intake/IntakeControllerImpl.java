@@ -51,29 +51,35 @@ public class IntakeControllerImpl extends NutriMonController implements IntakeCo
     return intakes;
   }
 
-  public void intakeStock(long foodID, float quantity) {
-    String query = "CALL intake_food(?,?,?)";
+  public boolean intakeStock(long foodID, float quantity, String date) {
+    String query = "CALL intake_food(?,?,?,?)";
     try (CallableStatement stmt = DBConnect.getConnection().prepareCall(query)) {
       stmt.setLong(1, userId);
       stmt.setLong(2, foodID);
       stmt.setFloat(3, quantity);
+      stmt.setTimestamp(4, Timestamp.valueOf(date));
       stmt.executeQuery();
+      
+      return true;
     } catch (SQLException e) {
-      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+      return false;
     } finally {
       DBConnect.close();
     }
   }
 
-  public void intakeRecipe(long recipeID, int serving) {
-    String query = "CALL intake_recipe(?,?,?)";
+  public boolean intakeRecipe(long recipeID, float serving, String date) {
+    String query = "CALL intake_recipe(?,?,?,?)";
     try (CallableStatement stmt = DBConnect.getConnection().prepareCall(query)) {
       stmt.setLong(1, userId);
       stmt.setLong(2, recipeID);
-      stmt.setInt(3, serving);
+      stmt.setFloat(3, serving);
+      stmt.setTimestamp(4, Timestamp.valueOf(date));
       stmt.executeQuery();
+
+      return true;
     } catch(SQLException e) {
-      Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+      return false;
     } finally {
       DBConnect.close();
     }
@@ -85,7 +91,7 @@ public class IntakeControllerImpl extends NutriMonController implements IntakeCo
       stmt.setTimestamp(1, Timestamp.valueOf(datetime));
       stmt.setLong(2, intakeID);
       stmt.setLong(3, userId);
-      stmt.executeQuery();
+      stmt.executeUpdate();
     } catch (SQLException e) {
       Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
     } finally {

@@ -45,24 +45,34 @@ public class navMenuController implements PageController {
 	public void initialize() {
 		search.setOnMouseEntered(event -> highlightSelected(0));
 		today.setOnMouseEntered(event -> highlightSelected(1));
-		intake.setOnMouseEntered(event -> highlightSelected(2));
-		stock.setOnMouseEntered(event -> highlightSelected(3));
-		recipe.setOnMouseEntered(event -> highlightSelected(4));
+		stock.setOnMouseEntered(event -> highlightSelected(2));
+		recipe.setOnMouseEntered(event -> highlightSelected(3));
+		intake.setOnMouseEntered(event -> highlightSelected(4));
 
 		search.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
 			PageFactory.toNextPage(PageFactory.getSearchPage(PageOption.DEFAULT));
 		});
+		today.setOnMouseClicked(event -> {
+			PageFactory.hideMenu();
+			PageFactory.toNextPage(PageFactory.getLandingPage());
+		});
 		stock.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
 			if (PageFactory.getCurrentPage() != PageFactory.getStockPage()) {
-				PageFactory.toNextPage(PageFactory.getStockRefresh());
+				PageFactory.toNextPage(PageFactory.getStockPage());
+			}
+		});
+		intake.setOnMouseClicked(event -> {
+			PageFactory.hideMenu();
+			if (PageFactory.getCurrentPage() != PageFactory.getIntakePage()) {
+				PageFactory.toNextPage(PageFactory.getIntakePage());
 			}
 		});
 		recipe.setOnMouseClicked(event -> {
 			PageFactory.hideMenu();
 			if (PageFactory.getCurrentPage() != PageFactory.getRecipePage()) {
-				PageFactory.toNextPage(PageFactory.getRecipeRefresh());
+				PageFactory.toNextPage(PageFactory.getRecipePage());
 			}
 		});
 
@@ -82,10 +92,13 @@ public class navMenuController implements PageController {
 			put(recipe, "img/Recipesorange2x.png");
 
 		}};
+	}
 
+	public void refresh() {
 		highlightSelected(0);
 	}
 
+	//helper functions
 	private void highlightSelected(int i) {
 		HBox n = (HBox) menuBar.getChildren().get(i);
 		KeyFrame start = new KeyFrame(Duration.ZERO,
