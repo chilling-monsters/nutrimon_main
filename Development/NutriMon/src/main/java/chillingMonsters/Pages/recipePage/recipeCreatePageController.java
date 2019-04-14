@@ -8,8 +8,6 @@ import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.Event;
@@ -208,11 +206,9 @@ public class recipeCreatePageController implements PageController {
 			case DEFAULT:
 				break;
 		}
-		if (recipeID > 0) {
-			PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
-		} else {
-			PageFactory.toNextPage(PageFactory.getRecipePage());
-		}
+
+		if (recipeID > 0) PageFactory.toNextPage(PageFactory.getRecipeEntryPage(recipeID));
+		else PageFactory.toNextPage(PageFactory.getRecipePage());
 	}
 
 	private void handleCancelButton() {

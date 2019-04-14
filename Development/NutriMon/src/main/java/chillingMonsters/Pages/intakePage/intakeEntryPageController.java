@@ -2,7 +2,6 @@ package chillingMonsters.Pages.intakePage;
 
 import chillingMonsters.AlertHandler;
 import chillingMonsters.Controllers.ControllerFactory;
-import chillingMonsters.Controllers.Ingredient.IngredientController;
 import chillingMonsters.Controllers.Intake.IntakeController;
 import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
@@ -10,21 +9,16 @@ import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Pages.searchPage.SearchCardComponent;
 import chillingMonsters.Utility;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 public class intakeEntryPageController implements PageController {

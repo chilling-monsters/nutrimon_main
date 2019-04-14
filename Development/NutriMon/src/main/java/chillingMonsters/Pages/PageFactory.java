@@ -19,8 +19,6 @@ import chillingMonsters.Utility;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
@@ -283,6 +281,11 @@ public class PageFactory {
 		if (p == stock || p == recipe || p == intake || p == landing || (p == search && ((searchPage) p).option == PageOption.DEFAULT)) {
 			showMenu();
 			return;
+		}
+
+		if (lastPage == recipeCreate) {
+			pageHistory.remove(recipeCreate);
+			lastPage = pageHistory.get(1);
 		}
 
 		toNextPage(lastPage);

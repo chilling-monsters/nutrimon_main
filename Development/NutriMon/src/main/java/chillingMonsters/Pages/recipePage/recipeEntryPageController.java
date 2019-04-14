@@ -120,6 +120,9 @@ public class recipeEntryPageController implements PageController {
 		RecipeController controller = ControllerFactory.makeRecipeController();
 		Map<String, Object> result = controller.getRecipe(recipeID);
 
+		Long userID = Utility.parseID(result.get("userID").toString(), 0);
+		moreButton.setVisible(userID == ControllerFactory.makeUserProfileController().getUserID());
+
 		String name = Utility.toCapitalized(result.get("recipeName").toString());
 		String category = result.get("recipeCategory").toString().toUpperCase();
 		String date = String.format("CREATED %s", Utility.parseDate((Timestamp) result.get("dateCreated")).toUpperCase());
