@@ -8,13 +8,16 @@ import chillingMonsters.Pages.PageController;
 import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -28,16 +31,14 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class stockEntryPageController implements PageController {
 	private PageOption option;
-	private boolean showForm = false;
-
 	private long foodID;
-	private double totalAmount = 0;
-	private int avgSpoilageDays;
+	private long currentStockID;
 
-	private long currentStockItemID;
-	private long displaySpoilageDays = 0;
-	private Timestamp displayAddedDate = new Timestamp(System.currentTimeMillis());
-	private double displayAmount = 0;
+	private double baseTotal;
+	private int baseTimeLeft;
+	private DoubleProperty total = new SimpleDoubleProperty(0);
+	private DoubleProperty current = new SimpleDoubleProperty(0);
+	private IntegerProperty timeLeft = new SimpleIntegerProperty(0);
 
 	@FXML
 	public Label entryName;
@@ -58,7 +59,10 @@ public class stockEntryPageController implements PageController {
 	public AnchorPane createForm;
 
 	@FXML
-	public ImageView moreButton;
+	public Label moreLabel;
+
+	@FXML
+	public Button intakeButton;
 
 	@FXML
 	public ToggleButton addStockButton;
@@ -97,230 +101,183 @@ public class stockEntryPageController implements PageController {
 
 	@FXML
 	public void initialize() {
-		refreshStock();
+		createForm.visibleProperty().bindBidirectional(addStockButton.selectedProperty());
+		entryList.visibleProperty().bind(addStockButton.selectedProperty().not());
+		moreLabel.visibleProperty().bind(addStockButton.selectedProperty().not());
+		addStockButton.selectedProperty().addListener(event -> {
+			boolean selected = addStockButton.isSelected();
+			PageFactory.setFormInProgress(selected);
+			addStockButton.setText(selected ? "Save" : "Add");
+		});
 
-		if (option == PageOption.STOCK) {
-			toggleForm(true);
-		} else {
-			toggleForm(false);
-		}
+		intakeButton.setOnAction(event -> handleAddToIntake());
+		moreLabel.setOnMouseClicked(event -> handleMoreOnClick());
+		cancelEntryButton.setOnMouseClicked(event -> handleCancelOnClick());
+		deleteEntryButton.setOnMouseClicked(event -> handleDeleteOnClick());
+		addStockButton.setOnAction(event -> handleSaveAddOnClick());
 
-		moreButton.setOnMouseClicked(event -> handleMoreOnClick());
-		addStockButton.setOnAction(event -> handleAddStock());
-		deleteEntryButton.setOnAction(event -> handleDeleteStock());
-		cancelEntryButton.setOnAction(event -> handleCancel());
+		entryTotalAmount.textProperty().bind(Bindings.format("%.1fg", total));
+		entryCurrentAmount.textProperty().bind(Bindings.format("%.1fg", current));
+
+		amountTxF.textProperty().addListener(event -> handleInputOnType());
+		dateTxF.valueProperty().addListener(event -> handleDateOnType());
+
 		scrollList.addEventFilter(ScrollEvent.SCROLL, event -> handleListScroll(event));
 		adjustSizePane.setOnScroll(event -> handleCardScroll(event));
-
-		amountTxF.setOnAction(event -> handleAddStock());
-		amountTxF.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue.length() > Utility.TEXTFIELD_MAX_LENGTH) return;
-
-				handleInputChange(oldValue, newValue);
-			}
-		});
-
-		dateTxF.valueProperty().addListener(new ChangeListener<LocalDate>() {
-			@Override
-			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
-				handleDateChange(newValue);
-			}
-		});
 	}
 
-	private void refreshStock() {
+	public void refresh() {
 		entryList.getChildren().clear();
-		scrollList.setPrefHeight(scrollList.getMinHeight());
-		scrollList.setVvalue(0);
+		createForm.setVisible(false);
 
-		IngredientController ingrController = ControllerFactory.makeIngredientController();
-		Map<String, Object> ingredient = ingrController.getIngredient(foodID);
+		IngredientController ingr = ControllerFactory.makeIngredientController();
+		Map<String, Object> result = ingr.getIngredient(foodID);
 
-		String name = ingredient.get("foodName").toString();
-		String category = ingredient.get("fCategory").toString();
-		avgSpoilageDays = Integer.parseInt(ingredient.get("expTime").toString());
+		entryName.setText(Utility.parseFoodName(result.get("foodName").toString()));
+		entryCategory.setText(result.get("fCategory").toString());
 
-		entryName.setText(Utility.parseFoodName(name));
-		entryCategory.setText(category);
-		entryAvgSpoilage.setText(String.format("%d Day%s", avgSpoilageDays, avgSpoilageDays > 1 ? "s" : ""));
+		baseTimeLeft = Integer.parseInt(result.get("expTime").toString());
+		entryAvgSpoilage.setText(String.format("%d Day%s", baseTimeLeft, baseTimeLeft > 1 ? "s" : ""));
 
-		StockController controller = ControllerFactory.makeStockController();
-		List<Map<String, Object>> resultsList = controller.showStockEntry(foodID);
+		total.setValue(0);
+		StockController stck = ControllerFactory.makeStockController();
+		List<Map<String, Object>> resultLists = stck.showStockEntry(foodID);
 
-		totalAmount = 0;
-		if (resultsList.isEmpty()) {
+		if (resultLists.isEmpty()) {
 			Label emptyLabel = new Label("We ain't got squash.");
 			emptyLabel.getStyleClass().add("emptyWarningText");
 
 			entryList.getChildren().add(emptyLabel);
-		} else {
-			for (Map<String, Object> result : resultsList) {
-				Long stockItemID = Utility.parseID(result.get("stockItemID").toString(), 0);
-				Long timeLeft = Utility.parseID(result.get("time_left").toString(), 0);
-				Timestamp addedDate = (Timestamp) result.get("added_date");
-				float amount = Float.parseFloat(result.get("foodQtty").toString());
-				totalAmount += amount;
+		}
 
-				StockEntryCardComponent sCard = new StockEntryCardComponent(stockItemID, timeLeft, addedDate, amount);
+		for (Map<String, Object> r : resultLists) {
+			Long stockItemID = Utility.parseID(r.get("stockItemID").toString(), 0);
+			Long left = Utility.parseID(r.get("time_left").toString(), 0);
+			Timestamp addedDate = (Timestamp) r.get("added_date");
+			float amount = Float.parseFloat(r.get("foodQtty").toString());
+			total.setValue(total.getValue() + amount);
 
-				if (timeLeft <= Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("hightlightCard");
+			StockEntryCardComponent sCard = new StockEntryCardComponent(stockItemID, left, addedDate, amount);
+			if (left <= Utility.SPOILAGE_WARNING_DAYS) sCard.getStyleClass().add("hightlightCard");
+			sCard.setOnMouseClicked(event -> {
+				option = PageOption.UPDATE;
 
-				sCard.setOnMouseClicked(event -> handleCardClick(event));
+				addStockButton.setSelected(true);
+				currentStockID = stockItemID;
 
-				entryList.getChildren().add(sCard);
+				baseTotal = total.getValue() - amount;
+
+				amountTxF.setText(String.format("%.1f", amount));
+				dateTxF.setValue(addedDate.toLocalDateTime().toLocalDate());
+			});
+
+			entryList.getChildren().add(sCard);
+		}
+
+		if (option == PageOption.STOCK) {
+			createForm.setVisible(true);
+			handleSaveAddOnClick();
+		}
+	}
+
+	//Event handlers
+	private void handleAddToIntake() {
+		if (createForm.isVisible()) {
+			if (!AlertHandler.showConfirmationAlert("Are you sure?", "All unsaved changes will be lost")) {
+				return;
 			}
 		}
 
-		entryTotalAmount.setText(String.format("%.1f g", totalAmount));
+		refresh();
+		PageFactory.toNextPage(PageFactory.getIntakeEntry(foodID, PageOption.INTAKE_STOCK));
 	}
 
 	private void handleMoreOnClick() {
-		if (showForm) {
-			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
-			if (!confirmed) return;
+		if (createForm.isVisible()) {
+			if (!AlertHandler.showConfirmationAlert("Are you sure?", "All unsaved changes will be lost")) {
+				return;
+			}
 		}
-		toggleForm(false);
+
+		option = PageOption.DEFAULT;
+		refresh();
 		PageFactory.toNextPage(PageFactory.getIngredientPage(foodID));
 	}
 
-	private void handleAddStock() {
-		if (!showForm) {
+	private void handleCancelOnClick() {
+		if (createForm.isVisible()) {
+			if (AlertHandler.showConfirmationAlert("Are you sure?", "All unsaved changes will be lost")) {
+				option = PageOption.DEFAULT;
+				refresh();
+			}
+		}
+	}
+
+	private void handleDeleteOnClick() {
+		if (createForm.isVisible()) {
+			if (AlertHandler.showConfirmationAlert("Are you sure?", "This stock entry will be deleted")) {
+				StockController controller = ControllerFactory.makeStockController();
+				controller.deleteStock(currentStockID);
+
+				option = PageOption.DEFAULT;
+				refresh();
+			}
+		}
+	}
+
+	private void handleSaveAddOnClick() {
+		if (createForm.isVisible()) {
 			option = PageOption.STOCK;
+			baseTotal = total.getValue();
 
-			displaySpoilageDays = avgSpoilageDays;
-			displayAddedDate = Utility.today();
-			displayAmount = 0;
+			amountTxF.setText("0");
+			dateTxF.setValue(LocalDate.now());
 
-			toggleForm(true);
+			deleteEntryButton.setVisible(false);
 		} else {
-			if (displayAmount <= 0) {
-				addStockButton.setSelected(true);
+			if (current.getValue() <= 0) {
 				AlertHandler.showAlert(Alert.AlertType.ERROR, "Add Stock Failed...", "New Amount Must Be A Positive Number");
 				return;
 			}
 
 			StockController controller = ControllerFactory.makeStockController();
-			LocalDate expDate = displayAddedDate.toLocalDateTime().toLocalDate().plusDays(avgSpoilageDays);
+			LocalDate expDate = dateTxF.getValue().plusDays(baseTimeLeft);
+
 			switch (option) {
 				case STOCK:
-					controller.createStock(foodID, displayAmount, expDate.toString());
+					controller.createStock(foodID, current.getValue(), expDate.toString());
 					break;
 				case UPDATE:
-					controller.updateStock(currentStockItemID, displayAmount, expDate.toString());
-					break;
-				case DEFAULT:
+					controller.updateStock(currentStockID, current.getValue(), expDate.toString());
 					break;
 			}
 
-			toggleForm(false);
-		}
-	}
-
-	private void handleCancel() {
-		if (showForm) {
-			boolean confirmed = AlertHandler.showConfirmationAlert("Are you sure?", "Unsaved changes will be lost");
-			if (confirmed) {
-				toggleForm(false);
-			}
-		}
-	}
-
-	private void handleDeleteStock() {
-		StockController controller = ControllerFactory.makeStockController();
-
-		if (option == PageOption.UPDATE) {
-			boolean confirmed = AlertHandler.showConfirmationAlert("Delete Stock", "Are you sure you want to delete this stock?");
-			if (confirmed) {
-				controller.deleteStock(currentStockItemID);
-				toggleForm(false);
-			}
-		} else {
-			handleCancel();
-		}
-	}
-
-	private void toggleForm(boolean show) {
-		showForm = show;
-		PageFactory.setFormInProgress(show);
-		if (show) {
-			addStockButton.setText("Save");
-			addStockButton.setSelected(true);
-			AnchorPane.setTopAnchor(adjustSizePane, Utility.MAX_TOP_ANCHOR);
-
-			dateTxF.setValue(displayAddedDate.toLocalDateTime().toLocalDate());
-			amountTxF.setText(String.format("%.1f", displayAmount));
-			entryCurrentAmount.setText(String.format("%.1f grams", displayAmount));
-
-			setExpiryString();
-
-			deleteEntryButton.setVisible(option == PageOption.UPDATE);
-		} else {
 			option = PageOption.DEFAULT;
-			addStockButton.setText("+");
-			addStockButton.setSelected(false);
-			amountTxF.setText("0");
-			entryCurrentAmount.setText("0 grams");
-			refreshStock();
-		}
-
-		entryList.setVisible(!show);
-		createForm.setVisible(show);
-	}
-
-	private void handleInputChange(String oldValue, String newValue) {
-		displayAmount = Utility.parseQuantity(newValue, 0);
-
-		if (oldValue.isEmpty()) {
-			totalAmount += displayAmount;
-		} else {
-			double oldAmount = Utility.parseQuantity(oldValue, displayAmount);
-			totalAmount += (displayAmount - oldAmount);
-		}
-
-
-		entryCurrentAmount.setText(String.format("%.1f grams", displayAmount));
-		entryTotalAmount.setText(String.format("%.1f g", totalAmount));
-	}
-
-	private void handleCardClick(MouseEvent event) {
-		if (!showForm) {
-			option = PageOption.UPDATE;
-
-			StockEntryCardComponent clickedCard = (StockEntryCardComponent) event.getSource();
-			currentStockItemID = clickedCard.getStockItemID();
-			displaySpoilageDays = clickedCard.getTimeLeft();
-			displayAddedDate = clickedCard.getAddedDate();
-			displayAmount = clickedCard.getAmount();
-			totalAmount -= displayAmount;
-
-			toggleForm(true);
+			refresh();
 		}
 	}
 
-	private void handleDateChange(LocalDate newValue) {
-		displayAddedDate = Timestamp.valueOf(newValue.atStartOfDay());
-		entryAddedDate.setText(String.format("FROM %S", Utility.parseDate(displayAddedDate)));
-
-		displaySpoilageDays = avgSpoilageDays - DAYS.between(newValue, LocalDate.now());
-		setExpiryString();
+	private void handleInputOnType() {
+		current.setValue(Utility.parseQuantity(amountTxF.getText(), 0));
+		total.setValue(baseTotal + current.getValue());
 	}
 
-	private void setExpiryString() {
-		String plural = Math.abs(displaySpoilageDays) > 1 ? "s" : "";
-		if (displaySpoilageDays > 0) {
-			entryTimeLeft.setText(String.format("Expires in %d day%s", displaySpoilageDays, plural));
-		} else if (displaySpoilageDays < 0) {
-			entryTimeLeft.setText(String.format("Expired %d day%s ago", -displaySpoilageDays, plural));
+	private void handleDateOnType() {
+		LocalDate addedDate = dateTxF.getValue();
+		timeLeft.setValue(baseTimeLeft + DAYS.between(LocalDate.now(), addedDate));
+		entryAddedDate.setText(String.format("ADDED %S", Utility.parseProperDate(addedDate.toString())));
+
+		String plural = timeLeft.getValue() > 1 ? "s" : "";
+		if (timeLeft.getValue() > 0) {
+			entryTimeLeft.setText(String.format("Expires in %d day%s", timeLeft.getValue(), plural));
+		} else if (timeLeft.getValue() < 0) {
+			entryTimeLeft.setText(String.format("Expired %d day%s ago", -timeLeft.getValue(), plural));
 		} else {
 			entryTimeLeft.setText("Expires today");
 		}
 	}
 
 	private void handleCardScroll(ScrollEvent event) {
-		if (showForm) return;
-
 		double diffHeight = 0;
 		if (event.getDeltaY() > 0) diffHeight = -10;
 		else if (event.getDeltaY() < 0) diffHeight = 10;
@@ -331,7 +288,7 @@ public class stockEntryPageController implements PageController {
 
 		if (adjustSizePane.getMinHeight() <= adjustSizePane.getHeight() && adjustSizePane.getHeight() <= adjustSizePane.getMaxHeight())  {
 			AnchorPane.setTopAnchor(adjustSizePane, top);
-			scrollList.setPrefHeight(scrollList.getHeight() + diffHeight);
+			adjustSizePane.setPrefHeight(adjustSizePane.getHeight() + diffHeight);
 		}
 	}
 
@@ -350,10 +307,5 @@ public class stockEntryPageController implements PageController {
 			event.getPickResult());
 
 		Event.fireEvent(adjustSizePane, retargettedScrollEvent);
-	}
-
-
-	public void refresh() {
-		initialize();
 	}
 }

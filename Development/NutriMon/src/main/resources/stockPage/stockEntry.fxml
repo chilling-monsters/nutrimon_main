@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="361.0" fitWidth="361.0" layoutX="104.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -59,11 +59,6 @@
                               </Label>
                            </children>
                         </VBox>
-                        <ImageView fx:id="moreButton" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" styleClass="myButton" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
-                           <image>
-                              <Image url="@../img/ic_more2x.png" />
-                           </image>
-                        </ImageView>
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="infoPane">
@@ -112,10 +107,26 @@
                     <content>
                       <AnchorPane>
                            <children>
-                              <VBox fx:id="entryList" spacing="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0">
+                              <VBox layoutX="25.0" layoutY="15.0" spacing="10.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
                                  <padding>
                                     <Insets bottom="10.0" />
                                  </padding>
+                                 <children>
+                                    <VBox fx:id="entryList" spacing="20.0">
+                                       <padding>
+                                          <Insets bottom="10.0" />
+                                       </padding>
+                                    </VBox>
+                                    <Label fx:id="moreLabel" alignment="CENTER" text="More Details ..." textAlignment="CENTER">
+                                       <styleClass>
+                                          <String fx:value="searchCardPane" />
+                                          <String fx:value="card" />
+                                          <String fx:value="cardPane" />
+                                          <String fx:value="hightlightText" />
+                                          <String fx:value="headerText" />
+                                       </styleClass>
+                                    </Label>
+                                 </children>
                               </VBox>
                            </children>
                         </AnchorPane>
@@ -123,8 +134,8 @@
                   </ScrollPane>
                   <AnchorPane fx:id="createForm" minHeight="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Line endX="150.0" startX="-150.0" stroke="#f5a623" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <VBox minWidth="-Infinity" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                        <Line endX="150.0" startX="-150.0" stroke="#fbd249" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <VBox minWidth="-Infinity" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
                            <children>
                               <Label fx:id="entryCurrentAmount" prefHeight="30.0" prefWidth="300.0" styleClass="titleText" textAlignment="CENTER" textFill="#f5a623">
                                  <font>
@@ -162,6 +173,11 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </DatePicker>
+                              <Line endX="150.0" startX="-150.0" stroke="#ff6c00">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Line>
                            </children>
                         </VBox>
                         <VBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -190,7 +206,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <ToggleButton fx:id="addStockButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="+" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <ToggleButton fx:id="addStockButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="Add" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font size="12.5" />
                </font>
@@ -200,6 +216,16 @@
                   <String fx:value="myButton" />
                </styleClass>
             </ToggleButton>
+            <Button fx:id="intakeButton" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 27px;" text="+" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="-20.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="createButton" />
+                  <String fx:value="secondaryButton" />
+                  <String fx:value="myButton" />
+               </styleClass>
+            </Button>
          </children>
       </AnchorPane>
    </children>

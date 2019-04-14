@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToggleButton?>
@@ -51,11 +52,6 @@
                                           <Font name="SF Pro Display Regular" size="25.0" />
                                        </font>
                                     </Label>
-                                    <ImageView fx:id="moreButton" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" styleClass="myButton" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="7.0">
-                                       <image>
-                                          <Image url="@../img/ic_more2x.png" />
-                                       </image>
-                                    </ImageView>
                                  </children>
                               </AnchorPane>
                               <AnchorPane maxWidth="-Infinity" prefWidth="300.0">
@@ -217,7 +213,7 @@
                               </Line>
                               <Label fx:id="recipeDetail" prefWidth="300.0" wrapText="true">
                                  <VBox.margin>
-                                    <Insets bottom="10.0" top="10.0" />
+                                    <Insets bottom="45.0" top="10.0" />
                                  </VBox.margin>
                               </Label>
                            </children>
@@ -226,7 +222,16 @@
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <ToggleButton fx:id="addRecipeButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="+" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Button fx:id="editRecipe" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: #FBD249;" text="Edit" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+               <font>
+                  <Font name="SF Pro Display Regular" size="13.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="backButton" />
+                  <String fx:value="myButton" />
+               </styleClass>
+            </Button>
+            <ToggleButton fx:id="addRecipeButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="Save" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font size="12.5" />
                </font>
@@ -236,6 +241,16 @@
                   <String fx:value="myButton" />
                </styleClass>
             </ToggleButton>
+            <Button fx:id="intakeButton" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 27px;" text="+" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="-20.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="createButton" />
+                  <String fx:value="secondaryButton" />
+                  <String fx:value="myButton" />
+               </styleClass>
+            </Button>
          </children>
       </AnchorPane>
    </children>
