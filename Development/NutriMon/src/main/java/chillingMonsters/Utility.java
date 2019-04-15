@@ -14,7 +14,7 @@ public class Utility {
 	public static final int TEXTFIELD_MAX_LENGTH = 9;
 	public static final int CACHE_MAX_SIZE = 10;
 	public static final float STD_TRANSITION_TIME = 0.2F;
-	public static final double MIN_TOP_ANCHOR = 65;
+	public static final double MIN_TOP_ANCHOR = 85;
 	public static final double MAX_TOP_ANCHOR = 295;
 
 	private static String[] suffixes = {

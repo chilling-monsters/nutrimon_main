@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="360.0" style="-fx-background-color: #F5A623;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chillingMonsters.Pages.userProfilePage.userProfilePageController">
+    <children>
+        <ImageView fitHeight="361.0" fitWidth="361.0" layoutX="104.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../img/ozMQSFm.png" />
+         </image></ImageView>
+        <Rectangle arcHeight="5.0" height="500.0" layoutX="10.0" layoutY="10.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="360.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <fill>
+                <LinearGradient endX="0.4759615384615384" endY="0.42788461538461536" startX="0.49519230769230765">
+                    <stops>
+                        <Stop color="#f5a623" />
+                        <Stop color="#ffffff00" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </fill>
+        </Rectangle>
+        <Label styleClass="titleText" text="Your Profile" textFill="WHITE" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="20.0">
+            <font>
+                <Font name="SF Pro Display Regular" size="25.0" />
+            </font>
+        </Label>
+        <AnchorPane maxHeight="660.0" minHeight="430.0" prefHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="295.0">
+            <children>
+                <VBox spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+                    <children>
+                  <VBox layoutX="10.0" layoutY="10.0" prefWidth="285.0">
+                     <children>
+                        <TextField fx:id="usernameTxF" prefWidth="300.0" styleClass="form-field" />
+                        <Label styleClass="tagText" text="USERNAME" textFill="#9e9e9e">
+                           <font>
+                              <Font name="SF Pro Text Regular" size="9.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                        <VBox prefWidth="285.0">
+                            <children>
+                        <TextField fx:id="emailTxF" prefWidth="300.0" styleClass="form-field" />
+                                <Label styleClass="tagText" text="EMAIL" textFill="#9e9e9e">
+                                    <font>
+                                        <Font name="SF Pro Text Regular" size="9.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                  <VBox>
+                     <children>
+                        <AnchorPane>
+                           <children>
+                              <PasswordField fx:id="curPasswordTxF" prefWidth="300.0" styleClass="form-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ToggleButton fx:id="changePasswordButton" mnemonicParsing="false" text="Change" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <styleClass>
+                                    <String fx:value="form-field" />
+                                    <String fx:value="myButton" />
+                                    <String fx:value="hightlightText" />
+                                 </styleClass></ToggleButton>
+                           </children>
+                        </AnchorPane>
+                        <Label styleClass="tagText" text="CURRENT PASSWORD" textFill="#9e9e9e">
+                           <font>
+                              <Font name="SF Pro Text Regular" size="9.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="changePswForm" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                     <children>
+                              <VBox prefWidth="285.0">
+                                  <children>
+                              <PasswordField fx:id="newPasswordTxF" prefWidth="300.0" styleClass="form-field" />
+                                      <Label styleClass="tagText" text="NEW PASSWORD" textFill="#9e9e9e">
+                                          <font>
+                                              <Font name="SF Pro Text Regular" size="9.0" />
+                                          </font>
+                                      </Label>
+                                  </children>
+                              </VBox>
+                        <VBox prefWidth="285.0">
+                           <children>
+                              <PasswordField fx:id="cfPasswordTxF" prefWidth="300.0" styleClass="form-field" />
+                              <Label styleClass="tagText" text="CONFIRM NEW PASSWORD" textFill="#9e9e9e">
+                                 <font>
+                                    <Font name="SF Pro Text Regular" size="9.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                    </children>
+                </VBox>
+            <Button fx:id="deleteButton" mnemonicParsing="false" text="Delete Permanently" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="95.0">
+               <styleClass>
+                  <String fx:value="form-field" />
+                  <String fx:value="myButton" />
+                  <String fx:value="secondaryHighlightText" />
+               </styleClass>
+            </Button>
+            <Button fx:id="logoutButton" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: red;" text="Logout" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+               <font>
+                  <Font name="SF Pro Display Regular" size="13.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="backButton" />
+                  <String fx:value="myButton" />
+               </styleClass>
+            </Button>
+                <Button fx:id="updateButton" mnemonicParsing="false" prefWidth="330.0" style="-fx-background-radius: 0 0 8 8;" text="Update Profile" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <font>
+                        <Font size="12.5" />
+                    </font>
+                    <styleClass>
+                        <String fx:value="createStockButton" />
+                        <String fx:value="secondaryButton" />
+                        <String fx:value="myButton" />
+                    </styleClass>
+                </Button>
+            </children>
+        </AnchorPane>
+    </children>
+    <styleClass>
+        <String fx:value="pane" />
+        <String fx:value="screenPane" />
+    </styleClass>
+</AnchorPane>

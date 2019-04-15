@@ -76,6 +76,7 @@ public class UserProfileControllerImpl extends NutriMonController implements Use
         } catch (SQLException e) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
         }
+        verifyCredentials(userEmail, password);
     }
 
 
@@ -149,6 +150,10 @@ public class UserProfileControllerImpl extends NutriMonController implements Use
 
     public boolean exists(String email) {
         return this.exists("userProfile", "userID", email);
+    }
+
+    public void logout() {
+        setUserId(0);
     }
 }
 

@@ -34,6 +34,7 @@ public class PageFactory {
 	private static boolean formInProgress = false;
 
 	private static ImageView menuButton = new ImageView();
+	private static ImageView userIcon = new ImageView();
 	private static StackPane appRoot;
 
 	//pages initialized without userID
@@ -75,6 +76,7 @@ public class PageFactory {
 		s.getChildren().add(menu.getPagePane());
 		s.getChildren().add(appRoot);
 
+		//Add an all-present menu button
 		menuButton.getStyleClass().add("myButton");
 		menuButton.setFitHeight(30);
 		menuButton.setFitWidth(30);
@@ -86,6 +88,22 @@ public class PageFactory {
 		StackPane.setMargin(menuButton, new Insets(20, 0, 0, 20));
 
 		menuButton.setOnMouseClicked(event -> handleBackNavigation());
+
+		//Add an all-present profile pic
+		userIcon.getStyleClass().add("myButton");
+		userIcon.setFitHeight(40);
+		userIcon.setFitWidth(40);
+
+		userIcon.setPickOnBounds(false);
+		s.getChildren().add(userIcon);
+
+		StackPane.setAlignment(userIcon, Pos.TOP_RIGHT);
+		StackPane.setMargin(userIcon, new Insets(20, 20, 0, 0));
+
+		userIcon.setOnMouseClicked(event -> {
+			hideMenu();
+			toNextPage(getUserProfilePage());
+		});
 	}
 
 	//Front-loading pages
@@ -96,7 +114,7 @@ public class PageFactory {
 		return register;
 	}
 	public static Page getUserProfilePage() {
-		profile = new userProfilePage();
+		if (profile == null) profile = new userProfilePage();
 		return profile;
 	}
 	public static Page getSearchPage(PageOption option) {
@@ -241,6 +259,8 @@ public class PageFactory {
 	public static void setMenuButtonStyle(Page p) {
 		if (p == login || p == register) {
 			menuButton.setStyle(null);
+			userIcon.setStyle(null);
+			return;
 		} else if (p == stock || p == recipe || p == intake || p == landing) {
 			menuButton.setStyle("-fx-image: url(img/MenuIcon2x.png)");
 		} else if (p == menu || (p == search && ((searchPage) p).option == PageOption.DEFAULT && !formInProgress)) {
@@ -248,6 +268,8 @@ public class PageFactory {
 		} else {
 			menuButton.setStyle("-fx-image: url(img/Menu-Back-Icon-White2x.png)");
 		}
+		
+		userIcon.setStyle("-fx-image: url(img/UserProfile2x.png)");
 	}
 
 	//Handle back navigation through menu button according to page state
@@ -294,5 +316,34 @@ public class PageFactory {
 	//Toggle whether a form is active
 	public static void setFormInProgress(boolean f) {
 		formInProgress = f;
+	}
+
+	public static void logout() {
+		login = new loginPage();
+		register = new registerPage();
+
+		toNextPage(login);
+
+		menuShown = false;
+		formInProgress = false;
+
+		landing = null;
+		stock = null;
+		recipe = null;
+		intake = null;
+		profile = null;
+		search = null;
+
+		ingredient = null;
+		stockEntry = null;
+
+		ingredient = null;
+		stockEntry = null;
+		recipeEntry = null;
+		intakeEntry = null;
+		recipeCreate = null;
+
+		pageHistory.clear();
+		pageHistory.add(login);
 	}
 }
