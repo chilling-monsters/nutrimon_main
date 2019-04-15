@@ -76,6 +76,7 @@ public class UserProfileControllerImpl extends NutriMonController implements Use
         } catch (SQLException e) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, e.getMessage(), e);
         }
+        verifyCredentials(userEmail, password);
     }
 
 
