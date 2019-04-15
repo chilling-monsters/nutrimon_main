@@ -103,7 +103,6 @@ public class stockEntryPageController implements PageController {
 	public void initialize() {
 		createForm.visibleProperty().bindBidirectional(addStockButton.selectedProperty());
 		entryList.visibleProperty().bind(addStockButton.selectedProperty().not());
-		moreLabel.visibleProperty().bind(addStockButton.selectedProperty().not());
 		addStockButton.selectedProperty().addListener(event -> {
 			boolean selected = addStockButton.isSelected();
 			PageFactory.setFormInProgress(selected);
@@ -129,6 +128,7 @@ public class stockEntryPageController implements PageController {
 	public void refresh() {
 		entryList.getChildren().clear();
 		createForm.setVisible(false);
+		moreLabel.setVisible(true);
 
 		IngredientController ingr = ControllerFactory.makeIngredientController();
 		Map<String, Object> result = ingr.getIngredient(foodID);
@@ -148,6 +148,7 @@ public class stockEntryPageController implements PageController {
 			emptyLabel.getStyleClass().add("emptyWarningText");
 
 			entryList.getChildren().add(emptyLabel);
+			moreLabel.setVisible(false);
 		}
 
 		for (Map<String, Object> r : resultLists) {
