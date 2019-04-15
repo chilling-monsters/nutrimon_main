@@ -100,6 +100,13 @@
     -fx-alignment: center;
     -fx-pref-width: 300px;
 }
+.landingWarningText {
+    -fx-font-size: 15px;
+    -fx-padding: 20 0 0 0;
+    -fx-text-fill: #9E9E9E;
+    -fx-alignment: center;
+    -fx-pref-width: 300px;
+}
 
 .hightlightCard {
     -fx-effect: dropshadow( one-pass-box , #F5A623 , 24.5, 0, 5, 5);
