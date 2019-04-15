@@ -144,7 +144,7 @@ public class stockEntryPageController implements PageController {
 		List<Map<String, Object>> resultLists = stck.showStockEntry(foodID);
 
 		if (resultLists.isEmpty()) {
-			Label emptyLabel = new Label("We ain't got squash.");
+			Label emptyLabel = new Label("We're buying some squash seeds.");
 			emptyLabel.getStyleClass().add("emptyWarningText");
 
 			entryList.getChildren().add(emptyLabel);

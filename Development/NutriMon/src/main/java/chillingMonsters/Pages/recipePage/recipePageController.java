@@ -36,7 +36,7 @@ public class recipePageController implements PageController {
 		List<Map<String, Object>> recipeList = controller.showSavedRecipes();
 
 		if (recipeList.isEmpty()) {
-			Label emptyLabel = new Label("We ain't got squash.");
+			Label emptyLabel = new Label("We don't have any squash recipes yet");
 			emptyLabel.getStyleClass().add("emptyWarningText");
 
 			cardList.getChildren().add(emptyLabel);

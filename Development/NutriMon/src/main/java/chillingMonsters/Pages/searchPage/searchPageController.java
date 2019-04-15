@@ -61,6 +61,9 @@ public class searchPageController implements PageController {
 		String currentSearch = searchTxF.getText().trim();
 		if (currentSearch.isEmpty()) return;
 
+		rcpCache.clear();
+		ingrCache.clear();
+
 		searchQuery = currentSearch;
 		searchList.getChildren().clear();
 		addCreateYourOwnCard();
@@ -172,7 +175,7 @@ public class searchPageController implements PageController {
 	}
 
 	private void addEmptyWarningLabel() {
-		Label emptyLabel = new Label("We ain't got squash.");
+		Label emptyLabel = new Label("We are still looking for our squashes");
 		emptyLabel.getStyleClass().add("emptyWarningText");
 
 		searchList.getChildren().add(emptyLabel);

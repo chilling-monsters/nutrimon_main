@@ -38,7 +38,7 @@ public class intakePageController implements PageController {
 		Map<String, List<Map<String, Object>>> results = controller.showIntakesByDate();
 
 		if (results == null || results.isEmpty()) {
-			Label emptyLabel = new Label("We ain't got squash.");
+			Label emptyLabel = new Label("We haven't eaten any squash");
 			emptyLabel.getStyleClass().add("emptyWarningText");
 
 			cardList.getChildren().add(emptyLabel);
