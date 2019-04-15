@@ -37,7 +37,7 @@
             <Font name="SF Pro Display Regular" size="25.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="recipeCard" maxHeight="660.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="295.0">
+      <AnchorPane fx:id="recipeCard" maxHeight="640.0" minHeight="430.0" prefWidth="330.0" style="-fx-background-color: white; -fx-background-radius: 8px;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="295.0">
          <children>
             <ScrollPane fx:id="scrollRecipeDetailPane" hbarPolicy="NEVER" maxHeight="395.0" maxWidth="301.0" minHeight="225.0" prefHeight="395.0" prefWidth="301.0" styleClass="cardScrollPane" vbarPolicy="NEVER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0">
               <content>
