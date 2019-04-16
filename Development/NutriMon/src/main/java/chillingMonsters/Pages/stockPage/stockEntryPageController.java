@@ -9,10 +9,7 @@ import chillingMonsters.Pages.PageFactory;
 import chillingMonsters.Pages.PageOption;
 import chillingMonsters.Utility;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -39,6 +36,7 @@ public class stockEntryPageController implements PageController {
 	private DoubleProperty total = new SimpleDoubleProperty(0);
 	private DoubleProperty current = new SimpleDoubleProperty(0);
 	private IntegerProperty timeLeft = new SimpleIntegerProperty(0);
+	private BooleanProperty listNotEmpty = new SimpleBooleanProperty(false);
 
 	@FXML
 	public Label entryName;
@@ -103,6 +101,7 @@ public class stockEntryPageController implements PageController {
 	public void initialize() {
 		createForm.visibleProperty().bindBidirectional(addStockButton.selectedProperty());
 		entryList.visibleProperty().bind(addStockButton.selectedProperty().not());
+		moreLabel.visibleProperty().bind(Bindings.and(entryList.visibleProperty(), listNotEmpty));
 		addStockButton.selectedProperty().addListener(event -> {
 			boolean selected = addStockButton.isSelected();
 			PageFactory.setFormInProgress(selected);
@@ -128,7 +127,6 @@ public class stockEntryPageController implements PageController {
 	public void refresh() {
 		entryList.getChildren().clear();
 		createForm.setVisible(false);
-		moreLabel.setVisible(true);
 
 		IngredientController ingr = ControllerFactory.makeIngredientController();
 		Map<String, Object> result = ingr.getIngredient(foodID);
@@ -147,8 +145,8 @@ public class stockEntryPageController implements PageController {
 			Label emptyLabel = new Label("We're buying some squash seeds.");
 			emptyLabel.getStyleClass().add("emptyWarningText");
 
+			listNotEmpty.setValue(false);
 			entryList.getChildren().add(emptyLabel);
-			moreLabel.setVisible(false);
 		}
 
 		for (Map<String, Object> r : resultLists) {
@@ -156,6 +154,9 @@ public class stockEntryPageController implements PageController {
 			Long left = Utility.parseID(r.get("time_left").toString(), 0);
 			Timestamp addedDate = (Timestamp) r.get("added_date");
 			float amount = Float.parseFloat(r.get("foodQtty").toString());
+
+			if (amount - 0 <= 0.01) continue;
+
 			total.setValue(total.getValue() + amount);
 
 			StockEntryCardComponent sCard = new StockEntryCardComponent(stockItemID, left, addedDate, amount);
@@ -172,6 +173,7 @@ public class stockEntryPageController implements PageController {
 				dateTxF.setValue(addedDate.toLocalDateTime().toLocalDate());
 			});
 
+			listNotEmpty.setValue(true);
 			entryList.getChildren().add(sCard);
 		}
 

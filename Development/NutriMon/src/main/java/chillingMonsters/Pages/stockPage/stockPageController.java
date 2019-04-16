@@ -52,6 +52,8 @@ public class stockPageController implements PageController {
 			double amount = Utility.parseQuantity(stock.get("quantity").toString(), 0);
 			long exp = Utility.parseID(stock.get("next_exp").toString(), 0);
 			String category = stock.get("fCategory").toString();
+
+			if (amount - 0 <= 0.01) continue;
 			StockCardComponent sCard = new StockCardComponent(id, name, amount, exp, category);
 
 			if (exp <= Utility.SPOILAGE_WARNING_DAYS) {
