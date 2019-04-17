@@ -1,12 +1,21 @@
-# Nutrimon_main
+# Nutrimon
 
-This is the main repository for eece4520 software engineering 1 final project
+## Table of Contents
+- [Overview](#overview)
+  * [Description](#description)
+  * [How to Run](#how-to-run)
+- [Libraries Required](#libraries-required)
 
-**Double check BEFORE commit in master branch or pull from other branches**
+## Overview
 
-This readme needs update...
+### Description
 
-The CSV data is mocked.
+### How to Run
+
+
+## Libraries Required
+
+
 
 DevEnv Setup
 1. install intellij
